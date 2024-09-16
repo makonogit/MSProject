@@ -14,6 +14,8 @@ public class CS_TpsCamera : MonoBehaviour
     public Transform target; // 追尾対象
 
     // 移動・回転
+    public Vector3 offsetPos = new Vector3 (0, 8, 0);// 位置
+    public Vector3 offsetFocus = new Vector3(0, 3, 0);// 焦点
     public float moveSpeed = 50.0f;             // 移動スピード
     public float rotationSpeed = 50.0f;         // 回転スピード
     public float verticalRotationLimit = 80.0f; // 縦回転の制限
@@ -96,7 +98,7 @@ public class CS_TpsCamera : MonoBehaviour
 
         // カメラの位置を滑らかに更新
         Quaternion rotation = Quaternion.Euler(cameraRotX, cameraRotY, 0);
-        Vector3 offset = rotation * new Vector3(0, 5, -1.5f);
+        Vector3 offset = rotation * offsetPos;
         Vector3 desiredPosition = target.position + offset;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, 10.0f * Time.deltaTime);
     }
@@ -109,7 +111,7 @@ public class CS_TpsCamera : MonoBehaviour
     void UpdateCameraRotation()
     {
         // ターゲットの方向を向くようにカメラを回転させる
-        Vector3 directionToTarget = target.position - transform.position;
+        Vector3 directionToTarget = (target.position + offsetFocus) - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
