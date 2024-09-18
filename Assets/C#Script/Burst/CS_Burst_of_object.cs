@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CS_Butst_of_object : MonoBehaviour
+public class CS_Burst_of_object : MonoBehaviour
 {
     //-変数-
     private Collider collider;
 
     [SerializeField, Tooltip("耐久力")]
-    private int Health;
+    private float Health;
 
     [Header("圧力")]
     
@@ -62,35 +61,28 @@ public class CS_Butst_of_object : MonoBehaviour
         DestroyFlag = false;
         collider = GetComponent<Collider>();
         if (collider == null) Debug.LogError("null component");
+        
     }
 
     /// <summary>
-    /// Update
+    /// FixedUpdate
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
         Explosion();
         UntilDestroyMyself();
     }
 
     /// <summary>
-    /// OnCollisionEnter
+    /// Update
     /// </summary>
-    /// <param name="collision"></param>
-    private void OnCollisionEnter(Collision collision)
-    {
-        bool shouldDamage = collision.gameObject.tag == this.gameObject.tag;
-        if (DestroyFlag) return;
-        int num = 1;
-        HitDamage(num);
-    }
-
-
+    private void Update(){}
+ 
     /// <summary>
     /// ダメージ処理
     /// </summary>
     /// <param name="damageValue">ダメージ値</param>
-    public void HitDamage(int damageValue)
+    public void HitDamage(float damageValue)
     {
         Health -= damageValue;
         bool isMin = Health < 0;
@@ -107,9 +99,15 @@ public class CS_Butst_of_object : MonoBehaviour
         bool isMax = tmp >= PressureValList.Count;
         bool isMin = tmp < 0;
 
-        if (isMax) PressureNumber = PressureValList.Count - 1;
+
+        if (isMax) 
+        { 
+            PressureNumber = PressureValList.Count - 1;
+            HitDamage(pressureValue);
+        }
         else if (isMin) PressureNumber = 0;
-        else PressureNumber = tmp;        
+        else PressureNumber = tmp;
+
     }
     
     /// <summary>
@@ -146,7 +144,7 @@ public class CS_Butst_of_object : MonoBehaviour
     /// </summary>
     private void BurstDebris(float Power) 
     {
-        float distance = BurstDistance * Power;
+        //float distance = BurstDistance * Power;
         float speed = BurstSpeed * Power;
         for (int i = 0; i < BurstVecList.Count; i++)CreateDebris(speed,i);
     }

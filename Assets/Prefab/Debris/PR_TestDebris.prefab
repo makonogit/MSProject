@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2827685341965791844}
   - component: {fileID: 8954159754164999509}
   - component: {fileID: 9089472868464417871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PR_TestDebris
-  m_TagString: Burst
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DestroyFlag: 0
   DestroyTime: 0.7
+  Power: 0

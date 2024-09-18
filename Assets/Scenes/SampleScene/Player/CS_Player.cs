@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
+//using System.Numerics;
+
+//using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using static System.Net.Mime.MediaTypeNames;
@@ -46,6 +48,15 @@ public class CS_Player : MonoBehaviour
     //注入間隔計算用
     private float Injection_IntarvalTime = 0.0f;
 
+    private bool HitBurstObjFlag = false;
+    [SerializeField, Tooltip("直刺しぱわー")]
+    private int InjectionPower = 1;
+
+
+
+    //弾けるオブジェクトのスクリプト
+    CS_Burst_of_object csButstofObj;
+
     //**
     //* 初期化
     //**
@@ -63,9 +74,9 @@ public class CS_Player : MonoBehaviour
         HandleMovement();
         HandleJump();
 
-        bool flg = false;
-        AirInjection("ButtonB",flg);
-        AirGun("ButtonX",!flg);
+        
+        AirInjection("ButtonB",HitBurstObjFlag);
+        AirGun("ButtonX",HitBurstObjFlag);
     }
 
     //**
@@ -258,14 +269,23 @@ public class CS_Player : MonoBehaviour
 
         if (!StartShooting) { return; }
 
-        Vecter3 forwardVec = transform.forward;
+        Vector3 forwardVec = transform.forward;
 
         //入力があれば弾を生成
         //ポインタの位置から　Instantiate(AirBall,transform.pointa);
-        GameObject ballobj = Instantiate(AirBall, forwardVec);
+        GameObject ballobj = Instantiate(AirBall);
+
+        Vector3 pos = Vector3.zero;
+        float scaler =2.0f;
+        Vector3 offset = new Vector3(0,1,0);
+
+        pos = this.transform.position;
+        pos += offset;
+        pos += forwardVec * scaler;
+        ballobj.transform.position = pos;
+        ballobj.transform.forward = forwardVec;
 
     }
-
     //----------------------------
     // 直刺し(空気注入)関数
     // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
@@ -274,41 +294,58 @@ public class CS_Player : MonoBehaviour
     void AirInjection(string button, bool ObjDistance)
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = Input.GetButtonDown(button) && ObjDistance;
+        bool Injection = Input.GetButton(button) && ObjDistance;
 
         if (!Injection) { return; }
-
+        
         //時間計測
         Injection_IntarvalTime += Time.deltaTime;
         bool TimeProgress = Injection_IntarvalTime > Injection_Interval;   //注入間隔分時間経過しているか
         if (!TimeProgress) { return; }
 
         Injection_IntarvalTime = 0.0f;  //時間をリセット
+                                        // bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
 
-        bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
 
-        //時間経過したら攻撃力を追加
-        if (!StartInjection)
-        {
-            Vecter3 forwardVec = transform.forward;
 
-            //入力があれば弾を生成
-            //ポインタの位置から　Instantiate(AirBall,transform.pointa);
-            GameObject ballobj = Instantiate(AirBall, forwardVec);
+        if (!csButstofObj) 
+        { 
+            Debug.LogWarning("null");
+            return; 
         }
+        
+        csButstofObj.AddPressure(InjectionPower);
 
+    }
 
-        /*
-         bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter(Collision collision)
+    {
+        bool isHitBurstObj = collision.gameObject.tag == "Burst";
+        if (isHitBurstObj)
+        {
+            csButstofObj = collision.transform.GetComponent<CS_Burst_of_object>();
+            HitBurstObjFlag = true;
+            return;
+        }
+    }
 
-        //時間経過したら攻撃力を追加
-        if (!StartInjection) { ObjPressure += AirAttackPowar * Time.deltaTime; }
-
-        //圧力が最大になれば耐久値を減少させる
-        ObjDurability -= AirAttackPowar * Time.deltaTime;
-         */
-
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionExit(Collision collision)
+    {
+        bool isHitBurstObj = collision.gameObject.tag == "Burst";
+        if (isHitBurstObj) 
+        {
+            csButstofObj = null;
+            HitBurstObjFlag = false; 
+            return; 
+        }
 
     }
 

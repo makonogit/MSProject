@@ -11,13 +11,27 @@ public class CS_Debris : MonoBehaviour
     private float DestroyTime;
 
 
+    [SerializeField, Tooltip("攻撃力:\n")]
+    private float Power;
+    /// <summary>
+    /// Start
+    /// </summary>
     private void Start()
     {
     }
-    private void Update()
+
+    /// <summary>
+    /// FixedUpdate
+    /// </summary>
+    private void FixedUpdate()
     {
         UntilDestroyMyself();
     }
+
+    /// <summary>
+    /// Update
+    /// </summary>
+    private void Update(){}
 
     /// <summary>
     /// 消滅するまでの処理
@@ -35,6 +49,14 @@ public class CS_Debris : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         DestroyFlag = true;
+        bool GimmickHit = collision.gameObject.tag == "Burst";
+
+        if (GimmickHit)
+        {
+            CS_Burst_of_object burst = collision.transform.GetComponent<CS_Burst_of_object>();
+            if (burst == null) { Debug.LogWarning("null component"); return; }
+            burst.HitDamage(Power);
+        }
     }
 }
 
