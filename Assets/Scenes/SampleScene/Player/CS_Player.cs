@@ -258,11 +258,12 @@ public class CS_Player : MonoBehaviour
 
         if (!StartShooting) { return; }
 
-        Vector3 forwardVec = transform.forward;
+        Vecter3 forwardVec = transform.forward;
 
         //入力があれば弾を生成
         //ポインタの位置から　Instantiate(AirBall,transform.pointa);
-        GameObject ballobj = Instantiate(AirBall, forwardVec, Quaternion.identity);
+        GameObject ballobj = Instantiate(AirBall, forwardVec);
+
     }
 
     //----------------------------
@@ -284,16 +285,16 @@ public class CS_Player : MonoBehaviour
 
         Injection_IntarvalTime = 0.0f;  //時間をリセット
 
-        //bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
+        bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
 
         //時間経過したら攻撃力を追加
-        //if (!StartInjection)
+        if (!StartInjection)
         {
-            Vector3 forwardVec = transform.forward;
+            Vecter3 forwardVec = transform.forward;
 
             //入力があれば弾を生成
             //ポインタの位置から　Instantiate(AirBall,transform.pointa);
-            GameObject ballobj = Instantiate(AirBall, forwardVec, Quaternion.identity);
+            GameObject ballobj = Instantiate(AirBall, forwardVec);
         }
 
 
