@@ -36,6 +36,16 @@ public class CS_Player : MonoBehaviour
     // 再生する音声ファイルのリスト
     public AudioClip[] audioClips;
 
+    [SerializeField, Header("空気砲の弾オブジェクト")]
+    private GameObject AirBall;
+
+    [SerializeField, Header("直刺しの注入間隔")]
+    [Header("※攻撃力/注入間隔")]
+    private const float Injection_Interval = 0.5f;
+
+    //注入間隔計算用
+    private float Injection_IntarvalTime = 0.0f;
+
     //**
     //* 初期化
     //**
@@ -43,16 +53,19 @@ public class CS_Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        //audioSource = GetComponent<AudioSource>();
     }
 
     //**
     //* 更新
     //**
-    void Update()
+    void FixedUpdate()
     {
         HandleMovement();
         HandleJump();
+
+        bool flg = false;
+        AirInjection("ButtonB",flg);
+        AirGun("ButtonX",!flg);
     }
 
     //**
@@ -231,6 +244,72 @@ public class CS_Player : MonoBehaviour
         {
             audioSource[indexSource].Stop();
         }
+    }
+
+    //----------------------------
+    // 空気砲関数
+    // 引数:入力キー,オブジェクトに近づいているか
+    // 戻り値：なし
+    //----------------------------
+    void AirGun(string button, bool ObjDistance)
+    {
+        //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
+        bool StartShooting = Input.GetButtonDown(button) && !ObjDistance;
+
+        if (!StartShooting) { return; }
+
+        Vecter3 forwardVec = transform.forward;
+
+        //入力があれば弾を生成
+        //ポインタの位置から　Instantiate(AirBall,transform.pointa);
+        GameObject ballobj = Instantiate(AirBall, forwardVec);
+
+    }
+
+    //----------------------------
+    // 直刺し(空気注入)関数
+    // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
+    // 戻り値：なし
+    //----------------------------
+    void AirInjection(string button, bool ObjDistance)
+    {
+        //注入可能か(キーが入力されていてオブジェクトに近づいている)
+        bool Injection = Input.GetButtonDown(button) && ObjDistance;
+
+        if (!Injection) { return; }
+
+        //時間計測
+        Injection_IntarvalTime += Time.deltaTime;
+        bool TimeProgress = Injection_IntarvalTime > Injection_Interval;   //注入間隔分時間経過しているか
+        if (!TimeProgress) { return; }
+
+        Injection_IntarvalTime = 0.0f;  //時間をリセット
+
+        bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
+
+        //時間経過したら攻撃力を追加
+        if (!StartInjection)
+        {
+            Vecter3 forwardVec = transform.forward;
+
+            //入力があれば弾を生成
+            //ポインタの位置から　Instantiate(AirBall,transform.pointa);
+            GameObject ballobj = Instantiate(AirBall, forwardVec);
+        }
+
+
+        /*
+         bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
+
+        //時間経過したら攻撃力を追加
+        if (!StartInjection) { ObjPressure += AirAttackPowar * Time.deltaTime; }
+
+        //圧力が最大になれば耐久値を減少させる
+        ObjDurability -= AirAttackPowar * Time.deltaTime;
+         */
+
+
+
     }
 
 }
