@@ -69,7 +69,7 @@ public class CS_Player : MonoBehaviour
     //**
     //* XV
     //**
-    void FixedUpdate()
+    void Update()
     {
         HandleMovement();
         HandleJump();
