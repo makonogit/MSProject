@@ -16,27 +16,34 @@ public class CS_Player : MonoBehaviour
     //**
 
     // 外部オブジェクト
-    public Transform cameraTransform;// メインカメラ
+    [Header("外部オブジェクト")]
+    public Transform cameraTransform;// 追尾カメラ
 
     // ジャンプ
+    [Header("ジャンプ設定")]
     public float jumpForce = 5f;                // ジャンプ力
     public float groundCheckDistance = 0.1f;    // 地面との距離
     public string targetTag = "Ground";         // 地面タグ
 
     // 移動
-    public float speed = 1f;     // 移動速度
+    [Header("移動設定")]
+    public float speed = 1f;        // 移動速度
     public float targetSpeed = 10f; // 目標速度
     public float smoothTime = 0.5f; // 最高速度に到達するまでの時間
     private float velocity = 0f;    // 現在の速度
     private Vector3 moveVec;        // 現在の移動方向
+    private float initSpeed;        // スピードの初期値を保存しておく変数
+
+    // 再生する音声ファイルのリスト
+    [Header("効果音設定")]
+    public AudioSource[] audioSource;
+    public AudioClip[] audioClips;
 
     // 自身のコンポーネント
     private Rigidbody rb;
     private Animator animator;
-    public AudioSource[] audioSource;
 
-    // 再生する音声ファイルのリスト
-    public AudioClip[] audioClips;
+
 
     [SerializeField, Header("空気砲の弾オブジェクト")]
     private GameObject AirBall;
@@ -62,6 +69,10 @@ public class CS_Player : MonoBehaviour
     //**
     void Start()
     {
+        // 移動速度の初期値を保存
+        initSpeed = speed;
+
+        // 自身のコンポーネントを取得
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
@@ -69,9 +80,11 @@ public class CS_Player : MonoBehaviour
     //**
     //* 更新
     //**
-    void FixedUpdate()
+    void Update()
     {
+        // 移動処理
         HandleMovement();
+        // ジャンプ処理
         HandleJump();
 
         
@@ -87,6 +100,7 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleMovement()
     {
+        // Lステックの入力をチェック
         if (IsStickActive(-0.01f, 0.01f))
         {
             // スティックの入力を取得
@@ -99,10 +113,13 @@ public class CS_Player : MonoBehaviour
         }
         else
         {
+            // 0番インデックスの効果音を停止
             StopPlayingSound(0);
 
-            speed = 1f;
+            // 移動速度を初期化
+            speed = initSpeed;
 
+            // アニメーターの値を変更
             animator.SetBool("Move", false);
             animator.SetBool("Dash", false);
         }
@@ -116,16 +133,21 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleJump()
     {
+        // 接地判定とジャンプボタンの入力をチェック
         if (IsGrounded() && Input.GetButtonDown("ButtonA"))
         {
+            // 効果音を再生
             PlaySoundEffect(1,1);
 
             // ジャンプ力を加える
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+            // アニメーターの値を変更
             animator.SetBool("Jump", true);
         }
         else
         {
+            // アニメーターの値を変更
             animator.SetBool("Jump", false);
         }
     }
@@ -172,13 +194,20 @@ public class CS_Player : MonoBehaviour
         float tri = Input.GetAxis("LRTrigger");
         if (tri > 0)
         {
-            PlaySoundEffect(0, 2);
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
 
             animator.SetBool("Dash", true);
         }
-        else
+
+        // 効果音を再生する
+        if (animator.GetBool("Dash"))
         {
+            // ダッシュ
+            PlaySoundEffect(0, 2);
+        }
+        else if (animator.GetBool("Move"))
+        {
+            // 移動
             PlaySoundEffect(0, 0);
         }
 
@@ -223,6 +252,21 @@ public class CS_Player : MonoBehaviour
     }
 
     //**
+    //* 音声ファイルが再生可能かチェックする
+    //*
+    //* in：再生する音声ファイルのインデックス
+    //* out:再生可能かチェック
+    //**
+    bool CanPlaySound(int indexSource, int indexClip)
+    {
+        return audioSource[indexSource] != null
+               && audioClips != null
+               && indexClip >= 0
+               && indexClip < audioClips.Length
+               && (!audioSource[indexSource].isPlaying || audioSource[indexSource].clip != audioClips[indexClip]);
+    }
+
+    //**
     //* 音声ファイルを再生する
     //*
     //* in：再生する音声ファイルのインデックス
@@ -231,14 +275,10 @@ public class CS_Player : MonoBehaviour
     void PlaySoundEffect(int indexSource,int indexClip)
     {
         // サウンドエフェクトを再生
-        if (audioSource[indexSource] != null && audioClips != null && indexClip >= 0 && indexClip < audioClips.Length)
+        if (CanPlaySound(indexSource, indexClip))
         {
-            if (!audioSource[indexSource].isPlaying || audioSource[indexSource].clip != audioClips[indexClip])
-            {
-                audioSource[indexSource].clip = audioClips[indexClip];
-
-                audioSource[indexSource].Play();
-            }
+            audioSource[indexSource].clip = audioClips[indexClip];
+            audioSource[indexSource].Play();
         }
     }
 
