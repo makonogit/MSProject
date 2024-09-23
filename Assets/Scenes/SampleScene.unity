@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 4766.393, g: 3101.1099, b: 2294.1292, a: 1}
+  m_IndirectSpecularColor: {r: 4741.11, g: 3111.2388, b: 2351.1057, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1997,6 +1997,26 @@ PrefabInstance:
       propertyPath: groundCheckDistance
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 2129575501436790988, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2129575501436790988, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: audioClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e1c7d5e5bbca0f4493dd85672960ec3, type: 3}
+    - target: {fileID: 2129575501436790988, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: audioClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 235fadbf924f84f44b12df3dd18705ec, type: 3}
+    - target: {fileID: 2129575501436790988, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: audioClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 47c15efa6aab7ac4eba1759cfc864810, type: 3}
+    - target: {fileID: 2129575501436790988, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: audioClips.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 526e8d301404f7041a697cec4031f000, type: 3}
     - target: {fileID: 3329242302942665748, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
       propertyPath: m_TagString
       value: Player
@@ -2048,6 +2068,10 @@ PrefabInstance:
     - target: {fileID: 8796847277004806832, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944924744106400324, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

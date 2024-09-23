@@ -335,6 +335,7 @@ public class CS_Player : MonoBehaviour
         ballobj.transform.forward = forwardVec;
 
     }
+
     //----------------------------
     // 直刺し(空気注入)関数
     // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
@@ -345,11 +346,7 @@ public class CS_Player : MonoBehaviour
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
         bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag;
 
-        if (!Injection)
-        {
-            return;
-        }
-        else
+        if (Injection)
         {
             StopPlayingSound(1);    //音が鳴っていたら止める
             PlaySoundEffect(1, 4);  //挿入SE
@@ -364,9 +361,6 @@ public class CS_Player : MonoBehaviour
 
         PlaySoundEffect(1, 6);  //挿入SE
 
-        //ボタンが離された or 対象が消滅したら終了
-        InjectionState = !(Input.GetButtonUp(button) || !csButstofObj);
-
         //時間計測
         Injection_IntarvalTime += Time.deltaTime;
         bool TimeProgress = Injection_IntarvalTime > Injection_Interval;   //注入間隔分時間経過しているか
@@ -380,12 +374,14 @@ public class CS_Player : MonoBehaviour
             return;
         }
 
-        //圧力が最大になったら↓
-        bool MaxPressure = csButstofObj.AddPressure(InjectionPower);
+        //圧力が最大になったら or ボタンを離したら
+        bool MaxPressure = csButstofObj.AddPressure(InjectionPower) || Input.GetButtonUp(button);
 
         //最大になったら注入終了
         if (MaxPressure)
         {
+            StopPlayingSound(1);
+            PlaySoundEffect(1, 5);
             InjectionState = false;
         }
     }
