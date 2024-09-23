@@ -62,17 +62,20 @@ public class CS_Debris : MonoBehaviour
         if (!DestroyFlag) return;
         DestroyTime -= Time.deltaTime;
         // 破棄する
-        bool shouldDestroy = DestroyTime <= 0;
+        bool isTimeOver = DestroyTime <= 0;
+        bool isStopSound = !thisAS.isPlaying;
+        bool shouldDestroy =isTimeOver && isStopSound;
+
         if (shouldDestroy) Destroy(this.gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
 
-        DestroyFlag = true;
         bool isHitBurstObj = collision.gameObject.tag == "Burst";
         bool isHitAttackTag = collision.gameObject.tag == this.tag;
-        bool canPlaySound = thisRB != null;
+        bool isGetRigidbody = thisRB != null;
+        bool canPlaySound = isGetRigidbody && !DestroyFlag;
 
         if (isHitBurstObj)
         {
@@ -82,8 +85,9 @@ public class CS_Debris : MonoBehaviour
         }
 
         if (isHitAttackTag) return;
-
         if (canPlaySound) PlaySound();
+
+        DestroyFlag = true;
     }
 
     /// <summary>
@@ -92,7 +96,6 @@ public class CS_Debris : MonoBehaviour
     private void PlaySound()
     {
         thisAS.pitch = GetPitch(PitchRange);
-
         thisAS.Play();
     }
 
