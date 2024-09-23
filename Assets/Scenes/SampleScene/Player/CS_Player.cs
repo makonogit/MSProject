@@ -309,14 +309,14 @@ public class CS_Player : MonoBehaviour
     void AirGun(string button)
     {
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
-        bool StartShooting = Input.GetButtonDown(button) && !HitBurstObjFlag;
+        bool StartShooting = Input.GetButtonDown(button) && (!HitBurstObjFlag || !csButstofObj);
 
         if (!StartShooting) { return; }
 
         //SEが再生されていたら止める
         if (IsPlayingSound(1)) { StopPlayingSound(1); }
 
-        //PlaySoundEffect(1, 3);
+        PlaySoundEffect(1, 3);
 
         Vector3 forwardVec  = cameraTransform.forward;
 
@@ -344,7 +344,7 @@ public class CS_Player : MonoBehaviour
     void AirInjection(string button)
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag;
+        bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag && csButstofObj;
 
         if (Injection)
         {
@@ -359,8 +359,6 @@ public class CS_Player : MonoBehaviour
             return;
         }
 
-        PlaySoundEffect(1, 6);  //挿入SE
-
         //時間計測
         Injection_IntarvalTime += Time.deltaTime;
         bool TimeProgress = Injection_IntarvalTime > Injection_Interval;   //注入間隔分時間経過しているか
@@ -374,8 +372,10 @@ public class CS_Player : MonoBehaviour
             return;
         }
 
+        PlaySoundEffect(1, 6);  //挿入SE
+
         //圧力が最大になったら or ボタンを離したら
-        bool MaxPressure = csButstofObj.AddPressure(InjectionPower) || Input.GetButtonUp(button);
+        bool MaxPressure = !Input.GetButton(button) || csButstofObj.AddPressure(InjectionPower);
 
         //最大になったら注入終了
         if (MaxPressure)
