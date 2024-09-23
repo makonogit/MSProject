@@ -116,7 +116,7 @@ public class CS_Burst_of_object : MonoBehaviour
     /// 加圧
     /// </summary>
     /// <param name="pressureValue">加圧値</param>
-    public void AddPressure(int pressureValue)
+    public bool AddPressure(int pressureValue)
     {
         int tmp = pressureValue + PressureNumber;
         bool isMax = tmp >= PressureValList.Count;
@@ -131,6 +131,7 @@ public class CS_Burst_of_object : MonoBehaviour
         else if (isMin) PressureNumber = 0;
         else PressureNumber = tmp;
         SetScale();
+        return isMax;
     }
 
     /// <summary>

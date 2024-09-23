@@ -59,7 +59,7 @@ public class CS_Player : MonoBehaviour
     [SerializeField, Tooltip("直刺しぱわー")]
     private int InjectionPower = 1;
 
-
+    private bool InjectionState = false;
 
     //弾けるオブジェクトのスクリプト
     CS_Burst_of_object csButstofObj;
@@ -88,8 +88,8 @@ public class CS_Player : MonoBehaviour
         HandleJump();
 
         
-        AirInjection("ButtonB",HitBurstObjFlag);
-        AirGun("ButtonX",HitBurstObjFlag);
+        AirInjection("ButtonB");
+        AirGun("ButtonX");
     }
 
     //**
@@ -297,27 +297,36 @@ public class CS_Player : MonoBehaviour
         }
     }
 
+    bool IsPlayingSound(int indexSource)
+    {
+        return audioSource[indexSource].isPlaying;
+    }
     //----------------------------
     // 空気砲関数
     // 引数:入力キー,オブジェクトに近づいているか
     // 戻り値：なし
     //----------------------------
-    void AirGun(string button, bool ObjDistance)
+    void AirGun(string button)
     {
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
-        bool StartShooting = Input.GetButtonDown(button) && !ObjDistance;
+        bool StartShooting = Input.GetButtonDown(button) && !HitBurstObjFlag;
 
         if (!StartShooting) { return; }
 
-        Vector3 forwardVec = transform.forward;
+        //SEが再生されていたら止める
+        if (IsPlayingSound(1)) { StopPlayingSound(1); }
+
+        //PlaySoundEffect(1, 3);
+
+        Vector3 forwardVec  = cameraTransform.forward;
 
         //入力があれば弾を生成
         //ポインタの位置から　Instantiate(AirBall,transform.pointa);
         GameObject ballobj = Instantiate(AirBall);
 
         Vector3 pos = Vector3.zero;
-        float scaler =2.0f;
-        Vector3 offset = new Vector3(0,1,0);
+        float scaler = 2.0f;
+        Vector3 offset = new Vector3(0, 1, 0);
 
         pos = this.transform.position;
         pos += offset;
@@ -331,31 +340,54 @@ public class CS_Player : MonoBehaviour
     // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
     // 戻り値：なし
     //----------------------------
-    void AirInjection(string button, bool ObjDistance)
+    void AirInjection(string button)
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = Input.GetButton(button) && ObjDistance;
+        bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag;
 
-        if (!Injection) { return; }
-        
+        if (!Injection)
+        {
+            return;
+        }
+        else
+        {
+            StopPlayingSound(1);    //音が鳴っていたら止める
+            PlaySoundEffect(1, 4);  //挿入SE
+            InjectionState = true;  //注入中のフラグをOn
+        }
+
+        //注入中じゃなければ終了
+        if (!InjectionState)
+        {
+            return;
+        }
+
+        PlaySoundEffect(1, 6);  //挿入SE
+
+        //ボタンが離された or 対象が消滅したら終了
+        InjectionState = !(Input.GetButtonUp(button) || !csButstofObj);
+
         //時間計測
         Injection_IntarvalTime += Time.deltaTime;
         bool TimeProgress = Injection_IntarvalTime > Injection_Interval;   //注入間隔分時間経過しているか
         if (!TimeProgress) { return; }
 
         Injection_IntarvalTime = 0.0f;  //時間をリセット
-                                        // bool StartInjection = ObjPressure > MaxPressure;                   //攻撃開始か(圧力が最大か)
 
-
-
-        if (!csButstofObj) 
-        { 
+        if (!csButstofObj)
+        {
             Debug.LogWarning("null");
-            return; 
+            return;
         }
-        
-        csButstofObj.AddPressure(InjectionPower);
 
+        //圧力が最大になったら↓
+        bool MaxPressure = csButstofObj.AddPressure(InjectionPower);
+
+        //最大になったら注入終了
+        if (MaxPressure)
+        {
+            InjectionState = false;
+        }
     }
 
     /// <summary>
