@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
+
 //using System.Numerics;
 
 //using System.Diagnostics;
@@ -24,7 +26,7 @@ public class CS_Player : MonoBehaviour
     [Header("ジャンプ設定")]
     public float jumpForce = 5f;                // ジャンプ力
     public float groundCheckDistance = 0.1f;    // 地面との距離
-    public string targetTag = "Ground";         // 地面タグ
+    public LayerMask targetLayer;               // ジャンプ可能なレイヤー
 
     // 移動
     [Header("移動設定")]
@@ -43,8 +45,6 @@ public class CS_Player : MonoBehaviour
     // 自身のコンポーネント
     private Rigidbody rb;
     private Animator animator;
-
-
 
     [SerializeField, Header("空気砲の弾オブジェクト")]
     private GameObject AirBall;
@@ -83,11 +83,13 @@ public class CS_Player : MonoBehaviour
     //**
     void Update()
     {
-        // 移動処理
-        HandleMovement();
         // ジャンプ処理
         HandleJump();
-
+    }
+    void FixedUpdate()
+    {
+        // 移動処理
+        HandleMovement();
         
         AirInjection();
         AirGun();
@@ -101,7 +103,7 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleMovement()
     {
-        // Lステックの入力をチェック
+        // Lステックの入力と衝突状態をチェック
         if (inputSystem.IsLeftStickActive(0.1f))
         {
             // スティックの入力を取得
@@ -134,7 +136,7 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleJump()
     {
-        // 接地判定とジャンプボタンの入力をチェック
+        // 接地判定と衝突状態とジャンプボタンの入力をチェック
         if (IsGrounded() && inputSystem.IsButtonATriggered())
         {
             // 効果音を再生
@@ -151,10 +153,11 @@ public class CS_Player : MonoBehaviour
             // アニメーターの値を変更
             animator.SetBool("Jump", false);
         }
+         
     }
 
     //**
-    //* スティック入力から移動ベクトルを取得する
+    //* スティック入力からカメラから見た移動ベクトルを取得する
     //*
     //* in：無し
     //* out：移動ベクトル
@@ -199,7 +202,8 @@ public class CS_Player : MonoBehaviour
         }
 
         // プレイヤーの位置を更新
-        transform.position += moveVec * speed * Time.deltaTime;
+        Vector3 direction = moveVec * speed * Time.deltaTime;
+        rb.MovePosition(rb.position + direction);
     }
 
     //**
@@ -226,16 +230,7 @@ public class CS_Player : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
-        {
-            // ヒットしたオブジェクトのタグを確認する
-            if (hit.collider.CompareTag(targetTag))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f, targetLayer);
     }
 
     //**
@@ -355,7 +350,7 @@ public class CS_Player : MonoBehaviour
 
         if (!csButstofObj)
         {
-            Debug.LogWarning("null");
+            //Debug.LogWarning("null");
             return;
         }
 
@@ -401,7 +396,29 @@ public class CS_Player : MonoBehaviour
             HitBurstObjFlag = false; 
             return; 
         }
+    }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        // 接触点が存在するか確認
+        if (collision.contactCount > 0)
+        {
+            Vector3 collisionNormal = collision.contacts[0].normal;
+
+            // 衝突が水平面かどうかチェック
+            if (Mathf.Abs(collisionNormal.y) < 0.1f)
+            {
+                // 0番インデックスの効果音を停止
+                StopPlayingSound(0);
+
+                // 移動速度を初期化
+                speed = initSpeed;
+
+                // アニメーターの値を変更
+                animator.SetBool("Move", false);
+                animator.SetBool("Dash", false);
+            }
+        }
     }
 
 }

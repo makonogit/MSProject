@@ -24,9 +24,10 @@ public class CS_TpsCamera : MonoBehaviour
     public float moveSpeed = 50.0f;             // 移動スピード
     public float rotationSpeed = 50.0f;         // 回転スピード
     [Header("移動/回転の制限")]
-    public float verticalRotationLimit = 80.0f; // 縦回転の制限
-    private float cameraRotX = 0.0f;            // 横回転の移動量
-    private float cameraRotY = 0.0f;            // 縦回転の移動量
+    public float rotationLimitMax = 80.0f; // X軸回転の制限（最大）
+    public float rotationLimitMin = 10.0f; // X軸回転の制限（最小）
+    private float cameraRotX = 45.0f;     // X軸回転の移動量
+    private float cameraRotY = 0.0f;       // Y軸転の移動量
 
     // 自身のコンポーネント
     private Camera camera; 
@@ -40,13 +41,13 @@ public class CS_TpsCamera : MonoBehaviour
         camera = GetComponent<Camera>();
 
         // カメラを初期位置にセット
-        MoveCamera(Vector3.up);
+        MoveCamera(Vector3.down);
     }
 
     //**
     //* 更新
     //**
-    void Update()
+    void FixedUpdate()
     {
         // 入力に応じてカメラを回転させる
 
@@ -54,7 +55,7 @@ public class CS_TpsCamera : MonoBehaviour
         Vector2 stick = inputSystem.GetRightStick();
 
         // カメラを入力に応じて移動
-        Vector3 rotVec = new Vector3(-stick.y, stick.x, 0);
+        Vector3 rotVec = new Vector3(stick.y, stick.x, 0);
         rotVec = rotVec.normalized;
         MoveCamera(rotVec);
     }
@@ -88,14 +89,14 @@ public class CS_TpsCamera : MonoBehaviour
         // 移動方向
         Vector3 normalizedDirection = direction.normalized;
 
-        // 水平方向の回転を更新
+        // X軸の回転を更新
         if (Mathf.Abs(Vector3.Dot(normalizedDirection, Vector3.right)) > 0.1f)
         {
             cameraRotX += rotationAmount * Mathf.Sign(Vector3.Dot(normalizedDirection, Vector3.right));
-            cameraRotX = Mathf.Clamp(cameraRotX, -verticalRotationLimit, verticalRotationLimit);
+            cameraRotX = Mathf.Clamp(cameraRotX, rotationLimitMin, rotationLimitMax);
         }
 
-        // 垂直方向の回転を更新
+        // Y軸の回転を更新
         if (Mathf.Abs(Vector3.Dot(normalizedDirection, Vector3.up)) > 0.1f)
         {
             cameraRotY += rotationAmount * Mathf.Sign(Vector3.Dot(normalizedDirection, Vector3.up));
