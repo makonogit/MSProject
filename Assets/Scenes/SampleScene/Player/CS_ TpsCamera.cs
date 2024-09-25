@@ -11,13 +11,19 @@ public class CS_TpsCamera : MonoBehaviour
     //**
 
     // 外部オブジェクト
+    [Header("外部オブジェクト")]
     public Transform target; // 追尾対象
+    public CS_InputSystem inputSystem;// インプットマネージャー
+
 
     // 移動・回転
+    [Header("位置")]
     public Vector3 offsetPos = new Vector3 (0, 8, 0);// 位置
     public Vector3 offsetFocus = new Vector3(0, 3, 0);// 焦点
+    [Header("移動/回転の速さ")]
     public float moveSpeed = 50.0f;             // 移動スピード
     public float rotationSpeed = 50.0f;         // 回転スピード
+    [Header("移動/回転の制限")]
     public float verticalRotationLimit = 80.0f; // 縦回転の制限
     private float cameraRotX = 0.0f;            // 横回転の移動量
     private float cameraRotY = 0.0f;            // 縦回転の移動量
@@ -45,11 +51,10 @@ public class CS_TpsCamera : MonoBehaviour
         // 入力に応じてカメラを回転させる
 
         // 右スティックの入力を取得
-        float rsh = Input.GetAxis("RStick X");
-        float rsv = Input.GetAxis("RStick Y");
+        Vector2 stick = inputSystem.GetRightStick();
 
         // カメラを入力に応じて移動
-        Vector3 rotVec = new Vector3(-rsv, rsh, 0);
+        Vector3 rotVec = new Vector3(-stick.y, stick.x, 0);
         rotVec = rotVec.normalized;
         MoveCamera(rotVec);
     }

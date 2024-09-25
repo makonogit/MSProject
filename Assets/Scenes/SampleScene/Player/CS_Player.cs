@@ -18,6 +18,7 @@ public class CS_Player : MonoBehaviour
     // 外部オブジェクト
     [Header("外部オブジェクト")]
     public Transform cameraTransform;// 追尾カメラ
+    public CS_InputSystem inputSystem;// インプットマネージャー
 
     // ジャンプ
     [Header("ジャンプ設定")]
@@ -88,8 +89,8 @@ public class CS_Player : MonoBehaviour
         HandleJump();
 
         
-        AirInjection("ButtonB");
-        AirGun("ButtonX");
+        AirInjection();
+        AirGun();
     }
 
     //**
@@ -101,7 +102,7 @@ public class CS_Player : MonoBehaviour
     void HandleMovement()
     {
         // Lステックの入力をチェック
-        if (IsStickActive(-0.01f, 0.01f))
+        if (inputSystem.IsLeftStickActive(0.1f))
         {
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
@@ -134,7 +135,7 @@ public class CS_Player : MonoBehaviour
     void HandleJump()
     {
         // 接地判定とジャンプボタンの入力をチェック
-        if (IsGrounded() && Input.GetButtonDown("ButtonA"))
+        if (IsGrounded() && inputSystem.IsButtonATriggered())
         {
             // 効果音を再生
             PlaySoundEffect(1,1);
@@ -153,19 +154,6 @@ public class CS_Player : MonoBehaviour
     }
 
     //**
-    //* 左スティックの入力をチェックする
-    //*
-    //* in：デッドゾーン
-    //* out：入力判定
-    //**
-    bool IsStickActive(float min, float max)
-    {
-        float stickV = Input.GetAxis("LStick X");
-        float stickH = Input.GetAxis("LStick Y");
-        return !(((stickH < max) && (stickH > min)) && ((stickV < max) && (stickV > min)));
-    }
-
-    //**
     //* スティック入力から移動ベクトルを取得する
     //*
     //* in：無し
@@ -173,11 +161,10 @@ public class CS_Player : MonoBehaviour
     //**
     Vector3 GetMovementVector()
     {
-        float stickH = Input.GetAxis("LStick X");
-        float stickV = Input.GetAxis("LStick Y");
+        Vector2 stick = inputSystem.GetLeftStick();
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
-        Vector3 moveVec = forward * stickV + right * stickH;
+        Vector3 moveVec = forward * stick.y + right * stick.x;
         moveVec.y = 0f; // y 軸の移動は不要
         return moveVec.normalized;
     }
@@ -191,7 +178,7 @@ public class CS_Player : MonoBehaviour
     void MoveCharacter(Vector3 moveVec)
     {
         // Lトリガーの入力中は加速する
-        float tri = Input.GetAxis("LRTrigger");
+        float tri = inputSystem.GetRightTrigger();
         if (tri > 0)
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
@@ -306,10 +293,10 @@ public class CS_Player : MonoBehaviour
     // 引数:入力キー,オブジェクトに近づいているか
     // 戻り値：なし
     //----------------------------
-    void AirGun(string button)
+    void AirGun()
     {
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
-        bool StartShooting = Input.GetButtonDown(button) && (!HitBurstObjFlag || !csButstofObj);
+        bool StartShooting = inputSystem.IsButtonXTriggered() && (!HitBurstObjFlag || !csButstofObj);
 
         if (!StartShooting) { return; }
 
@@ -341,10 +328,10 @@ public class CS_Player : MonoBehaviour
     // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
     // 戻り値：なし
     //----------------------------
-    void AirInjection(string button)
+    void AirInjection()
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag && csButstofObj;
+        bool Injection = inputSystem.IsButtonBPressed() && HitBurstObjFlag && csButstofObj;
 
         if (Injection)
         {
@@ -375,7 +362,7 @@ public class CS_Player : MonoBehaviour
         PlaySoundEffect(1, 6);  //挿入SE
 
         //圧力が最大になったら or ボタンを離したら
-        bool MaxPressure = !Input.GetButton(button) || csButstofObj.AddPressure(InjectionPower);
+        bool MaxPressure = !inputSystem.IsButtonBPressed() || csButstofObj.AddPressure(InjectionPower);
 
         //最大になったら注入終了
         if (MaxPressure)
