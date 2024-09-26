@@ -81,16 +81,14 @@ public class CS_Player : MonoBehaviour
     //**
     //* 更新
     //**
-    void Update()
-    {
-        // ジャンプ処理
-        HandleJump();
-    }
+
     void FixedUpdate()
     {
         // 移動処理
         HandleMovement();
-        
+        // ジャンプ処理
+        HandleJump();
+
         AirInjection();
         AirGun();
     }
@@ -104,7 +102,7 @@ public class CS_Player : MonoBehaviour
     void HandleMovement()
     {
         // Lステックの入力と衝突状態をチェック
-        if (inputSystem.IsLeftStickActive(0.1f))
+        if (inputSystem.GetLeftStickActive())
         {
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
@@ -137,10 +135,10 @@ public class CS_Player : MonoBehaviour
     void HandleJump()
     {
         // 接地判定と衝突状態とジャンプボタンの入力をチェック
-        if (IsGrounded() && inputSystem.IsButtonATriggered())
+        if (IsGrounded() && inputSystem.GetButtonAPressed() && animator.GetBool("Jump") == false)
         {
             // 効果音を再生
-            PlaySoundEffect(1,1);
+            PlaySoundEffect(1, 1);
 
             // ジャンプ力を加える
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -153,7 +151,6 @@ public class CS_Player : MonoBehaviour
             // アニメーターの値を変更
             animator.SetBool("Jump", false);
         }
-         
     }
 
     //**
@@ -291,7 +288,7 @@ public class CS_Player : MonoBehaviour
     void AirGun()
     {
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
-        bool StartShooting = inputSystem.IsButtonXTriggered() && (!HitBurstObjFlag || !csButstofObj);
+        bool StartShooting = inputSystem.GetButtonXTriggered() && (!HitBurstObjFlag || !csButstofObj);
 
         if (!StartShooting) { return; }
 
@@ -326,7 +323,7 @@ public class CS_Player : MonoBehaviour
     void AirInjection()
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = inputSystem.IsButtonBPressed() && HitBurstObjFlag && csButstofObj;
+        bool Injection = inputSystem.GetButtonBPressed() && HitBurstObjFlag && csButstofObj;
 
         if (Injection)
         {
@@ -357,7 +354,7 @@ public class CS_Player : MonoBehaviour
         PlaySoundEffect(1, 6);  //挿入SE
 
         //圧力が最大になったら or ボタンを離したら
-        bool MaxPressure = !inputSystem.IsButtonBPressed() || csButstofObj.AddPressure(InjectionPower);
+        bool MaxPressure = !inputSystem.GetButtonBPressed() || csButstofObj.AddPressure(InjectionPower);
 
         //最大になったら注入終了
         if (MaxPressure)
