@@ -21,6 +21,7 @@ public class CS_Player : MonoBehaviour
     [Header("外部オブジェクト")]
     public Transform cameraTransform;// 追尾カメラ
     public CS_InputSystem inputSystem;// インプットマネージャー
+    public CS_CameraManager cameraManager;// カメラマネージャー
 
     // ジャンプ
     [Header("ジャンプ設定")]
@@ -88,9 +89,30 @@ public class CS_Player : MonoBehaviour
         HandleMovement();
         // ジャンプ処理
         HandleJump();
+        // ロックオン処理
+        HandleTarget();
 
         AirInjection();
         AirGun();
+    }
+
+    //**
+    //* ロックオン処理
+    //*
+    //* in:無し
+    //* out:無し
+    //**
+    void HandleTarget()
+    {
+        // Lトリガーの入力がある場合、ターゲットカメラに切り替える
+        if(inputSystem.GetLeftTrigger() > 0.1f)
+        {
+            cameraManager.SwitchingCamera(1);
+        }
+        else
+        {
+            cameraManager.SwitchingCamera(0);
+        }
     }
 
     //**
@@ -227,7 +249,7 @@ public class CS_Player : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hit;
-        return Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f, targetLayer);
+        return Physics.Raycast(transform.position, Vector3.down, out hit, 0.01f, targetLayer);
     }
 
     //**
@@ -397,12 +419,15 @@ public class CS_Player : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        // 接触点が存在するか確認
+        //**
+        //* めり込み防止
+        //**
+
+        // 垂直な壁と衝突した場合に移動状態を停止し、加えた移動量を0にする
         if (collision.contactCount > 0)
         {
             Vector3 collisionNormal = collision.contacts[0].normal;
 
-            // 衝突が水平面かどうかチェック
             if (Mathf.Abs(collisionNormal.y) < 0.1f)
             {
                 // 0番インデックスの効果音を停止
@@ -414,6 +439,11 @@ public class CS_Player : MonoBehaviour
                 // アニメーターの値を変更
                 animator.SetBool("Move", false);
                 animator.SetBool("Dash", false);
+
+                // 平行な移動成分を取り除く
+                Vector3 currentVelocity = rb.velocity;
+                rb.velocity = new Vector3(0f, currentVelocity.y, 0f);
+
             }
         }
     }

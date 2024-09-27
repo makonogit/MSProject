@@ -86,8 +86,8 @@ public class CS_InputSystem : MonoBehaviour
         isButtonYTriggered = IsButtonYTriggered();
         isButtonXTriggered = IsButtonXTriggered();
 
-        isLeftStick = IsLeftStickActive(0.1f);
-        isRightStick = IsRightStickActive(0.1f);
+        isLeftStick = IsLeftStickActive(0.5f);
+        isRightStick = IsRightStickActive(0.5f);
         leftStick = inputSystem.Controller.Stick_L.ReadValue<Vector2>();
         rightStick = inputSystem.Controller.Stick_R.ReadValue<Vector2>();
     }

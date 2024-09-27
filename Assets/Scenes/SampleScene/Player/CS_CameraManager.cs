@@ -11,17 +11,11 @@ public class CS_CameraManager : MonoBehaviour
     //**
 
     // 外部オブジェクト
+    [Header("外部オブジェクト")]
     public CinemachineVirtualCamera[] virtualCameras;// カメラのリスト
-
-    // パラメーター
-    private int cameraIndex = 0;// 使用するカメラのインデックス
-    private float elapsedTime = 0f; // フレーム数をカウントする変数
-    private bool switchingFlg = false;// 切り替え状態
-    private float targetTime = 0f;// 切り替え時間
 
     // 自身のコンポーネント
     private CinemachineImpulseSource impulseSource;// 振動
-
 
     //**
     //* 初期化
@@ -39,8 +33,7 @@ public class CS_CameraManager : MonoBehaviour
 
     void Update()
     {
-        // 切り替え更新
-        SwitchingUpdate();
+
     }
 
     //**
@@ -63,39 +56,18 @@ public class CS_CameraManager : MonoBehaviour
     //**
     //* カメラを切り替える
     //*
-    //* in:切り替え先、切り替えておく時間
+    //* in:切り替え先
     //* out:無し
     //**
 
-    public void SwitchingCamera(int index, int time)
+    public void SwitchingCamera(int index)
     {
-        cameraIndex = index;
-        targetTime = time;
-        switchingFlg = true;
-    }
-
-    // カメラ切り替えの更新処理
-    void SwitchingUpdate()
-    {
-        // カメラ切り替え
-        if (switchingFlg)
+        // 全てのカメラのPriorityを下げる
+        foreach (var virtualCamera in virtualCameras)
         {
-            if (elapsedTime == 0f)
-            {
-                virtualCameras[cameraIndex].gameObject.SetActive(true);
-            }
-
-            // 実行時間をカウント
-            elapsedTime += Time.deltaTime;
-
-            // 指定したフレーム数に達したら処理を実行
-            if (elapsedTime >= targetTime)
-            {
-                virtualCameras[cameraIndex].gameObject.SetActive(false);
-                elapsedTime = 0f;// 実行時間をリセット
-                targetTime = 0f;
-                switchingFlg = false;
-            }
+            virtualCamera.Priority = -1;
         }
+        // 対象のカメラのPriorityを上げる
+        virtualCameras[index].Priority = 10;
     }
 }
