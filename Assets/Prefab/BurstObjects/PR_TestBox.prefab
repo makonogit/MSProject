@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2323046673853970657}
   - component: {fileID: 2998847318900372672}
   - component: {fileID: 3652574381587045195}
-  - component: {fileID: 1957415751782847120}
   - component: {fileID: 6065059149539166372}
   - component: {fileID: 1684250022368131417}
+  - component: {fileID: 7945500190364952286}
   m_Layer: 0
   m_Name: PR_TestBox
   m_TagString: Burst
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6676407353505963851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 0.844, z: -4.805}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6676407353505963851}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2643173543783292932, guid: a9ae13eb0f3022b4d8f945fd171f8072, type: 3}
 --- !u!23 &3652574381587045195
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ca57ccd8cd453a4e9b4777d003b1577, type: 2}
+  - {fileID: 2100000, guid: a5965e1d7fd06634fb730b995c59d33c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1957415751782847120
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676407353505963851}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6065059149539166372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e712204ad25452249b180eceb31da2dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brokenObj: {fileID: 8390621565977182782, guid: a5e575459f1e64c4ca8124802a4a401e, type: 3}
   MineFlag: 0
   Health: 1
   PressureNumber: 0
@@ -129,7 +109,14 @@ MonoBehaviour:
   - 1
   ExplosionVolume: 0.8
   DebrisObj: {fileID: 6913061539746828811, guid: a5947622b43169a48a2f26e5f5cda8b2, type: 3}
-  DebrisNum: 24
+  DebrisNum: 6
+  BurstVecList:
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
   BurstSpeed: 700
   ShockWaveObj: {fileID: 8659638270654199117, guid: 3c99a47974a58ce40b92d0ea3e43e685, type: 3}
   ShockPower: 1
@@ -232,3 +219,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &7945500190364952286
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676407353505963851}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.31
+  m_Height: 0.99
+  m_Direction: 1
+  m_Center: {x: 0.000000029802322, y: 0.44939995, z: 0.00000020861626}

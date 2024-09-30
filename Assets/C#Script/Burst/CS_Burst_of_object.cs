@@ -14,6 +14,11 @@ public class CS_Burst_of_object : MonoBehaviour
 
     private Vector3 defaultScale;
 
+    private MeshRenderer thisMeshRenderer;
+
+    [SerializeField, Tooltip("壊れた後")]
+    private GameObject brokenObj;
+
     [SerializeField, Tooltip("地雷設定")]
     private bool MineFlag = false;
 
@@ -38,6 +43,9 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("破片の数:\n")]
     private int DebrisNum;
+
+    [SerializeField, Tooltip("破片の方向:\n")]
+    private List<Vector3> BurstVecList = new List<Vector3>();
 
     [SerializeField, Tooltip("破片の飛ぶ速度:\n")]
     private float BurstSpeed;
@@ -71,6 +79,9 @@ public class CS_Burst_of_object : MonoBehaviour
         thisAudioSource = GetComponent<AudioSource>();
         if (thisAudioSource == null) Debug.LogError("null component");
         defaultScale = this.transform.localScale;
+
+        thisMeshRenderer = GetComponent<MeshRenderer>();
+        if (thisMeshRenderer == null) Debug.LogError("null component");
     }
 
     /// <summary>
@@ -170,6 +181,14 @@ public class CS_Burst_of_object : MonoBehaviour
         // モデル変更
         ChangeModel();
 
+
+
+        {
+            GameObject obj = Instantiate(brokenObj);
+            obj.transform.position = this.transform.position;
+            thisMeshRenderer.enabled = false;
+        }
+
         // 消失フラグを立てる
         DestroyFlag = true;
     }
@@ -179,9 +198,9 @@ public class CS_Burst_of_object : MonoBehaviour
     /// </summary>
     private void BurstDebris(float Power)
     {
-        //float distance = BurstDistance * Power;
         float speed = BurstSpeed * Power;
-        for (int i = 0; i < DebrisNum; i++) CreateDebris(speed, i);
+        //for (int i = 0; i < DebrisNum; i++) CreateDebris(speed, i);
+        for (int i = 0; i < BurstVecList.Count; i++) CreateDebris(speed, i);
     }
 
     /// <summary>
@@ -191,7 +210,8 @@ public class CS_Burst_of_object : MonoBehaviour
     /// <param name="num"></param>
     private void CreateDebris(float Power, int num)
     {
-        Vector3 vec = GetFlyVector(1, DebrisNum, num);
+        //Vector3 vec = GetFlyVector(1, DebrisNum, num);
+        Vector3 vec = GetFlyVector(1, num);
         GameObject obj = Instantiate(DebrisObj);
         obj.transform.position = this.transform.position + vec;
 
@@ -222,6 +242,11 @@ public class CS_Burst_of_object : MonoBehaviour
         float z = radius * Mathf.Cos(phi);
 
         return new Vector3(x, y, z);
+    }
+
+    private Vector3 GetFlyVector(float radius,int num)
+    {
+        return BurstVecList[num].normalized * radius;
     }
 
 
