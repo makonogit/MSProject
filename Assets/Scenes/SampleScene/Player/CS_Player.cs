@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
+
 //using System.Numerics;
 
 //using System.Diagnostics;
@@ -18,12 +20,14 @@ public class CS_Player : MonoBehaviour
     // 外部オブジェクト
     [Header("外部オブジェクト")]
     public Transform cameraTransform;// 追尾カメラ
+    public CS_InputSystem inputSystem;// インプットマネージャー
+    public CS_CameraManager cameraManager;// カメラマネージャー
 
     // ジャンプ
     [Header("ジャンプ設定")]
     public float jumpForce = 5f;                // ジャンプ力
     public float groundCheckDistance = 0.1f;    // 地面との距離
-    public string targetTag = "Ground";         // 地面タグ
+    public LayerMask targetLayer;               // ジャンプ可能なレイヤー
 
     // 移動
     [Header("移動設定")]
@@ -42,8 +46,6 @@ public class CS_Player : MonoBehaviour
     // 自身のコンポーネント
     private Rigidbody rb;
     private Animator animator;
-
-
 
     [SerializeField, Header("空気砲の弾オブジェクト")]
     private GameObject AirBall;
@@ -80,16 +82,37 @@ public class CS_Player : MonoBehaviour
     //**
     //* 更新
     //**
-    void Update()
+
+    void FixedUpdate()
     {
         // 移動処理
         HandleMovement();
         // ジャンプ処理
         HandleJump();
+        // ロックオン処理
+        HandleTarget();
 
-        
-        AirInjection("ButtonB");
-        AirGun("ButtonX");
+        AirInjection();
+        AirGun();
+    }
+
+    //**
+    //* ロックオン処理
+    //*
+    //* in:無し
+    //* out:無し
+    //**
+    void HandleTarget()
+    {
+        // Lトリガーの入力がある場合、ターゲットカメラに切り替える
+        if(inputSystem.GetLeftTrigger() > 0.1f)
+        {
+            cameraManager.SwitchingCamera(1);
+        }
+        else
+        {
+            cameraManager.SwitchingCamera(0);
+        }
     }
 
     //**
@@ -100,8 +123,8 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleMovement()
     {
-        // Lステックの入力をチェック
-        if (IsStickActive(-0.01f, 0.01f))
+        // Lステックの入力と衝突状態をチェック
+        if (inputSystem.GetLeftStickActive())
         {
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
@@ -133,11 +156,11 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleJump()
     {
-        // 接地判定とジャンプボタンの入力をチェック
-        if (IsGrounded() && Input.GetButtonDown("ButtonA"))
+        // 接地判定と衝突状態とジャンプボタンの入力をチェック
+        if (IsGrounded() && inputSystem.GetButtonAPressed() && animator.GetBool("Jump") == false)
         {
             // 効果音を再生
-            PlaySoundEffect(1,1);
+            PlaySoundEffect(1, 1);
 
             // ジャンプ力を加える
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -153,31 +176,17 @@ public class CS_Player : MonoBehaviour
     }
 
     //**
-    //* 左スティックの入力をチェックする
-    //*
-    //* in：デッドゾーン
-    //* out：入力判定
-    //**
-    bool IsStickActive(float min, float max)
-    {
-        float stickV = Input.GetAxis("LStick X");
-        float stickH = Input.GetAxis("LStick Y");
-        return !(((stickH < max) && (stickH > min)) && ((stickV < max) && (stickV > min)));
-    }
-
-    //**
-    //* スティック入力から移動ベクトルを取得する
+    //* スティック入力からカメラから見た移動ベクトルを取得する
     //*
     //* in：無し
     //* out：移動ベクトル
     //**
     Vector3 GetMovementVector()
     {
-        float stickH = Input.GetAxis("LStick X");
-        float stickV = Input.GetAxis("LStick Y");
+        Vector2 stick = inputSystem.GetLeftStick();
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
-        Vector3 moveVec = forward * stickV + right * stickH;
+        Vector3 moveVec = forward * stick.y + right * stick.x;
         moveVec.y = 0f; // y 軸の移動は不要
         return moveVec.normalized;
     }
@@ -191,7 +200,7 @@ public class CS_Player : MonoBehaviour
     void MoveCharacter(Vector3 moveVec)
     {
         // Lトリガーの入力中は加速する
-        float tri = Input.GetAxis("LRTrigger");
+        float tri = inputSystem.GetRightTrigger();
         if (tri > 0)
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
@@ -212,7 +221,8 @@ public class CS_Player : MonoBehaviour
         }
 
         // プレイヤーの位置を更新
-        transform.position += moveVec * speed * Time.deltaTime;
+        Vector3 direction = moveVec * speed * Time.deltaTime;
+        rb.MovePosition(rb.position + direction);
     }
 
     //**
@@ -239,16 +249,7 @@ public class CS_Player : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
-        {
-            // ヒットしたオブジェクトのタグを確認する
-            if (hit.collider.CompareTag(targetTag))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return Physics.Raycast(transform.position, Vector3.down, out hit, 0.01f, targetLayer);
     }
 
     //**
@@ -306,10 +307,10 @@ public class CS_Player : MonoBehaviour
     // 引数:入力キー,オブジェクトに近づいているか
     // 戻り値：なし
     //----------------------------
-    void AirGun(string button)
+    void AirGun()
     {
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
-        bool StartShooting = Input.GetButtonDown(button) && (!HitBurstObjFlag || !csButstofObj);
+        bool StartShooting = inputSystem.GetButtonXTriggered() && (!HitBurstObjFlag || !csButstofObj);
 
         if (!StartShooting) { return; }
 
@@ -341,10 +342,10 @@ public class CS_Player : MonoBehaviour
     // 引数:入力キー,近づいているか,近づいているオブジェクトの圧力,近づいているオブジェクトの耐久値
     // 戻り値：なし
     //----------------------------
-    void AirInjection(string button)
+    void AirInjection()
     {
         //注入可能か(キーが入力されていてオブジェクトに近づいている)
-        bool Injection = Input.GetButtonDown(button) && HitBurstObjFlag && csButstofObj;
+        bool Injection = inputSystem.GetButtonBPressed() && HitBurstObjFlag && csButstofObj;
 
         if (Injection)
         {
@@ -368,14 +369,14 @@ public class CS_Player : MonoBehaviour
 
         if (!csButstofObj)
         {
-            Debug.LogWarning("null");
+            //Debug.LogWarning("null");
             return;
         }
 
         PlaySoundEffect(1, 6);  //挿入SE
 
         //圧力が最大になったら or ボタンを離したら
-        bool MaxPressure = !Input.GetButton(button) || csButstofObj.AddPressure(InjectionPower);
+        bool MaxPressure = !inputSystem.GetButtonBPressed() || csButstofObj.AddPressure(InjectionPower);
 
         //最大になったら注入終了
         if (MaxPressure)
@@ -414,7 +415,37 @@ public class CS_Player : MonoBehaviour
             HitBurstObjFlag = false; 
             return; 
         }
+    }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        //**
+        //* めり込み防止
+        //**
+
+        // 垂直な壁と衝突した場合に移動状態を停止し、加えた移動量を0にする
+        if (collision.contactCount > 0)
+        {
+            Vector3 collisionNormal = collision.contacts[0].normal;
+
+            if (Mathf.Abs(collisionNormal.y) < 0.1f)
+            {
+                // 0番インデックスの効果音を停止
+                StopPlayingSound(0);
+
+                // 移動速度を初期化
+                speed = initSpeed;
+
+                // アニメーターの値を変更
+                animator.SetBool("Move", false);
+                animator.SetBool("Dash", false);
+
+                // 平行な移動成分を取り除く
+                Vector3 currentVelocity = rb.velocity;
+                rb.velocity = new Vector3(0f, currentVelocity.y, 0f);
+
+            }
+        }
     }
 
 }

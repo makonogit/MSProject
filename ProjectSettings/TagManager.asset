@@ -7,11 +7,12 @@ TagManager:
   - Ground
   - Burst
   - Attack
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Attack
