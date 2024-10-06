@@ -12,6 +12,9 @@ public class CS_TargetCamera : MonoBehaviour
     public string targetTag = "Enemy";  // 対象のタグ
     public LayerMask targetLayer;       // 対象オブジェクトのレイヤー
 
+    // ターゲット中のオブジェクトを保存
+    private GameObject closest;
+
     // 自身のコンポーネント
     private CinemachineTargetGroup cinemachineTargetGroup;
 
@@ -24,7 +27,7 @@ public class CS_TargetCamera : MonoBehaviour
     void Update()
     {
         // 範囲内で条件に合う最も近いオブジェクトを検索
-        GameObject closest = FindClosest();
+        closest = FindClosest();
 
         if (closest != null)
         {
@@ -36,6 +39,11 @@ public class CS_TargetCamera : MonoBehaviour
             // ターゲットが見つからなかった場合、既存のターゲットを削除
             RemoveTarget();
         }
+    }
+
+    public GameObject GetClosest()
+    {
+        return closest;
     }
 
     //**
@@ -80,7 +88,7 @@ public class CS_TargetCamera : MonoBehaviour
     //* out: 最も近いオブジェクト
     //**
 
-    GameObject FindClosest()
+    private GameObject FindClosest()
     {
         // 指定した範囲内のコライダーを取得
         Collider[] hitColliders = Physics.OverlapSphere(center.position, detectionRadius, targetLayer);

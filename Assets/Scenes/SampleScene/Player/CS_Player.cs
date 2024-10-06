@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using Cinemachine;
 
 //using System.Numerics;
 
@@ -19,29 +20,44 @@ public class CS_Player : MonoBehaviour
 
     // 外部オブジェクト
     [Header("外部オブジェクト")]
-    public Transform cameraTransform;// 追尾カメラ
-    public CS_InputSystem inputSystem;// インプットマネージャー
-    public CS_CameraManager cameraManager;// カメラマネージャー
+    [SerializeField, Header("追尾カメラ")]
+    private Transform cameraTransform;// 追尾カメラ
+    [SerializeField, Header("インプットマネージャー")]
+    private CS_InputSystem inputSystem;// インプットマネージャー
+    [SerializeField, Header("カメラマネージャー")]
+    private CS_CameraManager cameraManager;// カメラマネージャー
+    [SerializeField, Header("ロックオンカメラ")]
+    private CS_TargetCamera targetCamera;// ロックオンカメラ
+    [SerializeField, Header("エイムカメラ")]
+    private CS_Aim aimCamera;// エイムカメラ
 
     // ジャンプ
     [Header("ジャンプ設定")]
-    public float jumpForce = 5f;                // ジャンプ力
-    public float groundCheckDistance = 0.1f;    // 地面との距離
-    public LayerMask targetLayer;               // ジャンプ可能なレイヤー
+    [SerializeField, Header("ジャンプ力")]
+    private float jumpForce = 5f;                // ジャンプ力
+    [SerializeField, Header("地面との距離")]
+    private float groundCheckDistance = 0.1f;    // 地面との距離
+    [SerializeField, Header("ジャンプ可能なレイヤー")]
+    private LayerMask targetLayer;               // ジャンプ可能なレイヤー
 
     // 移動
     [Header("移動設定")]
-    public float speed = 1f;        // 移動速度
-    public float targetSpeed = 10f; // 目標速度
-    public float smoothTime = 0.5f; // 最高速度に到達するまでの時間
+    [SerializeField, Header("移動速度")]
+    private float speed = 1f;        // 移動速度
+    [SerializeField, Header("目標速度")]
+    private float targetSpeed = 10f; // 目標速度
+    [SerializeField, Header("最高速度に到達するまでの時間")]
+    private float smoothTime = 0.5f; // 最高速度に到達するまでの時間
     private float velocity = 0f;    // 現在の速度
     private Vector3 moveVec;        // 現在の移動方向
     private float initSpeed;        // スピードの初期値を保存しておく変数
 
     // 再生する音声ファイルのリスト
     [Header("効果音設定")]
-    public AudioSource[] audioSource;
-    public AudioClip[] audioClips;
+    [SerializeField, Header("オーディオソース")]
+    private AudioSource[] audioSource;
+    [SerializeField, Header("音声ファイル")]
+    private AudioClip[] audioClips;
 
     // 自身のコンポーネント
     private Rigidbody rb;
@@ -85,15 +101,64 @@ public class CS_Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        // カメラを初期化
+        cameraManager.SwitchingCamera(0);
+
         // 移動処理
         HandleMovement();
         // ジャンプ処理
         HandleJump();
         // ロックオン処理
         HandleTarget();
+        // エイム処理
+        HandleAim();
 
         AirInjection();
         AirGun();
+    }
+
+    void HandleAim()
+    {
+        // Lトリガーの入力がある場合、ターゲットカメラに切り替える
+        if (inputSystem.GetLeftTrigger() > 0.1f)
+        {
+            if (animator.GetBool("Aim") == false)
+            {
+                // 指定した方向のベクトルを正規化
+                Vector3 normalizedDirection = cameraTransform.forward.normalized;
+
+                // 向きたい方向に基づいて回転を計算
+                Quaternion rotation = Quaternion.LookRotation(normalizedDirection);
+
+                // 回転を適用
+                transform.rotation = rotation;
+            }
+
+            cameraManager.SwitchingCamera(2);
+            animator.SetBool("Aim", true);
+
+            // 移動速度を初期化
+            speed = initSpeed;
+
+            // アニメーターの値を変更
+            animator.SetBool("Dash", false);
+        }
+        else
+        {
+            if (animator.GetBool("Aim") == true)
+            {
+                // 指定した方向のベクトルを正規化
+                Vector3 normalizedDirection = transform.forward.normalized;
+
+                // 向きたい方向に基づいて回転を計算
+                Quaternion rotation = Quaternion.LookRotation(normalizedDirection);
+
+                // 回転を適用
+                cameraTransform.rotation = rotation;
+            }
+
+            animator.SetBool("Aim", false);
+        }
     }
 
     //**
@@ -104,14 +169,48 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleTarget()
     {
+        // ターゲット中のオブジェクトを取得
+        GameObject closest = targetCamera.GetClosest();
+
         // Lトリガーの入力がある場合、ターゲットカメラに切り替える
-        if(inputSystem.GetLeftTrigger() > 0.1f)
+        if ((inputSystem.GetButtonLPressed())&&(closest != null))
         {
             cameraManager.SwitchingCamera(1);
+            animator.SetBool("LockOn", true);
         }
         else
         {
-            cameraManager.SwitchingCamera(0);
+            animator.SetBool("LockOn", false);
+
+        }
+    }
+    // IK Pass
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (animator.GetBool("Aim"))
+        {
+            // 頭をターゲットに向ける
+            animator.SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
+            animator.SetLookAtPosition(aimCamera.transform.forward * 100f);
+        }
+
+        if (!animator.GetBool("LockOn")) return;
+
+        // ターゲット中のオブジェクトを取得
+        GameObject closest = targetCamera.GetClosest();
+
+        // 頭と腕をターゲットの方向に向ける
+        if (closest != null)
+        {
+            // 頭をターゲットに向ける
+            animator.SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
+            animator.SetLookAtPosition(closest.transform.position);
+
+            // 右腕をターゲットに向ける
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+            animator.SetIKPosition(AvatarIKGoal.RightHand, closest.transform.position);
+            animator.SetIKRotation(AvatarIKGoal.RightHand, closest.transform.rotation);
         }
     }
 
@@ -185,10 +284,29 @@ public class CS_Player : MonoBehaviour
     {
         Vector2 stick = inputSystem.GetLeftStick();
         Vector3 forward = cameraTransform.forward;
+        // Aim時
+        if (animator.GetBool("Aim"))
+        {
+            forward = aimCamera.transform.forward;// Aimカメラを参照
+            stick = RoundDirection(stick);        // スティック入力を平行移動に変換
+        }
         Vector3 right = cameraTransform.right;
         Vector3 moveVec = forward * stick.y + right * stick.x;
         moveVec.y = 0f; // y 軸の移動は不要
         return moveVec.normalized;
+    }
+
+    Vector2 RoundDirection(Vector2 input)
+    {
+        // x軸とy軸の絶対値が大きい方を優先して方向を決定
+        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+        {
+            return input.x > 0 ? Vector2.right : Vector2.left;
+        }
+        else
+        {
+            return input.y > 0 ? Vector2.up : Vector2.down;
+        }
     }
 
     //**
@@ -201,7 +319,7 @@ public class CS_Player : MonoBehaviour
     {
         // Lトリガーの入力中は加速する
         float tri = inputSystem.GetRightTrigger();
-        if (tri > 0)
+        if ((tri > 0) && (animator.GetBool("Aim") == false))
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
 
@@ -233,6 +351,8 @@ public class CS_Player : MonoBehaviour
     //**
     void AdjustForwardDirection(Vector3 moveVec)
     {
+        if (animator.GetBool("Aim")) return;
+
         if (moveVec.sqrMagnitude > 0)
         {
             Vector3 targetForward = moveVec.normalized;
@@ -319,7 +439,7 @@ public class CS_Player : MonoBehaviour
 
         PlaySoundEffect(1, 3);
 
-        Vector3 forwardVec  = cameraTransform.forward;
+        Vector3 forwardVec = aimCamera.transform.forward;//cameraTransform.forward;
 
         //入力があれば弾を生成
         //ポインタの位置から　Instantiate(AirBall,transform.pointa);

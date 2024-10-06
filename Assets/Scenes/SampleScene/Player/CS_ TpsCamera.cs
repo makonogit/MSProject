@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
+using Cinemachine;
+
 // TPSカメラ
 public class CS_TpsCamera : MonoBehaviour
 {
@@ -30,7 +32,7 @@ public class CS_TpsCamera : MonoBehaviour
     private float cameraRotY = 0.0f;       // Y軸転の移動量
 
     // 自身のコンポーネント
-    private Camera camera; 
+    private CinemachineVirtualCamera camera; 
 
     //**
     //* 初期化
@@ -38,7 +40,7 @@ public class CS_TpsCamera : MonoBehaviour
     void Start()
     {
         // カメラコンポーネントを取得
-        camera = GetComponent<Camera>();
+        camera = GetComponent<CinemachineVirtualCamera>();
 
         // カメラを初期位置にセット
         MoveCamera(Vector3.down);
@@ -51,13 +53,16 @@ public class CS_TpsCamera : MonoBehaviour
     {
         // 入力に応じてカメラを回転させる
 
-        // 右スティックの入力を取得
-        Vector2 stick = inputSystem.GetRightStick();
+        if (camera.Priority == 10)
+        {
+            // 右スティックの入力を取得
+            Vector2 stick = inputSystem.GetRightStick();
 
-        // カメラを入力に応じて移動
-        Vector3 rotVec = new Vector3(stick.y, stick.x, 0);
-        rotVec = rotVec.normalized;
-        MoveCamera(rotVec);
+            // カメラを入力に応じて移動
+            Vector3 rotVec = new Vector3(stick.y, stick.x, 0);
+            rotVec = rotVec.normalized;
+            MoveCamera(rotVec);
+        }
     }
 
     //**
@@ -105,7 +110,7 @@ public class CS_TpsCamera : MonoBehaviour
         // カメラの位置を滑らかに更新
         Quaternion rotation = Quaternion.Euler(cameraRotX, cameraRotY, 0);
         Vector3 offset = rotation * offsetPos;
-        Vector3 desiredPosition = target.position + offset;
+        Vector3 desiredPosition = target.position + offset + offsetFocus;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, 10.0f * Time.deltaTime);
     }
 

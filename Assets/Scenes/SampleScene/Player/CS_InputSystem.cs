@@ -31,10 +31,14 @@ public class CS_InputSystem : MonoBehaviour
     private bool isButtonBTriggered;
     private bool isButtonYTriggered;
     private bool isButtonXTriggered;
+    private bool isButtonLTriggered;
+    private bool isButtonRTriggered;
     private bool isButtonAPressed;
     private bool isButtonBPressed;
     private bool isButtonYPressed;
     private bool isButtonXPressed;
+    private bool isButtonRPressed;
+    private bool isButtonLPressed;
 
     // ステックの入力状態
     private bool isLeftStick;
@@ -80,7 +84,11 @@ public class CS_InputSystem : MonoBehaviour
         isButtonBPressed = IsButtonBPressed();
         isButtonYPressed = IsButtonYPressed();
         isButtonXPressed = IsButtonXPressed();
+        isButtonRPressed = IsButtonRPressed();
+        isButtonLPressed = IsButtonLPressed();
 
+        isButtonRTriggered = IsButtonRTriggered();
+        isButtonLTriggered = IsButtonLTriggered();
         isButtonATriggered = IsButtonATriggered();
         isButtonBTriggered = IsButtonBTriggered();
         isButtonYTriggered = IsButtonYTriggered();
@@ -108,7 +116,11 @@ public class CS_InputSystem : MonoBehaviour
     public bool GetButtonBPressed() => isButtonBPressed;
     public bool GetButtonXPressed() => isButtonXPressed;
     public bool GetButtonYPressed() => isButtonYPressed;
+    public bool GetButtonRPressed() => isButtonRPressed;
+    public bool GetButtonLPressed() => isButtonLPressed;
 
+    public bool GetButtonRTriggered() => isButtonRTriggered;
+    public bool GetButtonLTriggered() => isButtonLTriggered;
     public bool GetButtonATriggered() => isButtonATriggered;
     public bool GetButtonBTriggered() => isButtonBTriggered;
     public bool GetButtonXTriggered() => isButtonXTriggered;
@@ -141,11 +153,16 @@ public class CS_InputSystem : MonoBehaviour
     private bool IsButtonBPressed() => inputSystem.Controller.Button_B.ReadValue<float>() > 0.1f;
     private bool IsButtonYPressed() => inputSystem.Controller.Button_Y.ReadValue<float>() > 0.1f;
     private bool IsButtonXPressed() => inputSystem.Controller.Button_X.ReadValue<float>() > 0.1f;
+    private bool IsButtonRPressed() => inputSystem.Controller.Button_R.ReadValue<float>() > 0.1f;
+    private bool IsButtonLPressed() => inputSystem.Controller.Button_L.ReadValue<float>() > 0.1f;
+
 
     private bool IsButtonATriggered() => inputSystem.Controller.Button_A.triggered;
     private bool IsButtonBTriggered() => inputSystem.Controller.Button_B.triggered;
     private bool IsButtonYTriggered() => inputSystem.Controller.Button_Y.triggered;
     private bool IsButtonXTriggered() => inputSystem.Controller.Button_X.triggered;
+    private bool IsButtonRTriggered() => inputSystem.Controller.Button_R.triggered;
+    private bool IsButtonLTriggered() => inputSystem.Controller.Button_L.triggered;
 
     // スティック
     private bool IsLeftStickActive(float min)
