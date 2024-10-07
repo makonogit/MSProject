@@ -33,6 +33,11 @@ public class CS_Player : MonoBehaviour
     [SerializeField, Header("追尾カメラ")]
     private CS_TpsCamera tpsCamera;// tpsカメラ
 
+    [Header("プレイヤー設定")]
+    [SerializeField, Header("体力値")]
+    private int hitPoints = 100;
+    public int GetHitPoints() => hitPoints;
+
     // ジャンプ
     [Header("ジャンプ設定")]
     [SerializeField, Header("ジャンプ力")]
@@ -146,6 +151,12 @@ public class CS_Player : MonoBehaviour
         //AirGun();
     }
 
+    //**
+    //* スライディング処理
+    //*
+    //* in:無し
+    //* out:無し
+    //**
     void HandlSliding()
     {
         if (inputSystem.GetLeftStickPush())
@@ -172,7 +183,7 @@ public class CS_Player : MonoBehaviour
         bool isMagazine = magazine > 0;
 
         // コントローラー入力/発射中/近接/装填数を判定
-        if (inputSystem.GetButtonXPressed() && !isShot && isAirInjection)
+        if (inputSystem.GetButtonXPressed() && !isShot && isAirInjection && animator.GetBool("Aim"))
         {
             // 装填数が0ならリロード
             if (isMagazine)
@@ -390,7 +401,7 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleMovement()
     {
-        // Lステックの入力と衝突状態をチェック
+        // Lステックの入力をチェック
         if (inputSystem.GetLeftStickActive())
         {
             // スティックの入力を取得
