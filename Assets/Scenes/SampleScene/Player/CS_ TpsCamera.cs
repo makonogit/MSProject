@@ -43,7 +43,7 @@ public class CS_TpsCamera : MonoBehaviour
         camera = GetComponent<CinemachineVirtualCamera>();
 
         // カメラを初期位置にセット
-        MoveCamera(Vector3.down);
+        CameraReset();
     }
 
     //**
@@ -63,6 +63,19 @@ public class CS_TpsCamera : MonoBehaviour
             rotVec = rotVec.normalized;
             MoveCamera(rotVec);
         }
+    }
+
+    //**
+    //* カメラの移動量をリセットする
+    //*
+    //* in：無し
+    //* out：無し
+    //**
+    public void CameraReset()
+    {
+        // ターゲットの背面にカメラを配置
+        Vector3 targetPosition = target.position - target.forward;
+        transform.position = targetPosition + offsetPos;
     }
 
     //**

@@ -22,31 +22,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.023998959
+      value: 0.024
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.48928878
+      value: 0.489
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1590004
+      value: 0.031
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071072
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.00000193947
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000020244577
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.70710653
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6209633074635191947, guid: 829d69603331f2c47942549c672ff433, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -183,6 +183,8 @@ MonoBehaviour:
   inputSystem: {fileID: 0}
   cameraManager: {fileID: 0}
   targetCamera: {fileID: 0}
+  aimCamera: {fileID: 0}
+  tpsCamera: {fileID: 0}
   jumpForce: 5
   groundCheckDistance: 0.1
   targetLayer:
@@ -199,6 +201,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f6d7b234748f85b4187fedd3b5891582, type: 3}
   - {fileID: 8300000, guid: 65c6a7f553e6700479535a3ad3b63dc4, type: 3}
   AirBall: {fileID: 1661458060786888786, guid: 019cd460680634c4e82027700000c543, type: 3}
+  magazine: 0
   InjectionPower: 1
 --- !u!54 &4184185587418687409
 Rigidbody:

@@ -34,6 +34,13 @@ public class CS_Aim : MonoBehaviour
     // 自身のコンポーネント
     private CinemachineVirtualCamera camera;
 
+    [Header("リコイル設定")]
+    public float recoilAmount = 1f; // リコイルの強さ
+    public float recoilDuration = 0.1f; // リコイルの持続時間
+    public float returnSpeed = 0.1f; // 元に戻る速さ
+    private Quaternion originalRotation;
+    private float recoilTimer = 0f;
+
     //**
     //* 初期化
     //**
@@ -76,6 +83,11 @@ public class CS_Aim : MonoBehaviour
         }
     }
 
+    public void TriggerRecoil()
+    {
+        originalRotation = transform.localRotation;
+        recoilTimer = recoilDuration; // リコイルをトリガー
+    }
 
     //**
     //* カメラの回転を更新する
@@ -87,5 +99,18 @@ public class CS_Aim : MonoBehaviour
         Vector3 directionToTarget = (focus.position + offsetFocus) - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        if (recoilTimer > 0)
+        {
+            // リコイルの効果
+            Quaternion recoilRotation = Quaternion.Euler(-recoilAmount, 0, 0);
+            transform.localRotation *= recoilRotation; // リコイルを適用
+            recoilTimer -= Time.deltaTime; // タイマーを減少
+        }
+        else
+        {
+            // 元に戻す
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRotation, returnSpeed * Time.deltaTime);
+        }
     }
 }

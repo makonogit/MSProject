@@ -130,6 +130,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Stick_L_Press",
+                    "type": "Button",
+                    "id": "81cd61ff-22a7-4c2b-b543-0fce94675b7c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stick_R_Press",
+                    "type": "Button",
+                    "id": "672a372d-69c4-4016-92d9-9a78b5d9248f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -284,6 +302,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Button_R",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "313878ce-40a5-4ce4-b0f2-b68738d89c57",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick_L_Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c72d0a3-1037-4260-8e2b-a1b3f48cf860",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick_R_Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

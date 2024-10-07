@@ -20,8 +20,8 @@ public class CS_Player : MonoBehaviour
 
     // 外部オブジェクト
     [Header("外部オブジェクト")]
-    [SerializeField, Header("追尾カメラ")]
-    private Transform cameraTransform;// 追尾カメラ
+    [SerializeField, Header("メインカメラ")]
+    private Transform cameraTransform;
     [SerializeField, Header("インプットマネージャー")]
     private CS_InputSystem inputSystem;// インプットマネージャー
     [SerializeField, Header("カメラマネージャー")]
@@ -30,6 +30,8 @@ public class CS_Player : MonoBehaviour
     private CS_TargetCamera targetCamera;// ロックオンカメラ
     [SerializeField, Header("エイムカメラ")]
     private CS_Aim aimCamera;// エイムカメラ
+    [SerializeField, Header("追尾カメラ")]
+    private CS_TpsCamera tpsCamera;// tpsカメラ
 
     // ジャンプ
     [Header("ジャンプ設定")]
@@ -39,6 +41,10 @@ public class CS_Player : MonoBehaviour
     private float groundCheckDistance = 0.1f;    // 地面との距離
     [SerializeField, Header("ジャンプ可能なレイヤー")]
     private LayerMask targetLayer;               // ジャンプ可能なレイヤー
+    [SerializeField, Header("多段ジャンプ回数の初期値")]
+    private int initJumpStock = 1;// 多段ジャンプ回数
+    private int jumpStock;
+    private bool isJump = false;// ジャンプ中
 
     // 移動
     [Header("移動設定")]
@@ -63,8 +69,21 @@ public class CS_Player : MonoBehaviour
     private Rigidbody rb;
     private Animator animator;
 
+    [Header("射撃設定")]
     [SerializeField, Header("空気砲の弾オブジェクト")]
-    private GameObject AirBall;
+    private GameObject AirBall;// 弾
+    [SerializeField, Header("装填数の初期値")]
+    private int initMagazine;// 装填数の初期値
+    [SerializeField, Header("現在の装填数")]
+    private int magazine;// 装填数
+    [SerializeField, Header("連射数")]
+    private int burstfire;// 連射数
+    [SerializeField, Header("残弾数の初期値")]
+    private int initBulletStock;
+    [SerializeField, Header("現在の残弾数")]
+    private int bulletStock;// 残弾数
+    private bool isShot = false;// 射撃中
+
 
     [SerializeField, Header("直刺しの注入間隔")]
     [Header("※攻撃力/注入間隔")]
@@ -87,6 +106,14 @@ public class CS_Player : MonoBehaviour
     //**
     void Start()
     {
+        jumpStock = initJumpStock;
+
+        // 残弾数を初期化
+        bulletStock = initBulletStock;
+
+        // 装填数を初期化
+        magazine = initMagazine;
+
         // 移動速度の初期値を保存
         initSpeed = speed;
 
@@ -108,15 +135,161 @@ public class CS_Player : MonoBehaviour
         HandleMovement();
         // ジャンプ処理
         HandleJump();
-        // ロックオン処理
-        HandleTarget();
         // エイム処理
         HandleAim();
+        // 射撃処理
+        HandlShot();
+        // スライディング
+        HandlSliding();
 
         AirInjection();
-        AirGun();
+        //AirGun();
     }
 
+    void HandlSliding()
+    {
+        if (inputSystem.GetLeftStickPush())
+        {
+            animator.SetBool("Sliding", true);
+        }
+        else
+        {
+            animator.SetBool("Sliding", false);
+        }
+    }
+
+    //**
+    //* 射撃処理
+    //*
+    //* in:無し
+    //* out:無し
+    //**
+    void HandlShot()
+    {
+        // 近接判定
+        bool isAirInjection = !HitBurstObjFlag || !csButstofObj;
+        // 装填数判定
+        bool isMagazine = magazine > 0;
+
+        // コントローラー入力/発射中/近接/装填数を判定
+        if (inputSystem.GetButtonXPressed() && !isShot && isAirInjection)
+        {
+            // 装填数が0ならリロード
+            if (isMagazine)
+            {
+                CreateBullet(burstfire);
+                isShot = true;
+
+                animator.SetBool("Shot", true);
+            }
+            else if (!animator.GetBool("Reload"))
+            {
+                isShot = true;
+                StartCoroutine(ReloadCoroutine());
+            }
+        }
+        else
+        {
+            animator.SetBool("Shot", false);
+        }
+
+        if (!inputSystem.GetButtonXPressed() && isShot)
+        {
+            isShot = false;
+        }
+    }
+
+    //**
+    //* リロード処理
+    //*
+    //* in:リロード数
+    //* out:無し
+    //**
+    void ReloadMagazine(int reload)
+    {
+        if (bulletStock < reload) 
+        { 
+            magazine = bulletStock;
+            bulletStock = 0;
+        }
+        else
+        { 
+            magazine = reload;
+            bulletStock -= reload;
+        }
+    }
+    private IEnumerator ReloadCoroutine()
+    {
+        // リロードアニメーションを開始
+        animator.SetBool("Reload", true);
+
+        animator.SetTrigger("Reload");
+
+        // アニメーションの長さを取得
+        AnimationClip clip = animator.runtimeAnimatorController.animationClips[0];
+        float animationLength = clip.length;
+
+        // アニメーションが再生中かどうかを確認
+        float elapsedTime = 0f;
+        while (elapsedTime < animationLength)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null; // 次のフレームまで待機
+        }
+
+        // リロード処理を行う
+        ReloadMagazine(initMagazine);
+        animator.SetBool("Reload", false);
+    }
+
+    //**
+    //* 弾を生成する処理
+    //*
+    //* in:生成数
+    //* out:無し
+    //**
+    void CreateBullet(int burst)
+    {
+        PlaySoundEffect(1, 3);
+
+        Vector3 forwardVec = aimCamera.transform.forward;
+
+        float offsetDistance = 1.5f; // 各弾の間隔
+
+        if (burst > magazine)
+        {
+            burst = magazine;
+        }
+
+        for (int i = 0; i < burst; i++)
+        {
+            // 弾を生成
+            GameObject ballobj = Instantiate(AirBall);
+
+            Vector3 pos = this.transform.position;
+            Vector3 offset = new Vector3(0, 1, 0);
+
+            pos += offset;
+            pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f));
+
+            ballobj.transform.position = pos;
+            ballobj.transform.forward = forwardVec;
+
+            // 装填数を減らす
+            magazine--;
+
+            aimCamera.TriggerRecoil();
+        }
+    }
+
+
+
+    //**
+    //* 照準処理
+    //*
+    //* in:無し
+    //* out:無し
+    //**
     void HandleAim()
     {
         // Lトリガーの入力がある場合、ターゲットカメラに切り替える
@@ -124,14 +297,16 @@ public class CS_Player : MonoBehaviour
         {
             if (animator.GetBool("Aim") == false)
             {
-                // 指定した方向のベクトルを正規化
-                Vector3 normalizedDirection = cameraTransform.forward.normalized;
+                // 追尾カメラの方向に向ける
+                Vector3 normalizedDirection = cameraTransform.forward;
+                float yRotation = Mathf.Atan2(normalizedDirection.x, normalizedDirection.z) * Mathf.Rad2Deg;
+                Quaternion rotation = Quaternion.Euler(0, yRotation, 0);
+                //transform.rotation = rotation;
 
-                // 向きたい方向に基づいて回転を計算
-                Quaternion rotation = Quaternion.LookRotation(normalizedDirection);
-
-                // 回転を適用
-                transform.rotation = rotation;
+                // 回転にオフセットを適用
+                float offsetAngle = 45f;
+                Quaternion offsetRotation = Quaternion.Euler(0, offsetAngle, 0);
+                transform.rotation = rotation * offsetRotation;
             }
 
             cameraManager.SwitchingCamera(2);
@@ -147,14 +322,7 @@ public class CS_Player : MonoBehaviour
         {
             if (animator.GetBool("Aim") == true)
             {
-                // 指定した方向のベクトルを正規化
-                Vector3 normalizedDirection = transform.forward.normalized;
-
-                // 向きたい方向に基づいて回転を計算
-                Quaternion rotation = Quaternion.LookRotation(normalizedDirection);
-
-                // 回転を適用
-                cameraTransform.rotation = rotation;
+                tpsCamera.CameraReset();
             }
 
             animator.SetBool("Aim", false);
@@ -173,7 +341,7 @@ public class CS_Player : MonoBehaviour
         GameObject closest = targetCamera.GetClosest();
 
         // Lトリガーの入力がある場合、ターゲットカメラに切り替える
-        if ((inputSystem.GetButtonLPressed())&&(closest != null))
+        if ((inputSystem.GetLeftTrigger() > 0.1f) &&(closest != null))
         {
             cameraManager.SwitchingCamera(1);
             animator.SetBool("LockOn", true);
@@ -227,8 +395,10 @@ public class CS_Player : MonoBehaviour
         {
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
+
             // 位置を更新
             MoveCharacter(moveVec);
+
             // 前方方向をスムーズに調整
             AdjustForwardDirection(moveVec);
             animator.SetBool("Move", true);
@@ -255,8 +425,11 @@ public class CS_Player : MonoBehaviour
     //**
     void HandleJump()
     {
+        bool isJumpStock = jumpStock > 0;
+
         // 接地判定と衝突状態とジャンプボタンの入力をチェック
-        if (IsGrounded() && inputSystem.GetButtonAPressed() && animator.GetBool("Jump") == false)
+        //if (IsGrounded() && inputSystem.GetButtonAPressed() && !animator.GetBool("Jump") && !isJump)
+        if (inputSystem.GetButtonAPressed() && !isJump && isJumpStock)
         {
             // 効果音を再生
             PlaySoundEffect(1, 1);
@@ -266,11 +439,24 @@ public class CS_Player : MonoBehaviour
 
             // アニメーターの値を変更
             animator.SetBool("Jump", true);
+
+            isJump = true;
         }
         else
         {
             // アニメーターの値を変更
             animator.SetBool("Jump", false);
+        }
+
+        if (!inputSystem.GetButtonAPressed() && isJump)
+        {
+            isJump = false;
+            jumpStock--;
+        }
+
+        if (IsGrounded())
+        {
+            jumpStock = initJumpStock;
         }
     }
 
@@ -429,10 +615,13 @@ public class CS_Player : MonoBehaviour
     //----------------------------
     void AirGun()
     {
+        animator.SetBool("Shot", false);
+
         //発射可能か(キーが押された瞬間&オブジェクトに近づいていない)
         bool StartShooting = inputSystem.GetButtonXTriggered() && (!HitBurstObjFlag || !csButstofObj);
 
         if (!StartShooting) { return; }
+        if (!animator.GetBool("Aim")) { return; }
 
         //SEが再生されていたら止める
         if (IsPlayingSound(1)) { StopPlayingSound(1); }
@@ -446,15 +635,17 @@ public class CS_Player : MonoBehaviour
         GameObject ballobj = Instantiate(AirBall);
 
         Vector3 pos = Vector3.zero;
-        float scaler = 2.0f;
+        float scaler = 0.5f;
         Vector3 offset = new Vector3(0, 1, 0);
 
         pos = this.transform.position;
         pos += offset;
-        pos += forwardVec * scaler;
+        pos += forwardVec * (scaler * 2f);
         ballobj.transform.position = pos;
         ballobj.transform.forward = forwardVec;
 
+        aimCamera.TriggerRecoil();
+        animator.SetBool("Shot", true);
     }
 
     //----------------------------
@@ -544,7 +735,7 @@ public class CS_Player : MonoBehaviour
         //**
 
         // 垂直な壁と衝突した場合に移動状態を停止し、加えた移動量を0にする
-        if (collision.contactCount > 0)
+        if ((collision.contactCount > 0) && (animator != null))
         {
             Vector3 collisionNormal = collision.contacts[0].normal;
 

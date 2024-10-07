@@ -45,6 +45,8 @@ public class CS_InputSystem : MonoBehaviour
     private bool isRightStick;
     private Vector2 leftStick;
     private Vector2 rightStick;
+    private bool isLeftStickPush;
+    private bool isRightStickPush;
 
 
     private void Awake()
@@ -98,8 +100,12 @@ public class CS_InputSystem : MonoBehaviour
         isRightStick = IsRightStickActive(0.5f);
         leftStick = inputSystem.Controller.Stick_L.ReadValue<Vector2>();
         rightStick = inputSystem.Controller.Stick_R.ReadValue<Vector2>();
+
+        isLeftStickPush = IsLeftStickPush();
+        isRightStickPush = IsRightStickPush();
     }
 
+    // ƒQƒbƒ^[
     public bool GetDpadUpPressed() => IsDpadUpPressed();
     public bool GetDpadDownPressed() => IsDpadDownPressed();
     public bool GetDpadRightPressed() => IsDpadRightPressed();
@@ -131,6 +137,13 @@ public class CS_InputSystem : MonoBehaviour
 
     public Vector2 GetLeftStick() => leftStick;
     public Vector2 GetRightStick() => rightStick;
+
+    public bool GetLeftStickPush()=> isLeftStickPush;
+    public bool GetRightStickPush() => isRightStickPush;
+
+
+
+
 
 
     // Dpad
@@ -176,6 +189,11 @@ public class CS_InputSystem : MonoBehaviour
         var input = inputSystem.Controller.Stick_R.ReadValue<Vector2>();
         return Mathf.Abs(input.x) > min || Mathf.Abs(input.y) > min;
     }
+
+    private bool IsLeftStickPush() => inputSystem.Controller.Stick_L_Press.ReadValue<float>() > 0.1f;
+    private bool IsRightStickPush() => inputSystem.Controller.Stick_R_Press.ReadValue<float>() > 0.1f;
+
+
 
     //private Vector2 GetLeftStick() => inputSystem.Controller.Stick_L.ReadValue<Vector2>();
     //private Vector2 GetRightStick() => inputSystem.Controller.Stick_R.ReadValue<Vector2>();
