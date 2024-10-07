@@ -1586,6 +1586,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 156424744871072576, guid: 2da6f46ad60f8eb48acbc7461988fa7a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 956787946780014186, guid: 2da6f46ad60f8eb48acbc7461988fa7a, type: 3}
       propertyPath: m_Camera
       value: 
