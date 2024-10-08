@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.VisualScripting;
+using UnityEditor.XR;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.XR;
 
 public class CS_Burst_of_object : MonoBehaviour
@@ -47,6 +49,10 @@ public class CS_Burst_of_object : MonoBehaviour
     [SerializeField, Tooltip("破片の方向:\n")]
     private List<Vector3> BurstVecList = new List<Vector3>();
 
+
+    [SerializeField, Tooltip("破片生成位置調整:\n")]
+    protected Vector3 CreateOffsetPosition = Vector3.zero;
+
     [SerializeField, Tooltip("破片の飛ぶ速度:\n")]
     private float BurstSpeed;
 
@@ -60,12 +66,17 @@ public class CS_Burst_of_object : MonoBehaviour
     [SerializeField, Tooltip("衝撃波範囲:\n")]
     private float WaveSize;
 
+    [SerializeField, Tooltip("エフェクト")]
+    private VisualEffect ExplosionEffect;
+    
+
     [Header("消滅")]
     [SerializeField, Tooltip("消滅フラグ:")]
     private bool DestroyFlag;
 
     [SerializeField, Tooltip("消滅時間:\n消滅するまでの時間")]
     private float DestroyTime;
+
 
     /// <summary>
     /// Start
@@ -82,6 +93,8 @@ public class CS_Burst_of_object : MonoBehaviour
 
         thisMeshRenderer = GetComponent<MeshRenderer>();
         if (thisMeshRenderer == null) Debug.LogError("null component");
+
+        ExplosionEffect.Stop();
     }
 
     /// <summary>
@@ -178,11 +191,13 @@ public class CS_Burst_of_object : MonoBehaviour
         ShockWave(power);
         // 破裂音の再生
         MakeBurstSounds(power);
+        // 爆破エフェクトの生成
+        CreateExplosionEffect();
         // モデル変更
         ChangeModel();
 
 
-
+        // 破裂後のオブジェ差し替えと、その他処理
         {
             GameObject obj = Instantiate(brokenObj);
             obj.transform.position = this.transform.position;
@@ -192,6 +207,13 @@ public class CS_Burst_of_object : MonoBehaviour
         // 消失フラグを立てる
         DestroyFlag = true;
     }
+    /// <summary>
+    /// 爆破エフェクト
+    /// </summary>
+    private void CreateExplosionEffect()
+    {
+        ExplosionEffect.Play();
+    }
 
     /// <summary>
     /// 破片が飛ぶ処理
@@ -199,7 +221,6 @@ public class CS_Burst_of_object : MonoBehaviour
     private void BurstDebris(float Power)
     {
         float speed = BurstSpeed * Power;
-        //for (int i = 0; i < DebrisNum; i++) CreateDebris(speed, i);
         for (int i = 0; i < BurstVecList.Count; i++) CreateDebris(speed, i);
     }
 
@@ -210,19 +231,33 @@ public class CS_Burst_of_object : MonoBehaviour
     /// <param name="num"></param>
     private void CreateDebris(float Power, int num)
     {
-        //Vector3 vec = GetFlyVector(1, DebrisNum, num);
-        Vector3 vec = GetFlyVector(1, num);
         GameObject obj = Instantiate(DebrisObj);
-        obj.transform.position = this.transform.position + vec;
-
+        obj.transform.position = GetCreatePosition(1, num);
+        
         Rigidbody rb = obj.GetComponent<Rigidbody>();
-        if (rb == null)
+        if (rb == null) 
         {
             Debug.LogWarning("null component!");
             return;
         }
-        Vector3 vector = vec * Power;
+        Vector3 vector = GetFlyVector(Power, num);
         rb.AddForce(vector, ForceMode.Force);
+    }
+
+    /// <summary>
+    /// 破片の生成位置を取得する
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    private Vector3 GetCreatePosition(float radius,int num) 
+    {
+        Vector3 Value = new Vector3();
+        Vector3 vec = GetFlyVector(1, num);
+        Value += this.transform.position;
+        Value += vec;
+        Value += CreateOffsetPosition;
+        return Value;
     }
 
     /// <summary>
@@ -244,8 +279,18 @@ public class CS_Burst_of_object : MonoBehaviour
         return new Vector3(x, y, z);
     }
 
+    /// <summary>
+    /// 飛ぶ方向を取得
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <param name="num"></param>
+    /// <returns></returns>
     private Vector3 GetFlyVector(float radius,int num)
     {
+        bool IsOver = BurstVecList.Count <= num;
+        bool IsUnder = num < 0;
+        bool IsOutsideArray = IsOver && IsUnder;
+        if (IsOutsideArray) return Vector3.zero;
         return BurstVecList[num].normalized * radius;
     }
 

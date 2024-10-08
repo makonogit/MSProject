@@ -1,30 +1,34 @@
 ﻿using System;
+using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class CS_Debris : MonoBehaviour
 {
-    private AudioSource thisAS;
-    private Rigidbody thisRB;
+    protected AudioSource thisAS;
+    protected Rigidbody thisRB;
+    protected Collider thisCollider;
 
-    private const float MIN_UNDER = -50.0f;
+    protected const float MIN_UNDER = -50.0f;
+
+
 
     [Header("消滅")]
     [SerializeField, Tooltip("消滅フラグ:")]
-    private bool DestroyFlag;
+    protected bool DestroyFlag;
 
     [SerializeField, Tooltip("消滅時間:\n消滅するまでの時間")]
-    private float DestroyTime;
-
+    protected float DestroyTime;
 
     [SerializeField, Tooltip("攻撃力:\n")]
-    private float Power;
+    protected float Power;
 
     [Header("サウンド関係")]
     [SerializeField, Tooltip("速度の範囲:\n X ＝ 下限　Y ＝ 上限\n速度によってピッチの値が変わる範囲。")]
-    private Vector2 VelocityRange = new Vector2(0.5f, 10.0f);
+    protected Vector2 VelocityRange = new Vector2(0.5f, 10.0f);
     [SerializeField, Tooltip("ピッチの範囲:\n X ＝ 下限　Y ＝ 上限\n")]
-    private Vector2 PitchRange = new Vector2(0.75f, 2.0f);
+    protected Vector2 PitchRange = new Vector2(0.75f, 2.0f);
 
     /// <summary>
     /// Start
@@ -35,6 +39,8 @@ public class CS_Debris : MonoBehaviour
         if (thisAS == null) Debug.LogError("null component");
         thisRB = GetComponent<Rigidbody>();
         if (thisRB == null) Debug.LogError("null component");
+        thisCollider = GetComponent<Collider>();
+        if (thisCollider == null) Debug.LogError("null component");
     }
 
     /// <summary>
@@ -42,7 +48,7 @@ public class CS_Debris : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        UntilDestroyMyself();
+        if (ShouldDestroyExecution) UntilDestroyMyself();
     }
 
     /// <summary>
@@ -51,49 +57,88 @@ public class CS_Debris : MonoBehaviour
     private void Update() { }
 
     /// <summary>
+    /// OnCollisionEnter
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter(Collision collision) 
+    {
+        if (HitCollisionsEnter(collision)) DestroyFlag = true;
+    }
+    
+    /// <summary>
+    /// 削除処理の実行条件
+    /// </summary>
+    protected bool ShouldDestroyExecution 
+    {
+        get 
+        {
+            bool IsUnderWorld = transform.position.y < MIN_UNDER;
+            if (IsUnderWorld) return true;
+            if (DestroyFlag) return true;
+            return false;
+        }
+    }
+
+    /// <summary>
     /// 消滅するまでの処理
     /// </summary>
-    private void UntilDestroyMyself()
+    protected void UntilDestroyMyself()
     {
-        bool isOutArea = transform.position.y < MIN_UNDER;
-        if (isOutArea) DestroyFlag = true;
-
-        // 破壊しない
-        if (!DestroyFlag) return;
         DestroyTime -= Time.deltaTime;
         // 破棄する
         bool isTimeOver = DestroyTime <= 0;
         bool isStopSound = !thisAS.isPlaying;
         bool shouldDestroy =isTimeOver && isStopSound;
-
         if (shouldDestroy) Destroy(this.gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /// <summary>
+    /// オブジェクトに当たった処理
+    /// </summary>
+    /// <param name="collision"></param>
+    /// <returns>同タグなら false  別タグなら true </returns>
+    protected bool HitCollisionsEnter(Collider collision)
     {
-
-        bool isHitBurstObj = collision.gameObject.tag == "Burst";
         bool isHitAttackTag = collision.gameObject.tag == this.tag;
+        bool isHitBurstObj = collision.gameObject.tag == "Burst";
         bool isGetRigidbody = thisRB != null;
         bool canPlaySound = isGetRigidbody && !DestroyFlag;
 
-        if (isHitBurstObj)
-        {
-            CS_Burst_of_object burst = collision.transform.GetComponent<CS_Burst_of_object>();
-            if (burst == null) { Debug.LogWarning("null component"); return; }
-            burst.HitDamage(Power);
-        }
-
-        if (isHitAttackTag) return;
+        // 同じタグなら抜ける
+        if (isHitAttackTag) return false;
+        // はじけるオブジェクトならダメージを与える
+        if (isHitBurstObj) InflictDamage(collision);
+        // 効果音を鳴らす
         if (canPlaySound) PlaySound();
 
-        DestroyFlag = true;
+        return true;
     }
+    protected  bool HitCollisionsEnter(Collision collision) => HitCollisionsEnter(collision.collider);
+
+    
+
+    /// <summary>
+    /// ダメージを与える
+    /// </summary>
+    /// <param name="collision"></param>
+    protected void InflictDamage(Collider collision)
+    {
+        CS_Burst_of_object burst = collision.transform.GetComponent<CS_Burst_of_object>();
+        if (burst == null) { Debug.LogWarning("null component"); return; }
+        burst.HitDamage(Power);
+    }
+    protected void InflictDamage(Collision collision) => InflictDamage(collision.collider);
+
+
+
+
+
+    // 以下より効果音関係の関数のみ
 
     /// <summary>
     /// 音の再生
     /// </summary>
-    private void PlaySound()
+    protected void PlaySound()
     {
         thisAS.pitch = GetPitch(PitchRange);
         thisAS.Play();
