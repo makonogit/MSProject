@@ -43,9 +43,6 @@ public class CS_Burst_of_object : MonoBehaviour
     [SerializeField, Tooltip("破片プレハブ:\n")]
     private GameObject DebrisObj;
 
-    [SerializeField, Tooltip("破片の数:\n")]
-    private int DebrisNum;
-
     [SerializeField, Tooltip("破片の方向:\n")]
     private List<Vector3> BurstVecList = new List<Vector3>();
 
@@ -347,6 +344,69 @@ public class CS_Burst_of_object : MonoBehaviour
         DestroyTime -= Time.deltaTime;
         // 破棄する
         bool shouldDestroy = DestroyTime <= 0;
-        if (shouldDestroy) Destroy(this.gameObject);
+        //if (shouldDestroy) Destroy(this.gameObject);
     }
+
+
+#if UNITY_EDITOR
+    
+    /// <summary>
+    /// 選択時表示
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color =new Color(0,1,0,0.5f);
+        for (int i = 0; i < BurstVecList.Count; i++) 
+        {
+            
+            Gizmos.DrawLineStrip(DrawDebris(i).ToArray(), false);
+        }
+    }
+
+    private List<Vector3> DrawDebris(int num) 
+    {
+        float deltaTime = 0.04167f;
+        float power = 1.0f + PressureValList[PressureNumber];
+        float speed = BurstSpeed * power;
+        List<Vector3> Points = new List<Vector3>();
+
+        // 初期位置設定
+        Vector3 position = GetCreatePosition(1, num);
+        Points.Add(this.transform.position + CreateOffsetPosition);
+        Points.Add(position);
+        // 初速度の設定
+        Vector3 Velocity = (GetFlyVector(speed, num) * deltaTime * deltaTime) * 0.5f;
+        RaycastHit hit  = new RaycastHit();
+        // ぶつかるまでの軌道の線を引く
+        for (float time = 0.0f; time < 2; time += deltaTime) 
+        {
+            Velocity += Vector3.down * ((9.8f * time * time) * 0.5f);
+            Ray ray = new Ray(position,Velocity.normalized);
+            bool IsHit = Physics.Raycast(ray, out hit, Velocity.magnitude);
+            position += Velocity;
+            if (IsHit) 
+            {
+                Points.Add(hit.point);
+                break; 
+            }
+            Points.Add(position);
+        }
+        // 着地点表示
+        Gizmos.DrawWireSphere(hit.point,0.5f);
+        Gizmos.DrawSphere(hit.point,0.5f);
+
+        return Points;
+    }
+
+    /// <summary>
+    /// <summary>
+    /// インスペクター更新時
+    /// </summary>
+    private void OnValidate()
+    {
+
+       
+
+    }
+#endif // UNITY_EDITOR
 }
