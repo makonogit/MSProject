@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class CS_FallingObj : MonoBehaviour
 {
+    [SerializeField, Header("¶¬Effect")]
+    private GameObject BreakEffect;
+    [SerializeField]
+    private GameObject BreakDust;
+
     /// <summary>
     /// °‚ÆÚG‚µ‚½‚çÁ–Å‚·‚é
     /// </summary>
@@ -15,6 +20,10 @@ public class CS_FallingObj : MonoBehaviour
     {
         //‰½‚©‚ÆÚG‚µ‚½‚çÁ‚·
         Destroy(this.gameObject);
+
+        Vector3 pos = transform.position;
+        Instantiate(BreakEffect,pos,Quaternion.identity);
+        //Instantiate(BreakDust,pos,Quaternion.identity);
 
         //ƒvƒŒƒCƒ„[‚ÆÚG‚µ‚½‚©
         bool HitFloor = collision.gameObject.tag == "Player";

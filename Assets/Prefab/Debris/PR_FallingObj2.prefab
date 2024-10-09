@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7629450889959221178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.49, y: 1.35, z: -7.064926}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 520e490b117f8cc4bbfd41ec92292838, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,3 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc71bfe4b846e7144a82c823cc2c2fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BreakEffect: {fileID: 9098841453924130138, guid: 031f5a38aacf6da4386d83338d73ec66, type: 3}
+  BreakDust: {fileID: 8079464796209127089, guid: a24216f9867087c4d971fcdd719c81cf, type: 3}
