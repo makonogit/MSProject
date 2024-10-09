@@ -1,3 +1,4 @@
+using Assets.C_Script.C_GameUI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -35,8 +36,9 @@ public class CS_Player : MonoBehaviour
 
     [Header("プレイヤー設定")]
     [SerializeField, Header("体力値")]
-    private int hitPoints = 100;
-    public int GetHitPoints() => hitPoints;
+    private float initHP = 100;
+    [SerializeField]
+    private float nowHP;
 
     // ジャンプ
     [Header("ジャンプ設定")]
@@ -88,6 +90,17 @@ public class CS_Player : MonoBehaviour
     [SerializeField, Header("現在の残弾数")]
     private int bulletStock;// 残弾数
     private bool isShot = false;// 射撃中
+    [SerializeField, Header("減らすHP")]
+    private float shotHp;
+
+    [Header("UI")]
+    CS_GameUIClass gameUiClass;
+    [SerializeField]
+    private GameObject GameOverPanal;
+    [SerializeField]
+    private GameObject GameClearPanal;
+    [SerializeField]
+    private RectTransform GageTrans;
 
 
     [SerializeField, Header("直刺しの注入間隔")]
@@ -106,11 +119,17 @@ public class CS_Player : MonoBehaviour
     //弾けるオブジェクトのスクリプト
     CS_Burst_of_object csButstofObj;
 
+   
+
     //**
     //* 初期化
     //**
     void Start()
     {
+        nowHP = initHP;
+
+        gameUiClass = new CS_GameUIClass(initHP, GageTrans);
+
         jumpStock = initJumpStock;
 
         // 残弾数を初期化
@@ -149,6 +168,11 @@ public class CS_Player : MonoBehaviour
 
         AirInjection();
         //AirGun();
+        
+        if(nowHP <= 0)
+        {
+            gameUiClass.ViewResultUI(GameOverPanal); 
+        }
     }
 
     //**
@@ -288,6 +312,7 @@ public class CS_Player : MonoBehaviour
 
             // 装填数を減らす
             magazine--;
+            gameUiClass.ResourceChange(ref nowHP, -shotHp, GageTrans);
 
             aimCamera.TriggerRecoil();
         }
@@ -674,6 +699,7 @@ public class CS_Player : MonoBehaviour
             StopPlayingSound(1);    //音が鳴っていたら止める
             PlaySoundEffect(1, 4);  //挿入SE
             InjectionState = true;  //注入中のフラグをOn
+            gameUiClass.ResourceChange(ref nowHP, -1, GageTrans);
         }
 
         //注入中じゃなければ終了
@@ -721,6 +747,22 @@ public class CS_Player : MonoBehaviour
             csButstofObj = collision.transform.GetComponent<CS_Burst_of_object>();
             HitBurstObjFlag = true;
             return;
+        }
+
+        // 衝突したオブジェクトのタグをチェック
+        if (collision.gameObject.tag == "Item")
+        {
+            CS_Item item = collision.gameObject.GetComponent<CS_Item>();
+
+            gameUiClass.ResourceChange(ref nowHP, 1, GageTrans);
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            gameUiClass.ResourceChange(ref nowHP, -1, GageTrans);
+        }
+        else if (collision.gameObject.tag == "Goal")
+        {
+            gameUiClass.ViewResultUI(GameClearPanal);
         }
     }
 

@@ -8,6 +8,8 @@ TagManager:
   - Burst
   - Attack
   - Enemy
+  - Item
+  - Goal
   layers:
   - Default
   - TransparentFX
