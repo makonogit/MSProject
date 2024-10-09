@@ -112,6 +112,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Button_L",
+                    "type": "Button",
+                    "id": "c293d7c3-aadb-4dfc-9950-d9546f524940",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Button_R",
+                    "type": "Button",
+                    "id": "c6f7fcf2-ea28-45f4-b604-08ef0d34720a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stick_L_Press",
+                    "type": "Button",
+                    "id": "81cd61ff-22a7-4c2b-b543-0fce94675b7c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stick_R_Press",
+                    "type": "Button",
+                    "id": "672a372d-69c4-4016-92d9-9a78b5d9248f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -244,6 +280,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dpad_down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "96c7b6a9-f832-400f-9afd-85e09666f313",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button_L",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df3f7944-9a01-4db7-97d0-4ee8cdc29f45",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button_R",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "313878ce-40a5-4ce4-b0f2-b68738d89c57",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick_L_Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c72d0a3-1037-4260-8e2b-a1b3f48cf860",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick_R_Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
