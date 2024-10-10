@@ -164,6 +164,9 @@ public class CS_Pha2Copy : MonoBehaviour
         // カメラを初期化
         cameraManager.SwitchingCamera(0);
 
+
+        HandleTarget();
+
         // 移動処理
         HandleMovement();
         // ジャンプ処理
@@ -489,7 +492,7 @@ public class CS_Pha2Copy : MonoBehaviour
         // Lステックの入力をチェック
         if (inputSystem.GetLeftStickActive())
         {
-            speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
+            //speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
 
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
@@ -505,9 +508,6 @@ public class CS_Pha2Copy : MonoBehaviour
             //animator.SetBool("Move", true);
 
             animator.SetBool("Dash", true);
-
-            HandleTarget();
-
         }
         else
         {
