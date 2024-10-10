@@ -12,6 +12,8 @@ public class CS_AirBall : MonoBehaviour
 
     private Vector3 TargetPos;
 
+    private float TimeMesure = 0.0f;
+
     public Vector3 TargetPosition
     {
         set
@@ -33,8 +35,12 @@ public class CS_AirBall : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        TimeMesure += Time.deltaTime;
+        transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+
         //生成位置から前方向に発射
-        
+
         //transform.Translate(transform.forward * AttackSpeed * Time.deltaTime);
 
         //if (TargetPos != Vector3.zero)
@@ -53,7 +59,7 @@ public class CS_AirBall : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         bool GimmickHit = collision.gameObject.tag == "Burst";
-        
+
         if (GimmickHit)
         {
 
@@ -66,10 +72,10 @@ public class CS_AirBall : MonoBehaviour
             //GetComponent<衝突したオブジェクトのコンポーネント>.耐久値;
             //耐久値 - AttackPower;
             //やるならこんな感じ？
-            
+            Destroy(this.gameObject);   //衝突したら自信を破棄
         }
 
-        if(collision.gameObject.tag != "Player")
+        if(TimeMesure > 0.2f)
         {
             Destroy(this.gameObject);   //衝突したら自信を破棄
         }
