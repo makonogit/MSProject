@@ -10,6 +10,15 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("速さ")]
     private float AttackSpeed = 1.0f;
 
+    private Vector3 TargetPos;
+
+    public Vector3 TargetPosition
+    {
+        set
+        {
+            TargetPos = value;
+        }
+    }
 
     /// <summary>
     /// Power
@@ -26,6 +35,19 @@ public class CS_AirBall : MonoBehaviour
     {
         //生成位置から前方向に発射
         transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+        //transform.Translate(transform.forward * AttackSpeed * Time.deltaTime);
+
+        //if (TargetPos != Vector3.zero)
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, TargetPos, AttackSpeed * Time.deltaTime);
+        //}
+        //else
+        //{
+        //    //生成位置から前方向に発射
+        //    transform.Translate(transform.forward * AttackSpeed * Time.fixedDeltaTime);
+        //    //transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+        //}
+
     }
 
     private void OnCollisionEnter(Collision collision)
