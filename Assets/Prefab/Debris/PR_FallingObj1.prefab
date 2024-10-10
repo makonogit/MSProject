@@ -95,7 +95,7 @@ Rigidbody:
   m_GameObject: {fileID: 1945595441687856998}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -108,7 +108,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -127,6 +127,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BreakEffect: {fileID: 9098841453924130138, guid: 031f5a38aacf6da4386d83338d73ec66, type: 3}
   BreakDust: {fileID: 8079464796209127089, guid: a24216f9867087c4d971fcdd719c81cf, type: 3}
+  DetectionRadius: 5
+  DetectionLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  FallingSpeed: 0.5
+  thisrd: {fileID: 6476762169509603221}
 --- !u!135 &5170406590172644497
 SphereCollider:
   m_ObjectHideFlags: 0
