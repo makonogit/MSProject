@@ -34,7 +34,7 @@ public class CS_AirBall : MonoBehaviour
     private void FixedUpdate()
     {
         //生成位置から前方向に発射
-        transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+        
         //transform.Translate(transform.forward * AttackSpeed * Time.deltaTime);
 
         //if (TargetPos != Vector3.zero)
@@ -67,9 +67,10 @@ public class CS_AirBall : MonoBehaviour
             //耐久値 - AttackPower;
             //やるならこんな感じ？
             
-            Destroy(this.gameObject);   //衝突したら自信を破棄
         }
-        
+
+
+        Destroy(this.gameObject);   //衝突したら自信を破棄
     }
 
 }
