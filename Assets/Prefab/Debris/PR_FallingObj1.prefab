@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5170406590172644497}
   m_Layer: 0
   m_Name: PR_FallingObj1
-  m_TagString: Untagged
+  m_TagString: Burst
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   DetectionLayer:
     serializedVersion: 2
     m_Bits: 8
-  FallingSpeed: 0.5
+  FallingDrag: 5
   thisrd: {fileID: 6476762169509603221}
 --- !u!135 &5170406590172644497
 SphereCollider:
