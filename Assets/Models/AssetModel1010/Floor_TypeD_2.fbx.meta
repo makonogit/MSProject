@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CWFPcolor_ECDD
-    second: {fileID: 2100000, guid: bd3926edefb8b944eaa0a3f937cb5bc4, type: 2}
+    second: {fileID: 2100000, guid: 26fc6f1b87e97b842b0130ecfff3aacf, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

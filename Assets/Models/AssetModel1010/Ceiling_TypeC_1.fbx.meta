@@ -3,7 +3,12 @@ guid: 9ab7378726b02d046b25e41cd9aa6555
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CeilingColor_BCD
+    second: {fileID: 2100000, guid: 2938a7976788f1447b01c90664029c30, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

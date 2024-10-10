@@ -3,7 +3,12 @@ guid: 45dd146236481d14f8c1921924fd2307
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ceilingcolor_A1
+    second: {fileID: 2100000, guid: 134eda056d620f34084bb4811d4d2091, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
