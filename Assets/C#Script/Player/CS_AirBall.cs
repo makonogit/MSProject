@@ -69,8 +69,10 @@ public class CS_AirBall : MonoBehaviour
             
         }
 
-
-        Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
+        if(collision.gameObject.tag != "Player")
+        {
+            Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
+        }
     }
 
 }
