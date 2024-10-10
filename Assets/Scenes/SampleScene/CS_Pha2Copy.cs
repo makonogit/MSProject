@@ -128,7 +128,7 @@ public class CS_Pha2Copy : MonoBehaviour
     [SerializeField, Header("レティクルが反応するレイヤー")]
     private LayerMask ReticleLayer;
 
-    private Vector3 TargetObjPos;
+    private Quaternion TargetObjRotation;
     
     //**
     //* 初期化
@@ -170,8 +170,6 @@ public class CS_Pha2Copy : MonoBehaviour
         HandleJump();
         // エイム処理
         //HandleAim();
-
-        HandleTarget();
 
         // 射撃処理
         HandlShot();
@@ -307,7 +305,7 @@ public class CS_Pha2Copy : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, angle, 0); // Y軸に対して45度回転
         Vector3 diagonalForward = rotation * forwardVec;
 
-        float offsetDistance = 0.1f; // 各弾の間隔
+        float offsetDistance = 0.3f; // 各弾の間隔
 
         if (burst > magazine)
         {
@@ -326,8 +324,20 @@ public class CS_Pha2Copy : MonoBehaviour
             pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f));
 
             ballobj.transform.position = pos;
-            //ballobj.transform.rotation = targetCamera.transform.rotation;
-            ballobj.transform.forward = diagonalForward;
+
+            // ターゲット中のオブジェクトを取得
+            GameObject closest = targetCamera.GetClosest();
+
+
+            if (closest != null)
+            {
+                ballobj.transform.LookAt(closest.transform);
+            }
+            else
+            {
+                ballobj.transform.forward = forwardVec;
+            }
+            //ballobj.transform.forward = diagonalForward;
 
             // 装填数を減らす
             magazine--;
@@ -424,7 +434,7 @@ public class CS_Pha2Copy : MonoBehaviour
         GameObject closest = targetCamera.GetClosest();
 
         // Lトリガーの入力がある場合、ターゲットカメラに切り替える
-        if ((inputSystem.GetLeftTrigger() > 0.1f) && (closest != null))
+        if (closest != null)
         {
             //cameraManager.SwitchingCamera(1);
             animator.SetBool("LockOn", true);
@@ -451,7 +461,6 @@ public class CS_Pha2Copy : MonoBehaviour
         GameObject closest = targetCamera.GetClosest();
 
 
-
         // 頭と腕をターゲットの方向に向ける
         if (closest != null)
         {
@@ -465,11 +474,8 @@ public class CS_Pha2Copy : MonoBehaviour
             animator.SetIKPosition(AvatarIKGoal.RightHand, closest.transform.position);
             animator.SetIKRotation(AvatarIKGoal.RightHand, closest.transform.rotation);
 
-            TargetObjPos = closest.transform.position;
-
         }
-
-        TargetObjPos = Vector3.zero;
+        
     }
 
     //**
@@ -499,6 +505,8 @@ public class CS_Pha2Copy : MonoBehaviour
             //animator.SetBool("Move", true);
 
             animator.SetBool("Dash", true);
+
+            HandleTarget();
 
         }
         else
