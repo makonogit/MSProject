@@ -296,7 +296,8 @@ public class CS_Pha1Copy : MonoBehaviour
     {
         PlaySoundEffect(1, 3);
 
-        Vector3 forwardVec = aimCamera.transform.forward;
+        Vector3 forwardVec = transform.forward;
+        if (animator.GetBool("Aim")) { forwardVec = aimCamera.transform.forward; }
 
         float offsetDistance = 1.5f; // Še’e‚ÌŠÔŠu
 

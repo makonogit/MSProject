@@ -128,7 +128,8 @@ public class CS_Pha2Copy : MonoBehaviour
     [SerializeField, Header("レティクルが反応するレイヤー")]
     private LayerMask ReticleLayer;
 
-
+    private Vector3 TargetObjPos;
+    
     //**
     //* 初期化
     //**
@@ -225,6 +226,7 @@ public class CS_Pha2Copy : MonoBehaviour
             // 装填数が0ならリロード
             if (isMagazine)
             {
+                //AirGun();
                 CreateBullet(burstfire);
                 isShot = true;
 
@@ -300,9 +302,12 @@ public class CS_Pha2Copy : MonoBehaviour
     {
         PlaySoundEffect(1, 3);
 
-        Vector3 forwardVec = aimCamera.transform.forward;
+        float angle = 95f;
+        Vector3 forwardVec = transform.forward;
+        Quaternion rotation = Quaternion.Euler(0, angle, 0); // Y軸に対して45度回転
+        Vector3 diagonalForward = rotation * forwardVec;
 
-        float offsetDistance = 1.5f; // 各弾の間隔
+        float offsetDistance = 0.1f; // 各弾の間隔
 
         if (burst > magazine)
         {
@@ -321,7 +326,8 @@ public class CS_Pha2Copy : MonoBehaviour
             pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f));
 
             ballobj.transform.position = pos;
-            ballobj.transform.forward = forwardVec;
+            //ballobj.transform.rotation = targetCamera.transform.rotation;
+            ballobj.transform.forward = diagonalForward;
 
             // 装填数を減らす
             magazine--;
@@ -420,7 +426,7 @@ public class CS_Pha2Copy : MonoBehaviour
         // Lトリガーの入力がある場合、ターゲットカメラに切り替える
         if ((inputSystem.GetLeftTrigger() > 0.1f) && (closest != null))
         {
-            cameraManager.SwitchingCamera(1);
+            //cameraManager.SwitchingCamera(1);
             animator.SetBool("LockOn", true);
         }
         else
@@ -444,6 +450,8 @@ public class CS_Pha2Copy : MonoBehaviour
         // ターゲット中のオブジェクトを取得
         GameObject closest = targetCamera.GetClosest();
 
+
+
         // 頭と腕をターゲットの方向に向ける
         if (closest != null)
         {
@@ -456,7 +464,12 @@ public class CS_Pha2Copy : MonoBehaviour
             animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
             animator.SetIKPosition(AvatarIKGoal.RightHand, closest.transform.position);
             animator.SetIKRotation(AvatarIKGoal.RightHand, closest.transform.rotation);
+
+            TargetObjPos = closest.transform.position;
+
         }
+
+        TargetObjPos = Vector3.zero;
     }
 
     //**
@@ -470,15 +483,23 @@ public class CS_Pha2Copy : MonoBehaviour
         // Lステックの入力をチェック
         if (inputSystem.GetLeftStickActive())
         {
+            speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
+
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
 
             // 位置を更新
-            MoveCharacter(moveVec);
+            // プレイヤーの位置を更新
+            Vector3 direction = moveVec * speed * Time.deltaTime;
+            rb.MovePosition(rb.position + direction);
+            //MoveCharacter(moveVec);
 
             // 前方方向をスムーズに調整
             AdjustForwardDirection(moveVec);
-            animator.SetBool("Move", true);
+            //animator.SetBool("Move", true);
+
+            animator.SetBool("Dash", true);
+
         }
         else
         {
@@ -489,7 +510,7 @@ public class CS_Pha2Copy : MonoBehaviour
             speed = initSpeed;
 
             // アニメーターの値を変更
-            animator.SetBool("Move", false);
+           // animator.SetBool("Move", false);
             animator.SetBool("Dash", false);
         }
     }
@@ -580,14 +601,14 @@ public class CS_Pha2Copy : MonoBehaviour
     //**
     void MoveCharacter(Vector3 moveVec)
     {
-        // Lトリガーの入力中は加速する
-        float tri = inputSystem.GetRightTrigger();
-        if ((tri > 0) && (animator.GetBool("Aim") == false))
-        {
-            speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
+        //// Lトリガーの入力中は加速する
+        //float tri = inputSystem.GetRightTrigger();
+        //if ((tri > 0) && (animator.GetBool("Aim") == false))
+        //{
+        //    speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
 
-            animator.SetBool("Dash", true);
-        }
+        //    animator.SetBool("Dash", true);
+        //}
 
         // 効果音を再生する
         if (animator.GetBool("Dash"))
@@ -705,11 +726,10 @@ public class CS_Pha2Copy : MonoBehaviour
 
         PlaySoundEffect(1, 3);
 
-        Vector3 forwardVec = aimCamera.transform.forward;//cameraTransform.forward;
-
-        //入力があれば弾を生成
-        //ポインタの位置から　Instantiate(AirBall,transform.pointa);
-        GameObject ballobj = Instantiate(AirBall);
+        float angle = 45f;
+        Vector3 forwardVec = targetCamera.transform.forward;//cameraTransform.forward; //GunPos.forward; //aimCamera.transform.forward;//cameraTransform.forward;
+        Quaternion rotation = Quaternion.Euler(0, angle, 0); // Y軸に対して45度回転
+        Vector3 diagonalForward = rotation * forwardVec;
 
         Vector3 pos = Vector3.zero;
         float scaler = 0.5f;
@@ -718,8 +738,21 @@ public class CS_Pha2Copy : MonoBehaviour
         pos = this.transform.position;
         pos += offset;
         pos += forwardVec * (scaler * 2f);
+
+        //入力があれば弾を生成
+        //ポインタの位置から　Instantiate(AirBall,transform.pointa);
+        GameObject ballobj = Instantiate(AirBall);
         ballobj.transform.position = pos;
-        ballobj.transform.forward = forwardVec;
+        //Vector3 targetrot = targetCamera.transform.rotation;
+        ballobj.transform.Rotate(0,90,0);
+        ballobj.GetComponent<CS_AirBall>().TargetPosition = Vector3.zero;//TargetObjPos;
+
+        //if (TargetObjPos == Vector3.zero)
+        //{
+        //    ballobj.transform.forward = forwardVec;
+        //}
+        
+        //ballobj.transform.rotation = TargetObjRotate;
 
         aimCamera.TriggerRecoil();
         animator.SetBool("Shot", true);
