@@ -3,7 +3,17 @@ guid: 4fe008402074af14f88424efe5ffa0e2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CWFPcolor_ECDD
+    second: {fileID: 2100000, guid: 26fc6f1b87e97b842b0130ecfff3aacf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FloorColor_BC
+    second: {fileID: 2100000, guid: 8ad01af7a2f49fa468b0ba39ee9ffe5d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,12 @@ guid: 24a203db1e61bb9409742d0ff8c345e3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CWFPcolor_ECDD
+    second: {fileID: 2100000, guid: ac9764a84d9c3db478cacd63ebc2a730, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
