@@ -30,8 +30,9 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [Header("―――――――――――――――――――――――――――――――――――――――――――")]
     [Header("圧力")]
-
+    
     [SerializeField, Tooltip("圧力番号:\n番号から下記の圧力配列の値を参照する為の変数です。")]
+    [Range(0,10)]
     private int PressureNumber;
 
     [SerializeField, Tooltip("圧力配列:\n数値は、1 = 100%として扱われます。")]
@@ -53,6 +54,11 @@ public class CS_Burst_of_object : MonoBehaviour
     private List<GameObject> DebrisPositions = new List<GameObject>();
     [SerializeField, Tooltip("到達時間:\n")]
     private float time = 2.0f;
+    [SerializeField, Tooltip("圧力時の予測線表示:\n")]
+    private bool ForecastPress = false;
+    [SerializeField, Tooltip("想定圧力:\n")]
+    [Range(0,10)]
+    private int ExpectedPressure;
 #endif // UNITY_EDITOR
 
     [Header("―――――――――――――――――――――――――――――――――――――――――――")]
@@ -185,7 +191,7 @@ public class CS_Burst_of_object : MonoBehaviour
         // 破裂できないなら終わる
         if (!canExplosion) return;
 
-        float power = 1.0f + PressureValList[PressureNumber];
+        float power =Pressure(PressureNumber);
 
         // 非アクティブ化
         thisCollider.enabled = false;
@@ -354,7 +360,13 @@ public class CS_Burst_of_object : MonoBehaviour
         bool shouldDestroy = DestroyTime <= 0;
         //if (shouldDestroy) Destroy(this.gameObject);
     }
-
+    private float Pressure(int num) 
+    {
+        float value = 1.0f;
+        int number = Mathf.Min(Mathf.Max(0, num), PressureValList.Count - 1);
+        if (PressureValList.Count == 0) return value;
+        return value + PressureValList[number];
+    }
 
 #if UNITY_EDITOR
     
@@ -372,16 +384,24 @@ public class CS_Burst_of_object : MonoBehaviour
     {
         ResetVelocity();
         Gizmos.color = new Color(0, 1, 0, 0.5f);
-        for (int i = 0; i < BurstVecList.Count; i++) Gizmos.DrawLineStrip(DrawDebris(i).ToArray(), false);
+        for (int i = 0; i < BurstVecList.Count; i++) Gizmos.DrawLineStrip(DrawDebris(i,ExpectedPressure).ToArray(), false);
+        if(ForecastPress) DrawPressureLines();
         Gizmos.color = new Color(1, 0, 0, 0.25f);
         foreach (GameObject obj in DebrisPositions) Gizmos.DrawWireSphere(obj.transform.position, 0.5f);
     }
+    private void DrawPressureLines() 
+    {
+        Gizmos.color = new Color(0, 1, 1, 0.0625f);
+        for (int i = 0; i < BurstVecList.Count; i++)
+            for (int j = 0; j < PressureValList.Count; j++)
+                Gizmos.DrawLineStrip(DrawDebris(i, j).ToArray(), false);
+    }
 
-    private List<Vector3> DrawDebris(int num) 
+    private List<Vector3> DrawDebris(int num,int pressure) 
     {
         float deltaTime = 0.04167f;
 
-        float power = 1.0f + PressureValList[PressureNumber];
+        float power = Pressure(pressure);
         
         List<Vector3> Points = new List<Vector3>();
 
@@ -439,12 +459,10 @@ public class CS_Burst_of_object : MonoBehaviour
         Vector3 endPos = DebrisPositions[num].transform.position;
 
         Vector3 accelerationVec = endPos - firstPos;
-        accelerationVec.y += (gravityA * time * time) ;
-        accelerationVec /= time * deltaTime;
+        accelerationVec.y += (gravityA * time * time);
+        accelerationVec /= Pressure(ExpectedPressure);
         
-
-
-
+        accelerationVec /= time * deltaTime;
         return accelerationVec;
     }
 
