@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 4674.684, g: 3103.9458, b: 2429.6956, a: 1}
+  m_IndirectSpecularColor: {r: 4775.1157, g: 3105.4087, b: 2293.1292, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1106,7 +1106,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 130
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1133,7 +1133,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.037083756, z: 0, w: 0.99931216}
-  m_LocalPosition: {x: -0.32253456, y: 0, z: -8.876771}
+  m_LocalPosition: {x: -0.32253432, y: -0.000000029802322, z: -8.876771}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1826,12 +1826,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1761204037262768760, guid: dea0fc4786d60b5439dd8b482835867b, type: 3}
       propertyPath: m_Name
-      value: Phase1_Player
+      value: Phase2_Player
       objectReference: {fileID: 0}
     - target: {fileID: 1975379774332087368, guid: dea0fc4786d60b5439dd8b482835867b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 5723040839030698923, guid: dea0fc4786d60b5439dd8b482835867b, type: 3}
+      propertyPath: AirBall
+      value: 
+      objectReference: {fileID: 1661458060786888786, guid: 019cd460680634c4e82027700000c543, type: 3}
     - target: {fileID: 5723040839030698923, guid: dea0fc4786d60b5439dd8b482835867b, type: 3}
       propertyPath: cameraTransform
       value: 
