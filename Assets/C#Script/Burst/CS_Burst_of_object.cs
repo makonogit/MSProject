@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor.XR;
@@ -44,7 +43,7 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [Header("破片")]
     [SerializeField, Tooltip("破片プレハブ:\n")]
-    private GameObject DebrisObj;
+    private List<GameObject> DebrisObjs = new List<GameObject>();
     [SerializeField, Tooltip("破片生成位置調整:\n")]
     protected Vector3 CreateOffsetPosition = Vector3.zero;
     [SerializeField, Tooltip("破片の方向:\n")]
@@ -54,6 +53,8 @@ public class CS_Burst_of_object : MonoBehaviour
     private List<GameObject> DebrisPositions = new List<GameObject>();
     [SerializeField, Tooltip("到達時間:\n")]
     private float time = 2.0f;
+    [SerializeField, Tooltip("予測線表示:\n")]
+    private bool DebrisShow = false;
     [SerializeField, Tooltip("圧力時の予測線表示:\n")]
     private bool ForecastPress = false;
     [SerializeField, Tooltip("想定圧力:\n")]
@@ -74,9 +75,15 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("衝撃波範囲:\n")]
     private float WaveSize;
+    [SerializeField, Tooltip("衝撃波速度:\n")]
+    private float WaveSpeed;
 
     [SerializeField, Tooltip("エフェクト")]
     private VisualEffect ExplosionEffect;
+#if UNITY_EDITOR
+    [SerializeField, Tooltip("衝撃波:\n")]
+    private bool DrawShockWaveFlag = false;
+#endif // UNITY_EDITOR
 
     [Header("―――――――――――――――――――――――――――――――――――――――――――")]
 
@@ -86,8 +93,7 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("消滅時間:\n消滅するまでの時間")]
     private float DestroyTime;
-
-
+    
     /// <summary>
     /// Start
     /// </summary>
@@ -242,7 +248,7 @@ public class CS_Burst_of_object : MonoBehaviour
     /// <param name="num"></param>
     private void CreateDebris(float Power, int num)
     {
-        GameObject obj = Instantiate(DebrisObj);
+        GameObject obj = Instantiate(GetDebrisObject(num));
         obj.transform.position = GetCreatePosition(1, num);
         
         Rigidbody rb = obj.GetComponent<Rigidbody>();
@@ -253,6 +259,20 @@ public class CS_Burst_of_object : MonoBehaviour
         }
         Vector3 vector = GetFlyVector(num) * Power;
         rb.AddForce(vector, ForceMode.Force);
+    }
+
+    /// <summary>
+    /// リストから一つのオブジェクトを返す
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    private GameObject GetDebrisObject(int num) 
+    {
+        int number = Mathf.Min(Mathf.Max(0, num), DebrisObjs.Count - 1);
+        if(DebrisObjs.Count == 0) return new GameObject("null");
+        if (DebrisObjs[number] == null) return new GameObject("null");
+        if (num >= DebrisObjs.Count) return DebrisObjs[Random.Range(0, DebrisObjs.Count - 1)];
+        return DebrisObjs[number];
     }
 
     /// <summary>
@@ -313,11 +333,11 @@ public class CS_Burst_of_object : MonoBehaviour
     private void ShockWave(float Power)
     {
         float range = WaveSize * Power;
-        float speed = Power;
+        float speed = WaveSpeed * Power;
         float time = 1.5f;
 
         GameObject obj = Instantiate(ShockWaveObj);
-        obj.transform.position = this.transform.position;
+        obj.transform.position = this.transform.position+CreateOffsetPosition;
 
         CS_ShockWave sw = obj.GetComponent<CS_ShockWave>();
         if (sw == null)
@@ -328,6 +348,7 @@ public class CS_Burst_of_object : MonoBehaviour
 
         sw.DestroyTime = time;
         sw.Speed = speed;
+        sw.MaxSize = range * 2;
         sw.Power = Power;
     }
 
@@ -383,12 +404,24 @@ public class CS_Burst_of_object : MonoBehaviour
     public void Info() 
     {
         ResetVelocity();
+        // 破片の予測線
+        if(DebrisShow)DrawExpectedDebris();
+
+        // 衝撃波
+       if(DrawShockWaveFlag) DrawShockWave();
+    }
+    private void DrawExpectedDebris() 
+    {
         Gizmos.color = new Color(0, 1, 0, 0.5f);
-        for (int i = 0; i < BurstVecList.Count; i++) Gizmos.DrawLineStrip(DrawDebris(i,ExpectedPressure).ToArray(), false);
-        if(ForecastPress) DrawPressureLines();
+        for (int i = 0; i < BurstVecList.Count; i++) Gizmos.DrawLineStrip(DrawDebris(i, ExpectedPressure).ToArray(), false);
+        if (ForecastPress) DrawPressureLines();
         Gizmos.color = new Color(1, 0, 0, 0.25f);
         foreach (GameObject obj in DebrisPositions) Gizmos.DrawWireSphere(obj.transform.position, 0.5f);
     }
+
+    /// <summary>
+    /// 圧力ごとの予測線表示
+    /// </summary>
     private void DrawPressureLines() 
     {
         Gizmos.color = new Color(0, 1, 1, 0.0625f);
@@ -397,6 +430,12 @@ public class CS_Burst_of_object : MonoBehaviour
                 Gizmos.DrawLineStrip(DrawDebris(i, j).ToArray(), false);
     }
 
+    /// <summary>
+    /// 破片の予測線表示
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="pressure"></param>
+    /// <returns></returns>
     private List<Vector3> DrawDebris(int num,int pressure) 
     {
         float deltaTime = 0.04167f;
@@ -431,6 +470,14 @@ public class CS_Burst_of_object : MonoBehaviour
         Gizmos.DrawSphere(hit.point,0.5f);
 
         return Points;
+    }
+
+    private void DrawShockWave() 
+    {
+        Gizmos.color = new Color(1, 0, 1, 0.5f);
+        Gizmos.DrawWireSphere(this.transform.position+CreateOffsetPosition, WaveSize * Pressure(ExpectedPressure));
+        Gizmos.color = new Color(1, 1, 0, 0.0625f);
+        for (int i = 0; i < PressureValList.Count; i++) Gizmos.DrawWireSphere(this.transform.position+CreateOffsetPosition, WaveSize * Pressure(i));
     }
 
     /// <summary>
