@@ -272,7 +272,7 @@ Transform:
   m_GameObject: {fileID: 3402034260172231670}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 4.58, z: -2.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -411,7 +411,7 @@ Transform:
   m_GameObject: {fileID: 6676407353505963851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.06, y: 0.005, z: -0.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -488,7 +488,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brokenObj: {fileID: 8390621565977182782, guid: a5e575459f1e64c4ca8124802a4a401e, type: 3}
   MineFlag: 0
+  ExplosionEffect: {fileID: 5170806633388757785}
   Health: 1
+  CreateOffsetPosition: {x: 0, y: 0, z: 0}
   PressureNumber: 0
   PressureValList:
   - 0
@@ -496,29 +498,36 @@ MonoBehaviour:
   - 0.6
   - 1
   ExplosionVolume: 0.8
-  DebrisObj: {fileID: 6913061539746828811, guid: a5947622b43169a48a2f26e5f5cda8b2, type: 3}
-  CreateOffsetPosition: {x: 0, y: 0, z: 0}
-  BurstVecList:
-  - {x: 174.41512, y: 253.09296, z: 0}
-  - {x: -174.41512, y: 253.09296, z: 0}
-  - {x: 0, y: 253.09296, z: 174.41512}
-  - {x: 0, y: 253.09296, z: -174.41512}
-  - {x: 0, y: 427.5081, z: 0}
-  - {x: 0, y: 78.67784, z: 0}
-  ShockWaveObj: {fileID: 8659638270654199117, guid: 3c99a47974a58ce40b92d0ea3e43e685, type: 3}
-  ShockPower: 1
-  WaveSize: 1
-  ExplosionEffect: {fileID: 5170806633388757785}
+  ExpectedPressure: 0
+  DebrisShow: 0
+  DebrisPressureShow: 0
+  Debris:
+    DebrisObjs:
+    - {fileID: 6913061539746828811, guid: a5947622b43169a48a2f26e5f5cda8b2, type: 3}
+    BurstVecList:
+    - {x: 149.99701, y: 294.29413, z: 0}
+    - {x: -149.99701, y: 294.29413, z: 0}
+    - {x: 0, y: 294.29413, z: 149.99701}
+    - {x: 0, y: 294.29413, z: -149.99701}
+    - {x: 0, y: 431.6914, z: -60.59879}
+    - {x: 0, y: 144.29713, z: 0}
+    DebrisPositions:
+    - {fileID: 5924101890188181133}
+    - {fileID: 1960783842143125974}
+    - {fileID: 852634917491536220}
+    - {fileID: 2119836977262987356}
+    - {fileID: 3402034260172231670}
+    - {fileID: 4537800197908470940}
+    time: 1
+  shockWave:
+    ShockWaveObj: {fileID: 8659638270654199117, guid: 3c99a47974a58ce40b92d0ea3e43e685, type: 3}
+    ShockPower: 1
+    WaveSize: 2
+    WaveSpeed: 1
+  ShockWaveShow: 0
+  ShockWavePressureShow: 0
   DestroyFlag: 0
   DestroyTime: 2
-  DebrisPositions:
-  - {fileID: 5924101890188181133}
-  - {fileID: 1960783842143125974}
-  - {fileID: 852634917491536220}
-  - {fileID: 2119836977262987356}
-  - {fileID: 3402034260172231670}
-  - {fileID: 4537800197908470940}
-  time: 0.86
 --- !u!82 &1684250022368131417
 AudioSource:
   m_ObjectHideFlags: 0
