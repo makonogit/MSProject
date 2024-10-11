@@ -28,6 +28,7 @@ public class CS_Burst_of_object : MonoBehaviour
     [SerializeField, Tooltip("耐久力")]
     private float Health;
 
+    [Header("―――――――――――――――――――――――――――――――――――――――――――")]
     [Header("圧力")]
 
     [SerializeField, Tooltip("圧力番号:\n番号から下記の圧力配列の値を参照する為の変数です。")]
@@ -38,23 +39,25 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("圧力配列:\n数値は、1 = 100%として扱われます。")]
     private float ExplosionVolume = 0.9f;
+    [Header("―――――――――――――――――――――――――――――――――――――――――――")]
 
     [Header("破片")]
     [SerializeField, Tooltip("破片プレハブ:\n")]
     private GameObject DebrisObj;
-
-    [SerializeField, Tooltip("破片の数:\n")]
-    private int DebrisNum;
-
-    [SerializeField, Tooltip("破片の方向:\n")]
-    private List<Vector3> BurstVecList = new List<Vector3>();
-
-
     [SerializeField, Tooltip("破片生成位置調整:\n")]
     protected Vector3 CreateOffsetPosition = Vector3.zero;
+    [SerializeField, Tooltip("破片の方向:\n")]
+    private List<Vector3> BurstVecList = new List<Vector3>();
+#if UNITY_EDITOR
+    [SerializeField, Tooltip("オブジェクト:\n")]
+    private List<GameObject> DebrisPositions = new List<GameObject>();
+    [SerializeField, Tooltip("到達時間:\n")]
+    private float time = 2.0f;
+#endif // UNITY_EDITOR
 
-    [SerializeField, Tooltip("破片の飛ぶ速度:\n")]
-    private float BurstSpeed;
+    [Header("―――――――――――――――――――――――――――――――――――――――――――")]
+
+
 
     [Header("衝撃波")]
     [SerializeField, Tooltip("衝撃波プレハブ:\n")]
@@ -68,7 +71,8 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("エフェクト")]
     private VisualEffect ExplosionEffect;
-    
+
+    [Header("―――――――――――――――――――――――――――――――――――――――――――")]
 
     [Header("消滅")]
     [SerializeField, Tooltip("消滅フラグ:")]
@@ -98,6 +102,11 @@ public class CS_Burst_of_object : MonoBehaviour
     }
 
     /// <summary>
+    /// Update
+    /// </summary>
+    private void Update() {}
+
+    /// <summary>
     /// FixedUpdate
     /// </summary>
     private void FixedUpdate()
@@ -106,10 +115,6 @@ public class CS_Burst_of_object : MonoBehaviour
         UntilDestroyMyself();
     }
 
-    /// <summary>
-    /// Update
-    /// </summary>
-    private void Update() { }
 
     /// <summary>
     /// OnCollisionEnter
@@ -220,7 +225,7 @@ public class CS_Burst_of_object : MonoBehaviour
     /// </summary>
     private void BurstDebris(float Power)
     {
-        float speed = BurstSpeed * Power;
+        float speed = Power;
         for (int i = 0; i < BurstVecList.Count; i++) CreateDebris(speed, i);
     }
 
@@ -240,7 +245,7 @@ public class CS_Burst_of_object : MonoBehaviour
             Debug.LogWarning("null component!");
             return;
         }
-        Vector3 vector = GetFlyVector(Power, num);
+        Vector3 vector = GetFlyVector(num) * Power;
         rb.AddForce(vector, ForceMode.Force);
     }
 
@@ -253,9 +258,8 @@ public class CS_Burst_of_object : MonoBehaviour
     private Vector3 GetCreatePosition(float radius,int num) 
     {
         Vector3 Value = new Vector3();
-        Vector3 vec = GetFlyVector(1, num);
         Value += this.transform.position;
-        Value += vec;
+        Value += GetFlyVector(num).normalized;
         Value += CreateOffsetPosition;
         return Value;
     }
@@ -285,14 +289,15 @@ public class CS_Burst_of_object : MonoBehaviour
     /// <param name="radius"></param>
     /// <param name="num"></param>
     /// <returns></returns>
-    private Vector3 GetFlyVector(float radius,int num)
+    private Vector3 GetFlyVector(int num)
     {
         bool IsOver = BurstVecList.Count <= num;
         bool IsUnder = num < 0;
         bool IsOutsideArray = IsOver && IsUnder;
         if (IsOutsideArray) return Vector3.zero;
-        return BurstVecList[num].normalized * radius;
+        return BurstVecList[num];
     }
+
 
 
     /// <summary>
@@ -347,6 +352,101 @@ public class CS_Burst_of_object : MonoBehaviour
         DestroyTime -= Time.deltaTime;
         // 破棄する
         bool shouldDestroy = DestroyTime <= 0;
-        if (shouldDestroy) Destroy(this.gameObject);
+        //if (shouldDestroy) Destroy(this.gameObject);
     }
+
+
+#if UNITY_EDITOR
+    
+
+    /// <summary>
+    /// 選択時表示
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Info();
+    }
+
+
+    public void Info() 
+    {
+        ResetVelocity();
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        for (int i = 0; i < BurstVecList.Count; i++) Gizmos.DrawLineStrip(DrawDebris(i).ToArray(), false);
+        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        foreach (GameObject obj in DebrisPositions) Gizmos.DrawWireSphere(obj.transform.position, 0.5f);
+    }
+
+    private List<Vector3> DrawDebris(int num) 
+    {
+        float deltaTime = 0.04167f;
+
+        float power = 1.0f + PressureValList[PressureNumber];
+        
+        List<Vector3> Points = new List<Vector3>();
+
+        // 初期位置設定
+        Vector3 position = GetCreatePosition(1, num);
+        Points.Add(this.transform.position + CreateOffsetPosition);
+        Points.Add(position);
+        // 初速度の設定
+        Vector3 Velocity = (GetFlyVector(num) * deltaTime * deltaTime * 0.5f) * power;
+        RaycastHit hit  = new RaycastHit();
+        // ぶつかるまでの軌道の線を引く
+        for (float time = 0.0f; time < 10; time += deltaTime) 
+        {
+            Velocity += Vector3.down * (9.81f * deltaTime * deltaTime);
+            Ray ray = new Ray(position,Velocity.normalized);
+            bool IsHit = Physics.Raycast(ray, out hit, Velocity.magnitude);
+            position += Velocity;
+            if (IsHit) 
+            {
+                Points.Add(hit.point);
+                break; 
+            }
+            Points.Add(position);
+        }
+        // 着地点表示
+        Gizmos.DrawWireSphere(hit.point,0.5f);
+        Gizmos.DrawSphere(hit.point,0.5f);
+
+        return Points;
+    }
+
+    /// <summary>
+    /// <summary>
+    /// インスペクター更新時
+    /// </summary>
+    private void OnValidate()=> ResetVelocity();
+    
+
+    public void ResetVelocity() 
+    {
+        for (int i = 0; i < DebrisPositions.Count; i++)
+        {
+            if (DebrisPositions[i] == null) continue;
+            if (BurstVecList.Count <= i) BurstVecList.Add(Vector3.zero);
+            BurstVecList[i] = GetAcceleration(i);
+        }
+        for (int i = BurstVecList.Count; i > DebrisPositions.Count; i--) BurstVecList.RemoveAt(i - 1);
+    }
+    private Vector3 GetAcceleration(int num) 
+    {
+        float deltaTime = 0.033334f;
+        float gravityA = 9.81f;
+        
+        Vector3 firstPos = this.transform.position + CreateOffsetPosition;
+        Vector3 endPos = DebrisPositions[num].transform.position;
+
+        Vector3 accelerationVec = endPos - firstPos;
+        accelerationVec.y += (gravityA * time * time) ;
+        accelerationVec /= time * deltaTime;
+        
+
+
+
+        return accelerationVec;
+    }
+
+#endif // UNITY_EDITOR
 }

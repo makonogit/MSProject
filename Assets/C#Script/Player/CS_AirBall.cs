@@ -10,6 +10,17 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("速さ")]
     private float AttackSpeed = 1.0f;
 
+    private Vector3 TargetPos;
+
+    private float TimeMesure = 0.0f;
+
+    public Vector3 TargetPosition
+    {
+        set
+        {
+            TargetPos = value;
+        }
+    }
 
     /// <summary>
     /// Power
@@ -24,14 +35,31 @@ public class CS_AirBall : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //生成位置から前方向に発射
+
+        TimeMesure += Time.deltaTime;
         transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+
+        //生成位置から前方向に発射
+
+        //transform.Translate(transform.forward * AttackSpeed * Time.deltaTime);
+
+        //if (TargetPos != Vector3.zero)
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, TargetPos, AttackSpeed * Time.deltaTime);
+        //}
+        //else
+        //{
+        //    //生成位置から前方向に発射
+        //    transform.Translate(transform.forward * AttackSpeed * Time.fixedDeltaTime);
+        //    //transform.position += transform.forward * AttackSpeed * Time.deltaTime;
+        //}
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         bool GimmickHit = collision.gameObject.tag == "Burst";
-        
+
         if (GimmickHit)
         {
 
@@ -44,10 +72,13 @@ public class CS_AirBall : MonoBehaviour
             //GetComponent<衝突したオブジェクトのコンポーネント>.耐久値;
             //耐久値 - AttackPower;
             //やるならこんな感じ？
-            
             Destroy(this.gameObject);   //衝突したら自信を破棄
         }
-        
+
+        if(TimeMesure > 0.2f)
+        {
+            Destroy(this.gameObject);   //衝突したら自信を破棄
+        }
     }
 
 }
