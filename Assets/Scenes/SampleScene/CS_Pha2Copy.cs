@@ -521,6 +521,13 @@ public class CS_Pha2Copy : MonoBehaviour
            // animator.SetBool("Move", false);
             animator.SetBool("Dash", false);
         }
+
+        // Œø‰Ê‰¹‚ğÄ¶‚·‚é
+        if (animator.GetBool("Dash"))
+        {
+            // ƒ_ƒbƒVƒ…
+            PlaySoundEffect(0, 2);
+        }
     }
 
     //**
