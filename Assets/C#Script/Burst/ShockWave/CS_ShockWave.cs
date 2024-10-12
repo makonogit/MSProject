@@ -23,6 +23,8 @@ public class CS_ShockWave : MonoBehaviour
 
     [SerializeField, Tooltip("現サイズ:\n")]
     private float nowSize = 0.01f;
+
+    
     /// <summary>
     /// Start
     /// </summary>
@@ -66,15 +68,29 @@ public class CS_ShockWave : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        bool GimmickHit = other.gameObject.tag == "Burst";
+        bool HitBurstObject = other.gameObject.tag == "Burst";
 
-        if (GimmickHit)
-        {
-            CS_Burst_of_object burst = other.transform.GetComponent<CS_Burst_of_object>();
-            if (burst == null) { Debug.LogWarning("null component"); return; }
-            burst.HitDamage(power);
-        }
+        if (HitBurstObject) ObjectBurst(other);
     }
+
+    /// <summary>
+    /// はじけるオブジェクトにダメージを与える処理
+    /// </summary>
+    /// <param name="other"></param>
+    private void ObjectBurst(Collider other) 
+    {
+        CS_Burst_of_object burst = other.transform.GetComponent<CS_Burst_of_object>();
+        if (burst == null) 
+        { 
+            Debug.LogWarning("null component"); 
+            return; 
+        }
+        burst.HitDamage(power);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void OnValidate()
     {
         Vector3 size = Vector3.one * nowSize;

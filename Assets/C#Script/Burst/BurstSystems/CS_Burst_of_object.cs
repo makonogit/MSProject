@@ -19,11 +19,13 @@ public class CS_Burst_of_object : MonoBehaviour
 
     [SerializeField, Tooltip("爆破エフェクト")]
     private VisualEffect ExplosionEffect;
+    [SerializeField, Tooltip("破片のエフェクト")]
+    private ParticleSystem DebrisParticle;
 
     [SerializeField, Tooltip("地雷設定")]
     private bool MineFlag = false;
 
-
+    [Header("体力")]
     [SerializeField, Tooltip("耐久力")]
     private float Health;
     
@@ -103,7 +105,10 @@ public class CS_Burst_of_object : MonoBehaviour
         thisMeshRenderer = GetComponent<MeshRenderer>();
         if (thisMeshRenderer == null) Debug.LogError("null component");
 
+        if (ExplosionEffect == null) Debug.LogError("null explosion effect");
         ExplosionEffect.Stop();
+        if (DebrisParticle == null) Debug.LogError("null debris particle");
+        DebrisParticle.Stop();
     }
 
     /// <summary>
@@ -215,6 +220,7 @@ public class CS_Burst_of_object : MonoBehaviour
     private void CreateExplosionEffect()
     {
         ExplosionEffect.Play();
+        DebrisParticle.Play();
     }
 
     /// <summary>
