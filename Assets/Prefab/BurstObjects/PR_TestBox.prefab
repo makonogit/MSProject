@@ -487,10 +487,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brokenObj: {fileID: 8390621565977182782, guid: a5e575459f1e64c4ca8124802a4a401e, type: 3}
-  MineFlag: 0
   ExplosionEffect: {fileID: 5170806633388757785}
+  MineFlag: 0
   Health: 1
-  CreateOffsetPosition: {x: 0, y: 0, z: 0}
   PressureNumber: 0
   PressureValList:
   - 0
@@ -498,19 +497,18 @@ MonoBehaviour:
   - 0.6
   - 1
   ExplosionVolume: 0.8
-  ExpectedPressure: 0
-  DebrisShow: 0
-  DebrisPressureShow: 0
+  DestroyFlag: 0
+  DestroyTime: 2
   Debris:
     DebrisObjs:
     - {fileID: 6913061539746828811, guid: a5947622b43169a48a2f26e5f5cda8b2, type: 3}
     BurstVecList:
-    - {x: 149.99701, y: 294.29413, z: 0}
-    - {x: -149.99701, y: 294.29413, z: 0}
-    - {x: 0, y: 294.29413, z: 149.99701}
-    - {x: 0, y: 294.29413, z: -149.99701}
-    - {x: 0, y: 431.6914, z: -60.59879}
-    - {x: 0, y: 144.29713, z: 0}
+    - {x: 74.998505, y: 588.58826, z: 0}
+    - {x: -74.998505, y: 588.58826, z: 0}
+    - {x: 0, y: 588.58826, z: 74.998505}
+    - {x: 0, y: 588.58826, z: -74.998505}
+    - {x: 0, y: 657.28687, z: -30.299395}
+    - {x: 0, y: 513.5898, z: 0}
     DebrisPositions:
     - {fileID: 5924101890188181133}
     - {fileID: 1960783842143125974}
@@ -518,16 +516,24 @@ MonoBehaviour:
     - {fileID: 2119836977262987356}
     - {fileID: 3402034260172231670}
     - {fileID: 4537800197908470940}
-    time: 1
+    arrivalTime: 2
   shockWave:
     ShockWaveObj: {fileID: 8659638270654199117, guid: 3c99a47974a58ce40b92d0ea3e43e685, type: 3}
     ShockPower: 1
     WaveSize: 2
     WaveSpeed: 1
+  CreateOffset: {x: 0, y: 0, z: 0}
+  ExpectedPressure: 0
+  DebrisShow: 0
+  DebrisPressureShow: 0
+  DestinationShow: 0
   ShockWaveShow: 0
   ShockWavePressureShow: 0
-  DestroyFlag: 0
-  DestroyTime: 2
+  DebrisColor: {r: 0, g: 1, b: 0, a: 0.5}
+  DebrisPressureColor: {r: 0, g: 1, b: 1, a: 0.0625}
+  DestinationColor: {r: 1, g: 0, b: 0, a: 0.47058824}
+  ShockWaveColor: {r: 1, g: 0, b: 1, a: 0.5}
+  ShockWavePressureColor: {r: 1, g: 1, b: 0, a: 0.0625}
 --- !u!82 &1684250022368131417
 AudioSource:
   m_ObjectHideFlags: 0

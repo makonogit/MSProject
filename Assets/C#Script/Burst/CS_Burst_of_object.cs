@@ -66,17 +66,27 @@ public class CS_Burst_of_object : MonoBehaviour
     private bool DebrisShow = false;
     [SerializeField, Tooltip("各圧力の破片の予測線表示")]
     private bool DebrisPressureShow = false;
+    [SerializeField, Tooltip("破片の目標地点の表示")]
+    public bool DestinationShow = false;
 
     [SerializeField, Tooltip("衝撃波範囲表示:\n")]
     private bool ShockWaveShow = false;
     [SerializeField, Tooltip("衝撃波各圧力範囲表示:\n")]
     private bool ShockWavePressureShow = false;
+    [Header("予測線の色")]
+    [SerializeField, Tooltip("破片予測線の色")]
+    private Color DebrisColor = new Color(0, 1, 0, 0.5f);
+    [SerializeField, Tooltip("各圧力破片予測線の色")]
+    private Color DebrisPressureColor = new Color(0, 1, 1, 0.0625f);
+    public Color DestinationColor = new Color(1, 0, 0, 0.25f);
+
+    [SerializeField, Tooltip("破片予測線の色")]
+    private Color ShockWaveColor = new Color(1, 0, 1, 0.5f);
+    [SerializeField, Tooltip("各圧力破片予測線の色")]
+    private Color ShockWavePressureColor = new Color(1, 1, 0, 0.0625f);
 
 #endif // UNITY_EDITOR
 
-
-
-    
     /// <summary>
     /// Start
     /// </summary>
@@ -250,9 +260,8 @@ public class CS_Burst_of_object : MonoBehaviour
         return value + PressureValList[number];
     }
 
-    
+
 #if UNITY_EDITOR
-    
 
     /// <summary>
     /// 選択時表示
@@ -262,11 +271,11 @@ public class CS_Burst_of_object : MonoBehaviour
         Info();
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public void Info() 
     {
-        
-            
         ResetVelocity();
         // 破片の予測線    
         if(DebrisShow)DrawExpectedDebris();
@@ -274,16 +283,18 @@ public class CS_Burst_of_object : MonoBehaviour
         // 衝撃波
         if (ShockWaveShow) DrawShockWave();
     }
+    /// <summary>
+    /// 
+    /// </summary>
     private void DrawExpectedDebris() 
     {
-        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Gizmos.color = DebrisColor;
         Debris.DrawDebrisLine(Pressure(ExpectedPressure),this.transform.position,CreateOffset);
         // 圧力ごとに予測線
-        Gizmos.color = new Color(0, 1, 1, 0.25f);
         if (DebrisPressureShow) DrawPressureLines();
-        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        Gizmos.color = DestinationColor;
         // 目的地表示
-        Debris.DrawDestination();
+        if(DestinationShow)Debris.DrawDestination();
     }
 
     /// <summary>
@@ -291,19 +302,23 @@ public class CS_Burst_of_object : MonoBehaviour
     /// </summary>
     private void DrawPressureLines() 
     {
-        Gizmos.color = new Color(0, 1, 1, 0.0625f);
+        Gizmos.color = DebrisPressureColor;
         for (int i = 0; i < PressureValList.Count; i++) Debris.DrawDebrisLine(Pressure(i),this.transform.position,CreateOffset);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void DrawShockWave() 
     {
         
         // 現在の想定範囲表示
-        Gizmos.color = new Color(1, 0, 1, 0.5f);
+        Gizmos.color = ShockWaveColor;
         shockWave.DrawShockWave(Pressure(ExpectedPressure),this.transform.position, CreateOffset);
         // 圧力ごとに範囲表示
         if (ShockWavePressureShow) 
         {
-            Gizmos.color = new Color(1, 1, 0, 0.0625f);
+            Gizmos.color = ShockWavePressureColor;
             for (int i = 0; i < PressureValList.Count; i++) 
                 shockWave.DrawShockWave(Pressure(i), this.transform.position, CreateOffset);
         }
@@ -316,7 +331,9 @@ public class CS_Burst_of_object : MonoBehaviour
     /// </summary>
     private void OnValidate()=> ResetVelocity();
     
-
+    /// <summary>
+    /// 
+    /// </summary>
     public void ResetVelocity() => Debris.ResetVelocity(Pressure(ExpectedPressure),this.transform.position,CreateOffset);
     
     

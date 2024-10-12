@@ -13,7 +13,7 @@ public class CS_CreateDebris
     [SerializeField, Tooltip("オブジェクト:\n")]
     private List<GameObject> DebrisPositions = new List<GameObject>();
     [SerializeField, Tooltip("到達時間:\n")]
-    private float time = 2.0f;
+    [Range(0.0001f,10)]private float arrivalTime = 2.0f;
 
 #endif // UNITY_EDITOR
 
@@ -160,7 +160,7 @@ public class CS_CreateDebris
         Vector3 Velocity = (GetFlyVector(num) * deltaTime * deltaTime * 0.5f) * power;
         RaycastHit hit = new RaycastHit();
         // ぶつかるまでの軌道の線を引く
-        for (float time = 0.0f; time < 10; time += deltaTime)
+        for (float time = 0.0f; time < 50; time += deltaTime)
         {
             Velocity += Vector3.down * (9.81f * deltaTime * deltaTime);
             Ray ray = new Ray(position, Velocity.normalized);
@@ -222,10 +222,10 @@ public class CS_CreateDebris
         Vector3 endPos = DebrisPositions[num].transform.position;
 
         Vector3 accelerationVec = endPos - firstPos;
-        accelerationVec.y += (gravityA * time * time);
+        accelerationVec.y += (gravityA * arrivalTime * arrivalTime);
         accelerationVec /= power;
 
-        accelerationVec /= time * deltaTime;
+        accelerationVec /= arrivalTime * deltaTime;
         return accelerationVec;
     }
 #endif // UNITY_EDITOR
