@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 3325244679141547500}
   - component: {fileID: 7131696938255266651}
   - component: {fileID: 8788720297998843492}
-  - component: {fileID: 5018662272477087163}
+  - component: {fileID: 8341756697398558067}
   - component: {fileID: 2712758409824191285}
   - component: {fileID: 5291894517411349125}
-  - component: {fileID: 5315743084519478429}
   m_Layer: 6
   m_Name: PS_TestShockWave
   m_TagString: Attack
@@ -30,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8659638270654199117}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &7131696938255266651
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8659638270654199117}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &8788720297998843492
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -87,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5018662272477087163
-MeshCollider:
+--- !u!135 &8341756697398558067
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,10 +104,9 @@ MeshCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Radius: 0.48
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2712758409824191285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,9 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985241cfa244b494e9725f8480651565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyTime: 1
-  Speed: 5
-  Power: 1
+  destroyTime: 0
+  speed: 0
+  power: 0
+  maxSize: 0
+  nowSize: 1
 --- !u!54 &5291894517411349125
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,18 +151,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!138 &5315743084519478429
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8659638270654199117}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
