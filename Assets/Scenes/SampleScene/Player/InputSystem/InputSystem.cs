@@ -170,6 +170,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Stick_L_Button"",
+                    ""type"": ""Value"",
+                    ""id"": ""ab830233-816c-4bb7-8d42-2e85b7f7b9ab"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Stick_R_Button"",
+                    ""type"": ""Value"",
+                    ""id"": ""a31d8b97-a462-4020-9c64-13be01febeac"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -274,8 +292,30 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1c2bbe3e-9ee3-4ee7-8c30-4398daba8544"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dpad_up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6aee76cb-c853-432b-a048-bd4271d52aca"",
                     ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dpad_right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f762eedd-da3c-4683-bf31-2f2e548224be"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -296,8 +336,30 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""88a62bc5-d557-4acb-bf78-d982ab65896a"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dpad_left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""62e21baa-c312-494a-90a3-26ef792c9f24"",
                     ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dpad_down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a230c955-a54b-437e-b780-d1e20149e26d"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -348,6 +410,116 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Stick_R_Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Stick"",
+                    ""id"": ""fc77deeb-4cf9-4f6f-b7b1-204de6dc3ba5"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_L_Button"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a4c0aa26-c54a-4e3e-a402-aa6aa43d5296"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_L_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9811e29c-23e7-4910-950e-f86cc6bc88ae"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_L_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a3e2aec1-4599-407f-a4fb-6b95980221db"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_L_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""db22f9dc-8146-4780-ac26-5a7b3a023177"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_L_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Stick"",
+                    ""id"": ""eee3e658-b442-4402-827f-5c86a523fdd5"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_R_Button"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4640237f-205c-4b4c-8f79-dc3dc4009dfd"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_R_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""85fe9383-0650-4495-9ccd-7f1205923e32"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_R_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""af726664-38e5-4139-bfa7-37d2479c696e"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_R_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""eef576aa-a05c-4ef0-947a-7911ae056eb2"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick_R_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -372,6 +544,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Controller_Button_R = m_Controller.FindAction("Button_R", throwIfNotFound: true);
         m_Controller_Stick_L_Press = m_Controller.FindAction("Stick_L_Press", throwIfNotFound: true);
         m_Controller_Stick_R_Press = m_Controller.FindAction("Stick_R_Press", throwIfNotFound: true);
+        m_Controller_Stick_L_Button = m_Controller.FindAction("Stick_L_Button", throwIfNotFound: true);
+        m_Controller_Stick_R_Button = m_Controller.FindAction("Stick_R_Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -449,6 +623,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controller_Button_R;
     private readonly InputAction m_Controller_Stick_L_Press;
     private readonly InputAction m_Controller_Stick_R_Press;
+    private readonly InputAction m_Controller_Stick_L_Button;
+    private readonly InputAction m_Controller_Stick_R_Button;
     public struct ControllerActions
     {
         private @InputSystem m_Wrapper;
@@ -469,6 +645,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Button_R => m_Wrapper.m_Controller_Button_R;
         public InputAction @Stick_L_Press => m_Wrapper.m_Controller_Stick_L_Press;
         public InputAction @Stick_R_Press => m_Wrapper.m_Controller_Stick_R_Press;
+        public InputAction @Stick_L_Button => m_Wrapper.m_Controller_Stick_L_Button;
+        public InputAction @Stick_R_Button => m_Wrapper.m_Controller_Stick_R_Button;
         public InputActionMap Get() { return m_Wrapper.m_Controller; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -526,6 +704,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Stick_R_Press.started += instance.OnStick_R_Press;
             @Stick_R_Press.performed += instance.OnStick_R_Press;
             @Stick_R_Press.canceled += instance.OnStick_R_Press;
+            @Stick_L_Button.started += instance.OnStick_L_Button;
+            @Stick_L_Button.performed += instance.OnStick_L_Button;
+            @Stick_L_Button.canceled += instance.OnStick_L_Button;
+            @Stick_R_Button.started += instance.OnStick_R_Button;
+            @Stick_R_Button.performed += instance.OnStick_R_Button;
+            @Stick_R_Button.canceled += instance.OnStick_R_Button;
         }
 
         private void UnregisterCallbacks(IControllerActions instance)
@@ -578,6 +762,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Stick_R_Press.started -= instance.OnStick_R_Press;
             @Stick_R_Press.performed -= instance.OnStick_R_Press;
             @Stick_R_Press.canceled -= instance.OnStick_R_Press;
+            @Stick_L_Button.started -= instance.OnStick_L_Button;
+            @Stick_L_Button.performed -= instance.OnStick_L_Button;
+            @Stick_L_Button.canceled -= instance.OnStick_L_Button;
+            @Stick_R_Button.started -= instance.OnStick_R_Button;
+            @Stick_R_Button.performed -= instance.OnStick_R_Button;
+            @Stick_R_Button.canceled -= instance.OnStick_R_Button;
         }
 
         public void RemoveCallbacks(IControllerActions instance)
@@ -613,5 +803,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnButton_R(InputAction.CallbackContext context);
         void OnStick_L_Press(InputAction.CallbackContext context);
         void OnStick_R_Press(InputAction.CallbackContext context);
+        void OnStick_L_Button(InputAction.CallbackContext context);
+        void OnStick_R_Button(InputAction.CallbackContext context);
     }
 }
