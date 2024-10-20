@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  startPoint: {x: 0, y: 0, z: 0}
   endPoint: {x: -1.3, y: 5.9875, z: 0}
   arrivalTime: 1.64
+  stick: 1
   drawer: {fileID: 3482180944230693606}
 --- !u!1 &7871639027744114461
 GameObject:
@@ -170,3 +170,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mechanical: {fileID: 8843051104970985252}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  color: {r: 0, g: 1, b: 0, a: 0.6}
+  lossyScale: 1

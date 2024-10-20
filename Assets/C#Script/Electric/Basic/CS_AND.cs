@@ -57,6 +57,6 @@ namespace Assets.C_Script.Electric.Basic
 }
 
 //===============================
-// date : 2024/10/17
+// date : 2024/10/19
 // programmed by Nakagawa Naoto
 //===============================

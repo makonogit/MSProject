@@ -1,6 +1,6 @@
 ﻿//-------------------------------
-// クラス名 :CS_Crane
-// 内容     :物を運ぶクレーン
+// クラス名 :CS_CrabTrolley
+// 内容     :レールの走行するシステム
 // 担当者   :中川 直登
 //-------------------------------
 using UnityEngine;
@@ -8,32 +8,36 @@ using UnityEngine.Splines;
 
 namespace Assets.C_Script.Electric.Mechanical
 {
-    public class CS_Crane :CS_Mechanical
+    public class CS_CrabTrolley :CS_Mechanical
     {
         private SplineAnimate splineAnimate;
         private float duration;
         private bool Return = false;
-        private bool StopCrane = false;
         
-
         protected void Start()
         {
             splineAnimate = GetComponent<SplineAnimate>();
             if (splineAnimate == null) Debug.LogError("null component");    
         }
 
+        override protected void FixedUpdate()
+        {
+            base.FixedUpdate();
+        }
 
+        // 起動した瞬間
         protected override void PowerOn()
         {
             base.PowerOn();
             splineAnimate.Play();
         }
-
+        // 止めた瞬間
         protected override void PowerOff()
         {
             base.PowerOff();
             splineAnimate.Pause();
         }
+        // 起動ちゅう
         protected override void Execute()
         {
             base.Execute();
@@ -45,6 +49,9 @@ namespace Assets.C_Script.Electric.Mechanical
             }
         }
 
+        /// <summary>
+        /// 止めるとき
+        /// </summary>
         private bool ShouldStop 
         {
             get 
@@ -63,6 +70,6 @@ namespace Assets.C_Script.Electric.Mechanical
     }
 }
 //===============================
-// date : 2024/10/18
+// date : 2024/10/19
 // programmed by Nakagawa Naoto
 //===============================

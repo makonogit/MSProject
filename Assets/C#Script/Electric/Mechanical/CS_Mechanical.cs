@@ -17,7 +17,7 @@ namespace Assets.C_Script.Electric.Mechanical
 
         private void Start(){}
 
-        protected void FixedUpdate()
+        virtual protected void FixedUpdate()
         {
             bool powerOn = power && !oldPower;
             bool powerOff = !power && oldPower;
@@ -25,8 +25,6 @@ namespace Assets.C_Script.Electric.Mechanical
             if (powerOff) PowerOff();
             if (Power)Execute();
             else Stopped();
-
-            
         }
 
         private void Update(){}

@@ -10,13 +10,13 @@ namespace Assets.C_Script.Electric.Mechanical
 {
     public class CS_Elevator:CS_Mechanical
     {
-
-        [SerializeField]
         private Vector3 startPoint = new Vector3();
         [SerializeField]
         private Vector3 endPoint = new Vector3();
         [SerializeField,Tooltip("到達時間：\nポイントまでの移動時間")]
         private float arrivalTime = 1.0f;
+        [SerializeField, Tooltip("くっつき：\n")]
+        private bool stick = true;
         private float nowTime = 0.0f;
         private bool GoEndPoint = true;
 
@@ -24,6 +24,7 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             //割り算を毎ループしないためにここで割る
             arrivalTime = 1.0f/arrivalTime;
+            startPoint = transform.position;
         }
 
         protected override void Execute() 
@@ -34,12 +35,16 @@ namespace Assets.C_Script.Electric.Mechanical
 
         private void OnCollisionEnter(Collision collision)
         {
-            collision.transform.SetParent(transform, true);
-        }
 
+            if (stick) collision.transform.SetParent(transform, true);
+        }
+        private void OnCollisionStay(Collision collision)
+        {
+            if (!stick) collision.transform.SetParent(transform, true);
+        }
         private void OnCollisionExit(Collision collision)
         {
-            collision.transform.SetParent(null, true);
+            if (stick) collision.transform.SetParent(null, true);
         }
 
         /// <summary>
@@ -115,6 +120,10 @@ namespace Assets.C_Script.Electric.Mechanical
         private CS_GizmosDrawer drawer;
 
         private void OnValidate()
+        {
+            if (!EditorApplication.isPlaying) ResetPositions();
+        }
+        private void OnDrawGizmos()
         {
             if (!EditorApplication.isPlaying) ResetPositions();
         }
