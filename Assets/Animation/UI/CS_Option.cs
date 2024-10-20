@@ -232,9 +232,6 @@ public class CS_Option : MonoBehaviour
     {
         //OptionAnimators[(int)CurrentOption].SetBool("IsSelect", true);
 
-        //キャンセルしたか
-        bool CanselButton = InputSystem.GetButtonBTriggered() || Input.GetKeyDown(KeyCode.Backspace);
-
        
         switch (CurrentOption)
         {
@@ -251,14 +248,6 @@ public class CS_Option : MonoBehaviour
                 StoryAction();
                 break;
         }
-
-        //オプション選択解除
-        if (CanselButton)
-        {
-           
-            
-        }
-
     }
 
     /// <summary>
