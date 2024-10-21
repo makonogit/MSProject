@@ -817,7 +817,7 @@ MonoBehaviour:
   TitleCursorSelectSprite: {fileID: 21300000, guid: 0688f8237e600224081aa1a13d38ae8d, type: 3}
   Enlargement: 1.5
   StartQuestionMask: {fileID: 4183382593842524871}
-  StartQuestionViewSpeed: 3000
+  StartQuestionViewSpeed: 6000
   StartQuestionTexts:
   - {fileID: 7704546901151482410}
   - {fileID: 7915768086216699112}
