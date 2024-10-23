@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -9,6 +10,16 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class CS_Result : MonoBehaviour
 {
+
+
+    [SerializeField, Header("リザルト開始フラグ")]
+    private bool ResultStart;
+
+    [Header("------------------------------------------")]
+
+    [SerializeField, Header("UIAnimator")]
+    private Animator Anim;
+
     [SerializeField, Header("InputSystem")]
     private CS_InputSystem CSInput;
 
@@ -77,7 +88,6 @@ public class CS_Result : MonoBehaviour
             }
         }
 
-
         //各パラメータを設定
 
         //コアの残量を取得
@@ -91,6 +101,12 @@ public class CS_Result : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (!ResultStart) { return; }
+
+        //手動で触った時用
+        if (!Anim.enabled) { Anim.enabled = true; }
+
         //配列要素分表示されたら終了
         bool EndView = viewState > ViewState.RankText;
         bool EndButton = CSInput.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
@@ -194,6 +210,15 @@ public class CS_Result : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// リザルトアニメーション開始
+    /// </summary>
+    public void StartResult()
+    {
+        ResultStart = true;
+        Anim.enabled = true;
     }
 
 }

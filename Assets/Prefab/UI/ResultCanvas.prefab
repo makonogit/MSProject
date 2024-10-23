@@ -272,8 +272,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4aecff32ba6d0d245b80f4a1ddad4494, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -294,6 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ad6b8aced29e94c9dfcc5791e56ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ResultStart: 0
+  Anim: {fileID: 6019242069732320405}
   CSInput: {fileID: 8249703528537459131}
   ViewTexts:
   - {fileID: 6075472242299211180}
@@ -338,7 +340,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774188289124459574}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1be253b0dae758f4a8849849c009e078, type: 2}
   m_CullingMode: 0
