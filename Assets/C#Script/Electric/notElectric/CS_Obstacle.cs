@@ -9,7 +9,7 @@ namespace Assets.C_Script.Electric.notElectric
 {
     public class CS_Obstacle :MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField,Range(0,10)]
         private int hp = 5;
         // 読み取り用
         public int HP { get { return hp; } }
