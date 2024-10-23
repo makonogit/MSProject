@@ -86,6 +86,7 @@ public class CS_PlayerManager : MonoBehaviour
     void Update()
     {
         animator.SetBool("isGrounded", IsGrounded());
+        animator.SetBool("isWall", IsWall());
     }
 
     //**
@@ -119,5 +120,18 @@ public class CS_PlayerManager : MonoBehaviour
     {
         RaycastHit hit;
         return Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+    }
+
+    //**
+    //* •Ç‚ÉÚ‚µ‚Ä‚¢‚é‚©‚ğ”»’f‚·‚é
+    //*
+    //* inF–³‚µ
+    //* outFÚ’n”»’è
+    //**
+    public bool IsWall()
+    {
+        RaycastHit hit;
+        Vector3 offset = new Vector3(0f,0f,0f);
+        return Physics.Raycast(transform.position + offset, transform.forward, out hit, groundCheckDistance, groundLayer);
     }
 }

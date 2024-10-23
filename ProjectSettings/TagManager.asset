@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Item
   - Goal
+  - EnergyCore
   layers:
   - Default
   - TransparentFX

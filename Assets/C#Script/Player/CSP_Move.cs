@@ -17,6 +17,8 @@ public class CSP_Move : ActionBase
     private float initSpeed;         // スピードの初期値を保存しておく変数
     [SerializeField, Header("ダッシュ入力の閾値")]
     private float dashInputValue = 0.75f;
+    [SerializeField, Header("マウント時の減速倍率")]
+    private float deceleration;
 
     protected override void Start()
     {
@@ -96,7 +98,6 @@ public class CSP_Move : ActionBase
             || (stick.y < -dashInputValue) || (stick.x < -dashInputValue))
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
-
             GetAnimator().SetBool("Dash", true);
         }
 
@@ -114,7 +115,14 @@ public class CSP_Move : ActionBase
 
         // プレイヤーの位置を更新
         Vector3 direction = moveVec * speed * Time.deltaTime;
+
+        if (GetAnimator().GetBool("Mount"))
+        {
+            direction = moveVec * speed * deceleration * Time.deltaTime;
+        }
+
         GetRigidbody().MovePosition(GetRigidbody().position + direction);
+
     }
 
     //**

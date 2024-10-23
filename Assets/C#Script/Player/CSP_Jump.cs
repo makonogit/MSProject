@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class CSP_Jump : ActionBase
@@ -23,6 +24,22 @@ public class CSP_Jump : ActionBase
     void FixedUpdate()
     {
         HandleJump();
+
+        if ((GetPlayerManager().IsWall())&&(GetAnimator().GetBool("Mount")))
+        {
+            jumpStock = initJumpStock;
+
+            GetAnimator().SetBool("Sticky", true);
+
+            if (GetRigidbody().velocity.y < 0)
+            {
+                GetRigidbody().velocity = new Vector3(GetRigidbody().velocity.x, 0, GetRigidbody().velocity.z);
+            }
+        }
+        else
+        {
+            GetAnimator().SetBool("Sticky", false);
+        }
     }
 
     //**
@@ -59,6 +76,24 @@ public class CSP_Jump : ActionBase
         if (GetPlayerManager().IsGrounded())
         {
             jumpStock = initJumpStock;
+        }
+    }
+
+    //**
+    //* “o‚éˆ—
+    //*
+    //* inF–³‚µ
+    //* outF–³‚µ
+    //**
+    void HandleClimb()
+    {
+        if (GetPlayerManager().IsWall())
+        {
+            GetAnimator().SetBool("Sticky", true);
+        }
+        else
+        {
+            GetAnimator().SetBool("Sticky", false);
         }
     }
 }

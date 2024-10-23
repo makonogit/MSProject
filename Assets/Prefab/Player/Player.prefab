@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6738bdc5b27815e4f9977ee721c79890, type: 3}
       propertyPath: m_Name
-      value: PR_X Bot
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6738bdc5b27815e4f9977ee721c79890, type: 3}
       propertyPath: m_Layer
@@ -704,6 +704,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6738bdc5b27815e4f9977ee721c79890, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4255264479858183423}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6738bdc5b27815e4f9977ee721c79890, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 23852253940006073}
   m_SourcePrefab: {fileID: 100100000, guid: 6738bdc5b27815e4f9977ee721c79890, type: 3}
 --- !u!4 &6233812601427947794 stripped
 Transform:
@@ -784,7 +787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initHP: 100
   nowHP: 100
-  groundCheckDistance: 0.01
+  groundCheckDistance: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -840,3 +843,28 @@ MonoBehaviour:
   initBulletStock: 100
   bulletStock: 100
   shotHp: 1
+  range: 100
+  detectionImage: {fileID: 0}
+  radius: 1
+  detectedColor: {r: 0, g: 1, b: 0, a: 1}
+  notDetectedColor: {r: 1, g: 0, b: 0, a: 1}
+  targetTag:
+  - Burst
+  - Enemy
+--- !u!114 &23852253940006073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8777731938188933611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582f57020c9dc3e48a7b48b6e477aa23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect: {fileID: 4573619433912865602}
+  targetTag: Burst
+  targetObject: {fileID: 0}
+  forceMagnitude: 15
+  angle: 45

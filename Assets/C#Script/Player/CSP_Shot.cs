@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
+//using static System.Net.Mime.MediaTypeNames;
 
 public class CSP_Shot : ActionBase
 {
@@ -21,6 +24,21 @@ public class CSP_Shot : ActionBase
     private bool isShot = false;// 射撃中
     [SerializeField, Header("減らすHP")]
     private float shotHp;
+    [SerializeField, Header("射程距離")]
+    private float range = 100f;
+
+    [Header("レティクル設定")]
+    [SerializeField, Header("レティクルイメージ")]
+    private Image detectionImage;
+    [SerializeField, Header("アシスト範囲")]
+    float radius = 1.0f;
+    [SerializeField, Header("検出時の色")]
+    private Color detectedColor = Color.green; // 検出時の色
+    [SerializeField, Header("非検出時の色")]
+    private Color notDetectedColor = Color.red; // 非検出時の色
+    [SerializeField, Header("破壊可能オブジェクトのタグ")]
+    private List<string> targetTag;
+    private GameObject targetObject;// レティクル内の破壊可能オブジェクト
 
     protected override void Start()
     {
@@ -35,6 +53,9 @@ public class CSP_Shot : ActionBase
 
     void FixedUpdate()
     {
+        // レティクル処理
+        HandlReticle();
+
         // 射撃処理
         HandlShot();
 
@@ -45,7 +66,7 @@ public class CSP_Shot : ActionBase
         }
 
         // プレイヤーの向きを調整
-        float offsetAngle = 45f; // オフセット値（角度）を設定
+        float offsetAngle = 45f; // オフセット値
 
         // カメラの前方ベクトルを取得
         Vector3 cameraForward = Camera.main.transform.forward;
@@ -65,6 +86,37 @@ public class CSP_Shot : ActionBase
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
         }
     }
+
+    //**
+    //* レティクル
+    //*
+    //* in:無し
+    //* out:無し
+    //**
+    void HandlReticle()
+    {
+        // レティクルとターゲットを初期化
+        detectionImage.color = notDetectedColor;
+        targetObject = null;
+
+        // カメラ正面からレイを作成
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
+
+        // レティクル内に破壊可能オブジェクトがあるか判定
+        foreach (RaycastHit hit in hits)
+        {
+            // ヒットした場合の処理
+            if (targetTag.Contains(hit.collider.tag))
+            {
+                // オブジェクトを取得し、レティクルの色を変更
+                detectionImage.color = detectedColor;
+                targetObject = hit.collider.gameObject;
+                break;
+            }
+        }
+    }
+
 
     //**
     //* 射撃処理
@@ -157,8 +209,15 @@ public class CSP_Shot : ActionBase
     void CreateBullet(int burst)
     {
         GetSoundEffect().PlaySoundEffect(1, 3);
-
+      
         Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
+
+        // レティクル内に破壊可能オブジェクトが存在するなら、その方向に発射する
+        if (targetObject != null)
+        {
+            forwardVec = targetObject.transform.position - transform.position;
+            forwardVec = forwardVec.normalized;
+        }
 
         float offsetDistance = 1.5f; // 各弾の間隔
 
@@ -192,7 +251,7 @@ public class CSP_Shot : ActionBase
     private void OnAnimatorIK(int layerIndex)
     {
         // 臨戦態勢アニメーション（銃を構える）
-        if (!GetAnimator().GetBool("Reload"))
+        if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")))
         {
             // カメラの正面方向の位置を計算
             Vector3 cameraForward = Camera.main.transform.forward;
