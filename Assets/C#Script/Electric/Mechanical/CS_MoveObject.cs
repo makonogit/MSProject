@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.C_Script.Electric.Mechanical
 {
-    public class CS_Elevator:CS_Mechanical
+    public class CS_MoveObject:CS_Mechanical
     {
         private Vector3 startPoint = new Vector3();
         [SerializeField]
@@ -35,7 +35,6 @@ namespace Assets.C_Script.Electric.Mechanical
 
         private void OnCollisionEnter(Collision collision)
         {
-
             if (stick) collision.transform.SetParent(transform, true);
         }
         private void OnCollisionStay(Collision collision)
