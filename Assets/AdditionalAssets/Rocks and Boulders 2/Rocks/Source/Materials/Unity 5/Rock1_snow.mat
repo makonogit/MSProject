@@ -12,12 +12,19 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _DETAIL_MAP
   - _DISABLE_SSR_TRANSPARENT
   - _DISPLACEMENT_LOCK_TILING_SCALE
+<<<<<<< HEAD
 <<<<<<< HEAD:Assets/Rocks and Boulders 2/Rocks/Source/Materials/Unity 5/Rock1_snow.mat
   - _NORMALMAP
 =======
 >>>>>>> c080b9f975be1db7225a5e63771eb0d82ecb2e98:Assets/AdditionalAssets/Rocks and Boulders 2/Rocks/Source/Materials/Unity 5/Rock1_snow.mat
+=======
+  - _HEIGHTMAP
+  - _MASKMAP
+  - _NORMALMAP
+>>>>>>> 57ae13984ac4a409e5d335128861838ed6f6c844
   - _NORMALMAP_TANGENT_SPACE
   - _PIXEL_DISPLACEMENT
   - _PIXEL_DISPLACEMENT_LOCK_OBJECT_SCALE
@@ -102,7 +109,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: aad243781a5f31341b964f5551b8f7df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex2:
