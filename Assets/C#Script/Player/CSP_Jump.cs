@@ -9,6 +9,10 @@ public class CSP_Jump : ActionBase
     [Header("ジャンプ設定")]
     [SerializeField, Header("ジャンプ力")]
     private float jumpForce = 5f;
+    [SerializeField, Header("マウント時の減速倍率")]
+    private float decelerationMount;
+    [SerializeField, Header("飢餓時の減速倍率")]
+    private float decelerationHunger;
     [SerializeField, Header("多段ジャンプ回数の初期値")]
     private int initJumpStock = 1;
     private int jumpStock;      // 残りのジャンプ回数
@@ -59,16 +63,32 @@ public class CSP_Jump : ActionBase
             GetSoundEffect().PlaySoundEffect(1, 1);
 
             // ジャンプ力を加える
-            GetRigidbody().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            float forceVal = jumpForce;
+
+            if (GetAnimator().GetBool("Mount"))
+            {
+                forceVal *= decelerationMount;
+            }
+            if (GetAnimator().GetFloat("Hunger") == 1)
+            {
+                forceVal *= decelerationHunger;
+            }
+
+            GetRigidbody().AddForce(Vector3.up * forceVal, ForceMode.Impulse);
+
 
             // アニメーターの値を変更
             GetAnimator().SetBool("Jump", true);
+            GetAnimator().SetFloat("UsuallyMove_Y", 0.5f);
+
             isJump = true;
         }
 
         if (!GetInputSystem().GetButtonAPressed() && isJump)
         {
             GetAnimator().SetBool("Jump", false);
+            GetAnimator().SetFloat("UsuallyMove_Y", 0);
+
             isJump = false;
             jumpStock--;
         }

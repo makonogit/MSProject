@@ -18,7 +18,9 @@ public class CSP_Move : ActionBase
     [SerializeField, Header("ダッシュ入力の閾値")]
     private float dashInputValue = 0.75f;
     [SerializeField, Header("マウント時の減速倍率")]
-    private float deceleration;
+    private float decelerationMount;
+    [SerializeField, Header("飢餓時の減速倍率")]
+    private float decelerationHunger;
 
     protected override void Start()
     {
@@ -61,7 +63,7 @@ public class CSP_Move : ActionBase
 
             // 移動速度を初期化
             speed = initSpeed;
-
+           
             // アニメーターの値を変更
             GetAnimator().SetBool("Move", false);
             GetAnimator().SetBool("Dash", false);
@@ -99,6 +101,7 @@ public class CSP_Move : ActionBase
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
             GetAnimator().SetBool("Dash", true);
+
         }
 
         // 効果音を再生する
@@ -118,7 +121,11 @@ public class CSP_Move : ActionBase
 
         if (GetAnimator().GetBool("Mount"))
         {
-            direction = moveVec * speed * deceleration * Time.deltaTime;
+            direction *= decelerationMount;
+        }
+        if (GetAnimator().GetFloat("Hunger") == 1)
+        {
+            direction *= decelerationHunger;
         }
 
         GetRigidbody().MovePosition(GetRigidbody().position + direction);

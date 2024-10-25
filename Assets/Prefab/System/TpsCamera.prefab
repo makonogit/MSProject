@@ -57,7 +57,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 90
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -145,7 +145,7 @@ MonoBehaviour:
   maxInputValue: 1
   offsetPos: {x: 0, y: 2, z: 4}
   offsetFocus: {x: 1, y: 2, z: 1}
-  rotationLimitMax: 45
+  rotationLimitMax: 70
   rotationLimitMin: 10
   targetName: Player
 --- !u!114 &7366696608548701373

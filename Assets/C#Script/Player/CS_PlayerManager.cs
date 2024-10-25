@@ -15,12 +15,21 @@ public class CS_PlayerManager : MonoBehaviour
     //**
 
     [Header("パラメーター設定")]
-    [SerializeField, Header("体力値")]
+    [SerializeField, Header("体力の初期値")]
     private float initHP = 100;
     [SerializeField]
     private float nowHP;
     public float GetHP() => nowHP;
     public void SetHP(float setHP) { nowHP = setHP; }
+    [SerializeField, Header("缶詰めの取得数")]
+    private int itemStock = 0;
+    public int GetItemStock() => itemStock;
+    public void SetItemStock(int val) { itemStock = val; }
+    [SerializeField, Header("空き缶の個数")]
+    private int ingredientsStock = 0;
+    public int GetIngredientsStock() => ingredientsStock;
+    public void SetIngredientsStock(int val) { ingredientsStock = val; }
+
 
     [Header("接地判定")]
     [SerializeField]
@@ -87,6 +96,25 @@ public class CS_PlayerManager : MonoBehaviour
     {
         animator.SetBool("isGrounded", IsGrounded());
         animator.SetBool("isWall", IsWall());
+
+        if (animator.GetBool("Mount"))
+        {
+            animator.SetFloat("Mass", 1);
+        }
+        else
+        {
+            animator.SetFloat("Mass", 0);
+        }
+
+        if(initHP - nowHP >= initHP - initHP / 3)
+        {
+            animator.SetFloat("Hunger", 1);
+        }
+        else
+        {
+            animator.SetFloat("Hunger", 0);
+        }
+
     }
 
     //**
@@ -99,14 +127,32 @@ public class CS_PlayerManager : MonoBehaviour
         {
             CS_Item item = collision.gameObject.GetComponent<CS_Item>();
 
-            nowHP += 1;
+            itemStock++;
+
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.tag == "Enemy")
         {
-            nowHP -= 1;
+            animator.SetBool("Damage", true);
+
+            // 逆方向に力を加える
+            float forceMagnitude = 5f;
+            Vector3 collisionNormal = collision.contacts[0].normal;
+            Vector3 reverseForce = collisionNormal * forceMagnitude;
+            Vector3 offset = new Vector3(0, forceMagnitude, 0);
+            rb.AddForce(reverseForce + offset, ForceMode.Impulse);
         }
         else if (collision.gameObject.tag == "Goal")
         {
+            TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            animator.SetBool("Damage", false);
         }
     }
 
