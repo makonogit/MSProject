@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ’S“–:›@•ö‰ó
+/// </summary>
 public class CS_Break : MonoBehaviour
 {
 
