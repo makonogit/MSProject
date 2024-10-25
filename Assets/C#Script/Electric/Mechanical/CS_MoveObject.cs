@@ -1,5 +1,5 @@
 ﻿//-------------------------------
-// クラス名 :CS_Elevator
+// クラス名 :CS_MoveObject
 // 内容     :ポイントに移動するギミック
 // 担当者   :中川 直登
 //-------------------------------
@@ -12,27 +12,28 @@ namespace Assets.C_Script.Electric.Mechanical
     {
         private Vector3 startPoint = new Vector3();
         [SerializeField]
-        private Vector3 endPoint = new Vector3();
+        protected Vector3 endPoint = new Vector3();
         [SerializeField,Tooltip("到達時間：\nポイントまでの移動時間")]
-        private float arrivalTime = 1.0f;
+        protected float arrivalTime = 1.0f;
         [SerializeField, Tooltip("くっつき：\n")]
-        private bool stick = true;
+        protected bool stick = true;
         private float nowTime = 0.0f;
         private bool GoEndPoint = true;
 
-        private void Start()
+        virtual protected void Start()
         {
             //割り算を毎ループしないためにここで割る
             arrivalTime = 1.0f/arrivalTime;
             startPoint = transform.position;
         }
-
+        
         protected override void Execute() 
         {
             base.Execute();
             Movement(GetPosition());
         }
 
+        // コリジョン
         private void OnCollisionEnter(Collision collision)
         {
             if (stick) collision.transform.SetParent(transform, true);
@@ -46,10 +47,22 @@ namespace Assets.C_Script.Electric.Mechanical
             if (stick) collision.transform.SetParent(null, true);
         }
 
+        // トリガー
+        private void OnTriggerEnter(Collider other)
+        {
+            if (stick) other.transform.SetParent(transform, true);
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (stick) other.transform.SetParent(transform, false);
+        }
+
+
+
         /// <summary>
         /// 移動処理
         /// </summary>
-        private void Movement(Vector3 point) 
+        protected  void Movement(Vector3 point) 
         {
             if (ShouldStop) return;
             nowTime += Time.deltaTime;
@@ -59,7 +72,7 @@ namespace Assets.C_Script.Electric.Mechanical
         /// <summary>
         /// を取得する
         /// </summary>
-        private Vector3 GetPosition ()
+        protected Vector3 GetPosition ()
         {
             Vector3 vec = Vector3.zero;
             if (GoEndPoint)

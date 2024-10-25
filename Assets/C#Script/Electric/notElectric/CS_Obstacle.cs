@@ -3,19 +3,22 @@
 // 内容     :体力のある障害物
 // 担当者   :中川 直登
 //-------------------------------
+using Assets.C_Script.Electric.Other;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.C_Script.Electric.notElectric
 {
     public class CS_Obstacle :MonoBehaviour
     {
-        [SerializeField,Range(0,10)]
+        [SerializeField]
         private int hp = 5;
         // 読み取り用
         public int HP { get { return hp; } }
         [SerializeField]
         private ParticleSystem DebrisParticle;
-
+        [SerializeField]
+        private List<CS_DrawNumber> drawNum = new List<CS_DrawNumber>();
         // スタート
         private void Start(){}
         // フィクスドアップデート
@@ -47,7 +50,22 @@ namespace Assets.C_Script.Electric.notElectric
         public void HitDamages(int  damage = 0) 
         {
             hp -= damage;
+            foreach (CS_DrawNumber drawNumber in drawNum)drawNumber.SetNumber(hp);
         }
+
+#if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            if (drawNum.Count <= 0) return;
+            foreach (CS_DrawNumber drawNumber in drawNum) 
+            {
+                if (drawNumber == null) return;
+                drawNumber.SetNumber(hp); 
+            }
+        }
+
+#endif // UNITY_EDITOR
     }
 }
 //===============================
