@@ -63,11 +63,17 @@ public class CS_PlayerManager : MonoBehaviour
     private Animator animator;  // アニメーター
     public Animator GetAnimator() => animator;
 
+    // カウントダウン用クラス
+    private CS_Countdown countdown;
+
     //**
     //* 初期化
     //**
     void Start()
     {
+        // Countdownオブジェクトを生成
+        countdown = gameObject.AddComponent<CS_Countdown>();
+
         // HPを設定
         nowHP = initHP;
 
@@ -130,6 +136,13 @@ public class CS_PlayerManager : MonoBehaviour
 
     void Update()
     {
+        // ゲームオーバー
+        if(nowHP <= 0)
+        {
+            animator.SetBool("GameOver", true);
+            isStunned = true;
+        }
+
         animator.SetBool("isGrounded", IsGrounded());
 
         animator.SetBool("isWall", IsWall());
@@ -156,16 +169,20 @@ public class CS_PlayerManager : MonoBehaviour
         Vector3 gravity = Physics.gravity;
         Vector3 acceleration = rb.velocity / Time.deltaTime;
 
-        if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
+        if (countdown.IsCountdownFinished())
         {
-            if ((oldAcceleration.y < -fallingThreshold))
+            if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
             {
-                animator.SetFloat("Falling", 1);
-                isStunned = true;
-            }
-            else
-            {
-                animator.SetFloat("Falling", 0);
+                if ((oldAcceleration.y < -fallingThreshold))
+                {
+                    animator.SetFloat("Falling", 1);
+                    isStunned = true;
+                    countdown.Initialize(0.5f);
+                }
+                else
+                {
+                    animator.SetFloat("Falling", 0);
+                }
             }
         }
         oldAcceleration = acceleration;

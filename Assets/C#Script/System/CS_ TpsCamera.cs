@@ -20,7 +20,12 @@ public class CS_TpsCamera : MonoBehaviour
     private float cameraSpeed = 50.0f;          // 基本速度
     public float GetCameraSpeed() => cameraSpeed;
     [SerializeField, Header("反応曲線")]
-    private AnimationCurve accelerationCurve; // 反応曲線
+    private AnimationCurve accelerationCurve;       // 反応曲線
+    [SerializeField]
+    private AnimationCurve accelerationCurveAssist; // エイムアシスト時の反応曲線
+    private bool isAssist = false;                  // アシストフラグ
+    public bool GetAssist() => isAssist;
+    public void SetAssist(bool flg) { isAssist = flg; }
     [SerializeField, Header("入力範囲の限界")]
     private float maxInputValue = 1f;         // スティックの最大入力値
     private float currentAcceleration = 0f;  // 現在の加速度
@@ -80,7 +85,14 @@ public class CS_TpsCamera : MonoBehaviour
             // 入力の大きさを計算
             float inputMagnitude = new Vector2(stick.y, stick.x).magnitude;
             float normalizedInput = Mathf.Clamp(inputMagnitude / maxInputValue, 0f, 1f);
-            currentAcceleration = accelerationCurve.Evaluate(normalizedInput);
+            if (isAssist)
+            {
+                currentAcceleration = accelerationCurveAssist.Evaluate(normalizedInput);
+            }
+            else
+            {
+                currentAcceleration = accelerationCurve.Evaluate(normalizedInput);
+            }
 
             // カメラを入力に応じて移動
             Vector3 rotVec = new Vector3(stick.y, stick.x, 0);

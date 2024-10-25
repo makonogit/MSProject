@@ -2945,6 +2945,7 @@ MonoBehaviour:
   nowHP: 100
   itemStock: 0
   ingredientsStock: 0
+  isCoreMount: 0
   groundCheckDistance: 0.5
   fallingThreshold: 700
   groundLayer:
@@ -2996,6 +2997,12 @@ MonoBehaviour:
   decelerationMount: 0.8
   decelerationHunger: 0.7
   stunnedTime: 0.5
+  climbCheckDistance: 2
+  climbMax: 2
+  climbMin: 0.25
+  climbLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &6462524678093254582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4862,7 +4869,7 @@ Transform:
   m_GameObject: {fileID: 7393424136857624628}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09849657, y: -0.6816483, z: -0.1513005, w: 0.7090573}
-  m_LocalPosition: {x: -0.18471079, y: 0.06699554, z: -0.046837747}
+  m_LocalPosition: {x: -0.78, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

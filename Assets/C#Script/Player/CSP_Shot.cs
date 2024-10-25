@@ -40,6 +40,9 @@ public class CSP_Shot : ActionBase
     private List<string> targetTag;
     private GameObject targetObject;// レティクル内の破壊可能オブジェクト
 
+    // カウントダウン用クラス
+    private CS_Countdown countdown;
+
     protected override void Start()
     {
         base.Start();
@@ -49,6 +52,9 @@ public class CSP_Shot : ActionBase
 
         // 装填数を初期化
         magazine = initMagazine;
+
+        // Countdownオブジェクトを生成
+        countdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     void FixedUpdate()
@@ -57,13 +63,16 @@ public class CSP_Shot : ActionBase
         HandlReticle();
 
         // 射撃処理
-        HandlShot();
+        if (countdown.IsCountdownFinished())
+        {
+            HandlShot();
+        }
 
         // リロード処理
-        if (GetInputSystem().GetButtonXPressed())
-        {
-            StartCoroutine(ReloadCoroutine());
-        }
+        //if (GetInputSystem().GetButtonXPressed())
+        //{
+        //    StartCoroutine(ReloadCoroutine());
+        //}
 
         // プレイヤーの向きを調整
         float offsetAngle = 45f; // オフセット値
@@ -85,6 +94,10 @@ public class CSP_Shot : ActionBase
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
         }
+
+        // エイムアシスト
+        bool isAssist = targetObject != null;
+        GetPlayerManager().GetTpsCamera().SetAssist(isAssist);
     }
 
     //**
@@ -132,19 +145,30 @@ public class CSP_Shot : ActionBase
         // コントローラー入力/発射中/装填数を判定
         if (GetInputSystem().GetRightTrigger() > 0 && !isShot)
         {
-            // 装填数が0ならリロード
-            if (isMagazine)
-            {
-                CreateBullet(burstfire);
-                isShot = true;
+            CreateBullet(burstfire);
+            isShot = true;
 
-                GetAnimator().SetBool("Shot", true);
-            }
-            else if (!GetAnimator().GetBool("Reload"))
-            {
-                isShot = true;
-                StartCoroutine(ReloadCoroutine());
-            }
+            GetAnimator().SetBool("Shot", true);
+
+            //// 装填数が0ならリロード
+            //if (isMagazine)
+            //{
+            //    CreateBullet(burstfire);
+            //    isShot = true;
+
+            //    GetAnimator().SetBool("Shot", true);
+            //}
+            //else if (!GetAnimator().GetBool("Reload"))
+            //{
+            //    isShot = true;
+            //    //StartCoroutine(ReloadCoroutine());
+
+            //    // アニメーションの終了まで待機
+            //    countdown.Initialize(1f);
+            //    // リロード処理
+            //    ReloadMagazine(initMagazine);
+            //    // アニメーション再生
+            //}
         }
         else
         {
@@ -165,16 +189,18 @@ public class CSP_Shot : ActionBase
     //**
     void ReloadMagazine(int reload)
     {
-        if (bulletStock < reload)
-        {
-            magazine = bulletStock;
-            bulletStock = 0;
-        }
-        else
-        {
-            bulletStock -= (reload - magazine);
-            magazine = reload;
-        }
+        magazine = reload;
+
+        //if (bulletStock < reload)
+        //{
+        //    magazine = bulletStock;
+        //    bulletStock = 0;
+        //}
+        //else
+        //{
+        //    bulletStock -= (reload - magazine);
+        //    magazine = reload;
+        //}
     }
     private IEnumerator ReloadCoroutine()
     {
@@ -241,7 +267,8 @@ public class CSP_Shot : ActionBase
             ballobj.transform.forward = forwardVec;
 
             // 装填数を減らす
-            magazine--;
+            //magazine--;
+            bulletStock--;
             float hp = GetPlayerManager().GetHP();
             GetPlayerManager().SetHP(hp - -shotHp);
         }
@@ -251,7 +278,8 @@ public class CSP_Shot : ActionBase
     private void OnAnimatorIK(int layerIndex)
     {
         // 臨戦態勢アニメーション（銃を構える）
-        if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")))
+        if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")
+            && !GetAnimator().GetBool("Recovery")))
         {
             // カメラの正面方向の位置を計算
             Vector3 cameraForward = Camera.main.transform.forward;
@@ -273,4 +301,5 @@ public class CSP_Shot : ActionBase
             }
         }
     }
+
 }

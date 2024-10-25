@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackPower: 1
-  AttackSpeed: 10
+  AttackSpeed: 20
 --- !u!54 &-2463722753993533952
 Rigidbody:
   m_ObjectHideFlags: 0

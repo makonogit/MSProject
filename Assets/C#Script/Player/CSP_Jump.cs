@@ -14,6 +14,8 @@ public class CSP_Jump : ActionBase
     private float decelerationMount;
     [SerializeField, Header("飢餓時の減速倍率")]
     private float decelerationHunger;
+    [SerializeField, Header("落下硬直の時間")]
+    private float stunnedTime;
     [SerializeField, Header("多段ジャンプ回数の初期値")]
     private int initJumpStock = 1;
     private int jumpStock;      // 残りのジャンプ回数
@@ -30,19 +32,40 @@ public class CSP_Jump : ActionBase
     [SerializeField, Header("登る速さの倍率")]
     private float climbSpeed = 1f;
 
+    // カウントダウン用クラス
+    private CS_Countdown countdown;
 
     protected override void Start()
     {
         base.Start();
 
         jumpStock = initJumpStock;
+
+        // Countdownオブジェクトを生成
+        countdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     void FixedUpdate()
     {
-        HandleJump();
+        // 硬直処理
+        if (GetPlayerManager().GetStunned())
+        {
+            // カウントダウンをセット
+            countdown.Initialize(stunnedTime);
+        }
 
-        HandleClimb();
+        // 移動処理
+        if (countdown.IsCountdownFinished())
+        {
+            HandleJump();
+        }
+
+        
+
+        if (GetAnimator().GetBool("Mount"))
+        {
+            HandleClimb();
+        }
     }
 
     //**
@@ -74,7 +97,6 @@ public class CSP_Jump : ActionBase
             }
 
             GetRigidbody().AddForce(Vector3.up * forceVal, ForceMode.Impulse);
-
 
             // アニメーターの値を変更
             GetAnimator().SetBool("Jump", true);

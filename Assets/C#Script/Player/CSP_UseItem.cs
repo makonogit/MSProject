@@ -8,7 +8,7 @@ using UnityEngine;
 //* 担当：藤原昂祐
 //**
 
-public class CS_UseItem : ActionBase
+public class CSP_UseItem : ActionBase
 {
     [Header("パラメーター設定")]
     [SerializeField, Header("回復状態")]
@@ -48,6 +48,8 @@ public class CS_UseItem : ActionBase
 
         if (GetInputSystem().GetButtonXPressed() && isItemStock && isDamage)
         {
+            GetAnimator().SetBool("Recovery", true);
+
             // 経過時間をカウント
             elapsedTime += Time.deltaTime;
 
@@ -69,6 +71,10 @@ public class CS_UseItem : ActionBase
                 // カウントをリセット
                 elapsedTime = 0f;
             }
+        }
+        else
+        {
+            GetAnimator().SetBool("Recovery", false);
         }
     }
 

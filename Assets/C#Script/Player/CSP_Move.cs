@@ -22,6 +22,16 @@ public class CSP_Move : ActionBase
     [SerializeField, Header("落下硬直の時間")]
     private float stunnedTime;
 
+    [Header("壁判定")]
+    [SerializeField, Header("壁との距離")]
+    private float climbCheckDistance = 1f;
+    [SerializeField, Header("登れる壁の高さ")]
+    private float climbMax = 2f;
+    [SerializeField]
+    private float climbMin = 0.25f;
+    [SerializeField, Header("登れる壁のレイヤー")]
+    private LayerMask climbLayer;
+
     // カウントダウン用クラス
     private CS_Countdown countdown;
 
@@ -201,5 +211,49 @@ public class CSP_Move : ActionBase
                 StopMove();
             }
         }
+    }
+
+    //**
+    //* 段差を無視する
+    //*
+    //* in:無し
+    //* out:判定結果
+    //**
+    void StepSkip()
+    {
+        if (IsStep() && GetAnimator().GetBool("Dash") && GetAnimator().GetBool("isGrounded") && !GetAnimator().GetBool("Jump"))
+        {
+            // 上方向に力を加える
+            float liftForce = 0.75f;
+
+            GetRigidbody().AddForce(Vector3.up * liftForce, ForceMode.Impulse);
+        }
+    }
+
+    //**
+    //* 正面に登れる段差があるか判定
+    //*
+    //* in:無し
+    //* out:判定結果
+    //**
+
+    bool IsStep()
+    {
+        bool isMax = false;
+        bool isMin = false;
+
+        RaycastHit hit;
+        Vector3 offsetMax = new Vector3(0f, climbMax, 0f);
+
+        // 上のRaycast
+        isMax = Physics.Raycast(transform.position + offsetMax, transform.forward, out hit, climbCheckDistance, climbLayer);
+
+        Vector3 offsetMin = new Vector3(0f, climbMin, 0f);
+
+        // 下のRaycast
+        isMin = Physics.Raycast(transform.position + offsetMin, transform.forward, out hit, climbCheckDistance, climbLayer);
+
+        // 登れる条件を返す
+        return !isMax && isMin;
     }
 }
