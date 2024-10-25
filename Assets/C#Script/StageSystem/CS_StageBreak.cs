@@ -8,18 +8,19 @@ using UnityEngine.Splines;
 /// </summary>
 public class CS_StageBreak : MonoBehaviour
 {
-    [SerializeField, Header("Effect")]
-    private ParticleSystem BreakEffect;
+    [SerializeField, Header("ステージ管理親オブジェクト")]
+    private GameObject StageObj;
 
     [Header("崩壊検知関連")]
     [SerializeField,Tooltip("判定サイズ")]
     private Vector3 BoxSize;
     [SerializeField, Tooltip("判定するlayer")]
     private LayerMask layer;
-    [SerializeField, Tooltip("判定後のLayer")]
-    private LayerMask Breakedlayer;
-
-    private int BreakObjCount = 0;  //壊れるオブジェクトの数
+    [SerializeField, Tooltip("判定後のLayer番号")]
+    private int Breakedlayer;
+    
+    private int BreakObjCount = 0;     //壊れたオブジェクトの数
+    private int MaxBreakObjCount = 0; //壊れるオブジェクトの最大数
     private float BreakRate = 0;  //崩壊度
 
     [Header("移動関係")]
@@ -33,20 +34,20 @@ public class CS_StageBreak : MonoBehaviour
     void Start()
     {
         //壊れるオブジェクトの数を保存(全て子オブジェクト)
-        BreakObjCount = transform.childCount;
+        MaxBreakObjCount = StageObj.transform.childCount;
 
         //移動速度を設定
         splineanim.Duration = MoveSpeed;
 
+        Debug.Log(MaxBreakObjCount);
+
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         BreakJudgment();
     }
-
-
 
     /// <summary>
     /// 崩壊検知(Ray)
@@ -56,16 +57,15 @@ public class CS_StageBreak : MonoBehaviour
         RaycastHit hit;
 
         //あたり判定
-        bool hitflg = Physics.BoxCast(transform.position, BoxSize, Vector3.forward, out hit,Quaternion.identity, 0f, layer);
+        bool hitflg = Physics.BoxCast(transform.position, BoxSize, Vector3.one, out hit,Quaternion.identity, 5f, layer);
 
         if (!hitflg) { return; }
 
         //layerを変更
         hit.transform.gameObject.layer = Breakedlayer;
-        Debug.Log(hit);
         //衝突したオブジェクトを崩壊状態にする
         hit.collider.GetComponent<Rigidbody>().useGravity = true;   
-        BreakObjCount--;    //全体の破壊オブジェクト数を減らす
+        BreakObjCount++;    //壊れたオブジェクトの数をカウント
     }
 
 
@@ -78,5 +78,13 @@ public class CS_StageBreak : MonoBehaviour
         Gizmos.DrawCube(transform.position + Vector3.forward, BoxSize);
     }
 
+    /// <summary>
+    /// 崩壊度を返す
+    /// </summary>
+    /// <returns></returns>
+    private int GetBreakRate()
+    {
+       return (int)(MaxBreakObjCount / BreakObjCount);
+    }
 
 }
