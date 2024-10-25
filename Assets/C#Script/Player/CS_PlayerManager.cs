@@ -29,6 +29,9 @@ public class CS_PlayerManager : MonoBehaviour
     private int ingredientsStock = 0;
     public int GetIngredientsStock() => ingredientsStock;
     public void SetIngredientsStock(int val) { ingredientsStock = val; }
+    [SerializeField, Header("CS_Coreをここにセット")]
+    private CS_Core core;
+
 
     [Header("接地判定")]
     [SerializeField]
@@ -136,8 +139,27 @@ public class CS_PlayerManager : MonoBehaviour
 
     void Update()
     {
+        // エネルギーコアの状態を設定
+        if(core != null)
+        {
+            if (animator.GetBool("Mount"))
+            {
+                core.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
+            }
+            else
+            {
+                core.STATE = CS_Core.CORE_STATE.DROP;
+            }
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("CS_Coreオブジェクトが設定されていません");
+        }
+
+
+
         // ゲームオーバー
-        if(nowHP <= 0)
+        if (nowHP <= 0)
         {
             animator.SetBool("GameOver", true);
             isStunned = true;
