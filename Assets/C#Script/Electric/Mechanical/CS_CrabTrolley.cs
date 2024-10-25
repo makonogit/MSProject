@@ -17,7 +17,8 @@ namespace Assets.C_Script.Electric.Mechanical
         protected void Start()
         {
             splineAnimate = GetComponent<SplineAnimate>();
-            if (splineAnimate == null) Debug.LogError("null component");    
+            if (splineAnimate == null) Debug.LogError("null component");
+            splineAnimate.ElapsedTime = 0.01f;
         }
 
         override protected void FixedUpdate()

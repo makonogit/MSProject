@@ -76,7 +76,7 @@ namespace Assets.C_Script.Electric.Mechanical
         private void HoldItem() 
         {
             if (itemObject == null) return;
-            itemObject.transform.parent = this.transform;
+            itemObject.transform.SetParent(this.transform, true);
             holded = true;
             crabTrolley.Power = true;
             if (itemRb != null) StopRigidbody(true);            
@@ -89,7 +89,7 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             if (itemRb != null) StopRigidbody(false);
             if (itemObject == null) return;
-            itemObject.transform.parent = null;
+            itemObject.transform.SetParent(null,true);
             holded = false;
         }
 
