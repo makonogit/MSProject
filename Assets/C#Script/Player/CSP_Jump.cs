@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using UnityEngine;
 
 public class CSP_Jump : ActionBase
@@ -17,6 +18,18 @@ public class CSP_Jump : ActionBase
     private int initJumpStock = 1;
     private int jumpStock;      // c‚è‚ÌƒWƒƒƒ“ƒv‰ñ”
     private bool isJump = false;// ƒWƒƒƒ“ƒv’†
+    [Header("•Ç”»’è")]
+    [SerializeField, Header("•Ç‚Æ‚Ì‹——£")]
+    private float climbCheckDistance = 1f;
+    [SerializeField, Header("“o‚ê‚é•Ç‚Ì‚‚³")]
+    private float climbMax = 2f;
+    [SerializeField]
+    private float climbMin = 0.25f;
+    [SerializeField, Header("“o‚ê‚é•Ç‚ÌƒŒƒCƒ„[")]
+    private LayerMask climbLayer;
+    [SerializeField, Header("“o‚é‘¬‚³‚Ì”{—¦")]
+    private float climbSpeed = 1f;
+
 
     protected override void Start()
     {
@@ -29,21 +42,7 @@ public class CSP_Jump : ActionBase
     {
         HandleJump();
 
-        if ((GetPlayerManager().IsWall())&&(GetAnimator().GetBool("Mount")))
-        {
-            jumpStock = initJumpStock;
-
-            GetAnimator().SetBool("Sticky", true);
-
-            if (GetRigidbody().velocity.y < 0)
-            {
-                GetRigidbody().velocity = new Vector3(GetRigidbody().velocity.x, 0, GetRigidbody().velocity.z);
-            }
-        }
-        else
-        {
-            GetAnimator().SetBool("Sticky", false);
-        }
+        HandleClimb();
     }
 
     //**
@@ -107,13 +106,47 @@ public class CSP_Jump : ActionBase
     //**
     void HandleClimb()
     {
-        if (GetPlayerManager().IsWall())
+        if (IsClimb() && GetAnimator().GetBool("Dash"))
         {
-            GetAnimator().SetBool("Sticky", true);
+            GetAnimator().SetBool("Climb", true);
+
+            // ã•ûŒü‚É—Í‚ğ‰Á‚¦‚é
+             float liftForce = 0.3f * climbSpeed;
+
+            GetRigidbody().AddForce(Vector3.up * liftForce, ForceMode.Impulse);
         }
         else
         {
-            GetAnimator().SetBool("Sticky", false);
+            GetAnimator().SetBool("Climb", false);
         }
+
     }
+
+    //**
+    //* ³–Ê‚É“o‚ê‚é•Ç‚ª‚ ‚é‚©”»’è
+    //*
+    //* in:–³‚µ
+    //* out:”»’èŒ‹‰Ê
+    //**
+
+    bool IsClimb()
+    {
+        bool isMax = false;
+        bool isMin = false;
+
+        RaycastHit hit;
+        Vector3 offsetMax = new Vector3(0f, climbMax, 0f);
+
+        // ã‚ÌRaycast
+        isMax = Physics.Raycast(transform.position + offsetMax, transform.forward, out hit, climbCheckDistance, climbLayer);
+
+        Vector3 offsetMin = new Vector3(0f, climbMin, 0f);
+
+        // ‰º‚ÌRaycast
+        isMin = Physics.Raycast(transform.position + offsetMin, transform.forward, out hit, climbCheckDistance, climbLayer);
+
+        // “o‚ê‚éğŒ‚ğ•Ô‚·
+        return !isMax && isMin;
+    }
+
 }

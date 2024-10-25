@@ -30,12 +30,20 @@ public class CS_PlayerManager : MonoBehaviour
     public int GetIngredientsStock() => ingredientsStock;
     public void SetIngredientsStock(int val) { ingredientsStock = val; }
 
-
     [Header("接地判定")]
     [SerializeField]
     private float groundCheckDistance = 0.01f;
     [SerializeField]
+    private float fallingThreshold = 5f;
+    [SerializeField]
     private LayerMask groundLayer;
+    public Vector3 oldAcceleration;// 1フレーム前の重力加速度
+
+    [Header("状態")]
+    [SerializeField]
+    private bool isStunned = false;
+    public bool GetStunned() => isStunned;
+    public void SetStunned(bool val) { isStunned = val; }
 
     // 外部オブジェクト（名前検索で取得）
     private Transform cameraTransform;
@@ -46,6 +54,8 @@ public class CS_PlayerManager : MonoBehaviour
     public CS_CameraManager GetCameraManager() => cameraManager;
     private CS_TpsCamera tpsCamera;         // TPSカメラ
     public CS_TpsCamera GetTpsCamera() => tpsCamera;
+    private CS_Result result;
+    public CS_Result GetResult() => result;
 
     // 自身のコンポーネント
     private Rigidbody rb;       // リジットボディ
@@ -90,11 +100,38 @@ public class CS_PlayerManager : MonoBehaviour
             UnityEngine.Debug.LogError("TpsCameraをHierarchyに追加してください。");
         }
 
+
+
+        GameObject resultCanvas = GameObject.Find("ResultCanvas");
+
+        if (resultCanvas == null)
+        {
+            UnityEngine.Debug.LogError("ResultCanvasをHierarchyに追加してください。");
+        }
+        else
+        {
+            // ResultCanvasが見つかった場合にのみ、ResultPanelを探す
+            Transform resultPanelTransform = resultCanvas.transform.Find("ResultPanel");
+            if (resultPanelTransform != null)
+            {
+                result = resultPanelTransform.GetComponent<CS_Result>();
+                if (result == null)
+                {
+                    UnityEngine.Debug.LogError("ResultPanelにCS_Resultコンポーネントがアタッチされているか確認してください。");
+                }
+            }
+            else
+            {
+                UnityEngine.Debug.LogError("ResultPanelをHierarchyに追加してください。");
+            }
+        }
+
     }
 
     void Update()
     {
         animator.SetBool("isGrounded", IsGrounded());
+
         animator.SetBool("isWall", IsWall());
 
         if (animator.GetBool("Mount"))
@@ -115,6 +152,23 @@ public class CS_PlayerManager : MonoBehaviour
             animator.SetFloat("Hunger", 0);
         }
 
+        // 重力加速度から落下状態を設定する
+        Vector3 gravity = Physics.gravity;
+        Vector3 acceleration = rb.velocity / Time.deltaTime;
+
+        if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
+        {
+            if ((oldAcceleration.y < -fallingThreshold))
+            {
+                animator.SetFloat("Falling", 1);
+                isStunned = true;
+            }
+            else
+            {
+                animator.SetFloat("Falling", 0);
+            }
+        }
+        oldAcceleration = acceleration;
     }
 
     //**
@@ -145,6 +199,9 @@ public class CS_PlayerManager : MonoBehaviour
         else if (collision.gameObject.tag == "Goal")
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
+            animator.SetBool("Goal", true);
+            isStunned = true;
+            result.StartResult();
         }
     }
 

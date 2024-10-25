@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CSP_Move : ActionBase
@@ -21,6 +19,11 @@ public class CSP_Move : ActionBase
     private float decelerationMount;
     [SerializeField, Header("飢餓時の減速倍率")]
     private float decelerationHunger;
+    [SerializeField, Header("落下硬直の時間")]
+    private float stunnedTime;
+
+    // カウントダウン用クラス
+    private CS_Countdown countdown;
 
     protected override void Start()
     {
@@ -28,11 +31,28 @@ public class CSP_Move : ActionBase
 
         // 移動速度の初期値を保存
         initSpeed = speed;
+
+        // Countdownオブジェクトを生成
+        countdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     void FixedUpdate()
     {
-        HandleMovement();
+        // 硬直処理
+        if (GetPlayerManager().GetStunned())
+        {
+            // カウントダウンをセット
+            countdown.Initialize(stunnedTime);
+            GetPlayerManager().SetStunned(false);
+            StopMove();
+        }
+
+        // 移動処理
+        if (countdown.IsCountdownFinished())
+        {
+            HandleMovement();
+        }
+
     }
 
     //**
@@ -147,6 +167,24 @@ public class CSP_Move : ActionBase
         }
     }
 
+    void StopMove()
+    {
+        // 0番インデックスの効果音を停止
+        GetSoundEffect().StopPlayingSound(0);
+
+        // 移動速度を初期化
+        speed = initSpeed;
+
+        // アニメーターの値を変更
+        GetAnimator().SetBool("Move", false);
+        GetAnimator().SetBool("Dash", false);
+
+        // 平行な移動成分を取り除く
+        Vector3 currentVelocity = GetRigidbody().velocity;
+        GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
+
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         //**
@@ -160,20 +198,7 @@ public class CSP_Move : ActionBase
 
             if (Mathf.Abs(collisionNormal.y) < 0.1f)
             {
-                // 0番インデックスの効果音を停止
-                GetSoundEffect().StopPlayingSound(0);
-
-                // 移動速度を初期化
-                speed = initSpeed;
-
-                // アニメーターの値を変更
-                GetAnimator().SetBool("Move", false);
-                GetAnimator().SetBool("Dash", false);
-
-                // 平行な移動成分を取り除く
-                Vector3 currentVelocity = GetRigidbody().velocity;
-                GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
-
+                StopMove();
             }
         }
     }
