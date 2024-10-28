@@ -8,26 +8,30 @@ using UnityEngine;
 
 namespace Assets.C_Script.Electric.Mechanical
 {
-    public class CS_MoveObject:CS_Mechanical
+    public class CS_MoveObject : CS_Mechanical
     {
         private Vector3 startPoint = new Vector3();
         [SerializeField]
         protected Vector3 endPoint = new Vector3();
-        [SerializeField,Tooltip("到達時間：\nポイントまでの移動時間")]
+        [SerializeField, Tooltip("到達時間：\nポイントまでの移動時間")]
         protected float arrivalTime = 1.0f;
         [SerializeField, Tooltip("くっつき：\n")]
         protected bool stick = true;
-        private float nowTime = 0.0f;
+        [SerializeField, Tooltip("止まるか：\n")]
+        protected bool Stop = true;
+        protected float nowTime = 0.0f;
         private bool GoEndPoint = true;
+        [SerializeField, Tooltip("イージング：\n")]
+        private AnimationCurve animCurve = new AnimationCurve();
 
         virtual protected void Start()
         {
             //割り算を毎ループしないためにここで割る
-            arrivalTime = 1.0f/arrivalTime;
+            arrivalTime = 1.0f / arrivalTime;
             startPoint = transform.position;
         }
-        
-        protected override void Execute() 
+
+        protected override void Execute()
         {
             base.Execute();
             Movement(GetPosition());
@@ -62,37 +66,38 @@ namespace Assets.C_Script.Electric.Mechanical
         /// <summary>
         /// 移動処理
         /// </summary>
-        protected  void Movement(Vector3 point) 
+        protected bool Movement(Vector3 point)
         {
-            if (ShouldStop) return;
+            if (ShouldStop) return false;
             nowTime += Time.deltaTime;
             this.transform.position = point;
+            return true;
         }
 
         /// <summary>
         /// を取得する
         /// </summary>
-        protected Vector3 GetPosition ()
+        protected Vector3 GetPosition()
         {
             Vector3 vec = Vector3.zero;
             if (GoEndPoint)
             {
                 vec = endPoint - startPoint;
-                vec *= nowTime * arrivalTime;
+                vec *= animCurve.Evaluate(nowTime * arrivalTime);
                 vec += startPoint;
             }
-            else 
-            { 
+            else
+            {
                 vec = startPoint - endPoint;
-                vec *= nowTime * arrivalTime;
+                vec *= animCurve.Evaluate(nowTime * arrivalTime);
                 vec += endPoint;
             }
 
             return vec;
-            
+
         }
 
-        private Vector3 GetVector() 
+        private Vector3 GetVector()
         {
             Vector3 vec = Vector3.zero;
             if (GoEndPoint)
@@ -111,45 +116,35 @@ namespace Assets.C_Script.Electric.Mechanical
         /// <summary>
         /// 止まるか
         /// </summary>
-        private bool ShouldStop 
+        private bool ShouldStop
         {
-            get 
+            get
             {
                 bool IsTimeOver = nowTime * arrivalTime >= 1.0f;
                 if (!IsTimeOver) return false;
                 // 反転
                 GoEndPoint = !GoEndPoint;
                 nowTime = 0.0f;
-                Power = false;
+                Power = !Stop;
                 return true;
             }
         }
 
 
 #if UNITY_EDITOR
- 
+
         [SerializeField]
         private CS_GizmosDrawer drawer;
 
-        private void OnValidate()
-        {
-            if (!EditorApplication.isPlaying) ResetPositions();
-        }
-        private void OnDrawGizmos()
-        {
-            if (!EditorApplication.isPlaying) ResetPositions();
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            DrawGizmos();
-        }
+        private void OnDrawGizmos() => ResetPositions(); 
+        
+        private void OnDrawGizmosSelected()=> DrawGizmos();
 
         public override void DrawGizmos()
         {
             base.DrawGizmos();
             // 実行中は呼ばない
-            if (!EditorApplication.isPlaying) ResetPositions();
+            ResetPositions();
             drawer.DrawFlag = true;
             Gizmos.color = Color.green;
             Gizmos.DrawLine(endPoint, startPoint);
@@ -157,9 +152,9 @@ namespace Assets.C_Script.Electric.Mechanical
 
         private  void ResetPositions() 
         {
-            startPoint = this.transform.position;
+            if(!EditorApplication.isPlaying)startPoint = this.transform.position;
             if (drawer == null) return;
-            endPoint = drawer.transform.position;
+            endPoint = drawer.GetPosition();
         }
 #endif //  UNITY_EDITOR
     }

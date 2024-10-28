@@ -7,6 +7,7 @@
 using Assets.C_Script.Electric.Mechanical;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace Assets.C_Script.Electric
 {
@@ -51,11 +52,18 @@ namespace Assets.C_Script.Electric
         public void DrawGizmos() 
         {
             Gizmos.color = color;
-            Vector3 pos = position;
+            Vector3 pos = GetPosition();
             Vector3 scale = transform.localScale;
-            if(!EditorApplication.isPlaying) pos =this.transform.position;
+            
             if (lossyScale)scale = transform.lossyScale;
             Gizmos.DrawMesh(mesh, 0, pos, this.transform.rotation, scale);
+        }
+
+        public Vector3 GetPosition() 
+        {
+            Vector3 pos = position;
+            if (!EditorApplication.isPlaying) pos = this.transform.position;
+            return pos;
         }
     }
 }
