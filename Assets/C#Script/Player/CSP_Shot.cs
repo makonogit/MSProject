@@ -279,7 +279,8 @@ public class CSP_Shot : ActionBase
     {
         // 臨戦態勢アニメーション（銃を構える）
         if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")
-            && !GetAnimator().GetBool("Recovery")))
+            && !GetAnimator().GetBool("Recovery") && !GetAnimator().GetBool("Use Item")
+            && !GetAnimator().GetBool("Use EnergyCore")))
         {
             // カメラの正面方向の位置を計算
             Vector3 cameraForward = Camera.main.transform.forward;

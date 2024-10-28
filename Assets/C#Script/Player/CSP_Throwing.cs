@@ -50,6 +50,8 @@ public class CSP_Throwing : ActionBase
 
                 rb.useGravity = true;
 
+                GetSoundEffect().PlaySoundEffect(2, 8);
+
                 // —]Œv‚ÈˆÚ“®¬•ª‚ğæ‚èœ‚­
                 Vector3 currentVelocity = rb.velocity;
                 rb.velocity = Vector3.zero;

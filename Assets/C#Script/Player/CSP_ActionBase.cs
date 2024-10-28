@@ -16,6 +16,7 @@ public abstract class ActionBase : MonoBehaviour
     public CS_InputSystem GetInputSystem() => playerManager.GetInputSystem();
     public Rigidbody GetRigidbody() => playerManager.GetRigidbody();
     public Animator GetAnimator() => playerManager.GetAnimator();
+    public CS_SoundEffect GetSoundEffect() => playerManager.GetSoundEffect();
 
     protected virtual void Start()
     {
@@ -26,9 +27,5 @@ public abstract class ActionBase : MonoBehaviour
             UnityEngine.Debug.LogError("Playerオブジェクトが見つかりません。");
         }
     }
-
-    [SerializeField, Header("サウンドエフェクト")]
-    private CS_SoundEffect soundEffect;
-    public CS_SoundEffect GetSoundEffect() => soundEffect;
 }
 

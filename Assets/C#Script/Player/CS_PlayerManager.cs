@@ -48,6 +48,10 @@ public class CS_PlayerManager : MonoBehaviour
     public bool GetStunned() => isStunned;
     public void SetStunned(bool val) { isStunned = val; }
 
+    [SerializeField, Header("オーディオ")]
+    private CS_SoundEffect soundEffect;
+    public CS_SoundEffect GetSoundEffect() => soundEffect;
+
     // 外部オブジェクト（名前検索で取得）
     private Transform cameraTransform;
     public Transform GetCameraTransform() => cameraTransform;
@@ -226,6 +230,8 @@ public class CS_PlayerManager : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Enemy")
         {
+            GetSoundEffect().PlaySoundEffect(3, 7);
+
             animator.SetBool("Damage", true);
 
             // 逆方向に力を加える
