@@ -4,6 +4,8 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Electric.Basic;
+using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SearchService;
 
@@ -16,34 +18,51 @@ namespace Assets.C_Script.Electric.Mechanical
         [SerializeField]
         private string itemTag = "Core";
         [SerializeField]
-        private bool holded = false;
+        private bool caugthed = false;
         [SerializeField]
         private bool Drop = false;
         private GameObject itemObject;
         private Rigidbody itemRb;
+        [SerializeField]
+        private GameObject Cable;
+        [SerializeField]
+        private Animator animaArm;
+        [SerializeField]
+        private float armMoveSpeed = 60.0f;
+        private float speedOffset = 0.034f;
+        [SerializeField]
+        private bool downFlag;
+        private bool stopFlag;
 
-
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == itemTag) SetItem(other.gameObject);
         }
-
         private void OnTriggerExit(Collider other)
         {
             if (itemObject == other.gameObject) ClearItem();
         }
-
+        // ギミック起動時
         protected override void PowerOn()
         {
             base.PowerOn();
+            animaArm.SetFloat("speed", -1);
+            animaArm.Play("AM_ArmClosing", 0, 1);
         }
+        // ギミック実行中
         protected override void Execute()
         {
             base.Execute();
+
+            if (shouldDown) ArmDown();
+            if (shouldUp) ArmUp();
+
             if (Drop)DropItem();
-            else if (!holded)HoldItem();
-            
+            else if (!caugthed)HoldItem();
+            if (!crabTrolley.Power && animaArm.GetFloat("speed") == 0)stopFlag = false;
         }
+        // ギミックシャットダウン時
         protected override void PowerOff()
         {
             base.PowerOff();
@@ -58,6 +77,7 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             itemObject = gameObject;
             itemRb = gameObject.GetComponent<Rigidbody>();
+            stopFlag = true;
         }
 
         /// <summary>
@@ -69,7 +89,6 @@ namespace Assets.C_Script.Electric.Mechanical
             itemRb = null;
         }
 
-
         /// <summary>
         /// アイテムをつかむ
         /// </summary>
@@ -77,9 +96,12 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             if (itemObject == null) return;
             itemObject.transform.SetParent(this.transform, true);
-            holded = true;
-            crabTrolley.Power = true;
-            if (itemRb != null) StopRigidbody(true);            
+            caugthed = true;
+            downFlag = false;
+            if (itemRb != null) StopRigidbody(true);
+            // 閉じる
+            animaArm.SetFloat("speed", 1);
+            animaArm.Play("AM_ArmClosing", 0, 0);
         }
 
         /// <summary>
@@ -89,8 +111,12 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             if (itemRb != null) StopRigidbody(false);
             if (itemObject == null) return;
+            
             itemObject.transform.SetParent(null,true);
-            holded = false;
+            caugthed = false;
+            stopFlag = false;
+            // 開く speed が0なのでPlayは必要ない
+            animaArm.SetFloat("speed", -1);
         }
 
         /// <summary>
@@ -106,7 +132,60 @@ namespace Assets.C_Script.Electric.Mechanical
             if (!flag) itemRb.constraints = RigidbodyConstraints.None;
         }
 
+        /// <summary>
+        /// アームが下がる時
+        /// </summary>
+        private bool shouldDown
+        { 
+            get
+            {
+                bool isMove = crabTrolley.Power;
+                if (isMove) return false;
+                if (stopFlag) return false;
+                return downFlag;
+            }
+        }
+        /// <summary>
+        /// アームが上がる時
+        /// </summary>
+        private bool shouldUp
+        {
+            get
+            {
+                bool isMove = crabTrolley.Power;
+                if (isMove) return false;
+                if (stopFlag) return false;
+                return !downFlag;
+            }
+        }
 
+        /// <summary>
+        /// アームが下がる処理
+        /// </summary>
+        private void ArmDown() 
+        {
+            this.transform.localPosition += Vector3.down * Time.deltaTime * armMoveSpeed;
+            Cable.transform.localScale += Vector3.up * Time.deltaTime * armMoveSpeed * speedOffset;
+        }
+        /// <summary>
+        /// アームが上がる処理
+        /// </summary>
+        private void ArmUp()
+        {
+            float Top = 0.01f;
+            this.transform.localPosition += Vector3.up * Time.deltaTime * armMoveSpeed;
+            Cable.transform.localScale += Vector3.down * Time.deltaTime * armMoveSpeed * speedOffset;
+            // 上がり切ったら
+            if (Cable.transform.lossyScale.y <= Top) 
+            { 
+                stopFlag = true; 
+                downFlag = true;
+                crabTrolley.Power = true;
+            }
+        }
+
+        
+        
     }
 }
 
