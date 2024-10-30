@@ -14,7 +14,11 @@ namespace Assets.C_Script.Electric.Mechanical
 
         private void OnTriggerEnter(Collider other)
         {
-            animator.SetFloat("speed",0);
+            if (other.tag == "Core") animator.SetFloat("speed", 0);
         }
     }
 }
+//===============================
+// date : 2024/10/29
+// programmed by Nakagawa Naoto
+//===============================

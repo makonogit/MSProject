@@ -14,8 +14,18 @@ namespace Assets.C_Script.Electric.Mechanical
         [SerializeField]
         private float CountDown = 9.0f;
         private float countDownTime = 9.0f;
+        private int oldTime = 0;
+        private bool firstTime = false;
+        // 効果音
         [SerializeField]
-        private CS_DrawNumber drawNumber;
+        private AudioClip countSound;
+        [SerializeField]
+        private AudioClip moveSound;
+        [SerializeField]
+        private AudioClip riseSound;
+        [SerializeField]
+        private AudioSource audioSource;
+
         protected override void Start()
         {
             base.Start();
@@ -26,27 +36,43 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             base.PowerOn();
             countDownTime = CountDown;
+            firstTime = true;
         }
         protected override void Execute()
         {
             //base.Execute();
             countDownTime -= Time.deltaTime;
-            if (drawNumber != null) drawNumber.SetNumber(Mathf.FloorToInt(countDownTime));
-            if (countDownTime <= 0) this.Movement(this.GetPosition());
-            
+            if (countDownTime <= 0)
+            {
+                this.Movement(this.GetPosition());
+                if (firstTime) SoundPlay(riseSound,false);
+                else SoundPlay(moveSound, true);
+                firstTime = true;
+            }
+            else if (Mathf.FloorToInt(countDownTime) != oldTime) 
+            {
+                SoundPlay(countSound, false);
+            }
+            oldTime = Mathf.FloorToInt(countDownTime);
         }
-
         protected override void PowerOff()
         {
             base.PowerOff();
             countDownTime = CountDown;
-            if (drawNumber != null) drawNumber.SetNumber(Mathf.FloorToInt(countDownTime));
+        }
+
+        private void SoundPlay(AudioClip clip,bool loop) 
+        {
+            if (clip == null) return;
+            if (audioSource.isPlaying) return;
+            audioSource.clip = clip;
+            audioSource.loop = loop;
+            audioSource.Play();
         }
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (EditorApplication.isPlaying) return;
-            if (drawNumber != null) drawNumber.SetNumber(Mathf.FloorToInt(CountDown));
         }
 
 #endif // UNITY_EDITOR

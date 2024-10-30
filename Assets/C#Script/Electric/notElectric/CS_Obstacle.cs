@@ -14,6 +14,9 @@ namespace Assets.C_Script.Electric.notElectric
     {
         [SerializeField,Range(0,11)]
         private int hp = 5;
+        private int hitCount = 0;
+        [SerializeField]
+        private float PitchUp = 0.5f;
         // 読み取り用
         public int HP { get { return hp; } }
         [SerializeField]
@@ -25,7 +28,7 @@ namespace Assets.C_Script.Electric.notElectric
         [SerializeField]
         private AudioClip explosion;
         [SerializeField]
-        private List<AudioClip>audioClips = new List<AudioClip>();
+        private AudioClip hitSound;
         private AudioSource audioSource;
 
         // スタート
@@ -33,6 +36,7 @@ namespace Assets.C_Script.Electric.notElectric
         {
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) Debug.LogError("null AudioSource component");
+            hitCount = 0;
         }
         // フィクスドアップデート
         private void FixedUpdate()
@@ -64,8 +68,9 @@ namespace Assets.C_Script.Electric.notElectric
         public void HitDamages(int  damage = 0) 
         {
             hp -= damage;
+            hitCount++;
             ChangeNumber();
-            PlaySounds();
+            PlaySounds(hitCount);
         }
 
         /// <summary>
@@ -100,12 +105,16 @@ namespace Assets.C_Script.Electric.notElectric
         /// <summary>
         /// 音を鳴らす
         /// </summary>
-        private void PlaySounds() 
+        private void PlaySounds(int num) 
         {
             if (audioSource == null) return;
-            int audioNum = Mathf.Max(Mathf.Min(hp, audioClips.Count), 0);
-            if (audioNum == 0) audioSource.clip = explosion;
-            else audioSource.clip = audioClips[audioNum - 1];
+            audioSource.pitch = 1.0f;
+            if (hp == 0) audioSource.clip = explosion;
+            else 
+            { 
+                audioSource.clip = hitSound;
+                audioSource.pitch =1.0f + PitchUp * num;
+            }
             audioSource.Play();
         }
 

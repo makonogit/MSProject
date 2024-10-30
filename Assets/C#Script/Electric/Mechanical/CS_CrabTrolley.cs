@@ -13,12 +13,15 @@ namespace Assets.C_Script.Electric.Mechanical
         private SplineAnimate splineAnimate;
         private float duration;
         private bool Return = false;
-        
-        protected void Start()
+        private AudioSource audioSource;
+
+        protected override void Start()
         {
             splineAnimate = GetComponent<SplineAnimate>();
             if (splineAnimate == null) Debug.LogError("null component");
             splineAnimate.ElapsedTime = 0.01f;
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) Debug.LogError("null component");
         }
 
         override protected void FixedUpdate()
@@ -38,7 +41,7 @@ namespace Assets.C_Script.Electric.Mechanical
             base.PowerOff();
             splineAnimate.Pause();
         }
-        // 起動ちゅう
+        // 起動中
         protected override void Execute()
         {
             base.Execute();

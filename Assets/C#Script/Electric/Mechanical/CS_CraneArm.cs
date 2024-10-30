@@ -3,11 +3,9 @@
 // 内容     :クレーンのアーム
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Basic;
-using System.Collections;
-using System.Diagnostics;
+using Assets.C_Script.Electric.Other;
 using UnityEngine;
-using UnityEngine.SearchService;
+
 
 namespace Assets.C_Script.Electric.Mechanical
 {
@@ -18,9 +16,10 @@ namespace Assets.C_Script.Electric.Mechanical
         [SerializeField]
         private string itemTag = "Core";
         [SerializeField]
-        private bool caugthed = false;
+        private bool caught = false;
         [SerializeField]
         private bool Drop = false;
+        private bool Dropped = false;
         private GameObject itemObject;
         private Rigidbody itemRb;
         [SerializeField]
@@ -33,8 +32,29 @@ namespace Assets.C_Script.Electric.Mechanical
         [SerializeField]
         private bool downFlag;
         private bool stopFlag;
+        [SerializeField]
+        private CS_CoreUnit endPointCoreUnit;
 
-        
+        // 効果音
+        [SerializeField, Tooltip("起動音")]
+        private AudioClip powerOnSound;
+        [SerializeField,Tooltip("クレーンアームの移動音")]
+        private AudioClip craneSound;
+        [SerializeField, Tooltip("つかむ音")]
+        private AudioClip garbSound;
+        // オーディオソース
+        private AudioSource audioSource;
+
+
+        protected override void Start()
+        {
+            base.Start();
+            if (endPointCoreUnit == null) Debug.LogError("Error : null component : CS_CoreUnit");
+            if (crabTrolley == null) Debug.LogError("Error : null component : CS_CrabTrolley");
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) Debug.LogError("not found : null component : AudioSource");
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == itemTag) SetItem(other.gameObject);
@@ -49,6 +69,9 @@ namespace Assets.C_Script.Electric.Mechanical
             base.PowerOn();
             animaArm.SetFloat("speed", -1);
             animaArm.Play("AM_ArmClosing", 0, 1);
+            audioSource.clip = powerOnSound;
+            audioSource.loop = false;
+            audioSource.Play();
         }
         // ギミック実行中
         protected override void Execute()
@@ -59,8 +82,8 @@ namespace Assets.C_Script.Electric.Mechanical
             if (shouldUp) ArmUp();
 
             if (Drop)DropItem();
-            else if (!caugthed)HoldItem();
-            if (!crabTrolley.Power && animaArm.GetFloat("speed") == 0)stopFlag = false;
+            else if (!caught)HoldItem();
+            if (!crabTrolley.Power && animaArm.GetFloat("speed") == 0&&!Dropped)stopFlag = false;
         }
         // ギミックシャットダウン時
         protected override void PowerOff()
@@ -75,6 +98,7 @@ namespace Assets.C_Script.Electric.Mechanical
         /// <param name="gameObject"></param>
         private void SetItem(GameObject gameObject) 
         {
+            if(Dropped)return;
             itemObject = gameObject;
             itemRb = gameObject.GetComponent<Rigidbody>();
             stopFlag = true;
@@ -96,12 +120,17 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             if (itemObject == null) return;
             itemObject.transform.SetParent(this.transform, true);
-            caugthed = true;
+            caught = true;
             downFlag = false;
             if (itemRb != null) StopRigidbody(true);
             // 閉じる
             animaArm.SetFloat("speed", 1);
             animaArm.Play("AM_ArmClosing", 0, 0);
+
+            
+            audioSource.clip = garbSound;
+            audioSource.loop = false;
+            audioSource.Play();
         }
 
         /// <summary>
@@ -113,10 +142,15 @@ namespace Assets.C_Script.Electric.Mechanical
             if (itemObject == null) return;
             
             itemObject.transform.SetParent(null,true);
-            caugthed = false;
-            stopFlag = false;
             // 開く speed が0なのでPlayは必要ない
             animaArm.SetFloat("speed", -1);
+            // コアを台に置く
+            endPointCoreUnit.SetCore(itemObject);
+            caught = false;     // 放した
+            stopFlag = false;   // 動く
+            downFlag = false;   // 上がる
+            Drop = false;       // 落とした
+            Dropped = true;
         }
 
         /// <summary>
@@ -159,6 +193,17 @@ namespace Assets.C_Script.Electric.Mechanical
             }
         }
 
+        private bool shouldStopDown 
+        {
+            get 
+            {
+                Vector3 Distance = endPointCoreUnit.transform.position - this.transform.position;
+                float radius = 1.5f;
+                float sqrLength = Distance.sqrMagnitude;
+                return sqrLength < radius * radius;
+            }
+        }
+
         /// <summary>
         /// アームが下がる処理
         /// </summary>
@@ -166,6 +211,13 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             this.transform.localPosition += Vector3.down * Time.deltaTime * armMoveSpeed;
             Cable.transform.localScale += Vector3.up * Time.deltaTime * armMoveSpeed * speedOffset;
+            CraneSoundPlay();
+            if (audioSource.isPlaying)audioSource.Play();
+            if (shouldStopDown) 
+            {
+                stopFlag = true;
+                Drop = true;
+            }
         }
         /// <summary>
         /// アームが上がる処理
@@ -175,21 +227,63 @@ namespace Assets.C_Script.Electric.Mechanical
             float Top = 0.01f;
             this.transform.localPosition += Vector3.up * Time.deltaTime * armMoveSpeed;
             Cable.transform.localScale += Vector3.down * Time.deltaTime * armMoveSpeed * speedOffset;
+            CraneSoundPlay();
             // 上がり切ったら
             if (Cable.transform.lossyScale.y <= Top) 
             { 
                 stopFlag = true; 
                 downFlag = true;
-                crabTrolley.Power = true;
+                crabTrolley.Power = caught;
             }
         }
 
-        
-        
+        /// <summary>
+        /// 効果音を鳴らす
+        /// </summary>
+        private void CraneSoundPlay() 
+        {
+            if (audioSource.isPlaying) return;
+            audioSource.clip = craneSound;
+            audioSource.loop = true;
+            audioSource.Play(); 
+        }
+
+#if UNITY_EDITOR
+        [SerializeField]
+        private Mesh mesh;
+        [SerializeField]
+        private bool ShowGizmos = false;
+        private void OnDrawGizmos()
+        {
+            if (ShowGizmos) DrawGizmos();
+        }
+        private void OnDrawGizmosSelected()
+        {
+            if (!ShowGizmos)DrawGizmos();
+        }
+
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+            
+            RaycastHit hit = new RaycastHit();
+            Ray ray = new Ray(this.transform.position + Vector3.down, Vector3.down);
+            bool isHit = Physics.Raycast(ray, out hit);
+            if (isHit)
+            {
+                Vector3 EndPoint = hit.point;
+                Vector3 scale = new Vector3(0.01f, 0.01f, 0.01f);
+                // 線描画
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(this.transform.position, EndPoint);
+                Gizmos.DrawMesh(mesh, 0, EndPoint,Quaternion.identity,scale);
+            }
+        }
+#endif // UNITY_EDITOR
     }
 }
 
 //===============================
-// date : 2024/10/23
+// date : 2024/10/29
 // programmed by Nakagawa Naoto
 //===============================

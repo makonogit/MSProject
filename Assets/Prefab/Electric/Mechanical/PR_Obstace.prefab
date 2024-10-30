@@ -1458,9 +1458,8 @@ MonoBehaviour:
   - {fileID: 2562622135184534874}
   - {fileID: 4671174500846467088}
   - {fileID: 7678309953670282752}
-  explosion: {fileID: 8300000, guid: c33468383bbda2341847e0582dcb81f2, type: 3}
-  audioClips:
-  - {fileID: 8300000, guid: 17c557b23220ab74aa0603ab713930a5, type: 3}
+  explosion: {fileID: 8300000, guid: 05f2b74dd5418ce4090f90023f4515ab, type: 3}
+  hitSound: {fileID: 8300000, guid: 6ac3be23a164ed34b9a50f44977799fc, type: 3}
 --- !u!82 &2060576196994609150
 AudioSource:
   m_ObjectHideFlags: 0

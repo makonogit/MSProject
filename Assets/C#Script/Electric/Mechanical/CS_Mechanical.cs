@@ -15,7 +15,7 @@ namespace Assets.C_Script.Electric.Mechanical
         private bool oldPower = false;
         public bool Power { get { return power; } set { power = value;} }
 
-        private void Start(){}
+        virtual protected void Start(){}
 
         virtual protected void FixedUpdate()
         {
