@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CS_Countdown : MonoBehaviour
 {
-    private float countdownTime;
+    private float countdownTime = 0f;
 
     public void Initialize(float time)
     {

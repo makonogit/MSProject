@@ -11,6 +11,7 @@ TagManager:
   - Item
   - Goal
   - EnergyCore
+  - Gimmick
   layers:
   - Default
   - TransparentFX

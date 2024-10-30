@@ -42,11 +42,19 @@ public class CS_PlayerManager : MonoBehaviour
     private LayerMask groundLayer;
     public Vector3 oldAcceleration;// 1フレーム前の重力加速度
 
-    [Header("状態")]
-    [SerializeField]
-    private bool isStunned = false;
-    public bool GetStunned() => isStunned;
-    public void SetStunned(bool val) { isStunned = val; }
+    // 硬直
+    [System.Serializable]
+    public class StringNumberPair
+    {
+        public string name;
+        public float time;
+    }
+    [SerializeField, Header("状態(bool)/硬直時間")]
+    private StringNumberPair[] animatorBoolParameterList;
+    public StringNumberPair[] GetAnimatorBoolParameterList() => animatorBoolParameterList;
+    [SerializeField, Header("状態(float)/硬直時間")]
+    private StringNumberPair[] animatorFloatParameterList;
+    public StringNumberPair[] GetAnimatorFloatParameterList() => animatorFloatParameterList;
 
     [SerializeField, Header("オーディオ")]
     private CS_SoundEffect soundEffect;
@@ -150,7 +158,7 @@ public class CS_PlayerManager : MonoBehaviour
             {
                 core.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
             }
-            else
+            else if(core.STATE != CS_Core.CORE_STATE.HAVEENEMY)
             {
                 core.STATE = CS_Core.CORE_STATE.DROP;
             }
@@ -166,7 +174,6 @@ public class CS_PlayerManager : MonoBehaviour
         if (nowHP <= 0)
         {
             animator.SetBool("GameOver", true);
-            isStunned = true;
         }
 
         animator.SetBool("isGrounded", IsGrounded());
@@ -202,7 +209,6 @@ public class CS_PlayerManager : MonoBehaviour
                 if ((oldAcceleration.y < -fallingThreshold))
                 {
                     animator.SetFloat("Falling", 1);
-                    isStunned = true;
                     countdown.Initialize(0.5f);
                 }
                 else
@@ -232,7 +238,6 @@ public class CS_PlayerManager : MonoBehaviour
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
             animator.SetBool("Goal", true);
-            isStunned = true;
             result.StartResult();
         }
     }

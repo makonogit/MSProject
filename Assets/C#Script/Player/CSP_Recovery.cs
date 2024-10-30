@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //**
-//* アイテム使用処理
+//* 回復処理
 //*
 //* 担当：藤原昂祐
 //**
@@ -23,20 +23,51 @@ public class CSP_Recovery : ActionBase
     // 体力の初期値を保存
     private float initHp;
 
+    // 時間計測クラス
+    private CS_Countdown countdown;
+
     void Start()
     {
         base.Start();
 
         initHp = GetPlayerManager().GetHP();
+
+        // Countdownオブジェクトを生成
+        countdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     void FixedUpdate()
     {
-        HandleUseItem();
+        // 硬直処理
+
+        // bool
+        foreach (var pair in GetAnimatorBoolParameterList())
+        {
+            if (GetAnimator().GetBool(pair.name))
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+        // float
+        foreach (var pair in GetAnimatorFloatParameterList())
+        {
+            if (GetAnimator().GetFloat(pair.name) >= 1)
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+
+        // 回復処理
+        if (countdown.IsCountdownFinished())
+        {
+            HandleUseItem();
+        }
     }
 
     //**
-    //* アイテム使用処理
+    //* 回復処理
     //*
     //* in：無し
     //* out：無し

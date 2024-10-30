@@ -3272,6 +3272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9007402106d15744dae90ae6cf083bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pairs:
+  - name: Use Item
+    time: 3
+  - name: Use EnergyCore
+    time: 3
+  - name: Damage
+    time: 2
   jumpForce: 5
   decelerationMount: 0.8
   decelerationHunger: 0.7
@@ -3301,6 +3308,8 @@ MonoBehaviour:
     time: 3
   - name: Use EnergyCore
     time: 3
+  - name: Damage
+    time: 2
   speed: 1
   targetSpeed: 10
   smoothTime: 0.5
@@ -3308,6 +3317,7 @@ MonoBehaviour:
   decelerationMount: 0.8
   decelerationHunger: 0.7
   stunnedTime: 0.5
+  forceMagnitude: 10
 --- !u!114 &6462524678093254582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3326,7 +3336,7 @@ MonoBehaviour:
   burstfire: 1
   initBulletStock: 100
   bulletStock: 100
-  shotHp: 1
+  shotHp: -1
   range: 100
   detectionImage: {fileID: 0}
   radius: 2

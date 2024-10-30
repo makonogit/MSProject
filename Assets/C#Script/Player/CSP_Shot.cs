@@ -62,6 +62,27 @@ public class CSP_Shot : ActionBase
         // ƒŒƒeƒBƒNƒ‹ˆ—
         HandlReticle();
 
+        // d’¼ˆ—
+
+        // bool
+        foreach (var pair in GetAnimatorBoolParameterList())
+        {
+            if (GetAnimator().GetBool(pair.name))
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+        // float
+        foreach (var pair in GetAnimatorFloatParameterList())
+        {
+            if (GetAnimator().GetFloat(pair.name) >= 1)
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+
         // ËŒ‚ˆ—
         if (countdown.IsCountdownFinished())
         {

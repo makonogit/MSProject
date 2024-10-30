@@ -4,14 +4,12 @@ using UnityEngine;
 public class CSP_Move : ActionBase
 {
     // 硬直
-    [System.Serializable]
-    public class StringNumberPair
-    {
-        public string name;
-        public float time;
-    }
-    [SerializeField, Header("状態/硬直時間")]
-    public StringNumberPair[] pairs;
+    //[System.Serializable]
+    //public class StringNumberPair
+    //{
+    //    public string name;
+    //    public float time;
+    //}
     //[SerializeField, Header("状態/移動速度倍率")]
     //public StringNumberPair[] MoveSpeed;
 
@@ -32,8 +30,6 @@ public class CSP_Move : ActionBase
     private float decelerationMount;
     [SerializeField, Header("飢餓時の減速倍率")]
     private float decelerationHunger;
-    [SerializeField, Header("落下硬直の時間")]
-    private float stunnedTime;
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -60,18 +56,21 @@ public class CSP_Move : ActionBase
     void FixedUpdate()
     {
         // 硬直処理
-        if (GetPlayerManager().GetStunned())
-        {
-            // カウントダウンをセット
-            countdown.Initialize(stunnedTime);
-            GetPlayerManager().SetStunned(false);
-            StopMove();
-        }
 
-
-        foreach (var pair in pairs)
+        // bool
+        foreach (var pair in GetAnimatorBoolParameterList())
         {
             if (GetAnimator().GetBool(pair.name))
+            {
+                countdown.Initialize(pair.time);
+                StopMove();
+                break;
+            }
+        }
+        // float
+        foreach (var pair in GetAnimatorFloatParameterList())
+        {
+            if (GetAnimator().GetFloat(pair.name) >= 1)
             {
                 countdown.Initialize(pair.time);
                 StopMove();
@@ -254,12 +253,12 @@ public class CSP_Move : ActionBase
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            //GetSoundEffect().PlaySoundEffect(3, 7);
+            GetSoundEffect().PlaySoundEffect(3,7);
 
             GetAnimator().SetBool("Damage", true);
 
             // 衝突方向を保存
-           collisionNormal = collision.contacts[0].normal;
+            collisionNormal = collision.contacts[0].normal;
 
             countdownDamage.Initialize(1);
         }

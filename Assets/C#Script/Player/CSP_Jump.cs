@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class CSP_Jump : ActionBase
 {
-    // 硬直
-    [System.Serializable]
-    public class StringNumberPair
-    {
-        public string name;
-        public float time;
-    }
-    [SerializeField, Header("状態/硬直時間")]
-    public StringNumberPair[] pairs;
+    //// 硬直
+    //[System.Serializable]
+    //public class StringNumberPair
+    //{
+    //    public string name;
+    //    public float time;
+    //}
+    //[SerializeField, Header("状態/硬直時間")]
+    //public StringNumberPair[] pairs;
 
     // ジャンプ
     [Header("ジャンプ設定")]
@@ -24,8 +24,6 @@ public class CSP_Jump : ActionBase
     private float decelerationMount;
     [SerializeField, Header("飢餓時の減速倍率")]
     private float decelerationHunger;
-    [SerializeField, Header("落下硬直の時間")]
-    private float stunnedTime;
     [SerializeField, Header("多段ジャンプ回数の初期値")]
     private int initJumpStock = 1;
     private int jumpStock;      // 残りのジャンプ回数
@@ -42,7 +40,7 @@ public class CSP_Jump : ActionBase
     [SerializeField, Header("登る速さの倍率")]
     private float climbSpeed = 1f;
 
-    // カウントダウン用クラス
+    // 時間計測クラス
     private CS_Countdown countdown;
 
     protected override void Start()
@@ -58,15 +56,20 @@ public class CSP_Jump : ActionBase
     void FixedUpdate()
     {
         // 硬直処理
-        if (GetPlayerManager().GetStunned())
-        {
-            // カウントダウンをセット
-            countdown.Initialize(stunnedTime);
-        }
 
-        foreach (var pair in pairs)
+        // bool
+        foreach (var pair in GetAnimatorBoolParameterList())
         {
             if (GetAnimator().GetBool(pair.name))
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+        // float
+        foreach (var pair in GetAnimatorFloatParameterList())
+        {
+            if (GetAnimator().GetFloat(pair.name) >= 1)
             {
                 countdown.Initialize(pair.time);
                 break;

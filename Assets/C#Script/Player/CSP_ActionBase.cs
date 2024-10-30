@@ -17,6 +17,8 @@ public abstract class ActionBase : MonoBehaviour
     public Rigidbody GetRigidbody() => playerManager.GetRigidbody();
     public Animator GetAnimator() => playerManager.GetAnimator();
     public CS_SoundEffect GetSoundEffect() => playerManager.GetSoundEffect();
+    public CS_PlayerManager.StringNumberPair[] GetAnimatorBoolParameterList() => playerManager.GetAnimatorBoolParameterList();
+    public CS_PlayerManager.StringNumberPair[] GetAnimatorFloatParameterList() => playerManager.GetAnimatorFloatParameterList();
 
     protected virtual void Start()
     {
