@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 4774.2896, g: 3104.063, b: 2289.0706, a: 1}
+  m_IndirectSpecularColor: {r: 4769.7603, g: 3101.7837, b: 2291.098, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1249,7 +1249,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.037083756, z: 0, w: 0.99931216}
-  m_LocalPosition: {x: -0.38987756, y: -0.16080037, z: -5.4}
+  m_LocalPosition: {x: -0.38987756, y: -0.16080038, z: -5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3296,6 +3296,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1022620957346792206, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: forceMagnitude
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1022620957346792206, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1022620957346792206, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[2].name
+      value: Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1022620957346792206, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[2].time
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3948006307911280083, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.49005413
@@ -3341,9 +3357,41 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6462524678093254582, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: shotHp
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462524678093254582, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
       propertyPath: detectionImage
       value: 
       objectReference: {fileID: 2070118284}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[0].name
+      value: Use Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[0].time
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[1].name
+      value: Use EnergyCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[1].time
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[2].name
+      value: Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908855115190931798, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: pairs.Array.data[2].time
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

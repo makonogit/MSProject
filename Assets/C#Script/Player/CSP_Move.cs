@@ -37,6 +37,12 @@ public class CSP_Move : ActionBase
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
+    private CS_Countdown countdownDamage;
+
+    // 衝突方向
+    private Vector3 collisionNormal;
+    [SerializeField, Header("ダメージ時のノックバック")]
+    private float forceMagnitude = 0.5f;
 
     protected override void Start()
     {
@@ -47,6 +53,8 @@ public class CSP_Move : ActionBase
 
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
+        countdownDamage = gameObject.AddComponent<CS_Countdown>();
+
     }
 
     void FixedUpdate()
@@ -76,7 +84,22 @@ public class CSP_Move : ActionBase
         {
             HandleMovement();
         }
+        // 敵と衝突している場合、逆方向に力を加える
+        if (GetAnimator().GetBool("Damage"))
+        {
+            Vector3 reverseForce = collisionNormal * forceMagnitude;
+            reverseForce.y = 0f;
+            if ((reverseForce.x == 0f) && (reverseForce.z == 0f))
+            {
+                reverseForce.z = -forceMagnitude;
+            }
 
+            //Vector3 offset = new Vector3(0, 0.25f, 0);
+            GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
+
+            if (countdownDamage.IsCountdownFinished())
+                GetAnimator().SetBool("Damage", false);
+        }
     }
 
     //**
@@ -224,6 +247,21 @@ public class CSP_Move : ActionBase
             {
                 StopMove();
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            //GetSoundEffect().PlaySoundEffect(3, 7);
+
+            GetAnimator().SetBool("Damage", true);
+
+            // 衝突方向を保存
+           collisionNormal = collision.contacts[0].normal;
+
+            countdownDamage.Initialize(1);
         }
     }
 }

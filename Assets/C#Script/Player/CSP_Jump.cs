@@ -6,6 +6,16 @@ using UnityEngine;
 
 public class CSP_Jump : ActionBase
 {
+    // 硬直
+    [System.Serializable]
+    public class StringNumberPair
+    {
+        public string name;
+        public float time;
+    }
+    [SerializeField, Header("状態/硬直時間")]
+    public StringNumberPair[] pairs;
+
     // ジャンプ
     [Header("ジャンプ設定")]
     [SerializeField, Header("ジャンプ力")]
@@ -54,13 +64,20 @@ public class CSP_Jump : ActionBase
             countdown.Initialize(stunnedTime);
         }
 
+        foreach (var pair in pairs)
+        {
+            if (GetAnimator().GetBool(pair.name))
+            {
+                countdown.Initialize(pair.time);
+                break;
+            }
+        }
+
         // 移動処理
         if (countdown.IsCountdownFinished())
         {
             HandleJump();
         }
-
-        
 
         if (GetAnimator().GetBool("Mount"))
         {

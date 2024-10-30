@@ -228,33 +228,12 @@ public class CS_PlayerManager : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
-        else if (collision.gameObject.tag == "Enemy")
-        {
-            GetSoundEffect().PlaySoundEffect(3, 7);
-
-            animator.SetBool("Damage", true);
-
-            // ‹t•ûŒü‚É—Í‚ð‰Á‚¦‚é
-            float forceMagnitude = 5f;
-            Vector3 collisionNormal = collision.contacts[0].normal;
-            Vector3 reverseForce = collisionNormal * forceMagnitude;
-            Vector3 offset = new Vector3(0, forceMagnitude, 0);
-            rb.AddForce(reverseForce + offset, ForceMode.Impulse);
-        }
         else if (collision.gameObject.tag == "Goal")
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
             animator.SetBool("Goal", true);
             isStunned = true;
             result.StartResult();
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            animator.SetBool("Damage", false);
         }
     }
 
