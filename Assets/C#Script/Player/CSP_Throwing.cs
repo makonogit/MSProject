@@ -23,6 +23,7 @@ public class CSP_Throwing : ActionBase
     [Header("ターゲット関連")]
     [SerializeField] 
     private GameObject targetObject;
+    public GameObject GetEnergyCore() => targetObject;
     private Rigidbody rb;
     private LineRenderer lineRenderer;
     private List<Vector3> positions = new List<Vector3>();
@@ -79,79 +80,93 @@ public class CSP_Throwing : ActionBase
             // 予想線を非表示
             lineRenderer.enabled = false;
 
-            // 投げる処理
-            if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
+            if (GetAnimator().GetBool("Mount"))
             {
+                // 投げる処理
+                if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
+                {
+                    if (targetObject != null)
+                    {
+                        GetAnimator().SetBool("Throwing", false);
+
+                        collider.enabled = true;
+
+                        rb.useGravity = true;
+
+                        GetSoundEffect().PlaySoundEffect(2, 8);
+
+                        // 余計な移動成分を取り除く
+                        Vector3 currentVelocity = rb.velocity;
+                        rb.velocity = Vector3.zero;
+                        rb.angularVelocity = Vector3.zero;
+
+                        // カメラの正面方向の位置を取得
+                        Vector3 cameraForward = Camera.main.transform.forward;
+
+                        // 指定した角度で力を加える
+                        Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
+                        rb.AddForce(force, ForceMode.Impulse);
+
+                        // ターゲットをリセット
+                        targetObject = null;
+                        rb = null;
+                        collider = null;
+                    }
+                }
+
+                // ラインレンダーの初期値位置を更新
                 if (targetObject != null)
                 {
-                    GetAnimator().SetBool("Throwing", false);
-
-                    collider.enabled = true;
-
-                    rb.useGravity = true;
-
-                    GetSoundEffect().PlaySoundEffect(2, 8);
-
-                    // 余計な移動成分を取り除く
-                    Vector3 currentVelocity = rb.velocity;
-                    rb.velocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-
-                    // カメラの正面方向の位置を取得
-                    Vector3 cameraForward = Camera.main.transform.forward;
-
-                    // 指定した角度で力を加える
-                    Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
-                    rb.AddForce(force, ForceMode.Impulse);
-
-                    // ターゲットをリセット
-                    targetObject = null;
-                    rb = null;
-                    collider = null;
+                    positions.Add(targetObject.transform.position);
+                    lineRenderer.positionCount = positions.Count;
+                    lineRenderer.SetPositions(positions.ToArray());
                 }
-            }
+                else
+                {
+                    GetAnimator().SetBool("Mount", false);
+                }
 
-            // ラインレンダーの初期値位置を更新
+                // 投げる時のコアの位置を更新
+                // 投げる軌道を予測して描画
+                if ((GetInputSystem().GetLeftTrigger() > 0) && (targetObject != null) && (!GetInputSystem().GetButtonBPressed()))
+                {
+                    GetAnimator().SetBool("Throwing", true);
+
+                    lineRenderer.enabled = true;
+
+                    Vector3 offset = new Vector3(0, 2.5f, 0);
+                    targetObject.transform.position = transform.position + offset;
+
+                    DrawTrajectory();
+                }
+                // 背負う時のコアの位置を更新
+                else if (targetObject != null)
+                {
+                    Vector3 offset = new Vector3(0, 1.0f, 0);
+                    Vector3 backPosition = transform.position - transform.forward * distance;
+                    targetObject.transform.position = backPosition + offset;
+                    targetObject.transform.rotation = Quaternion.identity;
+                    rb.useGravity = false;
+
+                    targetObject.transform.rotation = Quaternion.Euler(fixedRotation);
+                }
+
+                oldLeftTrigger = GetInputSystem().GetLeftTrigger();
+            }
+        }
+
+        if (!GetAnimator().GetBool("Mount"))
+        {
             if (targetObject != null)
             {
-                GetAnimator().SetBool("Mount", true);
-
-                positions.Add(targetObject.transform.position);
-                lineRenderer.positionCount = positions.Count;
-                lineRenderer.SetPositions(positions.ToArray());
+                // ターゲットをリセット
+                //collider.enabled = true;
+                rb.useGravity = true;
+                targetObject = null;
+                rb = null;
+                collider = null;
             }
-            else
-            {
-                GetAnimator().SetBool("Mount", false);
-            }
-
-            // 投げる時のコアの位置を更新
-            // 投げる軌道を予測して描画
-            if ((GetInputSystem().GetLeftTrigger() > 0) && (targetObject != null) && (!GetInputSystem().GetButtonBPressed()))
-            {
-                GetAnimator().SetBool("Throwing", true);
-
-                lineRenderer.enabled = true;
-
-                Vector3 offset = new Vector3(0, 2.5f, 0);
-                targetObject.transform.position = transform.position + offset;
-
-                DrawTrajectory();
-            }
-            // 背負う時のコアの位置を更新
-            else if (targetObject != null)
-            {
-                Vector3 offset = new Vector3(0, 1.0f, 0);
-                Vector3 backPosition = transform.position - transform.forward * distance;
-                targetObject.transform.position = backPosition + offset;
-                targetObject.transform.rotation = Quaternion.identity;
-                rb.useGravity = false;
-
-                targetObject.transform.rotation = Quaternion.Euler(fixedRotation);
-            }
-
-            oldLeftTrigger = GetInputSystem().GetLeftTrigger();
-        }       
+        }
     }
 
     // 力の方向を計算
@@ -248,6 +263,8 @@ public class CSP_Throwing : ActionBase
 
                 // ラインレンダーの初期位置を設定
                 positions.Add(targetObject.transform.position);
+
+                GetAnimator().SetBool("Mount", true);
 
                 //SetChildObject("Player/All_Base/All_Ctrl/Hip_Base/Spine1_Base/Spine1_CtrlSpine2_Base/Spine2_Ctrl/Neck_Base", targetObject.transform);
             }
