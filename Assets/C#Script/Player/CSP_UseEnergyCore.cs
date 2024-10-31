@@ -25,7 +25,7 @@ public class CSP_UseEnergyCore : ActionBase
     private CSP_Throwing csp_throwing;
 
     // 時間計測用クラス
-    private CS_Countdown countdown;
+    //private CS_Countdown countdown;
     private CS_Countdown countdownFreeze;
 
     // Start is called before the first frame update
@@ -74,15 +74,13 @@ public class CSP_UseEnergyCore : ActionBase
 
     void HandleUseEnergyCore()
     {
-        if (countdown.IsCountdownFinished() 
-            && GetAnimator().GetBool("UseEnergyCore"))
+        if (GetAnimator().GetBool("UseEnergyCore"))
         {
             GetAnimator().SetBool("UseEnergyCore", false);
             GetAnimator().SetBool("Mount", false);
-
             // コアをセットする
             coreUnit.SetCore(csp_throwing.GetEnergyCore());
-            csp_throwing.GetEnergyCore().transform.position = targetObject.transform.position;
+            //csp_throwing.GetEnergyCore().transform.position = targetObject.transform.position;
             targetObject = null;
             coreUnit = null;
         }
@@ -95,12 +93,11 @@ public class CSP_UseEnergyCore : ActionBase
                 {
                     GetSoundEffect().PlaySoundEffect(2, 6);
                     GetAnimator().SetBool("UseEnergyCore", true);
-
                     foreach (var pair in GetAnimatorBoolParameterList())
                     {
                         if (pair.name == "UseEnergyCore")
                         {
-                            countdown.Initialize(pair.time);
+                            //countdown.Initialize(pair.time);
                             break;
                         }
                     }

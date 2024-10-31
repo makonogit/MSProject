@@ -465,7 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   crabTrolley: {fileID: 7168042311439466585}
-  itemTag: Core
+  itemTag: EnergyCore
   caught: 0
   Drop: 0
   Cable: {fileID: 6894017373344454893}
@@ -985,8 +985,8 @@ MonoBehaviour:
   m_LoopMode: 3
   m_Method: 0
   m_Duration: 5
-  m_MaxSpeed: 4.840043
-  m_EasingMode: 3
+  m_MaxSpeed: 2.4200215
+  m_EasingMode: 0
   m_AlignmentMode: 1
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
@@ -1175,6 +1175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4683809175569500882}
   - component: {fileID: 397751452981868798}
+  - component: {fileID: 6125823761664026090}
   m_Layer: 0
   m_Name: Crane_main
   m_TagString: Untagged
@@ -1226,6 +1227,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6125823761664026090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5746831397134465293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e13b72ab968e844a5265b8b9022374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1165052094341947294}
+  hittag: EnergyCore
 --- !u!1 &5813375453998831778
 GameObject:
   m_ObjectHideFlags: 0

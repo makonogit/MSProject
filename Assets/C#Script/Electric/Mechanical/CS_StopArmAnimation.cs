@@ -11,10 +11,12 @@ namespace Assets.C_Script.Electric.Mechanical
     {
         [SerializeField]
         private Animator animator;
+        [SerializeField]
+        private string hittag = "EnergyCore";
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Core") animator.SetFloat("speed", 0);
+            if (other.transform.tag == hittag) animator.SetFloat("speed", 0);
         }
     }
 }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1100013080747177705}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mechanical: {fileID: 0}
-  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  color: {r: 0, g: 1, b: 0.9424863, a: 0.44705883}
+  mesh: {fileID: 2781847978938744853, guid: d3d6ceb970ec4d845a1a178344f221cd, type: 3}
+  color: {r: 1, g: 0.78632903, b: 0, a: 0.44705883}
   lossyScale: 0
   show: 0
 --- !u!1 &6776659613971408003

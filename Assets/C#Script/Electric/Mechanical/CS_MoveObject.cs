@@ -58,7 +58,7 @@ namespace Assets.C_Script.Electric.Mechanical
         }
         private void OnTriggerExit(Collider other)
         {
-            if (stick) other.transform.SetParent(transform, true);
+            if (stick) other.transform.SetParent(null, true);
         }
 
 
