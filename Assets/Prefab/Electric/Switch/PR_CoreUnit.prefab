@@ -202,8 +202,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3865ec9e71c1ccf48ad537022bb66baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  signal: 0
+  transmitter:
+    receivers:
+    - {fileID: 0}
+  sendType: 0
+  outputType: 0
   coreObject: {fileID: 0}
-  receiver: {fileID: 0}
   unitTransform: {fileID: 9203009862873888568}
   audioSource: {fileID: 1473756814543666375}
 --- !u!82 &1473756814543666375

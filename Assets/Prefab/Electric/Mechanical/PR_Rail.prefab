@@ -1893,6 +1893,10 @@ PrefabInstance:
       propertyPath: receiver
       value: 
       objectReference: {fileID: 4979460563695034213}
+    - target: {fileID: 4293524272464515058, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
+      propertyPath: transmitter.receivers.Array.data[0]
+      value: 
+      objectReference: {fileID: 4979460563695034213}
     - target: {fileID: 6776659613971408003, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: m_Name
       value: 'PR_CoreUnitStartPoint '
