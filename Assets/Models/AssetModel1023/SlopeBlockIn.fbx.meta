@@ -3,7 +3,12 @@ guid: 4245e55d590c9e742b9412351f27724b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SlopeStairsColor
+    second: {fileID: 2100000, guid: 513ee48161b2878439058b9e51c8d585, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
