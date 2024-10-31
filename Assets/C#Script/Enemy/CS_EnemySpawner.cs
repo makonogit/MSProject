@@ -58,6 +58,7 @@ public class CS_EnemySpawner : MonoBehaviour
     private float SpawnSpaceTime = 0.0f;
     private int CurrentSpawnNum = 0;    //現在のスポーン数
     private bool SpawnSwitch = false;   //スポーンスイッチ
+    private bool end = false;
 
     // Start is called before the first frame update
     void Start()
@@ -74,6 +75,8 @@ public class CS_EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (end) { return; }
+
         //スイッチオンになったら生成
         if (SpawnSwitch) { Spawn(); }
 
@@ -88,13 +91,16 @@ public class CS_EnemySpawner : MonoBehaviour
 
             if (conditions == SpawnConditions.PASSTHROUGH)
             {
-                Vector3 direction = transform.right;
-                Ray ray = new Ray(transform.position, direction);
+                //Vector3 direction = transform.right;
+                //Ray ray = new Ray(transform.position, direction);
 
                 // Raycastの結果を保持するための変数
                 RaycastHit hit;
 
-                bool Path = Physics.Raycast(ray, out hit, PathSwitchBarLength, PathLayer);
+                Vector3 start = new Vector3(transform.position.x - PathSwitchBarLength / 2, transform.position.y, transform.position.z);
+                Vector3 end = new Vector3(transform.position.x + PathSwitchBarLength / 2, transform.position.y, transform.position.z);
+                
+                bool Path = Physics.Linecast(start, end, out hit, PathLayer);//Physics.Raycast(transform.position,Vector3.right,out hit, PathSwitchBarLength, PathLayer);
 
                 if (Path) { SpawnSwitch = true; }
 
@@ -106,13 +112,20 @@ public class CS_EnemySpawner : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.right * PathSwitchBarLength);
+
+        Vector3 start = new Vector3(transform.position.x - PathSwitchBarLength / 2, transform.position.y, transform.position.z);
+        Vector3 end = new Vector3(transform.position.x + PathSwitchBarLength / 2, transform.position.y, transform.position.z);
+
+        Gizmos.DrawLine(start,end);
+
+        Gizmos.DrawSphere(transform.position, 1.0f);
+
     }
 
     private void Spawn()
     {
         //最大数生成していたら終了
-        if(CurrentSpawnNum >= MaxSpawnNum) { Destroy(this.gameObject); }
+        if (CurrentSpawnNum >= MaxSpawnNum) { end = true; return; }//{ Destroy(this.gameObject); }
 
         //スポーン開始時間を計測
         bool Start = SpawnStartTime > SpawnDeley;

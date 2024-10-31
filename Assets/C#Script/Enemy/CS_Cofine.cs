@@ -229,8 +229,14 @@ public class CS_Cofine : MonoBehaviour
 
         state = changestate;
         //NavMeshが準備できているか判断
-        bool setnav = navmeshAgent.pathStatus != NavMeshPathStatus.PathInvalid;
-        if (setnav) { navmeshAgent.SetDestination(targetpos); }
+        if(navmeshAgent.enabled)
+        {
+            TargetPos = targetpos;
+            bool setnav = navmeshAgent.pathStatus != NavMeshPathStatus.PathInvalid;
+            if (setnav) { navmeshAgent.SetDestination(targetpos); }
+        }
+        
+       
         
     }
 
@@ -258,6 +264,8 @@ public class CS_Cofine : MonoBehaviour
         //攻撃されたら
         if(Attack)
         {
+            navmeshAgent.enabled = false;
+
             Rigidbody rb;
             TryGetComponent<Rigidbody>(out rb);
 
@@ -266,12 +274,26 @@ public class CS_Cofine : MonoBehaviour
                 // 衝突方向の反対方向に力を加える
                 Vector3 knockbackDirection = (transform.position - collision.transform.position).normalized;
                 rb.AddForce(knockbackDirection * KnockBackForce, ForceMode.Impulse);
+                // ノックバックの終了を待機するコルーチンを開始
+                StartCoroutine(EndKnockback());
             }
 
             //威嚇モーション
             state = Cofin_State.INTIMIDATION;
             CofinAnim.SetTrigger("Intimidation");
         }
+
+    }
+
+    private IEnumerator EndKnockback()
+    {
+        yield return new WaitForSeconds(1f);
+
+        // NavMeshAgentを再度有効にする
+        navmeshAgent.enabled = true;
+
+        // 目的地を再設定（例として元の目的地に戻す）
+        navmeshAgent.SetDestination(TargetPos);
 
     }
 
