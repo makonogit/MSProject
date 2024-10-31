@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 //using static System.Net.Mime.MediaTypeNames;
 
 public class CSP_Shot : ActionBase
@@ -28,14 +29,18 @@ public class CSP_Shot : ActionBase
     private float range = 100f;
 
     [Header("レティクル設定")]
-    [SerializeField, Header("レティクルイメージ")]
-    private Image detectionImage;
+    [SerializeField, Header("表示位置")]
+    private UnityEngine.UI.Image detectionImage;
     [SerializeField, Header("アシスト範囲")]
     float radius = 1.0f;
-    [SerializeField, Header("検出時の色")]
-    private Color detectedColor = Color.green; // 検出時の色
-    [SerializeField, Header("非検出時の色")]
-    private Color notDetectedColor = Color.red; // 非検出時の色
+    [SerializeField, Header("検出時のレティクル設定")]
+    private Sprite detectedSprite;
+    //[SerializeField]
+    //private Color detectedColor = Color.green; // 検出時の色
+    [SerializeField, Header("非検出時のレティクル設定")]
+    private Sprite notDetectedSprite; 
+    //[SerializeField]
+    //private Color notDetectedColor = Color.red; // 非検出時の色
     [SerializeField, Header("破壊可能オブジェクトのタグ")]
     private List<string> targetTag;
     private GameObject targetObject;// レティクル内の破壊可能オブジェクト
@@ -130,7 +135,8 @@ public class CSP_Shot : ActionBase
     void HandlReticle()
     {
         // レティクルとターゲットを初期化
-        detectionImage.color = notDetectedColor;
+        //detectionImage.color = notDetectedColor;
+        detectionImage.sprite = notDetectedSprite;
         targetObject = null;
 
         // カメラ正面からレイを作成
@@ -144,7 +150,8 @@ public class CSP_Shot : ActionBase
             if (targetTag.Contains(hit.collider.tag))
             {
                 // オブジェクトを取得し、レティクルの色を変更
-                detectionImage.color = detectedColor;
+                //detectionImage.color = detectedColor;
+                detectionImage.sprite = detectedSprite;
                 targetObject = hit.collider.gameObject;
                 break;
             }

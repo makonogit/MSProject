@@ -2290,7 +2290,7 @@ PrefabInstance:
     - target: {fileID: 2534180512249639820, guid: 2da6f46ad60f8eb48acbc7461988fa7a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f717aa80e24c49c43a2af5481d41cc22, type: 3}
+      objectReference: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
     - target: {fileID: 2611041775514937899, guid: 2da6f46ad60f8eb48acbc7461988fa7a, type: 3}
       propertyPath: m_ScaleFactor
       value: 1
@@ -3141,42 +3141,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[1].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089755254581869036, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: accelerationCurveAssist.m_Curve.Array.data[1].outSlope
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4430377889019784145, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
       propertyPath: m_Name
       value: TpsCamera
@@ -3185,10 +3149,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1529760149}
-    - target: {fileID: 7381844837098283448, guid: c654d8597ff9f344e8fadf45d50358d3, type: 3}
-      propertyPath: m_Priority
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3422,9 +3382,17 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6462524678093254582, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: detectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cb9b89ac65e135c4aa337bfda089867a, type: 3}
+    - target: {fileID: 6462524678093254582, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
       propertyPath: detectionImage
       value: 
       objectReference: {fileID: 2070118284}
+    - target: {fileID: 6462524678093254582, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: notDetectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
