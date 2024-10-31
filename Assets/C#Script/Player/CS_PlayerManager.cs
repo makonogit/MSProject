@@ -32,7 +32,6 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField, Header("CS_Coreをここにセット")]
     private CS_Core core;
 
-
     [Header("接地判定")]
     [SerializeField]
     private float groundCheckDistance = 0.01f;

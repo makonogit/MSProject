@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.C_Script.Electric.Mechanical;
+using Assets.C_Script.Electric.Other;
+
+//**
+//* エネルギーコアを使用する
+//*
+//* 担当：藤原昂祐
+//**
 
 public class CSP_UseEnergyCore : ActionBase
 {
@@ -12,8 +19,12 @@ public class CSP_UseEnergyCore : ActionBase
     [SerializeField]
     private GameObject targetObject;    // ギミックオブジェクト
     [SerializeField]
-    private CS_Mechanical mechanical;
+    private CS_CoreUnit coreUnit;
 
+    // 自身のコンポーネント
+    private CSP_Throwing csp_throwing;
+
+    // 時間計測用クラス
     private CS_Countdown countdown;
     private CS_Countdown countdownFreeze;
 
@@ -22,49 +33,58 @@ public class CSP_UseEnergyCore : ActionBase
     {
         base.Start();
 
-        countdown = gameObject.AddComponent<CS_Countdown>();
+        csp_throwing = GetComponent<CSP_Throwing>();
+
+        //countdown = gameObject.AddComponent<CS_Countdown>();
         countdownFreeze = gameObject.AddComponent<CS_Countdown>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        // 硬直処理
+        //// 硬直処理
 
-        // bool
-        foreach (var pair in GetAnimatorBoolParameterList())
-        {
-            if (GetAnimator().GetBool(pair.name))
-            {
-                countdownFreeze.Initialize(pair.time);
-                break;
-            }
-        }
-        // float
-        foreach (var pair in GetAnimatorFloatParameterList())
-        {
-            if (GetAnimator().GetFloat(pair.name) >= 1)
-            {
-                countdownFreeze.Initialize(pair.time);
-                break;
-            }
-        }
+        //// bool
+        //foreach (var pair in GetAnimatorBoolParameterList())
+        //{
+        //    if (GetAnimator().GetBool(pair.name))
+        //    {
+        //        countdownFreeze.Initialize(pair.time);
+        //        break;
+        //    }
+        //}
+        //// float
+        //foreach (var pair in GetAnimatorFloatParameterList())
+        //{
+        //    if (GetAnimator().GetFloat(pair.name) >= 1)
+        //    {
+        //        countdownFreeze.Initialize(pair.time);
+        //        break;
+        //    }
+        //}
 
-        // ギミック起動処理
-        if (countdownFreeze.IsCountdownFinished())
-        {
-            HandleUseEnergyCore();
-        }
+        //// ギミック起動処理
+        //if (countdownFreeze.IsCountdownFinished())
+        //{
+        //    HandleUseEnergyCore();
+        //}
+
+        HandleUseEnergyCore();
     }
 
     void HandleUseEnergyCore()
     {
-        if (countdown.IsCountdownFinished() && GetAnimator().GetBool("UseEnergyCore"))
+        if (countdown.IsCountdownFinished() 
+            && GetAnimator().GetBool("UseEnergyCore"))
         {
             GetAnimator().SetBool("UseEnergyCore", false);
-            mechanical.Power = true;
+            GetAnimator().SetBool("Mount", false);
+
+            // コアをセットする
+            coreUnit.SetCore(csp_throwing.GetEnergyCore());
+            csp_throwing.GetEnergyCore().transform.position = targetObject.transform.position;
             targetObject = null;
-            mechanical = null;
+            coreUnit = null;
         }
         else if (GetAnimator().GetBool("Mount"))
         {
@@ -98,9 +118,13 @@ public class CSP_UseEnergyCore : ActionBase
         // 起動可能なギミックを取得
         if (collision.gameObject.tag == targetTag)
         {
-            targetObject = collision.gameObject;
+            coreUnit = collision.gameObject.GetComponent<CS_CoreUnit>();
 
-            mechanical = targetObject.GetComponent<CS_Mechanical>();
+            if(coreUnit != null)
+            {
+                targetObject = collision.gameObject;
+            }
+
         }
     }
 }
