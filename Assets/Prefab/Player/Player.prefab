@@ -3270,7 +3270,7 @@ MonoBehaviour:
     time: 3
   animatorFloatParameterList:
   - name: Falling
-    time: 0.5
+    time: 0.1
   soundEffect: {fileID: 4599338107709330034}
 --- !u!114 &8908855115190931798
 MonoBehaviour:
@@ -3336,8 +3336,8 @@ MonoBehaviour:
   range: 100
   detectionImage: {fileID: 0}
   radius: 2
-  detectedColor: {r: 0, g: 1, b: 0, a: 1}
-  notDetectedColor: {r: 1, g: 0, b: 0, a: 1}
+  detectedSprite: {fileID: 21300000, guid: cb9b89ac65e135c4aa337bfda089867a, type: 3}
+  notDetectedSprite: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
   targetTag:
   - Burst
   - Enemy
@@ -3353,6 +3353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 582f57020c9dc3e48a7b48b6e477aa23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 0
+  fixedRotation: {x: 0, y: 30, z: 0}
   targetTag: EnergyCore
   targetObject: {fileID: 0}
   forceMagnitude: 50

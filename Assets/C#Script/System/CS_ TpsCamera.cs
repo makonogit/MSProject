@@ -39,7 +39,7 @@ public class CS_TpsCamera : MonoBehaviour
     private float rotationLimitMax = 80.0f; // X軸回転の制限（最大）
     [SerializeField, Header("X軸回転の制限（最小）")]
     private float rotationLimitMin = 10.0f; // X軸回転の制限（最小）
-    private float cameraRotX = 45.0f;       // X軸回転の移動量
+    private float cameraRotX = 0.0f;       // X軸回転の移動量
     private float cameraRotY = 0.0f;        // Y軸転の移動量
 
     // 外部オブジェクト
