@@ -97,9 +97,9 @@ public class CS_EnemySpawner : MonoBehaviour
                 // RaycastÇÃåãâ Çï€éùÇ∑ÇÈÇΩÇﬂÇÃïœêî
                 RaycastHit hit;
 
-                Vector3 start = new Vector3(transform.position.x - PathSwitchBarLength / 2, transform.position.y, transform.position.z);
-                Vector3 end = new Vector3(transform.position.x + PathSwitchBarLength / 2, transform.position.y, transform.position.z);
-                
+                Vector3 start = transform.position - transform.right * (PathSwitchBarLength / 2);
+                Vector3 end = transform.position + transform.right * (PathSwitchBarLength / 2);
+
                 bool Path = Physics.Linecast(start, end, out hit, PathLayer);//Physics.Raycast(transform.position,Vector3.right,out hit, PathSwitchBarLength, PathLayer);
 
                 if (Path) { SpawnSwitch = true; }
@@ -113,8 +113,8 @@ public class CS_EnemySpawner : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Vector3 start = new Vector3(transform.position.x - PathSwitchBarLength / 2, transform.position.y, transform.position.z);
-        Vector3 end = new Vector3(transform.position.x + PathSwitchBarLength / 2, transform.position.y, transform.position.z);
+        Vector3 start = transform.position - transform.right * (PathSwitchBarLength / 2);
+        Vector3 end = transform.position + transform.right * (PathSwitchBarLength / 2);
 
         Gizmos.DrawLine(start,end);
 
