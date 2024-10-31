@@ -43,7 +43,7 @@ public class CS_GameUIManager : MonoBehaviour
     private void Start()
     {
         //マスクの最大サイズ(Left)を取得
-        MaskMAXValue = HungerGageMask.padding.z;
+        MaskMAXValue = HungerGageMask.padding.w;
         HungerGageMask.padding = Vector4.zero;
 
         //プレイヤーの情報取得
@@ -65,7 +65,7 @@ public class CS_GameUIManager : MonoBehaviour
     {
         //プレイヤーの体力を取得して反映させる
         float Hpprogress = playermanager.GetHP() / MaxPlayerHP;
-        HungerGageScale = MaskMAXValue * Hpprogress;
+        HungerGageScale = MaskMAXValue - (MaskMAXValue * Hpprogress);
         UpdateHungerGage(HungerGageScale);
 
         //缶の数を反映
@@ -101,7 +101,7 @@ public class CS_GameUIManager : MonoBehaviour
     /// <param 新しいゲージの値="value"></param>
     private void UpdateHungerGage(float value)
     {
-        HungerGageMask.padding = new Vector4(0, 0, value, 0);
+        HungerGageMask.padding = new Vector4(0, 0, 0, value);
     }
 
 }
