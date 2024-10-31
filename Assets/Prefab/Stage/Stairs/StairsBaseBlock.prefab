@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: StairsBaseBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71c7de85af1f5c341b7e5dc3ac4e9386, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115067544323614156, guid: 71c7de85af1f5c341b7e5dc3ac4e9386, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

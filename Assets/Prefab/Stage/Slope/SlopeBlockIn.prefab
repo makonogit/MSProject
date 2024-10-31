@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1581922667947751086}
   - component: {fileID: 4286663832052524381}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4245e55d590c9e742b9412351f27724b, type: 3}
       propertyPath: m_Name
       value: SlopeBlockIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4245e55d590c9e742b9412351f27724b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2498228464145310250, guid: 4245e55d590c9e742b9412351f27724b, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

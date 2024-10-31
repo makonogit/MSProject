@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 212239073673425842}
   - component: {fileID: 4644071829809770038}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,9 +101,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8426984045320502154, guid: f2ccb2b614165cd43bd366d95366ad4b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f2ccb2b614165cd43bd366d95366ad4b, type: 3}
       propertyPath: m_Name
       value: SlopeBlockOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f2ccb2b614165cd43bd366d95366ad4b, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
