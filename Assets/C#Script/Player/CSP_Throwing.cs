@@ -192,15 +192,19 @@ public class CSP_Throwing : ActionBase
     private void OnCollisionStay(Collision collision)
     {
         // エネルギーコアを拾う
-        if (collision.gameObject.tag == targetTag)
+
+        if (countdown.IsCountdownFinished())
         {
-            targetObject = collision.gameObject;
+            if (collision.gameObject.tag == targetTag)
+            {
+                targetObject = collision.gameObject;
 
-            // リジットボディを取得
-            rb = targetObject.GetComponent<Rigidbody>();
+                // リジットボディを取得
+                rb = targetObject.GetComponent<Rigidbody>();
 
-            // ラインレンダーの初期位置を設定
-            positions.Add(targetObject.transform.position);
+                // ラインレンダーの初期位置を設定
+                positions.Add(targetObject.transform.position);
+            }
         }
 
         // 敵と衝突した場合、エネルギーコアを落とす

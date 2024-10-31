@@ -2448,6 +2448,7 @@ MonoBehaviour:
   - {fileID: 384166946149314748}
   - {fileID: 5326310110201167006}
   - {fileID: 3547708188533969023}
+  - {fileID: 7777907004489919865}
   audioClips:
   - {fileID: 8300000, guid: 8fa78d2705c91c84b9d47ce63fa9ed27, type: 3}
   - {fileID: 8300000, guid: f6d7b234748f85b4187fedd3b5891582, type: 3}
@@ -3258,7 +3259,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   oldAcceleration: {x: 0, y: 0, z: 0}
-  isStunned: 0
+  animatorBoolParameterList:
+  - name: Use Item
+    time: 2
+  - name: UseEnergyCore
+    time: 2
+  - name: Goal
+    time: 3
+  - name: Damage
+    time: 3
+  animatorFloatParameterList:
+  - name: Falling
+    time: 0.5
   soundEffect: {fileID: 4599338107709330034}
 --- !u!114 &8908855115190931798
 MonoBehaviour:
@@ -3272,17 +3284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9007402106d15744dae90ae6cf083bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pairs:
-  - name: Use Item
-    time: 3
-  - name: Use EnergyCore
-    time: 3
-  - name: Damage
-    time: 2
   jumpForce: 5
   decelerationMount: 0.8
   decelerationHunger: 0.7
-  stunnedTime: 0.5
   initJumpStock: 1
   climbCheckDistance: 1
   climbMax: 2
@@ -3303,20 +3307,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a9e070f043b04ba5cd5e19304de50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pairs:
-  - name: Use Item
-    time: 3
-  - name: Use EnergyCore
-    time: 3
-  - name: Damage
-    time: 2
   speed: 1
   targetSpeed: 10
   smoothTime: 0.5
   dashInputValue: 0.75
   decelerationMount: 0.8
   decelerationHunger: 0.7
-  stunnedTime: 0.5
   forceMagnitude: 10
 --- !u!114 &6462524678093254582
 MonoBehaviour:
@@ -3423,7 +3419,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ec04d58cae0d94690b0cfd41d2bb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUse: 0
+  targetTag: Gimmick
+  targetObject: {fileID: 0}
+  mechanical: {fileID: 0}
 --- !u!1 &4523243980400097400
 GameObject:
   m_ObjectHideFlags: 0
