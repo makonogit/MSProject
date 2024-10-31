@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.86
+      value: -25.233952
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 15.9074745
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.37
+      value: -45.689068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -149,9 +149,10 @@ MonoBehaviour:
   PlayerDistance: 4
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 0
-  StartPos: {x: 1, y: 0, z: 0}
+    m_Bits: 1024
+  StartPos: {x: -19, y: -0.2, z: 0.6}
   MoveSpeed: 2
+  KnockBackForce: 1
   navmeshAgent: {fileID: 153386493854832457}
   CofinAnim: {fileID: 3200529328052254431}
 --- !u!195 &153386493854832457

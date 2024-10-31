@@ -1452,6 +1452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  PitchUp: 0.5
   DebrisParticle: {fileID: 0}
   changeMaterials:
   - {fileID: 8195968115099760455}
