@@ -25,6 +25,12 @@ namespace Assets.C_Script.Electric.Mechanical
         private AudioClip riseSound;
         [SerializeField]
         private AudioSource audioSource;
+        [SerializeField]
+        private AudioSource countAudioSource;
+        [SerializeField]
+        private AudioSource moveAudioSource;
+
+
 
         protected override void Start()
         {
@@ -45,13 +51,13 @@ namespace Assets.C_Script.Electric.Mechanical
             if (countDownTime <= 0)
             {
                 this.Movement(this.GetPosition());
-                if (firstTime) SoundPlay(riseSound,false);
-                else SoundPlay(moveSound, true);
-                firstTime = true;
+                if (firstTime) SoundPlay(audioSource,riseSound,false);
+                else SoundPlay(moveAudioSource,moveSound, true);
+                firstTime = false;
             }
             else if (Mathf.FloorToInt(countDownTime) != oldTime) 
             {
-                SoundPlay(countSound, false);
+                SoundPlay(countAudioSource,countSound, false);
             }
             oldTime = Mathf.FloorToInt(countDownTime);
         }
@@ -59,15 +65,18 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             base.PowerOff();
             countDownTime = CountDown;
+            if (moveAudioSource.isPlaying)moveAudioSource.Stop();
+            if (countAudioSource.isPlaying)countAudioSource.Stop();
+            if (audioSource.isPlaying)audioSource.Stop();
         }
 
-        private void SoundPlay(AudioClip clip,bool loop) 
+        private void SoundPlay(AudioSource audio,AudioClip clip,bool loop) 
         {
             if (clip == null) return;
-            if (audioSource.isPlaying) return;
-            audioSource.clip = clip;
-            audioSource.loop = loop;
-            audioSource.Play();
+            if (audio.isPlaying) return;
+            audio.clip = clip;
+            audio.loop = loop;
+            audio.Play();
         }
 #if UNITY_EDITOR
         private void OnDrawGizmos()
