@@ -43,7 +43,7 @@ public class CS_PoseMenu : MonoBehaviour
 
     private int MaxMenu = 0;        //項目数
 
-    private const float CursorSize = 50; //カーソルのサイズ
+    private const float CursorSize = 100; //カーソルのサイズ
 
     //メニュー選択状態
     private enum SelectState
@@ -131,7 +131,7 @@ public class CS_PoseMenu : MonoBehaviour
 
         //カーソルの位置を設定する
         Vector3 pos = MenuRectTrans[(int)CurrentSelect].anchoredPosition;
-        pos.y -= CursorSize;
+        //pos.y;
         CursorTrans.anchoredPosition = pos;
     }
     private void MenuSelect()

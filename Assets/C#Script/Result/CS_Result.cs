@@ -10,7 +10,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class CS_Result : MonoBehaviour
 {
-
+    [SerializeField, Header("リザルトBGM")]
+    private AudioSource audio;
+    [SerializeField]
+    private AudioClip bgm;
 
     [SerializeField, Header("リザルト開始フラグ")]
     private bool ResultStart;
@@ -90,12 +93,7 @@ public class CS_Result : MonoBehaviour
 
         //各パラメータを設定
 
-        //コアの残量を取得
-
-        //ステージの崩落度を取得
-
-        //缶詰の数を取得
-
+        
     }
 
     // Update is called once per frame
@@ -218,7 +216,41 @@ public class CS_Result : MonoBehaviour
     public void StartResult()
     {
         ResultStart = true;
+
+        GameObject stageGameObject = GameObject.Find("StageObj");
+        GameObject Gameui = GameObject.Find("GameUI");
+        GameObject TPS = GameObject.Find("TpsCamera");
+        stageGameObject.SetActive(false);
+        Gameui.SetActive(false);
+        TPS.transform.Rotate(Vector3.zero);
+        TPS.SetActive(false);
+
+        //コアの残量を取得
+        int num = TemporaryStorage.GetData("Core");
+        int ten = num / 10;
+        int one = num - (ten * 10);
+        ViewTexts[(int)ViewState.CoreLifeNum].sprite = NumSprite[ten];
+        ViewTexts[(int)ViewState.CoreLifeNum + 1].sprite = NumSprite[one];
+
+        //ステージの崩落度を取得
+        num = TemporaryStorage.GetData("Stage");
+        ten = num / 10;
+        one = num - (ten * 10);
+        ViewTexts[(int)ViewState.StageLifeNum].sprite = NumSprite[ten];
+        ViewTexts[(int)ViewState.StageLifeNum + 1].sprite = NumSprite[one];
+
+        //缶詰の数を取得
+        num = TemporaryStorage.GetData("ingredientsStock");
+        ten = num / 10;
+        one = num - (ten * 10);
+        ViewTexts[(int)ViewState.KanCorectNum].sprite = NumSprite[ten];
+        ViewTexts[(int)ViewState.KanCorectNum + 1].sprite = NumSprite[one];
+
+        //Time.timeScale = 0f;
         Anim.enabled = true;
+
+        Debug.Log(stageGameObject +":"+ Gameui);
+
     }
 
 }

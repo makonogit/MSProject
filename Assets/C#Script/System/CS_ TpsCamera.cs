@@ -52,6 +52,19 @@ public class CS_TpsCamera : MonoBehaviour
     // 自身のコンポーネント
     private CinemachineVirtualCamera camera;
 
+    //===========追加：菅
+    public float CameraSpeed
+    {
+        set
+        {
+            cameraSpeed = value;
+        }
+        get
+        {
+            return cameraSpeed;
+        }
+    }
+
     //**
     //* 初期化
     //**

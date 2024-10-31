@@ -66,6 +66,17 @@ public class CS_Option : MonoBehaviour
     //[SerializeField, Header("SE設定")]
     //private AudioSource SESource;
 
+    [SerializeField, Header("AudioSource")]
+    private AudioSource audio;
+
+    [Header("SE")]
+    [SerializeField]
+    private AudioClip CursorSE;
+    [SerializeField]
+    private AudioClip SelectSE;
+    [SerializeField]
+    private AudioClip CancelSE;
+
     //オプション選択番号
     private int OptionSelectNum = 0;
 
@@ -157,8 +168,8 @@ public class CS_Option : MonoBehaviour
 
             //メニュー番号を更新
             int oldOption = (int)CurrentOption;
-            if (DownButton) { CurrentOption++; }
-            if (UpButton) { CurrentOption--; }
+            if (DownButton) { CurrentOption++; audio.PlayOneShot(CursorSE); }
+            if (UpButton) { CurrentOption--; audio.PlayOneShot(CursorSE); }
 
             //カーソル移動(オプション選択中じゃなければカーソルが動く)
             bool ChangeOption = oldOption != (int)CurrentOption;
@@ -170,8 +181,9 @@ public class CS_Option : MonoBehaviour
             if (CanselButton)
             {
                 CurrentOption = OptionState.Volume;
+                audio.PlayOneShot(CancelSE);
                 //カーソルの移動
-                OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);
+                //OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);
                 CopyRectTransform(OptionCursorTrans, OptionRectTrans[(int)CurrentOption]);
                 OptionSelectNum = 0;
                 EndOption = false; 
@@ -183,6 +195,7 @@ public class CS_Option : MonoBehaviour
         if (SelectButton)
         {
             OptionInfo();   //対象のオプションを表示
+            audio.PlayOneShot(SelectSE);
             OptionSelect = true;
         }
 
@@ -206,7 +219,7 @@ public class CS_Option : MonoBehaviour
         //OptionAnimators[old].SetBool("OnCursor", false);
 
         //カーソルの位置を設定する
-        OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);    //子オブジェクトに設定
+        //OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);    //子オブジェクトに設定
         CopyRectTransform(OptionCursorTrans, OptionRectTrans[(int)CurrentOption]);
         //OptionCursorTrans = OptionRectTrans[(int)CurrentOption];
         //Vector3 pos = OptionRectTrans[(int)CurrentOption].anchoredPosition;
@@ -221,7 +234,7 @@ public class CS_Option : MonoBehaviour
     {
         OptionPanels[(int)CurrentOption].SetActive(true);
         //カーソルの位置を合わせる
-        OptionCursor.transform.SetParent(VolumeRectTrans[OptionSelectNum]);
+        //OptionCursor.transform.SetParent(VolumeRectTrans[OptionSelectNum]);
         CopyRectTransform(OptionCursorTrans, VolumeRectTrans[OptionSelectNum]);
     }
 
@@ -260,9 +273,10 @@ public class CS_Option : MonoBehaviour
         bool CanselButton = InputSystem.GetButtonBTriggered() || Input.GetKeyDown(KeyCode.Backspace);
 
         if (!CanselButton) { return; }
+        else { audio.PlayOneShot(CancelSE); }
 
         //オプション項目を初期化
-        OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);
+        //OptionCursor.transform.SetParent(OptionRectTrans[(int)CurrentOption]);
         CopyRectTransform(OptionCursorTrans, OptionRectTrans[(int)CurrentOption]);
         OptionSelectNum = 0;
 
@@ -279,8 +293,8 @@ public class CS_Option : MonoBehaviour
         if (!SliderSelect)
         {
             //カーソルの位置を合わせる
-            OptionCursor.transform.SetParent(VolumeRectTrans[OptionSelectNum]);
-            CopyRectTransform(OptionCursorTrans, VolumeRectTrans[OptionSelectNum]);
+            //OptionCursor.transform.SetParent(VolumeRectTrans[OptionSelectNum]);
+            CopyRectTransform(OptionCursorTrans, VolumeRectTrans[OptionSelectNum],40,-20);
             //OptionCursorTrans = VolumeRectTrans[OptionSelectNum];
             //Vector3 pos = VolumeRectTrans[OptionSelectNum].anchoredPosition;
             //OptionCursorTrans.anchoredPosition = pos;
@@ -290,8 +304,8 @@ public class CS_Option : MonoBehaviour
             bool UpButton = InputSystem.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
 
             //オプション項目番号を更新
-            if (DownButton) { OptionSelectNum++; }
-            if (UpButton) { OptionSelectNum--; }
+            if (DownButton) { OptionSelectNum++; audio.PlayOneShot(CursorSE); }
+            if (UpButton) { OptionSelectNum--; audio.PlayOneShot(CursorSE); }
 
             //上下限
             if (OptionSelectNum > VolumeRectTrans.Count - 1) { OptionSelectNum = 0; }
@@ -300,6 +314,7 @@ public class CS_Option : MonoBehaviour
             bool SelectButton = InputSystem.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
             if (SelectButton) 
             {
+                audio.PlayOneShot(SelectSE);
                 SliderAccelerationSpeed = (VolumeSlider[OptionSelectNum].maxValue - VolumeSlider[OptionSelectNum].minValue) / SliderSpeed;
                 SliderSelect = true; 
             }
@@ -323,7 +338,7 @@ public class CS_Option : MonoBehaviour
 
             //キャンセルしたか
             bool CanselButton = InputSystem.GetButtonBTriggered() || Input.GetKeyDown(KeyCode.Backspace);
-            if (CanselButton) { SliderSelect = false; }
+            if (CanselButton) { SliderSelect = false; audio.PlayOneShot(CancelSE); }
 
         }
         //float SliderValue = (SideStick + 1) / 2;    //0～1の数値に変換
@@ -359,8 +374,8 @@ public class CS_Option : MonoBehaviour
     private void CameraAction()
     {
         //カーソルの位置を合わせる
-        OptionCursor.transform.SetParent(CameraRectTrans[OptionSelectNum]);
-        CopyRectTransform(OptionCursorTrans, CameraRectTrans[OptionSelectNum]);
+        //OptionCursor.transform.SetParent(CameraRectTrans[OptionSelectNum]);
+        CopyRectTransform(OptionCursorTrans, CameraRectTrans[OptionSelectNum], 40, -10);
         //OptionCursorTrans = CameraRectTrans[OptionSelectNum];
         // Vector3 pos = CameraRectTrans[OptionSelectNum].anchoredPosition;
         // OptionCursorTrans.anchoredPosition = pos;
@@ -372,8 +387,8 @@ public class CS_Option : MonoBehaviour
             bool UpButton = InputSystem.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
 
             //オプション項目番号を更新
-            if (DownButton) { OptionSelectNum++; }
-            if (UpButton) { OptionSelectNum--; }
+            if (DownButton) { OptionSelectNum++; audio.PlayOneShot(CursorSE); }
+            if (UpButton) { OptionSelectNum--; audio.PlayOneShot(CursorSE); }
 
             //上下限
             if (OptionSelectNum > CameraRectTrans.Count - 1) { OptionSelectNum = 0; }
@@ -383,6 +398,7 @@ public class CS_Option : MonoBehaviour
             bool SelectButton = InputSystem.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
             if (SelectButton) 
             {
+                audio.PlayOneShot(SelectSE);
                 SliderAccelerationSpeed = (CameraSlider[OptionSelectNum].maxValue - CameraSlider[OptionSelectNum].minValue) / SliderSpeed;
                 SliderSelect = true;
             }
@@ -407,7 +423,7 @@ public class CS_Option : MonoBehaviour
             //キャンセルしたか
             bool CanselButton = InputSystem.GetButtonBTriggered() || Input.GetKeyDown(KeyCode.Backspace);
 
-            if (CanselButton) { SliderSelect = false; }
+            if (CanselButton) { SliderSelect = false; audio.PlayOneShot(CancelSE); }
 
         }
 
@@ -441,8 +457,8 @@ public class CS_Option : MonoBehaviour
         bool DownButton = InputSystem.GetDpadDownTriggered() || Input.GetKeyDown(KeyCode.DownArrow);
         bool UpButton = InputSystem.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
 
-        if (DownButton) { QualityLevel--; }
-        if (UpButton) { QualityLevel++; }
+        if (DownButton) { QualityLevel--; audio.PlayOneShot(CursorSE); }
+        if (UpButton) { QualityLevel++; audio.PlayOneShot(CursorSE); }
 
         //上下限
         int MaxLevel = QualityLevelRectTrans.Count - 1;
@@ -450,14 +466,15 @@ public class CS_Option : MonoBehaviour
         if(QualityLevel < 0) { QualityLevel = MaxLevel; }
 
         //カーソルの移動
-        OptionCursor.transform.SetParent(QualityLevelRectTrans[QualityLevel]);
-        CopyRectTransform(OptionCursorTrans, QualityLevelRectTrans[QualityLevel]);
+        //OptionCursor.transform.SetParent(QualityLevelRectTrans[QualityLevel]);
+        CopyRectTransform(OptionCursorTrans, QualityLevelRectTrans[QualityLevel], 40, -10);
 
         bool SelectButton = InputSystem.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
 
         if(SelectButton)
         {
-            QualitySelectCursor.transform.SetParent(QualityLevelRectTrans[QualityLevel]);
+            audio.PlayOneShot(SelectSE);
+            //QualitySelectCursor.transform.SetParent(QualityLevelRectTrans[QualityLevel]);
             CopyRectTransform(QualitySelectCursor, QualityLevelRectTrans[QualityLevel]);
             //画質変更
             QualitySettings.SetQualityLevel(QualityLevel + 1);
@@ -499,14 +516,35 @@ public class CS_Option : MonoBehaviour
     /// <returns></returns>
     private void CopyRectTransform(RectTransform a,RectTransform b)
     {
-        a.localPosition = Vector3.zero;
+        a.localPosition = b.localPosition;
         a.localRotation = Quaternion.identity;
         a.localScale = Vector3.one;
-        a.pivot = Vector2.zero;//b.pivot;
-        a.anchorMin = Vector2.zero;//a.anchorMin;//new Vector2(0.5f,0.5f);
-        a.anchorMax = Vector2.zero;//new Vector2(0.5f, 0.5f);
-        a.anchoredPosition = Vector2.zero;
+        a.sizeDelta = b.sizeDelta;
+        a.pivot = b.pivot;
+        a.anchorMin = b.anchorMin;//new Vector2(0.5f,0.5f); //a.anchorMin;//
+        a.anchorMax = b.anchorMax;//new Vector2(0.5f, 0.5f);
+        a.anchoredPosition = new Vector2(b.anchoredPosition.x,b.anchoredPosition.y);
        
+    }
+
+    /// <summary>
+    /// ずれがあるとき用
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="gapX"></param>
+    /// <param name="gapY"></param>
+    private void CopyRectTransform(RectTransform a, RectTransform b,float gapX,float gapY)
+    {
+        a.localPosition = b.localPosition;
+        a.localRotation = Quaternion.identity;
+        a.localScale = Vector3.one;
+        a.sizeDelta = b.sizeDelta;
+        a.pivot = b.pivot;
+        a.anchorMin = b.anchorMin;//new Vector2(0.5f,0.5f); //a.anchorMin;//
+        a.anchorMax = b.anchorMax;//new Vector2(0.5f, 0.5f);
+        a.anchoredPosition = new Vector2(b.anchoredPosition.x + gapX, b.anchoredPosition.y + gapY);
+
     }
 
 }
