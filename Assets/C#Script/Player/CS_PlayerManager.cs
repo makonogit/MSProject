@@ -80,6 +80,8 @@ public class CS_PlayerManager : MonoBehaviour
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
+    private CS_Countdown countdownGoal;
+
 
     //**
     //* 初期化
@@ -88,6 +90,7 @@ public class CS_PlayerManager : MonoBehaviour
     {
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
+        countdownGoal = gameObject.AddComponent<CS_Countdown>();
 
         // HPを設定
         nowHP = initHP;
@@ -218,6 +221,14 @@ public class CS_PlayerManager : MonoBehaviour
             }
         }
         oldAcceleration = acceleration;
+
+
+        // ゴールモーションが終了してからリザルトを表示
+        if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
+        {
+            result.StartResult();
+            animator.SetBool("Goal",false);
+        }
     }
 
     //**
@@ -238,7 +249,8 @@ public class CS_PlayerManager : MonoBehaviour
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
             animator.SetBool("Goal", true);
-            result.StartResult();
+
+            countdownGoal.Initialize(3);
         }
     }
 
