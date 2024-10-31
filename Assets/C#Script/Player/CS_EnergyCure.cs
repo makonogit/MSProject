@@ -21,11 +21,12 @@ public class CS_EnergyCure : MonoBehaviour
     void Start()
     {
         nowEnergy = initEnergy;
+        TemporaryStorage.DataRegistration("Core", Mathf.FloorToInt(nowEnergy));
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        TemporaryStorage.DataSave("Core", Mathf.FloorToInt(nowEnergy));
     }
 }

@@ -53,7 +53,16 @@ public class CS_Title : MonoBehaviour
     [SerializeField, Tooltip("Opiton用パネル")]
     private GameObject OptionPanel;
 
-   
+    [SerializeField, Header("AudioSource")]
+    private AudioSource audio;
+
+    [Header("SE")]
+    [SerializeField]
+    private AudioClip CursorSE;
+    [SerializeField]
+    private AudioClip SelectSE;
+    [SerializeField]
+    private AudioClip CancelSE;
 
     [SerializeField, Header("入力システムスクリプト")]
     private CS_InputSystem CSInput;
@@ -92,8 +101,8 @@ public class CS_Title : MonoBehaviour
             bool UpButton = CSInput.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
 
             //選択状態更新
-            if (DownButton) { state++; }
-            if (UpButton) { state--; }
+            if (DownButton) { state++; PlaySE(CursorSE); }
+            if (UpButton) { state--; PlaySE(CursorSE); }
 
             //上下限
             if ((int)state > (int)TitleState.OPTION) { state = TitleState.START; }
@@ -106,13 +115,13 @@ public class CS_Title : MonoBehaviour
             if (Change) { CursorMoveAction(oldstate); }
 
             bool Select = CSInput.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
-            if (Select) { SelectTriggerAction(); }
+            if (Select) { SelectTriggerAction(); PlaySE(SelectSE); }
 
             //ESCでゲーム終了
-            if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                OptionAction();
-            }
+            //if(Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    OptionAction();
+            //}
 
         }
         else
@@ -212,8 +221,8 @@ public class CS_Title : MonoBehaviour
         int oldquestionnum = StartQuestionNum;
 
         //はいかいいえの選択肢
-        if (leftButton) { StartQuestionNum++; }
-        if (RightButton) { StartQuestionNum--; }
+        if (leftButton) { StartQuestionNum++; PlaySE(CursorSE); }
+        if (RightButton) { StartQuestionNum--; PlaySE(CursorSE); }
         if(StartQuestionNum > StartQuestionTexts.Count - 1) { StartQuestionNum = 0; }
         if (StartQuestionNum < 0) { StartQuestionNum = StartQuestionTexts.Count - 1; }
 
@@ -235,17 +244,20 @@ public class CS_Title : MonoBehaviour
         {
             //ゲーム開始
             SceneManager.LoadScene(GameSceneName);
+            PlaySE(SelectSE);
         }
         else if(SelectButton && StartQuestionNum == 1)
         {
             //終了
             Cansel = true;
+            PlaySE(CancelSE);
         }
 
         if (Cansel)
         {
             StartQuestionMask.padding = new Vector4(StartMaskMaxSize, 0, 0, 0);   //画像単純に消す
             CanselTiggerAction();
+            PlaySE(CancelSE);
         }
 
     }
@@ -301,6 +313,12 @@ public class CS_Title : MonoBehaviour
         Application.Quit();
 #endif 
 
+    }
+
+
+    private void PlaySE(AudioClip clip)
+    {
+        audio.PlayOneShot(clip);
     }
 
 

@@ -54,6 +54,10 @@ public class CS_AirBall : MonoBehaviour
         //    //transform.position += transform.forward * AttackSpeed * Time.deltaTime;
         //}
 
+        if (TimeMesure > 30.0f)
+        {
+            Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -75,7 +79,7 @@ public class CS_AirBall : MonoBehaviour
             Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
         }
 
-        if(TimeMesure > 0.2f)
+        if (TimeMesure > 0.2f)
         {
             Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
         }

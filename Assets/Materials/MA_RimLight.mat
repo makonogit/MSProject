@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MA_RimLight
-  m_Shader: {fileID: -6465566751694194690, guid: 8f9cbaec9464ae44aaf51722d447d678, type: 3}
-  m_Parent: {fileID: 2100000, guid: f994a2cac780268439ec58e861b9251b, type: 2}
+  m_Shader: {fileID: -6465566751694194690, guid: 215b4fdba147e8d42998391ff488e883, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: 215b4fdba147e8d42998391ff488e883, type: 3}
   m_ModifiedSerializedProperties: 24
   m_ValidKeywords:
   - _ENABLE_FOG_ON_TRANSPARENT
@@ -56,6 +56,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0, g: 5.077002, b: 6.0834327, a: 1}
+    - _Vector3: {r: 4, g: 4, b: 4, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6232259430917708499
 MonoBehaviour:

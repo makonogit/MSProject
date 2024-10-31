@@ -239,10 +239,10 @@ RectTransform:
   - {fileID: 3114736339876789545}
   m_Father: {fileID: 4735765184694090633}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4641925767787182219
 CanvasRenderer:
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -329,7 +329,17 @@ MonoBehaviour:
   - {fileID: 8907855015382592124}
   ViewSpeed: 100
   ChangeMat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  NumSprite: []
+  NumSprite:
+  - {fileID: 767134989, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: -1549824702, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: -489032086, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: -227393278, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: 511465477, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: 1077356735, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: -764341582, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: 1884420913, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: 1614679369, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
+  - {fileID: 592530576, guid: 8877f089fec52a144a851deaa8278a9b, type: 3}
   LankSprite: []
   SelectSceneName: SC_Title
 --- !u!95 &6019242069732320405
@@ -415,7 +425,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -425,7 +435,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &5975445404477404168
 MonoBehaviour:
