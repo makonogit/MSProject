@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 //**
@@ -10,6 +11,11 @@ using UnityEngine;
 
 public class CSP_Throwing : ActionBase
 {
+    [Header("コアの位置/回転")]
+    [SerializeField]
+    private float distance = 0.75f;
+    public Vector3 fixedRotation;
+
     [Header("投擲設定")]
     [SerializeField]
     private string targetTag;// 投擲対象のタグ
@@ -20,6 +26,7 @@ public class CSP_Throwing : ActionBase
     private Rigidbody rb;
     private LineRenderer lineRenderer;
     private List<Vector3> positions = new List<Vector3>();
+    private Collider collider;
 
     [Header("力の設定")]
     public float forceMagnitude = 10f;          // 力の大きさ
@@ -79,6 +86,8 @@ public class CSP_Throwing : ActionBase
                 {
                     GetAnimator().SetBool("Throwing", false);
 
+                    collider.enabled = true;
+
                     rb.useGravity = true;
 
                     GetSoundEffect().PlaySoundEffect(2, 8);
@@ -98,10 +107,11 @@ public class CSP_Throwing : ActionBase
                     // ターゲットをリセット
                     targetObject = null;
                     rb = null;
+                    collider = null;
                 }
             }
 
-            // 位置を更新
+            // ラインレンダーの初期値位置を更新
             if (targetObject != null)
             {
                 GetAnimator().SetBool("Mount", true);
@@ -115,6 +125,7 @@ public class CSP_Throwing : ActionBase
                 GetAnimator().SetBool("Mount", false);
             }
 
+            // 投げる時のコアの位置を更新
             // 投げる軌道を予測して描画
             if ((GetInputSystem().GetLeftTrigger() > 0) && (targetObject != null) && (!GetInputSystem().GetButtonBPressed()))
             {
@@ -127,14 +138,16 @@ public class CSP_Throwing : ActionBase
 
                 DrawTrajectory();
             }
+            // 背負う時のコアの位置を更新
             else if (targetObject != null)
             {
-                float distance = 0.75f;
-                Vector3 offset = new Vector3(0, 1.5f, 0);
+                Vector3 offset = new Vector3(0, 1.0f, 0);
                 Vector3 backPosition = transform.position - transform.forward * distance;
                 targetObject.transform.position = backPosition + offset;
                 targetObject.transform.rotation = Quaternion.identity;
                 rb.useGravity = false;
+
+                targetObject.transform.rotation = Quaternion.Euler(fixedRotation);
             }
 
             oldLeftTrigger = GetInputSystem().GetLeftTrigger();
@@ -186,9 +199,36 @@ public class CSP_Throwing : ActionBase
         }
     }
 
-    //**
-    //* 衝突処理
-    //**
+    // 引数のオブジェクトを指定したオブジェクトの子として設定する関数
+    // 引数例: "Parent/Child/Grandchild"
+    public void SetChildObject(string targetPath,Transform objectToChild)
+    {
+        // 指定したパスのトランスフォームを取得
+        Transform targetTransform = transform.Find(targetPath);
+
+        if (targetTransform != null && objectToChild != null)
+        {
+            objectToChild.SetParent(targetTransform);
+        }
+    }
+
+    // 引数のオブジェクトを指定したオブジェクトから外す関数
+    public void RemoveChildObject(string targetPath, Transform objectToRemove)
+    {
+        Transform targetTransform = transform.Find(targetPath);
+
+        if (targetTransform != null && objectToRemove != null)
+        {
+            if (objectToRemove.parent == targetTransform)
+            {
+                objectToRemove.SetParent(null); // 親をnullにしてシーンのルートに戻す
+            }
+        }
+    }
+
+//**
+//* 衝突処理
+//**
     private void OnCollisionStay(Collision collision)
     {
         // エネルギーコアを拾う
@@ -202,8 +242,14 @@ public class CSP_Throwing : ActionBase
                 // リジットボディを取得
                 rb = targetObject.GetComponent<Rigidbody>();
 
+                // コライダーを取得
+                collider = targetObject.GetComponent<Collider>();
+                collider.enabled = false;
+
                 // ラインレンダーの初期位置を設定
                 positions.Add(targetObject.transform.position);
+
+                //SetChildObject("Player/All_Base/All_Ctrl/Hip_Base/Spine1_Base/Spine1_CtrlSpine2_Base/Spine2_Ctrl/Neck_Base", targetObject.transform);
             }
         }
 
@@ -212,12 +258,15 @@ public class CSP_Throwing : ActionBase
         {
             if(targetObject != null)
             {
+                collider.enabled = true;
+
                 rb.useGravity = true;
                 rb.AddForce(Vector3.up * 30.0f, ForceMode.Impulse);
 
                 // ターゲットをリセット
                 targetObject = null;
                 rb = null;
+                collider = null;
             }
         }
     }
