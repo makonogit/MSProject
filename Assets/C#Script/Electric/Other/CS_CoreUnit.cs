@@ -57,7 +57,7 @@ namespace Assets.C_Script.Electric.Other
         /// <param name="flag"></param>
         private void StopRigidbody(Rigidbody rb,bool flag)
         {
-            //rb.isKinematic = flag;
+            rb.isKinematic = flag;
             //rb.freezeRotation = flag;
             //rb.useGravity = !flag;
             //if (flag) rb.constraints = RigidbodyConstraints.FreezeAll;

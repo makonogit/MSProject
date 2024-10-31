@@ -124,4 +124,14 @@ public class CSP_UseEnergyCore : ActionBase
 
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        // 起動可能なギミックを取得
+        if (collision.gameObject.tag == targetTag)
+        {
+            coreUnit = null;
+            targetObject = null;
+
+        }
+    }
 }
