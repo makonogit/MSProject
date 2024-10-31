@@ -10,6 +10,10 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("速さ")]
     private float AttackSpeed = 1.0f;
 
+
+    [SerializeField, Header("衝突Effect")]
+    private GameObject HitEffect;
+
     private Vector3 TargetPos;
 
     private float TimeMesure = 0.0f;
@@ -76,11 +80,20 @@ public class CS_AirBall : MonoBehaviour
             //GetComponent<衝突したオブジェクトのコンポーネント>.耐久値;
             //耐久値 - AttackPower;
             //やるならこんな感じ？
+
+            ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
+            Vector3 collisionPoint = contact.point; // 衝突した位置
+
+            Instantiate(HitEffect,collisionPoint,Quaternion.identity);     //衝突した位置にエフェクト
+
             Destroy(this.gameObject);   //衝突したら自信を破棄
         }
 
         if (TimeMesure > 0.2f)
         {
+            ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
+            Vector3 collisionPoint = contact.point; // 衝突した位置
+            Instantiate(HitEffect,collisionPoint, Quaternion.identity);     //衝突した位置にエフェクト
             Destroy(this.gameObject);   //衝突したら自信を破棄
         }
     }
