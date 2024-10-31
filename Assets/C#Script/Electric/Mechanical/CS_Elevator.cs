@@ -78,14 +78,6 @@ namespace Assets.C_Script.Electric.Mechanical
             audio.loop = loop;
             audio.Play();
         }
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            if (EditorApplication.isPlaying) return;
-        }
-
-#endif // UNITY_EDITOR
-
     }
 }
 //===============================

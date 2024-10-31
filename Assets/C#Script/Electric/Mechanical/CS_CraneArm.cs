@@ -234,6 +234,7 @@ namespace Assets.C_Script.Electric.Mechanical
                 stopFlag = true; 
                 downFlag = true;
                 crabTrolley.Power = caught;
+                audioSource.Stop();
             }
         }
 

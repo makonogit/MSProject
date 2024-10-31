@@ -206,7 +206,7 @@ MonoBehaviour:
   transmitter:
     receivers:
     - {fileID: 0}
-  sendType: 0
+  sendType: 3
   outputType: 0
   coreObject: {fileID: 0}
   unitTransform: {fileID: 9203009862873888568}
