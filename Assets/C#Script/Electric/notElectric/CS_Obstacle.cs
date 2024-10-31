@@ -31,6 +31,15 @@ namespace Assets.C_Script.Electric.notElectric
         private AudioClip hitSound;
         private AudioSource audioSource;
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.transform.tag == "Attack") HitDamages(1);
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform.tag == "Attack") HitDamages(1);
+        }
+
         // スタート
         private void Start()
         {
@@ -107,13 +116,14 @@ namespace Assets.C_Script.Electric.notElectric
         /// </summary>
         private void PlaySounds(int num) 
         {
+            int maxNum = 5;
             if (audioSource == null) return;
             audioSource.pitch = 1.0f;
             if (hp == 0) audioSource.clip = explosion;
             else 
             { 
                 audioSource.clip = hitSound;
-                audioSource.pitch =1.0f + PitchUp * num;
+                audioSource.pitch =1.0f + PitchUp * Mathf.Min(num,maxNum);
             }
             audioSource.Play();
         }
