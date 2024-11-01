@@ -98,16 +98,18 @@ namespace Assets.C_Script.Electric.notElectric
                 }
             }
             foreach (CS_ChangeMaterial changeMaterial in changeMaterials)changeMaterial.gameObject.SetActive(false);
-
             if (hp < 4) // 0～3
             {
-                changeMaterials[hp % 4].ChangeMaterial(IndexNumber);
-                changeMaterials[hp % 4].gameObject.SetActive(true);
+
+                int num = Mathf.Max(0, hp % 4);
+                changeMaterials[num].ChangeMaterial(IndexNumber);
+                changeMaterials[num].gameObject.SetActive(true);
             }
             else // 4～11
             {
-                changeMaterials[(hp + 1) % 4].ChangeMaterial(IndexNumber);
-                changeMaterials[(hp + 1) % 4].gameObject.SetActive(true);
+                int num = Mathf.Max(0, (hp + 1) % 4);
+                changeMaterials[num].ChangeMaterial(IndexNumber);
+                changeMaterials[num].gameObject.SetActive(true);
             }
         }
 
