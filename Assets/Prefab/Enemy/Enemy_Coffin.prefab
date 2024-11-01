@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.233952
+      value: -10.474955
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -45.689068
+      value: -40.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -51,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_Name
       value: Enemy_Coffin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_TagString
@@ -152,7 +156,7 @@ MonoBehaviour:
     m_Bits: 1024
   StartPos: {x: -19, y: -0.2, z: 0.6}
   MoveSpeed: 2
-  KnockBackForce: 1
+  KnockBackForce: 30
   navmeshAgent: {fileID: 153386493854832457}
   CofinAnim: {fileID: 3200529328052254431}
 --- !u!195 &153386493854832457

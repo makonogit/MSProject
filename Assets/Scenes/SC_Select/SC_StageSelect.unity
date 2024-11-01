@@ -938,7 +938,7 @@ MonoBehaviour:
   Selectanimator: {fileID: 1700613791}
   csinput: {fileID: 505666222}
   SceneName:
-  - SC_TestStage
+  - SC_Stage1
   ConfirmationWindow: {fileID: 1545277578}
   SelectImages:
   - {fileID: 621626652}
