@@ -134,4 +134,29 @@ public class CSP_UseEnergyCore : ActionBase
 
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // 起動可能なギミックを取得
+        if (other.gameObject.tag == targetTag)
+        {
+            coreUnit = other.gameObject.GetComponent<CS_CoreUnit>();
+
+            if (coreUnit != null)
+            {
+                targetObject = other.gameObject;
+            }
+
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        // 起動可能なギミックを取得
+        if (other.gameObject.tag == targetTag)
+        {
+            coreUnit = null;
+            targetObject = null;
+
+        }
+    }
 }

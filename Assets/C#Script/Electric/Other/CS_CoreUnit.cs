@@ -32,7 +32,12 @@ namespace Assets.C_Script.Electric.Other
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            if (core.STATE == CS_Core.CORE_STATE.HAVEPLAYER) Signal = false;
+            if (core == null) return;
+            if (Signal && core.STATE == CS_Core.CORE_STATE.HAVEPLAYER) 
+            {
+                Signal = false;
+            }
+
         }
 
         /// <summary>
@@ -48,6 +53,7 @@ namespace Assets.C_Script.Electric.Other
             if (coreRb != null) StopRigidbody(coreRb, true);
             if (!audioSource.isPlaying) audioSource.Play();
             coreObject.transform.position = unitTransform.position;
+            core.STATE = CS_Core.CORE_STATE.DROP;
             Signal = true;
         }
 
