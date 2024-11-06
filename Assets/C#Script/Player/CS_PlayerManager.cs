@@ -80,6 +80,7 @@ public class CS_PlayerManager : MonoBehaviour
     // カウントダウン用クラス
     private CS_Countdown countdown;
     private CS_Countdown countdownGoal;
+    private CS_Countdown countdownStun;
 
 
     //**
@@ -90,6 +91,7 @@ public class CS_PlayerManager : MonoBehaviour
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
         countdownGoal = gameObject.AddComponent<CS_Countdown>();
+        countdownStun = gameObject.AddComponent<CS_Countdown>();
 
         // HPを設定
         nowHP = initHP;
@@ -133,7 +135,6 @@ public class CS_PlayerManager : MonoBehaviour
         }
         else
         {
-            // ResultCanvasが見つかった場合にのみ、ResultPanelを探す
             Transform resultPanelTransform = resultCanvas.transform.Find("ResultPanel");
             if (resultPanelTransform != null)
             {
@@ -153,8 +154,9 @@ public class CS_PlayerManager : MonoBehaviour
 
     void Update()
     {
+
         // エネルギーコアの状態を設定
-        if(core != null)
+        if (core != null)
         {
             if (animator.GetBool("Mount"))
             {
@@ -228,6 +230,12 @@ public class CS_PlayerManager : MonoBehaviour
             result.StartResult();
             animator.SetBool("Goal",false);
         }
+
+        // 気絶状態
+        if (countdownStun.IsCountdownFinished() && animator.GetBool("Stun"))
+        {
+            animator.SetBool("Stun", false);
+        }
     }
 
     //**
@@ -243,6 +251,16 @@ public class CS_PlayerManager : MonoBehaviour
             itemStock++;
 
             Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "StunObject")
+        {
+            animator.SetBool("Stun", true);
+
+            Vector3 reverseForce = collision.contacts[0].normal * 10.0f;
+            reverseForce.y = 0f;
+            GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
+
+            countdownStun.Initialize(3);
         }
         else if (collision.gameObject.tag == "Goal")
         {

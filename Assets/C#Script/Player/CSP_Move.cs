@@ -93,7 +93,6 @@ public class CSP_Move : ActionBase
                 reverseForce.z = -forceMagnitude;
             }
 
-            //Vector3 offset = new Vector3(0, 0.25f, 0);
             GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
 
             if (countdownDamage.IsCountdownFinished())

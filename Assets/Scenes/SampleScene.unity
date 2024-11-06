@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 4776.389, g: 3106.3638, b: 2293.6565, a: 1}
+  m_IndirectSpecularColor: {r: 4765.903, g: 3105.3188, b: 2303.4846, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1330,7 +1330,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.037083756, z: 0, w: 0.99931216}
-  m_LocalPosition: {x: -7.0258017, y: -0.16077423, z: -5.4}
+  m_LocalPosition: {x: -7.1048927, y: -0.16077435, z: -5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3102,7 +3102,7 @@ GameObject:
   - component: {fileID: 1976681334}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: StunObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3447,8 +3447,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2070118284}
     - target: {fileID: 9063622829144258966, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: animatorBoolParameterList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063622829144258966, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
       propertyPath: animatorBoolParameterList.Array.data[1].time
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063622829144258966, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: animatorBoolParameterList.Array.data[4].name
+      value: Stun
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063622829144258966, guid: 0eade176cfe119a44872535a7cc9cb0d, type: 3}
+      propertyPath: animatorBoolParameterList.Array.data[4].time
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
