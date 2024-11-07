@@ -169,6 +169,12 @@ public class CSP_Move : ActionBase
 
         }
 
+        if (GetAnimator().GetBool("Push"))
+        {
+            speed = initSpeed;
+            GetAnimator().SetBool("Dash", false);
+        }
+
         // Œø‰Ê‰¹‚ðÄ¶‚·‚é
         if (GetAnimator().GetBool("Dash"))
         {
@@ -232,12 +238,14 @@ public class CSP_Move : ActionBase
 
     private void OnCollisionStay(Collision collision)
     {
-        //**
-        //* ‚ß‚èž‚Ý–hŽ~
-        //**
+        GetAnimator().SetBool("Push", false);
 
+        if (collision.gameObject.tag == "PushObject")
+        {
+            GetAnimator().SetBool("Push", true);
+        }
         // ‚’¼‚È•Ç‚ÆÕ“Ë‚µ‚½ê‡‚ÉˆÚ“®ó‘Ô‚ð’âŽ~‚µA‰Á‚¦‚½ˆÚ“®—Ê‚ð0‚É‚·‚é
-        if (collision.contactCount > 0)
+        else if (collision.contactCount > 0)
         {
             Vector3 collisionNormal = collision.contacts[0].normal;
 

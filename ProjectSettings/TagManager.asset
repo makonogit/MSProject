@@ -13,6 +13,7 @@ TagManager:
   - EnergyCore
   - Gimmick
   - StunObject
+  - PushObject
   layers:
   - Default
   - TransparentFX
