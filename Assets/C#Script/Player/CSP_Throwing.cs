@@ -83,36 +83,36 @@ public class CSP_Throwing : ActionBase
             if (GetAnimator().GetBool("Mount"))
             {
                 // 投げる処理
-                if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
-                {
-                    if (targetObject != null)
-                    {
-                        GetAnimator().SetBool("Throwing", false);
+                //if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
+                //{
+                //    if (targetObject != null)
+                //    {
+                //        GetAnimator().SetBool("Throwing", false);
 
-                        collider.enabled = true;
+                //        collider.enabled = true;
 
-                        rb.useGravity = true;
+                //        rb.useGravity = true;
 
-                        GetSoundEffect().PlaySoundEffect(2, 8);
+                //        GetSoundEffect().PlaySoundEffect(2, 8);
 
-                        // 余計な移動成分を取り除く
-                        Vector3 currentVelocity = rb.velocity;
-                        rb.velocity = Vector3.zero;
-                        rb.angularVelocity = Vector3.zero;
+                //        // 余計な移動成分を取り除く
+                //        Vector3 currentVelocity = rb.velocity;
+                //        rb.velocity = Vector3.zero;
+                //        rb.angularVelocity = Vector3.zero;
 
-                        // カメラの正面方向の位置を取得
-                        Vector3 cameraForward = Camera.main.transform.forward;
+                //        // カメラの正面方向の位置を取得
+                //        Vector3 cameraForward = Camera.main.transform.forward;
 
-                        // 指定した角度で力を加える
-                        Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
-                        rb.AddForce(force, ForceMode.Impulse);
+                //        // 指定した角度で力を加える
+                //        Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
+                //        rb.AddForce(force, ForceMode.Impulse);
 
-                        // ターゲットをリセット
-                        targetObject = null;
-                        rb = null;
-                        collider = null;
-                    }
-                }
+                //        // ターゲットをリセット
+                //        targetObject = null;
+                //        rb = null;
+                //        collider = null;
+                //    }
+                //}
 
                 // ラインレンダーの初期値位置を更新
                 if (targetObject != null)

@@ -67,6 +67,16 @@ public class CSP_Shot : ActionBase
         // ƒŒƒeƒBƒNƒ‹ˆ—
         HandlReticle();
 
+        if (GetInputSystem().GetLeftTrigger() > 0.1f)
+        {
+            GetPlayerManager().GetCameraManager().SwitchingCamera(2);
+        }
+        else
+        {
+            GetPlayerManager().GetCameraManager().SwitchingCamera(0);
+
+        }
+
         // d’¼ˆ—
 
         // bool

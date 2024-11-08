@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Cinemachine;
 
-public class CS_Aim : MonoBehaviour
+public class CS_ShootingCamera : ActionBase
 {
     //**
     //* 変数
@@ -30,6 +29,8 @@ public class CS_Aim : MonoBehaviour
     public float rotationLimitMin = 10.0f; // X軸回転の制限（最小）
     private float cameraRotX = 0.0f;     // X軸回転の移動量
     private float cameraRotY = 0.0f;       // Y軸転の移動量
+    [Header("カメラの距離")]
+    public float cameraDistance = 5.0f;
 
     // 自身のコンポーネント
     private CinemachineVirtualCamera camera;
@@ -50,7 +51,7 @@ public class CS_Aim : MonoBehaviour
     {
         // 入力に応じてカメラを回転させる
 
-        if(camera.Priority == 10)
+        if (camera.Priority == 10)
         {
             // 右スティックの入力を取得
             Vector2 stick = inputSystem.GetRightStick();
@@ -63,7 +64,7 @@ public class CS_Aim : MonoBehaviour
             target.rotation = Quaternion.Euler(rot);
 
             // ターゲットの背面にカメラを配置
-            Vector3 targetPosition = target.position - target.forward;
+            Vector3 targetPosition = target.position - (target.forward * cameraDistance);
             transform.position = targetPosition + offsetPos;
 
             UpdateCameraRotation();
@@ -86,10 +87,5 @@ public class CS_Aim : MonoBehaviour
         Vector3 directionToTarget = (focus.position + offsetFocus) - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-    }
-
-    public void TriggerRecoil()
-    {
-
     }
 }
