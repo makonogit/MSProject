@@ -80,6 +80,7 @@ public class CSP_UseEnergyCore : ActionBase
             GetAnimator().SetBool("Mount", false);
             // コアをセットする
             coreUnit.SetCore(csp_throwing.GetEnergyCore());
+            csp_throwing.GetEnergyCore().transform.parent = null;
             //csp_throwing.GetEnergyCore().transform.position = targetObject.transform.position;
             targetObject = null;
             coreUnit = null;

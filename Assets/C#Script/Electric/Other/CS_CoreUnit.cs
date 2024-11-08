@@ -53,6 +53,7 @@ namespace Assets.C_Script.Electric.Other
             if (coreRb != null) StopRigidbody(coreRb, true);
             if (!audioSource.isPlaying) audioSource.Play();
             coreObject.transform.position = unitTransform.position;
+            coreObject.transform.rotation = unitTransform.rotation;
             core.STATE = CS_Core.CORE_STATE.DROP;
             Signal = true;
         }
@@ -64,10 +65,9 @@ namespace Assets.C_Script.Electric.Other
         private void StopRigidbody(Rigidbody rb,bool flag)
         {
             rb.isKinematic = flag;
-            //rb.freezeRotation = flag;
-            //rb.useGravity = !flag;
-            //if (flag) rb.constraints = RigidbodyConstraints.FreezeAll;
-            //if (!flag) rb.constraints = RigidbodyConstraints.None;
+            rb.useGravity = !flag;
+            if (flag) rb.constraints = RigidbodyConstraints.FreezeAll;
+            if (!flag) rb.constraints = RigidbodyConstraints.None;
         }
 
         
