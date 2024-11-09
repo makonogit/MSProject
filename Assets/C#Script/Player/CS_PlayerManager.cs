@@ -39,7 +39,7 @@ public class CS_PlayerManager : MonoBehaviour
     private float fallingThreshold = 5f;
     [SerializeField]
     private LayerMask groundLayer;
-    public Vector3 oldAcceleration;// 1フレーム前の重力加速度
+    private Vector3 oldAcceleration;// 1フレーム前の重力加速度
 
     // 硬直
     [System.Serializable]
@@ -154,7 +154,6 @@ public class CS_PlayerManager : MonoBehaviour
 
     void Update()
     {
-
         // エネルギーコアの状態を設定
         if (core != null)
         {
@@ -279,8 +278,25 @@ public class CS_PlayerManager : MonoBehaviour
     //**
     public bool IsGrounded()
     {
-        RaycastHit hit;
-        return Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+        //RaycastHit hit;
+        //return Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+
+        //float radius = 1.0f;
+        //float range = 0.1f;
+
+        //Ray ray = new Ray(transform.position, Vector3.down);
+        //RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
+
+        //foreach (RaycastHit hit in hits)
+        //{
+        //    return true;
+        //}
+
+        //return false;
+
+        float radius = 0.125f;
+        float groundCheckDistance = 0.01f;
+        return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
     }
 
     //**
@@ -294,5 +310,25 @@ public class CS_PlayerManager : MonoBehaviour
         RaycastHit hit;
         Vector3 offset = new Vector3(0f,0f,0f);
         return Physics.Raycast(transform.position + offset, transform.forward, out hit, groundCheckDistance, groundLayer);
+    }
+
+    // 接地判定の可視化
+    private void OnDrawGizmos()
+    {
+        float radius = 0.125f;               // Sphereの半径
+        float groundCheckDistance = 0.01f;  // チェック位置のオフセット
+
+        // 接地状態を色で可視化
+        if (Physics.CheckSphere(transform.position, radius, groundLayer))
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+
+        // Sphereを描画
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
