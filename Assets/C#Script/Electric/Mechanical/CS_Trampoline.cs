@@ -11,9 +11,12 @@ namespace Assets.C_Script.Electric.Mechanical
     public class CS_Trampoline :CS_Mechanical
     {
         [SerializeField]
-        protected bool Always = false;
-        [SerializeField]
         private float arrivalTime = 200f;
+        [SerializeField]
+        private List<string> tags = new List<string>();
+        [SerializeField,Tooltip("パワーオフまでの時間")]
+        private float PowerOffTime = 1.0f;
+        private float nowTime =0.0f;
         [SerializeField]
         protected Vector3 forceVector = new Vector3();
         [SerializeField]
@@ -22,25 +25,53 @@ namespace Assets.C_Script.Electric.Mechanical
         private bool isRandom = true;
         [SerializeField]
         private float radius = 1.0f;
-
+        [SerializeField]
+        private Animator animator;
         // コリジョン
         private void OnCollisionEnter(Collision collision)=> hitObjects.Add(collision.gameObject);
         private void OnCollisionExit(Collision collision) => hitObjects.Remove(collision.gameObject);
         // トリガー
-        private void OnTriggerEnter(Collider other) => hitObjects.Add(other.gameObject);
+        private void OnTriggerEnter(Collider other) 
+        { 
+            hitObjects.Add(other.gameObject);
+            foreach (string tag in tags) if (other.tag == tag) Power = true;
+        }
         private void OnTriggerExit(Collider other) => hitObjects.Remove(other.gameObject);
-        
+
+        protected override void Start()
+        {
+            base.Start();
+            animator.speed = 0.0f;
+            animator.Play("AM_CloseTrampoline", 0, 1);
+        }
         // 起動した瞬間
         protected override void PowerOn()
         {
             base.PowerOn();
-            foreach (GameObject gameObject in hitObjects) Jump(gameObject);
+            
+            animator.SetBool("Power",true);
+            animator.speed = 1.0f;
+            nowTime = 0;
         }
         // 起動時
         protected override void Execute()
         {
             base.Execute();
-            if (Always) foreach (GameObject gameObject in hitObjects) Jump(gameObject, 0.001f);
+            nowTime += Time.deltaTime;
+            if (nowTime > PowerOffTime) Power = false;
+        }
+
+        protected override void PowerOff()
+        {
+            base.PowerOff();
+            animator.SetBool("Power", false);
+        }
+        /// <summary>
+        /// ジャンプイベント
+        /// </summary>
+        protected void Jumping()
+        {
+            foreach (GameObject gameObject in hitObjects) Jump(gameObject);
         }
 
         /// <summary>
@@ -50,8 +81,7 @@ namespace Assets.C_Script.Electric.Mechanical
         /// <param name="force">力の倍率</param>
         private void Jump(GameObject gameObject,float force = 1.0f) 
         {
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            if (rb == null) return;
+            if (!gameObject.TryGetComponent<Rigidbody>(out var rb)) return;
 
             Vector3 vector = Vector3.zero;
             if (isRandom) vector = RandomVector() * radius;
