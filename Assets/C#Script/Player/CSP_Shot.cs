@@ -1,11 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
-//using static System.Net.Mime.MediaTypeNames;
 
 public class CSP_Shot : ActionBase
 {
@@ -27,6 +26,8 @@ public class CSP_Shot : ActionBase
     private float shotHp;
     [SerializeField, Header("射程距離")]
     private float range = 100f;
+    [SerializeField, Header("散弾範囲")]
+    private float scatter = 0.1f;
 
     [Header("レティクル設定")]
     [SerializeField, Header("表示位置")]
@@ -130,10 +131,6 @@ public class CSP_Shot : ActionBase
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
         }
-
-        // エイムアシスト
-        bool isAssist = targetObject != null;
-        GetPlayerManager().GetTpsCamera().SetAssist(isAssist);
     }
 
     //**
@@ -273,14 +270,14 @@ public class CSP_Shot : ActionBase
     void CreateBullet(int burst)
     {
         GetSoundEffect().PlaySoundEffect(1, 3);
-      
+        
         Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
         // レティクル内に破壊可能オブジェクトが存在するなら、その方向に発射する
         if (targetObject != null)
         {
-            forwardVec = targetObject.transform.position - transform.position;
-            forwardVec = forwardVec.normalized;
+            //forwardVec = targetObject.transform.position - transform.position;
+            //forwardVec = forwardVec.normalized;
         }
 
         float offsetDistance = 1.5f; // 各弾の間隔
@@ -295,11 +292,23 @@ public class CSP_Shot : ActionBase
             // 弾を生成
             GameObject ballobj = Instantiate(AirBall);
 
-            Vector3 pos = this.transform.position;
-            Vector3 offset = new Vector3(0, 1, 0);
+            //Vector3 pos = this.transform.position;
+            Vector3 pos = GetPlayerManager().GetCameraTransform().position;
+            Vector3 offset = new Vector3(0, 0, 0);
 
             pos += offset;
             pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f) + 1f);
+
+            // 照準状態なら集弾させる
+            if (!(GetInputSystem().GetLeftTrigger() > 0.1f))
+            {
+                float randomRangeX = UnityEngine.Random.Range(-scatter, scatter);
+                float randomRangeY = UnityEngine.Random.Range(-scatter, scatter);
+                float randomRangeZ = UnityEngine.Random.Range(-scatter, scatter);
+                forwardVec.x += randomRangeX;
+                forwardVec.y += randomRangeY;
+                forwardVec.z += randomRangeZ;
+            }
 
             ballobj.transform.position = pos;
             ballobj.transform.forward = forwardVec;
@@ -321,8 +330,8 @@ public class CSP_Shot : ActionBase
             && !GetAnimator().GetBool("Use EnergyCore") && !GetAnimator().GetBool("Push")))
         {
             // カメラの正面方向の位置を計算
-            Vector3 cameraForward = Camera.main.transform.forward;
-            Vector3 targetPosition = Camera.main.transform.position + cameraForward * 100;
+            Vector3 cameraForward = Camera.main.transform.forward * 100;
+            Vector3 targetPosition = Camera.main.transform.position + cameraForward;
 
             // 頭と腕をターゲットの方向に向ける
             if (targetPosition != null)

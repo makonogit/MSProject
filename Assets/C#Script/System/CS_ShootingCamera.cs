@@ -31,6 +31,11 @@ public class CS_ShootingCamera : ActionBase
     private float cameraRotY = 0.0f;       // Y軸転の移動量
     [Header("カメラの距離")]
     public float cameraDistance = 5.0f;
+    [SerializeField, Header("反応曲線")]
+    private AnimationCurve accelerationCurve;       // 反応曲線
+    [SerializeField, Header("入力範囲の限界")]
+    private float maxInputValue = 1f;         // スティックの最大入力値
+    private float currentAcceleration = 0f;  // 現在の加速度
 
     // 自身のコンポーネント
     private CinemachineVirtualCamera camera;
@@ -51,30 +56,29 @@ public class CS_ShootingCamera : ActionBase
     {
         // 入力に応じてカメラを回転させる
 
-        if (camera.Priority == 10)
-        {
-            // 右スティックの入力を取得
-            Vector2 stick = inputSystem.GetRightStick();
+        // 右スティックの入力を取得
+        Vector2 stick = inputSystem.GetRightStick();
 
-            // カメラを入力に応じて回転
-            Vector3 rotVec = new Vector3(0, stick.x, 0);
-            rotVec = rotVec.normalized;
-            Vector3 rot = target.rotation.eulerAngles;
-            rot += wideSpeed * rotVec;
-            target.rotation = Quaternion.Euler(rot);
+        // 入力の大きさを計算
+        float inputMagnitude = new Vector2(stick.y, stick.x).magnitude;
+        float normalizedInput = Mathf.Clamp(inputMagnitude / maxInputValue, 0f, 1f);
+        currentAcceleration = accelerationCurve.Evaluate(normalizedInput);
 
-            // ターゲットの背面にカメラを配置
-            Vector3 targetPosition = target.position - (target.forward * cameraDistance);
-            transform.position = targetPosition + offsetPos;
+        // カメラを入力に応じて回転
+        Vector3 rotVec = new Vector3(0, stick.x, 0);
+        rotVec = rotVec.normalized;
+        Vector3 rot = target.rotation.eulerAngles;
+        rot += wideSpeed * rotVec * currentAcceleration * Time.deltaTime;
+        target.rotation = Quaternion.Euler(rot);
 
-            UpdateCameraRotation();
+        // ターゲットの背面にカメラを配置
+        Vector3 targetPosition = target.position - (target.forward * cameraDistance);
+        transform.position = targetPosition + offsetPos;
 
-            offsetFocus.y += hydeSpeed * stick.y;
-        }
-        else
-        {
-            offsetFocus = new Vector3(0, 0, 0);
-        }
+        UpdateCameraRotation();
+
+        float movePos = offsetFocus.y + hydeSpeed * stick.y * currentAcceleration * Time.deltaTime;
+        offsetFocus.y = Mathf.Lerp(offsetFocus.y, movePos, 0.1f);
     }
 
     //**

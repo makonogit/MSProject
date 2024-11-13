@@ -10,6 +10,15 @@ using UnityEngine;
 
 public class CSP_ParallelMove : ActionBase
 {
+    // 硬直
+    [System.Serializable]
+    public class StringNumberPair
+    {
+        public string name;
+        public float magnification;
+        public bool flg;
+    }
+
     // 移動
     [Header("移動設定")]
     [SerializeField, Header("移動速度")]
@@ -23,10 +32,12 @@ public class CSP_ParallelMove : ActionBase
     private float initSpeed;         // スピードの初期値を保存しておく変数
     [SerializeField, Header("ダッシュ入力の閾値")]
     private float dashInputValue = 0.75f;
-    [SerializeField, Header("マウント時の減速倍率")]
-    private float decelerationMount;
-    [SerializeField, Header("飢餓時の減速倍率")]
-    private float decelerationHunger;
+    [SerializeField, Header("状態/移動速度の倍率")]
+    private StringNumberPair[] animatorBoolSpeedList;
+    [SerializeField]
+    private StringNumberPair[] animatorFloatSpeedList;
+
+
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -173,8 +184,33 @@ public class CSP_ParallelMove : ActionBase
             GetAnimator().SetBool("Dash", false);
         }
 
+
+        // 坂道を降りるために速度を調整
+        float maxSlopeAngle = 30f;
+        // 地面の法線ベクトルを取得
+        RaycastHit hit;
+        if ((Physics.Raycast(transform.position, Vector3.down, out hit, 5f))
+            && GetPlayerManager().IsGrounded())
+        {
+            // 坂道の角度を計算
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+
+            // 坂道が急すぎる場合、飛び越えを防ぐために速度を制限
+            if (slopeAngle > maxSlopeAngle)
+            {
+                speed = initSpeed;
+                GetAnimator().SetBool("Dash", false);
+            }
+        }
+
+
         // 効果音を再生する
-        if (GetAnimator().GetBool("Dash"))
+        if (!GetAnimator().GetBool("isGrounded"))
+        {
+            // 空中
+            GetSoundEffect().StopPlayingSound(0);
+        }
+        else if (GetAnimator().GetBool("Dash"))
         {
             // ダッシュ
             GetSoundEffect().PlaySoundEffect(0, 2);
@@ -188,17 +224,23 @@ public class CSP_ParallelMove : ActionBase
         // プレイヤーの位置を更新
         Vector3 direction = moveVec * speed * Time.deltaTime;
 
-        if (GetAnimator().GetBool("Mount"))
+        // 状態によって移動速度を変更する
+        foreach (var pair in animatorBoolSpeedList)
         {
-            direction *= decelerationMount;
+            if (GetAnimator().GetBool(pair.name) == pair.flg)
+            {
+                direction *= pair.magnification;
+            }
         }
-        if (GetAnimator().GetFloat("Hunger") == 1)
+        foreach (var pair in animatorFloatSpeedList)
         {
-            direction *= decelerationHunger;
+            if ((GetAnimator().GetFloat(pair.name) >= 1) == pair.flg)
+            {
+                direction *= pair.magnification;
+            }
         }
 
         GetRigidbody().MovePosition(GetRigidbody().position + direction);
-
     }
 
     void StopMove()

@@ -152,7 +152,7 @@ public class CS_PlayerManager : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // エネルギーコアの状態を設定
         if (core != null)
@@ -170,8 +170,6 @@ public class CS_PlayerManager : MonoBehaviour
         {
             UnityEngine.Debug.LogError("CS_Coreオブジェクトが設定されていません");
         }
-
-
 
         // ゲームオーバー
         if (nowHP <= 0)
@@ -278,26 +276,16 @@ public class CS_PlayerManager : MonoBehaviour
     //**
     public bool IsGrounded()
     {
-        //RaycastHit hit;
-        //return Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+        float radius = 0.125f;              // チェックする半径
+        float groundCheckDistance = 0.0f;   // 地面との距離
 
-        //float radius = 1.0f;
-        //float range = 0.1f;
-
-        //Ray ray = new Ray(transform.position, Vector3.down);
-        //RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
-
-        //foreach (RaycastHit hit in hits)
-        //{
-        //    return true;
-        //}
-
-        //return false;
-
-        float radius = 0.125f;
-        float groundCheckDistance = 0.01f;
+        // 地面判定
         return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
     }
+
+
+
+
 
     //**
     //* 壁に接しているかを判断する
@@ -316,10 +304,10 @@ public class CS_PlayerManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         float radius = 0.125f;               // Sphereの半径
-        float groundCheckDistance = 0.01f;  // チェック位置のオフセット
+        float groundCheckDistance = 0.0f;
 
         // 接地状態を色で可視化
-        if (Physics.CheckSphere(transform.position, radius, groundLayer))
+        if (Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer))
         {
             Gizmos.color = Color.green;
         }
@@ -329,6 +317,6 @@ public class CS_PlayerManager : MonoBehaviour
         }
 
         // Sphereを描画
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireSphere(transform.position - Vector3.up * groundCheckDistance, radius);
     }
 }
