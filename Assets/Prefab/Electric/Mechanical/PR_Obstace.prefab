@@ -121,9 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de15ba84456133449298e79bd4c6926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultUVs: []
-  meshFilter: {fileID: 1310166428083550354}
-  meshRenderer: {fileID: 2536691499331413848}
   isBlockNum: 1
   materials:
   - {fileID: 2100000, guid: d182b31927f3eb84ebe73037883de87b, type: 2}
@@ -143,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 11
   PitchUp: 0.5
-  DebrisParticle: {fileID: 0}
+  DebrisParticle: {fileID: 6094323405058740018, guid: 7813c6cb2c62c3646bc40b6f4e397f34, type: 3}
   numberChanger: {fileID: 7083640246295782353}
   explosion: {fileID: 8300000, guid: 05f2b74dd5418ce4090f90023f4515ab, type: 3}
   hitSound: {fileID: 8300000, guid: 6ac3be23a164ed34b9a50f44977799fc, type: 3}

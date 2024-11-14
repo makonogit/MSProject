@@ -20,7 +20,7 @@ namespace Assets.C_Script.Electric.notElectric
         // 読み取り用
         public int HP { get { return hp; } }
         [SerializeField]
-        private ParticleSystem DebrisParticle;
+        private GameObject DebrisParticle;
 
         [SerializeField]
         private CS_NumberChanger numberChanger;
@@ -32,6 +32,8 @@ namespace Assets.C_Script.Electric.notElectric
         private AudioSource audioSource;
 
         private Collider collider;
+
+        private bool firstTime = false;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -50,6 +52,7 @@ namespace Assets.C_Script.Electric.notElectric
             hitCount = 0;
             if (numberChanger != null) numberChanger.SetNumber(hp);
             if (TryGetComponent<Collider>(out collider)) Debug.LogWarning("null collider component");
+            firstTime = false;
         }
         // フィクスドアップデート
         private void FixedUpdate()
@@ -70,12 +73,18 @@ namespace Assets.C_Script.Electric.notElectric
         /// </summary>
         private void Explosion()
         {
-            // メッシュ非表示
-            numberChanger.MeshRendererEnable(false);
-            // あたり判定非アクティブ
-            collider.enabled = false;
+            if (!firstTime)
+            {
+                // メッシュ非表示
+                numberChanger.MeshRendererEnable(false);
+                // あたり判定非アクティブ
+                collider.enabled = false;
+                // 壊れる演出
+                Instantiate(DebrisParticle, transform.position, Quaternion.identity);
+            }
             // 効果音が終わったら消す
             if(!audioSource.isPlaying)Destroy(this.gameObject);
+            firstTime = true;
         }
 
         /// <summary>
