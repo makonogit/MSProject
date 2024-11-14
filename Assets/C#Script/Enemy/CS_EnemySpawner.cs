@@ -120,6 +120,7 @@ public class CS_EnemySpawner : MonoBehaviour
 
         Gizmos.DrawSphere(transform.position, 1.0f);
 
+        Gizmos.DrawWireSphere(transform.position, SpawnDistance);
     }
 
     private void Spawn()

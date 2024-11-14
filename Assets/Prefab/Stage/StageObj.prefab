@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9015804243839969190}
-  - component: {fileID: 6866664448553063111}
-  - component: {fileID: 5064735477665064493}
   - component: {fileID: 7399314978043888160}
+  - component: {fileID: 1826830665359163693}
   m_Layer: 0
   m_Name: StageObj
   m_TagString: Untagged
@@ -34,58 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -148.275, z: 0}
---- !u!114 &6866664448553063111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6626019400324016022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d07a52d15b3384d99742476b626104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BreakObjList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BoxSize: {x: 25, y: 4, z: 1}
-  AreaLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  layer:
-    serializedVersion: 2
-    m_Bits: 512
-  splineanim: {fileID: 5064735477665064493}
---- !u!114 &5064735477665064493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6626019400324016022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_LoopMode: 0
-  m_Method: 0
-  m_Duration: 30
-  m_MaxSpeed: 11.24827
-  m_EasingMode: 1
-  m_AlignmentMode: 1
-  m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
-  m_StartOffset: 0
 --- !u!82 &7399314978043888160
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182,3 +129,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1826830665359163693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6626019400324016022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23dc37934256924ea669200c14222d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentBreakState: 0
+  CurrentBreakAreaNum: 0
+  BreakArea:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BreakSpeed: 1
+  BreakTime: 20
+  AlartTime: 3
+  BreakAlartBord: {fileID: 6188735757174594130, guid: 38788d0f840eb4444ae4afcd2712647e, type: 3}
+  breakLayer:
+    serializedVersion: 2
+    m_Bits: 512
