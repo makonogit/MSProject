@@ -23,13 +23,15 @@ namespace Assets.C_Script.Electric.notElectric
         private ParticleSystem DebrisParticle;
 
         [SerializeField]
-        private List<CS_ChangeMaterial> changeMaterials = new List<CS_ChangeMaterial>();
+        private CS_NumberChanger numberChanger;
 
         [SerializeField]
         private AudioClip explosion;
         [SerializeField]
         private AudioClip hitSound;
         private AudioSource audioSource;
+
+        private Collider collider;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -46,6 +48,8 @@ namespace Assets.C_Script.Electric.notElectric
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) Debug.LogError("null AudioSource component");
             hitCount = 0;
+            if (numberChanger != null) numberChanger.SetNumber(hp);
+            if (TryGetComponent<Collider>(out collider)) Debug.LogWarning("null collider component");
         }
         // フィクスドアップデート
         private void FixedUpdate()
@@ -66,7 +70,11 @@ namespace Assets.C_Script.Electric.notElectric
         /// </summary>
         private void Explosion()
         {
-            
+            // メッシュ非表示
+            numberChanger.MeshRendererEnable(false);
+            // あたり判定非アクティブ
+            collider.enabled = false;
+            // 効果音が終わったら消す
             if(!audioSource.isPlaying)Destroy(this.gameObject);
         }
 
@@ -78,39 +86,8 @@ namespace Assets.C_Script.Electric.notElectric
         {
             hp -= damage;
             hitCount++;
-            ChangeNumber();
+            numberChanger.SetNumber(hp);
             PlaySounds(hitCount);
-        }
-
-        /// <summary>
-        /// 数字の変更
-        /// </summary>
-        private void ChangeNumber() 
-        {
-            int[] index = {3,7,11};
-            int IndexNumber = 0;
-            for (int i = 0; i < index.Length; i++) 
-            { 
-                if (hp <= index[i]) 
-                { 
-                    IndexNumber = i; 
-                    break; 
-                }
-            }
-            foreach (CS_ChangeMaterial changeMaterial in changeMaterials)changeMaterial.gameObject.SetActive(false);
-            if (hp < 4) // 0～3
-            {
-
-                int num = Mathf.Max(0, hp % 4);
-                changeMaterials[num].ChangeMaterial(IndexNumber);
-                changeMaterials[num].gameObject.SetActive(true);
-            }
-            else // 4～11
-            {
-                int num = Mathf.Max(0, (hp + 1) % 4);
-                changeMaterials[num].ChangeMaterial(IndexNumber);
-                changeMaterials[num].gameObject.SetActive(true);
-            }
         }
 
         /// <summary>
@@ -134,7 +111,7 @@ namespace Assets.C_Script.Electric.notElectric
 
         private void OnValidate()
         {
-            HitDamages();
+            //HitDamages();
         }
 
 #endif // UNITY_EDITOR
