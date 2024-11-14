@@ -12,6 +12,8 @@ TagManager:
   - Goal
   - EnergyCore
   - Gimmick
+  - StunObject
+  - PushObject
   layers:
   - Default
   - TransparentFX

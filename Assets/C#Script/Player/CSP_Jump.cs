@@ -82,10 +82,10 @@ public class CSP_Jump : ActionBase
             HandleJump();
         }
 
-        if (GetAnimator().GetBool("Mount"))
-        {
-            HandleClimb();
-        }
+        //if (GetAnimator().GetBool("Mount"))
+        //{
+        //    HandleClimb();
+        //}
     }
 
     //**

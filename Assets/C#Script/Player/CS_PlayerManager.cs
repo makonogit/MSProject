@@ -39,7 +39,7 @@ public class CS_PlayerManager : MonoBehaviour
     private float fallingThreshold = 5f;
     [SerializeField]
     private LayerMask groundLayer;
-    public Vector3 oldAcceleration;// 1フレーム前の重力加速度
+    private Vector3 oldAcceleration;// 1フレーム前の重力加速度
 
     // 硬直
     [System.Serializable]
@@ -80,6 +80,7 @@ public class CS_PlayerManager : MonoBehaviour
     // カウントダウン用クラス
     private CS_Countdown countdown;
     private CS_Countdown countdownGoal;
+    private CS_Countdown countdownStun;
 
 
     //**
@@ -90,6 +91,7 @@ public class CS_PlayerManager : MonoBehaviour
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
         countdownGoal = gameObject.AddComponent<CS_Countdown>();
+        countdownStun = gameObject.AddComponent<CS_Countdown>();
 
         // HPを設定
         nowHP = initHP;
@@ -133,7 +135,6 @@ public class CS_PlayerManager : MonoBehaviour
         }
         else
         {
-            // ResultCanvasが見つかった場合にのみ、ResultPanelを探す
             Transform resultPanelTransform = resultCanvas.transform.Find("ResultPanel");
             if (resultPanelTransform != null)
             {
@@ -151,10 +152,10 @@ public class CS_PlayerManager : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // エネルギーコアの状態を設定
-        if(core != null)
+        if (core != null)
         {
             if (animator.GetBool("Mount"))
             {
@@ -169,8 +170,6 @@ public class CS_PlayerManager : MonoBehaviour
         {
             UnityEngine.Debug.LogError("CS_Coreオブジェクトが設定されていません");
         }
-
-
 
         // ゲームオーバー
         if (nowHP <= 0)
@@ -228,6 +227,12 @@ public class CS_PlayerManager : MonoBehaviour
             result.StartResult();
             animator.SetBool("Goal",false);
         }
+
+        // 気絶状態
+        if (countdownStun.IsCountdownFinished() && animator.GetBool("Stun"))
+        {
+            animator.SetBool("Stun", false);
+        }
     }
 
     //**
@@ -243,6 +248,16 @@ public class CS_PlayerManager : MonoBehaviour
             itemStock++;
 
             Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "StunObject")
+        {
+            animator.SetBool("Stun", true);
+
+            Vector3 reverseForce = collision.contacts[0].normal * 10.0f;
+            reverseForce.y = 0f;
+            GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
+
+            countdownStun.Initialize(3);
         }
         else if (collision.gameObject.tag == "Goal")
         {
@@ -261,9 +276,16 @@ public class CS_PlayerManager : MonoBehaviour
     //**
     public bool IsGrounded()
     {
-        RaycastHit hit;
-        return Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+        float radius = 0.125f;              // チェックする半径
+        float groundCheckDistance = 0.0f;   // 地面との距離
+
+        // 地面判定
+        return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
     }
+
+
+
+
 
     //**
     //* 壁に接しているかを判断する
@@ -276,5 +298,25 @@ public class CS_PlayerManager : MonoBehaviour
         RaycastHit hit;
         Vector3 offset = new Vector3(0f,0f,0f);
         return Physics.Raycast(transform.position + offset, transform.forward, out hit, groundCheckDistance, groundLayer);
+    }
+
+    // 接地判定の可視化
+    private void OnDrawGizmos()
+    {
+        float radius = 0.125f;               // Sphereの半径
+        float groundCheckDistance = 0.0f;
+
+        // 接地状態を色で可視化
+        if (Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer))
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+
+        // Sphereを描画
+        Gizmos.DrawWireSphere(transform.position - Vector3.up * groundCheckDistance, radius);
     }
 }

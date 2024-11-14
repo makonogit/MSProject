@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class CS_AirBall : MonoBehaviour
@@ -64,38 +65,79 @@ public class CS_AirBall : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    bool GimmickHit = collision.gameObject.tag == "Burst";
+
+    //    if (GimmickHit)
+    //    {
+
+    //        CS_Burst_of_object burst = collision.transform.GetComponent<CS_Burst_of_object>();
+    //        if (burst == null) { Debug.LogWarning("null component"); return; }
+    //        burst.HitDamage(Power);
+
+    //        //---------------------------------------------------------------
+    //        // 衝突したオブジェクトに攻撃力を加算する？オブジェクト側でやる？
+    //        //GetComponent<衝突したオブジェクトのコンポーネント>.耐久値;
+    //        //耐久値 - AttackPower;
+    //        //やるならこんな感じ？
+
+    //        ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
+    //        Vector3 collisionPoint = contact.point; // 衝突した位置
+
+    //        Instantiate(HitEffect,collisionPoint,Quaternion.identity);     //衝突した位置にエフェクト
+
+    //        Destroy(this.gameObject);   //衝突したら自信を破棄
+    //    }
+
+    //    if (TimeMesure > 0.2f)
+    //    {
+    //        ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
+    //        Vector3 collisionPoint = contact.point; // 衝突した位置
+    //        Instantiate(HitEffect,collisionPoint, Quaternion.identity);     //衝突した位置にエフェクト
+    //        Destroy(this.gameObject);   //衝突したら自信を破棄
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
-        bool GimmickHit = collision.gameObject.tag == "Burst";
+        bool GimmickHit = other.gameObject.CompareTag("Burst");
 
         if (GimmickHit)
         {
+            // 衝突したオブジェクトから CS_Burst_of_object コンポーネントを取得
+            CS_Burst_of_object burst = other.transform.GetComponent<CS_Burst_of_object>();
+            if (burst == null)
+            {
+                return;
+            }
 
-            CS_Burst_of_object burst = collision.transform.GetComponent<CS_Burst_of_object>();
-            if (burst == null) { Debug.LogWarning("null component"); return; }
+            // ダメージを与える
             burst.HitDamage(Power);
 
             //---------------------------------------------------------------
-            // 衝突したオブジェクトに攻撃力を加算する？オブジェクト側でやる？
-            //GetComponent<衝突したオブジェクトのコンポーネント>.耐久値;
-            //耐久値 - AttackPower;
-            //やるならこんな感じ？
+            // もし耐久値を減らすなどの処理を追加したい場合は、コメントアウト部分のように書けます:
+            // GetComponent<衝突したオブジェクトのコンポーネント>.耐久値 -= AttackPower;
 
-            ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
-            Vector3 collisionPoint = contact.point; // 衝突した位置
+            // 衝突した位置にエフェクトをインスタンス化
+            Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position); // 衝突点の近い位置を取得
+            Instantiate(HitEffect, collisionPoint, Quaternion.identity);
 
-            Instantiate(HitEffect,collisionPoint,Quaternion.identity);     //衝突した位置にエフェクト
-
-            Destroy(this.gameObject);   //衝突したら自信を破棄
+            // オブジェクトを破壊
+            Destroy(gameObject); // このオブジェクトを破棄
         }
 
+        // TimeMesure が 0.2f より大きい場合の処理
         if (TimeMesure > 0.2f)
         {
-            ContactPoint contact = collision.contacts[0]; // 最初の接触点を取得
-            Vector3 collisionPoint = contact.point; // 衝突した位置
-            Instantiate(HitEffect,collisionPoint, Quaternion.identity);     //衝突した位置にエフェクト
-            Destroy(this.gameObject);   //衝突したら自信を破棄
+            // 衝突点にエフェクトをインスタンス化
+            Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position); // 衝突点の近い位置を取得
+            Instantiate(HitEffect, collisionPoint, Quaternion.identity);
+
+            // オブジェクトを破壊
+            Destroy(gameObject);
         }
     }
+
 
 }

@@ -1,17 +1,23 @@
-using System.Diagnostics;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CSP_Move : ActionBase
+//**
+//* 平行移動
+//*
+//* 担当：藤原昂祐
+//**
+
+public class CSP_ParallelMove : ActionBase
 {
     // 硬直
-    //[System.Serializable]
-    //public class StringNumberPair
-    //{
-    //    public string name;
-    //    public float time;
-    //}
-    //[SerializeField, Header("状態/移動速度倍率")]
-    //public StringNumberPair[] MoveSpeed;
+    [System.Serializable]
+    public class StringNumberPair
+    {
+        public string name;
+        public float magnification;
+        public bool flg;
+    }
 
     // 移動
     [Header("移動設定")]
@@ -26,10 +32,12 @@ public class CSP_Move : ActionBase
     private float initSpeed;         // スピードの初期値を保存しておく変数
     [SerializeField, Header("ダッシュ入力の閾値")]
     private float dashInputValue = 0.75f;
-    [SerializeField, Header("マウント時の減速倍率")]
-    private float decelerationMount;
-    [SerializeField, Header("飢餓時の減速倍率")]
-    private float decelerationHunger;
+    [SerializeField, Header("状態/移動速度の倍率")]
+    private StringNumberPair[] animatorBoolSpeedList;
+    [SerializeField]
+    private StringNumberPair[] animatorFloatSpeedList;
+
+
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -114,11 +122,12 @@ public class CSP_Move : ActionBase
             // スティックの入力を取得
             Vector3 moveVec = GetMovementVector();
 
+            Vector2 stick = GetInputSystem().GetLeftStick();
+            GetAnimator().SetFloat("MoveVecZ", stick.x);
+            GetAnimator().SetFloat("MoveVecX", stick.y);
+
             // 位置を更新
             MoveCharacter(moveVec);
-
-            // 前方方向をスムーズに調整
-            AdjustForwardDirection(moveVec);
             GetAnimator().SetBool("Move", true);
         }
         else
@@ -128,7 +137,7 @@ public class CSP_Move : ActionBase
 
             // 移動速度を初期化
             speed = initSpeed;
-           
+
             // アニメーターの値を変更
             GetAnimator().SetBool("Move", false);
             GetAnimator().SetBool("Dash", false);
@@ -161,7 +170,7 @@ public class CSP_Move : ActionBase
     {
         // スティックが大きく倒されていれば、加速する
         Vector2 stick = GetInputSystem().GetLeftStick();
-        if ((stick.y > dashInputValue) || (stick.x > dashInputValue) 
+        if ((stick.y > dashInputValue) || (stick.x > dashInputValue)
             || (stick.y < -dashInputValue) || (stick.x < -dashInputValue))
         {
             speed = Mathf.SmoothDamp(speed, targetSpeed, ref velocity, smoothTime);
@@ -175,8 +184,33 @@ public class CSP_Move : ActionBase
             GetAnimator().SetBool("Dash", false);
         }
 
+
+        // 坂道を降りるために速度を調整
+        float maxSlopeAngle = 30f;
+        // 地面の法線ベクトルを取得
+        RaycastHit hit;
+        if ((Physics.Raycast(transform.position, Vector3.down, out hit, 5f))
+            && GetPlayerManager().IsGrounded())
+        {
+            // 坂道の角度を計算
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+
+            // 坂道が急すぎる場合、飛び越えを防ぐために速度を制限
+            if (slopeAngle > maxSlopeAngle)
+            {
+                speed = initSpeed;
+                GetAnimator().SetBool("Dash", false);
+            }
+        }
+
+
         // 効果音を再生する
-        if (GetAnimator().GetBool("Dash"))
+        if (!GetAnimator().GetBool("isGrounded"))
+        {
+            // 空中
+            GetSoundEffect().StopPlayingSound(0);
+        }
+        else if (GetAnimator().GetBool("Dash"))
         {
             // ダッシュ
             GetSoundEffect().PlaySoundEffect(0, 2);
@@ -190,32 +224,23 @@ public class CSP_Move : ActionBase
         // プレイヤーの位置を更新
         Vector3 direction = moveVec * speed * Time.deltaTime;
 
-        if (GetAnimator().GetBool("Mount"))
+        // 状態によって移動速度を変更する
+        foreach (var pair in animatorBoolSpeedList)
         {
-            direction *= decelerationMount;
+            if (GetAnimator().GetBool(pair.name) == pair.flg)
+            {
+                direction *= pair.magnification;
+            }
         }
-        if (GetAnimator().GetFloat("Hunger") == 1)
+        foreach (var pair in animatorFloatSpeedList)
         {
-            direction *= decelerationHunger;
+            if ((GetAnimator().GetFloat(pair.name) >= 1) == pair.flg)
+            {
+                direction *= pair.magnification;
+            }
         }
 
         GetRigidbody().MovePosition(GetRigidbody().position + direction);
-
-    }
-
-    //**
-    //* キャラクターを進行方向に向ける
-    //*
-    //* in：移動ベクトル
-    //* out：無し
-    //**
-    void AdjustForwardDirection(Vector3 moveVec)
-    {
-        if (moveVec.sqrMagnitude > 0)
-        {
-            Vector3 targetForward = moveVec.normalized;
-            transform.forward = Vector3.Lerp(transform.forward, targetForward, 0.1f);
-        }
     }
 
     void StopMove()
@@ -260,7 +285,7 @@ public class CSP_Move : ActionBase
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            GetSoundEffect().PlaySoundEffect(3,7);
+            GetSoundEffect().PlaySoundEffect(3, 7);
 
             GetAnimator().SetBool("Damage", true);
 

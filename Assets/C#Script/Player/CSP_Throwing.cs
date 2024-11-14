@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,9 @@ using UnityEngine;
 
 public class CSP_Throwing : ActionBase
 {
+    [Header("表示用コア")]
+    public GameObject core;
+
     [Header("コアの位置/回転")]
     [SerializeField]
     private float distance = 0.75f;
@@ -75,6 +79,8 @@ public class CSP_Throwing : ActionBase
             }
         }
 
+        core.SetActive(targetObject != null);
+
         if (countdown.IsCountdownFinished())
         {
             // 予想線を非表示
@@ -83,36 +89,36 @@ public class CSP_Throwing : ActionBase
             if (GetAnimator().GetBool("Mount"))
             {
                 // 投げる処理
-                if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
-                {
-                    if (targetObject != null)
-                    {
-                        GetAnimator().SetBool("Throwing", false);
+                //if ((GetInputSystem().GetLeftTrigger() == 0) && (oldLeftTrigger > 0) && (!GetInputSystem().GetButtonBPressed()))
+                //{
+                //    if (targetObject != null)
+                //    {
+                //        GetAnimator().SetBool("Throwing", false);
 
-                        collider.enabled = true;
+                //        collider.enabled = true;
 
-                        rb.useGravity = true;
+                //        rb.useGravity = true;
 
-                        GetSoundEffect().PlaySoundEffect(2, 8);
+                //        GetSoundEffect().PlaySoundEffect(2, 8);
 
-                        // 余計な移動成分を取り除く
-                        Vector3 currentVelocity = rb.velocity;
-                        rb.velocity = Vector3.zero;
-                        rb.angularVelocity = Vector3.zero;
+                //        // 余計な移動成分を取り除く
+                //        Vector3 currentVelocity = rb.velocity;
+                //        rb.velocity = Vector3.zero;
+                //        rb.angularVelocity = Vector3.zero;
 
-                        // カメラの正面方向の位置を取得
-                        Vector3 cameraForward = Camera.main.transform.forward;
+                //        // カメラの正面方向の位置を取得
+                //        Vector3 cameraForward = Camera.main.transform.forward;
 
-                        // 指定した角度で力を加える
-                        Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
-                        rb.AddForce(force, ForceMode.Impulse);
+                //        // 指定した角度で力を加える
+                //        Vector3 force = GetForceVector(angle, forceMagnitude, cameraForward);
+                //        rb.AddForce(force, ForceMode.Impulse);
 
-                        // ターゲットをリセット
-                        targetObject = null;
-                        rb = null;
-                        collider = null;
-                    }
-                }
+                //        // ターゲットをリセット
+                //        targetObject = null;
+                //        rb = null;
+                //        collider = null;
+                //    }
+                //}
 
                 // ラインレンダーの初期値位置を更新
                 if (targetObject != null)
@@ -160,7 +166,8 @@ public class CSP_Throwing : ActionBase
             if (targetObject != null)
             {
                 // ターゲットをリセット
-                //collider.enabled = true;
+                targetObject.SetActive(true);
+                collider.enabled = true;
                 rb.useGravity = true;
                 targetObject = null;
                 rb = null;
@@ -214,33 +221,6 @@ public class CSP_Throwing : ActionBase
         }
     }
 
-    // 引数のオブジェクトを指定したオブジェクトの子として設定する関数
-    // 引数例: "Parent/Child/Grandchild"
-    public void SetChildObject(string targetPath,Transform objectToChild)
-    {
-        // 指定したパスのトランスフォームを取得
-        Transform targetTransform = transform.Find(targetPath);
-
-        if (targetTransform != null && objectToChild != null)
-        {
-            objectToChild.SetParent(targetTransform);
-        }
-    }
-
-    // 引数のオブジェクトを指定したオブジェクトから外す関数
-    public void RemoveChildObject(string targetPath, Transform objectToRemove)
-    {
-        Transform targetTransform = transform.Find(targetPath);
-
-        if (targetTransform != null && objectToRemove != null)
-        {
-            if (objectToRemove.parent == targetTransform)
-            {
-                objectToRemove.SetParent(null); // 親をnullにしてシーンのルートに戻す
-            }
-        }
-    }
-
 //**
 //* 衝突処理
 //**
@@ -252,21 +232,23 @@ public class CSP_Throwing : ActionBase
         {
             if (collision.gameObject.tag == targetTag)
             {
-                targetObject = collision.gameObject;
+                if (GetInputSystem().GetButtonYPressed())
+                {
+                    targetObject = collision.gameObject;
+                    targetObject.SetActive(false);
 
-                // リジットボディを取得
-                rb = targetObject.GetComponent<Rigidbody>();
+                    // リジットボディを取得
+                    rb = targetObject.GetComponent<Rigidbody>();
 
-                // コライダーを取得
-                collider = targetObject.GetComponent<Collider>();
-                collider.enabled = false;
+                    // コライダーを取得
+                    collider = targetObject.GetComponent<Collider>();
+                    collider.enabled = false;
 
-                // ラインレンダーの初期位置を設定
-                positions.Add(targetObject.transform.position);
+                    // ラインレンダーの初期位置を設定
+                    positions.Add(targetObject.transform.position);
 
-                GetAnimator().SetBool("Mount", true);
-
-                //SetChildObject("Player/All_Base/All_Ctrl/Hip_Base/Spine1_Base/Spine1_CtrlSpine2_Base/Spine2_Ctrl/Neck_Base", targetObject.transform);
+                    GetAnimator().SetBool("Mount", true);
+                }
             }
         }
 
@@ -281,6 +263,7 @@ public class CSP_Throwing : ActionBase
                 rb.AddForce(Vector3.up * 30.0f, ForceMode.Impulse);
 
                 // ターゲットをリセット
+                targetObject.SetActive(true);
                 targetObject = null;
                 rb = null;
                 collider = null;
