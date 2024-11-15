@@ -8,6 +8,12 @@ using UnityEngine.UI;
 
 public class CSP_Shot : ActionBase
 {
+    //[Header("表示項目")]
+    //[SerializeField, Header("待機中の武器")]
+    //private GameObject weaponIdle;
+    //[SerializeField, Header("射撃中の武器")]
+    //private GameObject weaponShot;
+
     [Header("射撃設定")]
     [SerializeField, Header("空気砲の弾オブジェクト")]
     private GameObject AirBall;// 弾
@@ -185,35 +191,42 @@ public class CSP_Shot : ActionBase
 
             GetAnimator().SetBool("Shot", true);
 
-            //// 装填数が0ならリロード
-            //if (isMagazine)
-            //{
-            //    CreateBullet(burstfire);
-            //    isShot = true;
+            // 装填数が0ならリロード
+            if (isMagazine)
+            {
+                CreateBullet(burstfire);
+                isShot = true;
+                //weaponIdle.SetActive(false);
+                //weaponShot.SetActive(true);
 
-            //    GetAnimator().SetBool("Shot", true);
-            //}
-            //else if (!GetAnimator().GetBool("Reload"))
-            //{
-            //    isShot = true;
-            //    //StartCoroutine(ReloadCoroutine());
+                GetAnimator().SetBool("Shot", true);
 
-            //    // アニメーションの終了まで待機
-            //    countdown.Initialize(1f);
-            //    // リロード処理
-            //    ReloadMagazine(initMagazine);
-            //    // アニメーション再生
-            //}
+                isShot = false;
+            }
+            else if (!GetAnimator().GetBool("Reload"))
+            {
+                isShot = true;
+                StartCoroutine(ReloadCoroutine());
+
+                // アニメーションの終了まで待機
+                countdown.Initialize(1f);
+                // リロード処理
+                ReloadMagazine(initMagazine);
+                // アニメーション再生
+            }
         }
         else
         {
             GetAnimator().SetBool("Shot", false);
+
+            //weaponIdle.SetActive(true);
+            //weaponShot.SetActive(false);
         }
 
-        if (GetInputSystem().GetRightTrigger() <= 0 && isShot)
-        {
-            isShot = false;
-        }
+        //if (GetInputSystem().GetRightTrigger() <= 0 && isShot)
+        //{
+        //    isShot = false;
+        //}
     }
 
     //**
@@ -315,9 +328,9 @@ public class CSP_Shot : ActionBase
 
             // 装填数を減らす
             //magazine--;
-            bulletStock--;
-            float hp = GetPlayerManager().GetHP();
-            GetPlayerManager().SetHP(hp - -shotHp);
+            //bulletStock--;
+            //float hp = GetPlayerManager().GetHP();
+            //GetPlayerManager().SetHP(hp - -shotHp);
         }
     }
 
@@ -340,11 +353,14 @@ public class CSP_Shot : ActionBase
                 GetAnimator().SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
                 GetAnimator().SetLookAtPosition(targetPosition);
 
-                // 右腕をターゲットに向ける
-                GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
-                GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
-                GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
-                GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
+                if (GetAnimator().GetBool("Shot"))
+                {
+                    // 右腕をターゲットに向ける
+                    GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+                    GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+                    GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
+                    GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
+                }
 
             }
         }
