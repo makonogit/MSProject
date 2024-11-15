@@ -4940,6 +4940,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloorCornerGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 9058613549319056452, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -42
