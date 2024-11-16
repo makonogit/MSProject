@@ -42,10 +42,6 @@ namespace Assets.C_Script.Electric.Mechanical
         {
             if (stick) collision.transform.SetParent(transform, true);
         }
-        private void OnCollisionStay(Collision collision)
-        {
-            if (!stick) collision.transform.SetParent(transform, true);
-        }
         private void OnCollisionExit(Collision collision)
         {
             if (stick) collision.transform.SetParent(null, true);

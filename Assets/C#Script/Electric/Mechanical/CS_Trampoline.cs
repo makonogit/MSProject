@@ -27,6 +27,9 @@ namespace Assets.C_Script.Electric.Mechanical
         private float radius = 1.0f;
         [SerializeField]
         private Animator animator;
+
+        private AudioSource audioSource;
+
         // コリジョン
         private void OnCollisionEnter(Collision collision)=> hitObjects.Add(collision.gameObject);
         private void OnCollisionExit(Collision collision) => hitObjects.Remove(collision.gameObject);
@@ -43,6 +46,7 @@ namespace Assets.C_Script.Electric.Mechanical
             base.Start();
             animator.speed = 0.0f;
             animator.Play("AM_CloseTrampoline", 0, 1);
+            if (!TryGetComponent(out audioSource)) Debug.LogError("null audioSource component");
         }
         // 起動した瞬間
         protected override void PowerOn()
@@ -71,6 +75,7 @@ namespace Assets.C_Script.Electric.Mechanical
         /// </summary>
         protected void Jumping()
         {
+            audioSource.Play();
             foreach (GameObject gameObject in hitObjects) Jump(gameObject);
         }
 
