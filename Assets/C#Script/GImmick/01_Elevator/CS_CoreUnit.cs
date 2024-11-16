@@ -3,13 +3,11 @@
 // 内容     :コアの置き場
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Basic;
-using Assets.C_Script.Electric.Mechanical;
 using Assets.C_Script.Electric.Sensor;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-namespace Assets.C_Script.Electric.Other
+namespace Assets.C_Script.Gimmick._01_Elevator
 {
     public class CS_CoreUnit : CS_Switch
     {

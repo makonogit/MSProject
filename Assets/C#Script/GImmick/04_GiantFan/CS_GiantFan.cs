@@ -4,10 +4,9 @@
 // 担当者   :中川 直登
 //-------------------------------
 using UnityEngine;
-using UnityEngine.Rendering;
 using System.Collections.Generic;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._04_GiantFan
 {
     public class CS_GiantFan :MonoBehaviour
     {

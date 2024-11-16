@@ -5,7 +5,7 @@
 //-------------------------------
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._01_Crane
 {
     public class CS_StopArmAnimation :MonoBehaviour
     {

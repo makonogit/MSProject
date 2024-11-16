@@ -154,7 +154,7 @@ MonoBehaviour:
   moveAudioSource: {fileID: 3666078095312660845}
   pressAudioSource: {fileID: 3096777086421269674}
   endPoint: {x: -42.898026, y: -0.02999878, z: -52.83436}
-  arrivalTime: 1.5
+  arrivalTime: 3
   stick: 1
   Stop: 0
   animCurve:
@@ -181,6 +181,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tags:
+  - Player
+  - Enemy
+  - EnergyCore
   drawer: {fileID: 8236351278004585918}
   startTime: 2
   waitTime: 0.8
@@ -388,6 +392,7 @@ GameObject:
   - component: {fileID: 1777310587343630392}
   - component: {fileID: 2069449447661383536}
   - component: {fileID: 2497362721583163380}
+  - component: {fileID: 7430208893974242158}
   - component: {fileID: 1386157915234658527}
   - component: {fileID: 2184521984681489375}
   m_Layer: 0
@@ -485,6 +490,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!54 &7430208893974242158
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428553619599526164}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 122
+  m_CollisionDetection: 0
 --- !u!114 &1386157915234658527
 MonoBehaviour:
   m_ObjectHideFlags: 0

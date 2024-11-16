@@ -3,11 +3,12 @@
 // 内容     :クレーンのアーム
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Other;
+using Assets.C_Script.Gimmick._00_Base;
+using Assets.C_Script.Gimmick._01_Elevator;
 using UnityEngine;
 
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._01_Crane
 {
     class CS_CraneArm : CS_Mechanical
     {

@@ -3,9 +3,10 @@
 // 内容     :プレス機ギミック
 // 担当者   :中川 直登
 //-------------------------------
+using Assets.C_Script.Gimmick._00_Base;
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._02_PressMachine
 {
     public class CS_PressMachine :CS_MoveObject
     {

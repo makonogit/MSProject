@@ -58,6 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
+  moveAudioSource: {fileID: 8911697279668873670}
+  pressAudioSource: {fileID: 0}
   endPoint: {x: -0.0012999999, y: 5.0516467, z: 0}
   arrivalTime: 5
   stick: 1
@@ -86,6 +88,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tags:
+  - Player
+  - Enemy
+  - EnergyCore
   drawer: {fileID: 3482180944230693606}
   CountDown: 10
   countSound: {fileID: 8300000, guid: ce3be7306b6f8a5469754f5b2cd54d66, type: 3}

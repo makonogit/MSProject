@@ -3,10 +3,12 @@
 // 内容     :ポイントに移動するギミック
 // 担当者   :中川 直登
 //-------------------------------
+using Assets.C_Script.Electric;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._00_Base
 {
     public class CS_MoveObject : CS_Mechanical
     {
@@ -15,11 +17,7 @@ namespace Assets.C_Script.Electric.Mechanical
         protected AudioSource moveAudioSource;
         [SerializeField, Tooltip("接着音")]
         protected AudioSource pressAudioSource;
-        
-        
-        
-
-
+        [Header("変数")]
         private Vector3 startPoint = new Vector3();
         [SerializeField]
         protected Vector3 endPoint = new Vector3();
@@ -33,7 +31,8 @@ namespace Assets.C_Script.Electric.Mechanical
         protected bool GoEndPoint = true;
         [SerializeField, Tooltip("イージング：\n")]
         private AnimationCurve animCurve = new AnimationCurve();
-
+        [SerializeField,Tooltip("子オブジェクトにするタグ")]
+        private List<string>tags = new List<string>();
         
 
         virtual protected void Start()
@@ -52,6 +51,9 @@ namespace Assets.C_Script.Electric.Mechanical
         // コリジョン
         private void OnCollisionEnter(Collision collision)
         {
+            bool shouldSet = false;
+            foreach (string tag in tags) if( tag == collision.transform.tag)shouldSet = true;
+            if (!shouldSet)return;
             if (stick) collision.transform.SetParent(transform, true);
         }
         private void OnCollisionExit(Collision collision)
@@ -62,6 +64,9 @@ namespace Assets.C_Script.Electric.Mechanical
         // トリガー
         private void OnTriggerEnter(Collider other)
         {
+            bool shouldSet = false;
+            foreach (string tag in tags) if (tag == other.tag) shouldSet = true;
+            if (!shouldSet) return;
             if (stick) other.transform.SetParent(transform, true);
         }
         private void OnTriggerExit(Collider other)
@@ -151,7 +156,7 @@ namespace Assets.C_Script.Electric.Mechanical
 
         [SerializeField]
         private CS_GizmosDrawer drawer;
-
+        
         private void OnDrawGizmos() => ResetPositions(); 
         
         private void OnDrawGizmosSelected()=> DrawGizmos();

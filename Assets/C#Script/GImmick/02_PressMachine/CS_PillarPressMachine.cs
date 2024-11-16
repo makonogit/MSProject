@@ -3,7 +3,7 @@
 // 内容     :プレス機の柱の処理
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Mechanical;
+
 using UnityEditor;
 using UnityEngine;
 namespace Assets.C_Script.Gimmick._02_PressMachine
@@ -14,7 +14,7 @@ namespace Assets.C_Script.Gimmick._02_PressMachine
         [SerializeField]
         private int hp = 5;
         [SerializeField]
-        CS_PressMachine pressMachine;
+        private CS_PressMachine pressMachine;
         [SerializeField]
         private Rigidbody rb;
         private const string attackTag = "Attack";
@@ -25,7 +25,12 @@ namespace Assets.C_Script.Gimmick._02_PressMachine
 
         private void OnCollisionEnter(Collision collision)
         {
+            Debug.Log("collisionEnter");
             if (collision.transform.tag == attackTag) HitDamage(1);
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == attackTag) HitDamage(1);
         }
 
         private void HitDamage(int damage) 
@@ -33,7 +38,7 @@ namespace Assets.C_Script.Gimmick._02_PressMachine
             hp -= damage;
             if (hp <=0 )
             {
-                rb.isKinematic = true;
+                rb.isKinematic = false;
                 pressMachine.Power = false;
                 pressMachine.StopSounds();
                 audioSource.Play();

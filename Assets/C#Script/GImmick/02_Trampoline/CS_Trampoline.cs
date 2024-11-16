@@ -3,10 +3,12 @@
 // 内容     :物を吹っ飛ばすオブジェクト
 // 担当者   :中川 直登
 //-------------------------------
+using Assets.C_Script.Electric;
+using Assets.C_Script.Gimmick._00_Base;
 using System.Collections.Generic;
 using UnityEngine ;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._02_Trampoline
 {
     public class CS_Trampoline :CS_Mechanical
     {
@@ -109,6 +111,7 @@ namespace Assets.C_Script.Electric.Mechanical
         private Color color = new Color(0, 1, 0, 0.7f);
         [SerializeField]
         private CS_GizmosDrawer drawer = new CS_GizmosDrawer();
+        
 
         public override void DrawGizmos()
         {

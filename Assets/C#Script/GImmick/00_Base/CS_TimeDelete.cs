@@ -5,7 +5,7 @@
 //-------------------------------
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.Other
+namespace Assets.C_Script.Gimmick._00_Base
 {
     public class CS_TimeDelete :MonoBehaviour
     {
@@ -13,9 +13,12 @@ namespace Assets.C_Script.Electric.Other
         private Vector2 randomDeleteTimeConstans = new Vector2();
         [SerializeField]
         private bool isFixedUpdate = true;
+        [SerializeField]
+        protected bool CountdownStartFlag = true;
         private float deleteTime = 1.0f;
         private float nowTime = 0.0f;
-        private void Start() 
+        
+        virtual protected void Start() 
         {
             if (randomDeleteTimeConstans.magnitude > 0)
             {
@@ -27,11 +30,11 @@ namespace Assets.C_Script.Electric.Other
         }
         private void FixedUpdate()
         {
-            if (isFixedUpdate) TimeCalculations();
+            if (isFixedUpdate && CountdownStartFlag) TimeCalculations();
         }
         private void Update()
         {
-            if (!isFixedUpdate) TimeCalculations();
+            if (!isFixedUpdate && CountdownStartFlag) TimeCalculations();
         }
         /// <summary>
         /// 時間計算

@@ -5,10 +5,9 @@
 //-------------------------------
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.notElectric
+namespace Assets.C_Script.Gimmick._01_NumBreak
 {
     public class CS_NumberChanger : MonoBehaviour
     {

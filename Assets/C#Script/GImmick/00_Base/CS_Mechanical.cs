@@ -6,7 +6,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.Mechanical
+namespace Assets.C_Script.Gimmick._00_Base
 {
     public class CS_Mechanical :MonoBehaviour
     {

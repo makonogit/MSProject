@@ -3,12 +3,9 @@
 // 内容     :体力のある障害物
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Other;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace Assets.C_Script.Electric.notElectric
+namespace Assets.C_Script.Gimmick._01_NumBreak
 {
     public class CS_Obstacle :MonoBehaviour
     {
@@ -51,7 +48,7 @@ namespace Assets.C_Script.Electric.notElectric
             if (audioSource == null) Debug.LogError("null AudioSource component");
             hitCount = 0;
             if (numberChanger != null) numberChanger.SetNumber(hp);
-            if (TryGetComponent<Collider>(out collider)) Debug.LogWarning("null collider component");
+            if (TryGetComponent(out collider)) Debug.LogWarning("null collider component");
             firstTime = false;
         }
         // フィクスドアップデート
