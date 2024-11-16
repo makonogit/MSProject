@@ -3,7 +3,7 @@
 // 内容     :信号送信機
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.Mechanical;
+using Assets.C_Script.Gimmick._00_Base;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +15,6 @@ namespace Assets.C_Script.Electric.Basic
 
         [SerializeField,Tooltip("送信先リスト：\n送信する相手")]
         private List<CS_Mechanical> receivers =new List<CS_Mechanical>();
-
         /// <summary>
         /// 送信
         /// </summary>

@@ -4,6 +4,7 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Electric.Mechanical;
+using Assets.C_Script.Gimmick._00_Base;
 using UnityEngine;
 
 namespace Assets.C_Script.Electric.Basic
@@ -14,6 +15,7 @@ namespace Assets.C_Script.Electric.Basic
         private CS_Mechanical receive_A;
         [SerializeField,Tooltip("受信_B")]
         private CS_Mechanical receive_B;
+        
         [SerializeField,Tooltip("送信先")]
         private CS_Transmitter transmitter;
 

@@ -4,6 +4,7 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Electric.notElectric;
+using Assets.C_Script.Gimmick._01_NumBreak;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Assets.C_Script.Test
 
         [SerializeField]
         private CS_NumberChanger numberChanger;
+
         [SerializeField, Range(0, 11)]
         private int num = 0;
         [SerializeField]

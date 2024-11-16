@@ -5,6 +5,7 @@
 //-------------------------------
 #if UNITY_EDITOR
 using Assets.C_Script.Electric.Mechanical;
+using Assets.C_Script.Gimmick._00_Base;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
@@ -15,6 +16,7 @@ namespace Assets.C_Script.Electric
     {
         [SerializeField]
         private CS_Mechanical mechanical;
+        
         [SerializeField]
         private Mesh mesh;
         [SerializeField]
