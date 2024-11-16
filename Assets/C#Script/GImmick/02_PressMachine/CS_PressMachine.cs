@@ -14,10 +14,8 @@ namespace Assets.C_Script.Electric.Mechanical
         private bool started = false;
         [SerializeField]
         private float waitTime;
-
+       
         private bool wait = false;
-
-
 
         protected override void Start()
         {
@@ -55,8 +53,24 @@ namespace Assets.C_Script.Electric.Mechanical
             nowTime -= Time.deltaTime;
             wait = nowTime > 0.0f;
             if (!wait) nowTime = 0.0f;
+            if (moveAudioSource != null && moveAudioSource.isPlaying)
+            { 
+                moveAudioSource.Stop();
+            }
         }
-        
+        protected override void PressSound()
+        {
+            if (pressAudioSource != null && !GoEndPoint) pressAudioSource.Play();
+        }
+
+        /// <summary>
+        /// 効果音全停止
+        /// </summary>
+        public void StopSounds() 
+        {
+            if ( moveAudioSource != null && moveAudioSource.isPlaying) moveAudioSource.Stop();
+            if ( pressAudioSource != null && pressAudioSource.isPlaying) pressAudioSource.Stop();
+        }
     }
 }
 //===============================

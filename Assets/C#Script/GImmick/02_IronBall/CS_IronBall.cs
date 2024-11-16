@@ -17,8 +17,11 @@ namespace Assets.C_Script.Electric.Other
         [SerializeField]
         private List<string> tags = new List<string>();
         private Rigidbody rigidbody;
+        [SerializeField]
+        private AudioSource rollingSource;
+        [SerializeField]
+        private AudioSource hitSource;
 
-        
         private void OnCollisionEnter(Collision collision)
         {
             if (!isRolling) return;
@@ -30,12 +33,22 @@ namespace Assets.C_Script.Electric.Other
         private void Start() 
         {
             if (!TryGetComponent(out rigidbody)) Debug.LogError("null rigidbody component");
+            rollingSource.loop = true;
         }
 
         private void FixedUpdate()
         {
             // 転がっているかチェックする
             isRolling = checkSpeed <= rigidbody.velocity.magnitude;
+
+            if (rollingSource == null) return;
+
+            bool isPlaying = rollingSource.isPlaying;
+            bool shouldPlay = isRolling && !isPlaying;
+            bool shouldStop = !isRolling && isPlaying;
+            if (shouldPlay) rollingSource.Play();
+            if (shouldStop) rollingSource.Stop();
+            
         }
 
         private void Knockback(GameObject gameObject) 
@@ -47,7 +60,7 @@ namespace Assets.C_Script.Electric.Other
             vec.y *= -1;
             vec = vec.normalized;
             rb.AddForce(vec * knockbackPower ,ForceMode.Impulse);
-            
+            if (hitSource != null)hitSource.Play();
         }
 
     }
