@@ -10,6 +10,16 @@ namespace Assets.C_Script.Electric.Mechanical
 {
     public class CS_MoveObject : CS_Mechanical
     {
+        [Header("効果音")]
+        [SerializeField, Tooltip("稼働音")]
+        protected AudioSource moveAudioSource;
+        [SerializeField, Tooltip("接着音")]
+        protected AudioSource pressAudioSource;
+        
+        
+        
+
+
         private Vector3 startPoint = new Vector3();
         [SerializeField]
         protected Vector3 endPoint = new Vector3();
@@ -20,9 +30,11 @@ namespace Assets.C_Script.Electric.Mechanical
         [SerializeField, Tooltip("止まるか：\n")]
         protected bool Stop = true;
         protected float nowTime = 0.0f;
-        private bool GoEndPoint = true;
+        protected bool GoEndPoint = true;
         [SerializeField, Tooltip("イージング：\n")]
         private AnimationCurve animCurve = new AnimationCurve();
+
+        
 
         virtual protected void Start()
         {
@@ -67,6 +79,11 @@ namespace Assets.C_Script.Electric.Mechanical
             if (ShouldStop) return false;
             nowTime += Time.deltaTime;
             this.transform.position = point;
+            if (moveAudioSource != null && !moveAudioSource.isPlaying)
+            {
+                moveAudioSource.loop = true;
+                moveAudioSource.Play();
+            }
             return true;
         }
 
@@ -122,10 +139,13 @@ namespace Assets.C_Script.Electric.Mechanical
                 GoEndPoint = !GoEndPoint;
                 nowTime = 0.0f;
                 Power = !Stop;
+                PressSound();
+                
                 return true;
             }
         }
 
+        virtual protected void PressSound() { }
 
 #if UNITY_EDITOR
 
