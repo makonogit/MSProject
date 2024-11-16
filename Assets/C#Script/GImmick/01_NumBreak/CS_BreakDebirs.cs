@@ -40,6 +40,8 @@ namespace Assets.C_Script.Gimmick._01_NumBreak
         /// </summary>
         protected void PlaySound()
         {
+            if (rigidbody == null) return;
+            if (audioSource == null) return;
             if (rigidbody.velocity.magnitude <= soundVelocity)return;
             audioSource.pitch = GetPitch(PitchRange);
             audioSource.Play();
