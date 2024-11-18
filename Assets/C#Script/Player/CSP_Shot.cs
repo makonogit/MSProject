@@ -21,24 +21,32 @@ public class CSP_Shot : ActionBase
     private int initMagazine;// 装填数の初期値 
     [SerializeField, Header("現在の装填数")]
     private int magazine;// 装填数
-    [SerializeField, Header("連射数")]
-    private int burstfire;// 連射数
-    [SerializeField, Header("残弾数の初期値")]
+    //[SerializeField, Header("1トリガーの連射数")]
+    private int burstfire = 1;// 連射数
+    //[SerializeField, Header("残弾数の初期値")]
     private int initBulletStock;
-    [SerializeField, Header("現在の残弾数")]
+    //[SerializeField, Header("現在の残弾数")]
     private int bulletStock;// 残弾数
     private bool isShot = false;// 射撃中
-    [SerializeField, Header("減らすHP")]
+    //[SerializeField, Header("減らすHP")]
     private float shotHp;
     [SerializeField, Header("射程距離")]
     private float range = 100f;
     [SerializeField, Header("散弾範囲")]
     private float scatter = 0.1f;
+    [SerializeField, Header("オートエイム有効")]
+    private bool isAuto;
+    [SerializeField, Header("フルオートの発射間隔")]
+    private float interval = 0.5f;
+    [SerializeField, Header("リロードにかかる時間")]
+    private float intervalReload = 3f;
 
     [Header("レティクル設定")]
     [SerializeField, Header("表示位置")]
     private UnityEngine.UI.Image detectionImage;
-    [SerializeField, Header("アシスト範囲")]
+    [SerializeField, Header("オートエイムの検出範囲")]
+    float radiusAuto = 1.0f;
+    [SerializeField, Header("レティクル変更の検出範囲")]
     float radius = 1.0f;
     [SerializeField, Header("検出時のレティクル設定")]
     private Sprite detectedSprite;
@@ -48,12 +56,13 @@ public class CSP_Shot : ActionBase
     private Sprite notDetectedSprite; 
     //[SerializeField]
     //private Color notDetectedColor = Color.red; // 非検出時の色
-    [SerializeField, Header("破壊可能オブジェクトのタグ")]
+    [SerializeField, Header("オートエイム対象のタグ")]
     private List<string> targetTag;
     private GameObject targetObject;// レティクル内の破壊可能オブジェクト
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
+    private CS_Countdown intervalCountdown;
 
     protected override void Start()
     {
@@ -67,6 +76,7 @@ public class CSP_Shot : ActionBase
 
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
+        intervalCountdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     void FixedUpdate()
@@ -110,6 +120,10 @@ public class CSP_Shot : ActionBase
         {
             HandlShot();
         }
+        if (intervalCountdown.IsCountdownFinished() && isShot)
+        {
+           isShot = false;
+        }
 
         // リロード処理
         //if (GetInputSystem().GetButtonXPressed())
@@ -152,21 +166,41 @@ public class CSP_Shot : ActionBase
         detectionImage.sprite = notDetectedSprite;
         targetObject = null;
 
-        // カメラ正面からレイを作成
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
-
-        // レティクル内に破壊可能オブジェクトがあるか判定
-        foreach (RaycastHit hit in hits)
+        // レティクルの変更処理
         {
-            // ヒットした場合の処理
-            if (targetTag.Contains(hit.collider.tag))
+            // カメラ正面からレイを作成
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
+
+            // レティクル内に破壊可能オブジェクトがあるか判定
+            foreach (RaycastHit hit in hits)
             {
-                // オブジェクトを取得し、レティクルの色を変更
-                //detectionImage.color = detectedColor;
-                detectionImage.sprite = detectedSprite;
-                targetObject = hit.collider.gameObject;
-                break;
+                // ヒットした場合の処理
+                if (targetTag.Contains(hit.collider.tag))
+                {
+                    // レティクルを変更
+                    detectionImage.sprite = detectedSprite;
+                    break;
+                }
+            }
+        }
+
+        // オートエイム対象の取得処理
+        {
+            // カメラ正面からレイを作成
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit[] hits = Physics.SphereCastAll(ray, radiusAuto, range);
+
+            // レティクル内に破壊可能オブジェクトがあるか判定
+            foreach (RaycastHit hit in hits)
+            {
+                // ヒットした場合の処理
+                if (targetTag.Contains(hit.collider.tag))
+                {
+                    // オブジェクトを取得
+                    targetObject = hit.collider.gameObject;
+                    break;
+                }
             }
         }
     }
@@ -186,8 +220,8 @@ public class CSP_Shot : ActionBase
         // コントローラー入力/発射中/装填数を判定
         if (GetInputSystem().GetRightTrigger() > 0 && !isShot)
         {
-            CreateBullet(burstfire);
-            isShot = true;
+            //CreateBullet(burstfire);
+            //isShot = true;
 
             GetAnimator().SetBool("Shot", true);
 
@@ -201,7 +235,7 @@ public class CSP_Shot : ActionBase
 
                 GetAnimator().SetBool("Shot", true);
 
-                isShot = false;
+                intervalCountdown.Initialize(interval);
             }
             else if (!GetAnimator().GetBool("Reload"))
             {
@@ -209,24 +243,25 @@ public class CSP_Shot : ActionBase
                 StartCoroutine(ReloadCoroutine());
 
                 // アニメーションの終了まで待機
-                countdown.Initialize(1f);
+                countdown.Initialize(intervalReload);
                 // リロード処理
                 ReloadMagazine(initMagazine);
-                // アニメーション再生
             }
         }
         else
         {
             GetAnimator().SetBool("Shot", false);
 
+            //ReloadMagazine(initMagazine);
+
             //weaponIdle.SetActive(true);
             //weaponShot.SetActive(false);
         }
 
-        //if (GetInputSystem().GetRightTrigger() <= 0 && isShot)
-        //{
-        //    isShot = false;
-        //}
+        if (GetInputSystem().GetRightTrigger() <= 0 && isShot)
+        {
+            ReloadMagazine(initMagazine);
+        }
     }
 
     //**
@@ -270,7 +305,7 @@ public class CSP_Shot : ActionBase
         }
 
         // リロード処理を行う
-        ReloadMagazine(initMagazine);
+        //ReloadMagazine(initMagazine);
         GetAnimator().SetBool("Reload", false);
     }
 
@@ -287,10 +322,10 @@ public class CSP_Shot : ActionBase
         Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
         // レティクル内に破壊可能オブジェクトが存在するなら、その方向に発射する
-        if (targetObject != null)
+        if ((targetObject != null)&&(isAuto))
         {
-            //forwardVec = targetObject.transform.position - transform.position;
-            //forwardVec = forwardVec.normalized;
+            forwardVec = targetObject.transform.position - transform.position;
+            forwardVec = forwardVec.normalized;
         }
 
         float offsetDistance = 1.5f; // 各弾の間隔
@@ -312,7 +347,7 @@ public class CSP_Shot : ActionBase
             pos += offset;
             pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f) + 1f);
 
-            // 照準状態なら集弾させる
+            // 散弾処理
             if (!(GetInputSystem().GetLeftTrigger() > 0.1f))
             {
                 float randomRangeX = UnityEngine.Random.Range(-scatter, scatter);
@@ -327,7 +362,7 @@ public class CSP_Shot : ActionBase
             ballobj.transform.forward = forwardVec;
 
             // 装填数を減らす
-            //magazine--;
+            magazine--;
             //bulletStock--;
             //float hp = GetPlayerManager().GetHP();
             //GetPlayerManager().SetHP(hp - -shotHp);
@@ -353,14 +388,11 @@ public class CSP_Shot : ActionBase
                 GetAnimator().SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
                 GetAnimator().SetLookAtPosition(targetPosition);
 
-                if (GetAnimator().GetBool("Shot"))
-                {
-                    // 右腕をターゲットに向ける
-                    GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
-                    GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
-                    GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
-                    GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
-                }
+                // 右腕をターゲットに向ける
+                GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+                GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+                GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
+                GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
 
             }
         }

@@ -11,6 +11,8 @@ public class CS_Trap : MonoBehaviour
     private float restraintTime = 3f;
     [SerializeField, Header("拘束対象")]
     private string restraintTag = "Enemy";
+    [SerializeField, Header("発射速度")]
+    private float speed = 1f;
 
     // トラップのモデル
     private GameObject openTrap;    // 待機
@@ -24,6 +26,9 @@ public class CS_Trap : MonoBehaviour
 
     // 時間計測
     private CS_Countdown countdown;
+
+    // 設置状態
+    private bool isMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -42,10 +47,15 @@ public class CS_Trap : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // 拘束中の処理
-        if (!countdown.IsCountdownFinished())
+        // 発射して設置
+        if (isMove)
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
+        }
+        // 設置中の処理
+        else if (!countdown.IsCountdownFinished())
         {
             hitObject.transform.position = transform.position;
         }
@@ -60,7 +70,6 @@ public class CS_Trap : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 敵と衝突した場合、敵を移動不能にする
-
         if (other.gameObject.CompareTag(restraintTag))
         {
             // 拘束カウント開始
@@ -76,5 +85,11 @@ public class CS_Trap : MonoBehaviour
             // 効果音を再生
             soundEffect.PlaySoundEffect(0,0);
         }
+        // オブジェクトに衝突したら停止
+        else
+        {
+            isMove = false;
+        }
+
     }
 }
