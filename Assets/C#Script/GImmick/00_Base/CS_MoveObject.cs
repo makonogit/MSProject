@@ -12,12 +12,6 @@ namespace Assets.C_Script.Gimmick._00_Base
 {
     public class CS_MoveObject : CS_Mechanical
     {
-        [Header("効果音")]
-        [SerializeField, Tooltip("稼働音")]
-        protected AudioSource moveAudioSource;
-        [SerializeField, Tooltip("接着音")]
-        protected AudioSource pressAudioSource;
-        [Header("変数")]
         private Vector3 startPoint = new Vector3();
         [SerializeField]
         protected Vector3 endPoint = new Vector3();
@@ -84,11 +78,7 @@ namespace Assets.C_Script.Gimmick._00_Base
             if (ShouldStop) return false;
             nowTime += Time.deltaTime;
             this.transform.position = point;
-            if (moveAudioSource != null && !moveAudioSource.isPlaying)
-            {
-                moveAudioSource.loop = true;
-                moveAudioSource.Play();
-            }
+            MoveSound();
             return true;
         }
 
@@ -151,6 +141,7 @@ namespace Assets.C_Script.Gimmick._00_Base
         }
 
         virtual protected void PressSound() { }
+        virtual protected void MoveSound() { }
 
 #if UNITY_EDITOR
 
