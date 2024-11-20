@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341a3ec2d7cb4fa4b93bcbf7b84e4cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanical: {fileID: 520476066284184432}
+  mechanical: {fileID: 0}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   color: {r: 0, g: 1, b: 0.033422947, a: 0.50980395}
   lossyScale: 1
@@ -61,7 +61,8 @@ GameObject:
   - component: {fileID: 3337695134101560608}
   - component: {fileID: 6298348242302582091}
   - component: {fileID: 1717659494010671282}
-  - component: {fileID: 520476066284184432}
+  - component: {fileID: 2762251793359605188}
+  - component: {fileID: 1767101529931400993}
   m_Layer: 0
   m_Name: PR_MovingWall
   m_TagString: Untagged
@@ -156,7 +157,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &520476066284184432
+--- !u!114 &2762251793359605188
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,13 +166,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5340673807026255855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d16007ac5c0875409467d9154e67c67, type: 3}
+  m_Script: {fileID: 11500000, guid: d399c45d53611324b8e4dab8696c9eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  endPoint: {x: 3.98, y: 0.5, z: -1.021}
-  arrivalTime: 3
-  stick: 0
+  endPoint: {x: 0, y: 0, z: 0}
+  arrivalTime: 1
+  stick: 1
   Stop: 1
   animCurve:
     serializedVersion: 2
@@ -197,6 +198,105 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  drawer: {fileID: 7449525643633291933}
-  startTime: 1
-  waitTime: 0.125
+  tags: []
+  drawer: {fileID: 0}
+  firstTime: 1
+  startPointWaitTime: 1
+  endPointWaitTime: 1
+  moveAudioSource: {fileID: 1767101529931400993}
+--- !u!82 &1767101529931400993
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5340673807026255855}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -4035763419403263393, guid: 3f5731b21b1f5da40a32d051c1aed82a, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 75d761826ea023d40a3094009c7e4e23, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

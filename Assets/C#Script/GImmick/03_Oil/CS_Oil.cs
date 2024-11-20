@@ -14,16 +14,20 @@ namespace Assets.C_Script.Gimmick
         private float speed = 2.0f;
         [SerializeField]
         private bool isBurning = false;
-        private Collider collider;
         [SerializeField]
-        private List<string> BurningTags = new List<string>();
+        private List<string> tags = new List<string>();
+        private Collider myCollider;
         
-        private const string playerTag = "Player";
-        private const string burningTag = "Burning";
+        private Rigidbody myRigidbody;
+        private float nowTime=0.0f;
+        private AudioSource myAudioSource;
+
+
         private static GameObject playerObj;
         private static Rigidbody playerRb;
         private static Vector3 oldPlayerPosition;
-        private float nowTime=0.0f;
+        private const string playerTag = "Player";
+        private const string burningTag = "Burning";
         private const float overTime = 1.0f;
         private const float MaxSpeed = 10.0f;
 
@@ -42,7 +46,9 @@ namespace Assets.C_Script.Gimmick
 
         private void Start()
         {
-            if (!TryGetComponent(out collider)) Debug.LogError("null collider component");
+            if (!TryGetComponent(out myCollider)) Debug.LogError("null collider component");
+            if (!TryGetComponent(out myRigidbody)) Debug.LogError("null rigidbody component");
+            if (!TryGetComponent(out myAudioSource)) Debug.LogError("null audioSource component");
         }
 
         private void FixedUpdate()
@@ -64,11 +70,8 @@ namespace Assets.C_Script.Gimmick
             if (isBurning) return;
 
             // 燃えるか
-            foreach (string tag in BurningTags)
-            {
-                if (tag == gameObject.tag) IsBurning = true;
-            }
-            
+            foreach (string tag in tags) if (tag == gameObject.tag) IsBurning = true;
+
         }
 
         /// <summary>
@@ -112,6 +115,7 @@ namespace Assets.C_Script.Gimmick
 
                 // 時間のリセット
                 nowTime = 0.0f;
+                myRigidbody.isKinematic = true;
             }
 
 
@@ -129,8 +133,11 @@ namespace Assets.C_Script.Gimmick
                 // 滑る処理を無効にする
                 if (value == true) 
                 { 
-                    collider.material = null;
+                    myCollider.material = null;
                     this.tag = burningTag;
+                    myRigidbody.isKinematic = false;
+                    myAudioSource.loop = true;
+                    myAudioSource.Play();
                 }
                 
             }
