@@ -6,7 +6,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Assets.C_Script.Gimmick._04_GiantFan
+namespace Assets.C_Script.Gimmick
 {
     public class CS_GiantFan :MonoBehaviour
     {

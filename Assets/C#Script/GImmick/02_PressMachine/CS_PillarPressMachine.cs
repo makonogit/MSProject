@@ -3,10 +3,9 @@
 // 内容     :プレス機の柱の処理
 // 担当者   :中川 直登
 //-------------------------------
-
 using UnityEditor;
 using UnityEngine;
-namespace Assets.C_Script.Gimmick._02_PressMachine
+namespace Assets.C_Script.Gimmick
 {
     public class CS_PillarPressMachine : MonoBehaviour
     {

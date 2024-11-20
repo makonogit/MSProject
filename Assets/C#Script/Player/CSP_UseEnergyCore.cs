@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.C_Script.Electric.Mechanical;
 using Assets.C_Script.Electric.Other;
+using Assets.C_Script.Gimmick;
 
 //**
 //* エネルギーコアを使用する

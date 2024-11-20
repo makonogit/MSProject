@@ -3,11 +3,12 @@
 // 内容     :エレベータ―ランプのオンオフ
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Gimmick._00_Base;
+using Assets.C_Script.Gimmick;
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._01_Elevator
-{
+namespace Assets.C_Script.Gimmick 
+{ 
+
     public class CS_ElevatorLamp : CS_Mechanical
     {
         private MeshFilter meshFilter;
@@ -16,11 +17,9 @@ namespace Assets.C_Script.Gimmick._01_Elevator
         private const float offsetU = 0.0f;
         private const float offsetV = 0.5f;
         private const int uvNum = 980;
-        
 
         protected override void Start()
         {
-            base.Start();
             if (!TryGetComponent(out meshFilter)) Debug.LogError("null MeshFilter");
             mesh = meshFilter.mesh;
             uv = meshFilter.mesh.uv;

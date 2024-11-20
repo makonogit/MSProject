@@ -3,9 +3,8 @@
 // 内容     :壊れた破片
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Gimmick._00_Base;
 using UnityEngine;
-namespace Assets.C_Script.Gimmick._01_NumBreak
+namespace Assets.C_Script.Gimmick
 {
     public class CS_BreakDebirs:CS_TimeDelete
     {

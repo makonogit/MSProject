@@ -5,7 +5,7 @@
 //-------------------------------
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._01_NumBreak
+namespace Assets.C_Script.Gimmick
 {
     public class CS_Obstacle :MonoBehaviour
     {

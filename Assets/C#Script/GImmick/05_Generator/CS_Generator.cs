@@ -3,7 +3,7 @@
 // 内容     :落ちる床
 // 担当者   :中川 直登
 //-------------------------------
-namespace Assets.C_Script.Gimmick._05_Generator
+namespace Assets.C_Script.Gimmick
 {
     internal class CS_Generator
     {

@@ -4,11 +4,10 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Electric;
-using Assets.C_Script.Gimmick._00_Base;
 using System.Collections.Generic;
 using UnityEngine ;
 
-namespace Assets.C_Script.Gimmick._02_Trampoline
+namespace Assets.C_Script.Gimmick
 {
     public class CS_Trampoline :CS_Mechanical
     {

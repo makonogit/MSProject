@@ -5,7 +5,7 @@
 //-------------------------------
 using System.Collections.Generic;
 using UnityEngine;
-namespace Assets.C_Script.Gimmick._02_IronBall
+namespace Assets.C_Script.Gimmick
 {
     public class CS_IronBall : MonoBehaviour
     {

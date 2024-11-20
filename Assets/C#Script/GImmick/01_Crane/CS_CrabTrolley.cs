@@ -5,9 +5,9 @@
 //-------------------------------
 using UnityEngine;
 using UnityEngine.Splines;
-using Assets.C_Script.Gimmick._00_Base;
+using Assets.C_Script.Gimmick;
 
-namespace Assets.C_Script.Gimmick._01_Crane
+namespace Assets.C_Script.Gimmick
 {
     public class CS_CrabTrolley :CS_Mechanical
     {

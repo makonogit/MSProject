@@ -5,7 +5,7 @@
 //-------------------------------
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._00_Base
+namespace Assets.C_Script.Gimmick
 {
     public class CS_TimeDelete :MonoBehaviour
     {

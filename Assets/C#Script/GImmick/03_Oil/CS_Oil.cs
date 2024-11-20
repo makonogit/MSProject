@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._03_Oil
+namespace Assets.C_Script.Gimmick
 {
     public class CS_Oil : MonoBehaviour
     {

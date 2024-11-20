@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3274510584484239243}
   - component: {fileID: 5568805999040354981}
   - component: {fileID: 412714366232380020}
-  - component: {fileID: 522647154158844654}
+  - component: {fileID: 7269387567649718805}
   m_Layer: 0
   m_Name: PR_Oil
   m_TagString: Gimmick
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &522647154158844654
+--- !u!114 &7269387567649718805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,9 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a582979eb1f5b34f8ec079a335b3314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.88
+  speed: 2
   isBurning: 0
-  BurningTags:
-  - Burning
-  - Attack
-  - EnergyCore
+  BurningTags: []

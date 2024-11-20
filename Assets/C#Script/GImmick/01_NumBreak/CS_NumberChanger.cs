@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._01_NumBreak
+namespace Assets.C_Script.Gimmick
 {
     public class CS_NumberChanger : MonoBehaviour
     {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7768521649142682354}
   - component: {fileID: 3166825972309557422}
   - component: {fileID: 7898993765156248740}
-  - component: {fileID: 1023469029030878334}
+  - component: {fileID: 818729581174921385}
   m_Layer: 0
   m_Name: PR_ElevatorHall
   m_TagString: Untagged
@@ -177,7 +177,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 610, y: 15, z: 400}
   m_Center: {x: 0, y: 0, z: 200}
---- !u!114 &1023469029030878334
+--- !u!114 &818729581174921385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,7 +310,7 @@ MonoBehaviour:
     receivers:
     - {fileID: 4793440105961746669}
     - {fileID: 97426571688509638}
-    - {fileID: 1023469029030878334}
+    - {fileID: 818729581174921385}
   sendType: 0
   outputType: 0
   HitTags:

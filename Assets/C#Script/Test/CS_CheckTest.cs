@@ -4,7 +4,7 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Electric.notElectric;
-using Assets.C_Script.Gimmick._01_NumBreak;
+using Assets.C_Script.Gimmick;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

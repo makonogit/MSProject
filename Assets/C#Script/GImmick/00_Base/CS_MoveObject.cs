@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._00_Base
+namespace Assets.C_Script.Gimmick
 {
     public class CS_MoveObject : CS_Mechanical
     {

@@ -5,7 +5,7 @@
 //-------------------------------
 #if UNITY_EDITOR
 using Assets.C_Script.Electric.Mechanical;
-using Assets.C_Script.Gimmick._00_Base;
+using Assets.C_Script.Gimmick;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;

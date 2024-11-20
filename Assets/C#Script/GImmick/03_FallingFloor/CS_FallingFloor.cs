@@ -3,11 +3,10 @@
 // 内容     :落ちる床
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Gimmick._00_Base;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-namespace Assets.C_Script.Gimmick._03_FallingFloor
+namespace Assets.C_Script.Gimmick
 {
     public class CS_FallingFloor :CS_MoveObject
     {

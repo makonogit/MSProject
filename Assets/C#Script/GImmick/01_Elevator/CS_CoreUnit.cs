@@ -7,7 +7,7 @@ using Assets.C_Script.Electric.Sensor;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-namespace Assets.C_Script.Gimmick._01_Elevator
+namespace Assets.C_Script.Gimmick
 {
     public class CS_CoreUnit : CS_Switch
     {
