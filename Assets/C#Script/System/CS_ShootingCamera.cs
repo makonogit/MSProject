@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class CS_ShootingCamera : ActionBase
 {
@@ -79,6 +80,7 @@ public class CS_ShootingCamera : ActionBase
 
         float movePos = offsetFocus.y + hydeSpeed * stick.y * currentAcceleration * Time.deltaTime;
         offsetFocus.y = Mathf.Lerp(offsetFocus.y, movePos, 0.1f);
+
     }
 
     //**
