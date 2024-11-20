@@ -3636,9 +3636,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7feaff2ca202d428a6a99c85cfe5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillItems1: {fileID: 6320446359319034052, guid: 7cb8fd3180cb3b04e9ad260a8247ca8a, type: 3}
-  skillItems2: {fileID: 2688024025619129708, guid: e0bfd457c05fa0f43959c8d5a425a3cb, type: 3}
-  skillItems3: {fileID: 5379977817046357441, guid: 4df1b9e69f6fa7a49a43359ab25aa4f5, type: 3}
+  skillItem1: {fileID: 6320446359319034052, guid: 7cb8fd3180cb3b04e9ad260a8247ca8a, type: 3}
+  skillItem2: {fileID: 2688024025619129708, guid: e0bfd457c05fa0f43959c8d5a425a3cb, type: 3}
+  skillItem3: {fileID: 5379977817046357441, guid: 4df1b9e69f6fa7a49a43359ab25aa4f5, type: 3}
+  SkillUIList:
+  - image_inierval: {fileID: 0}
+    image_active: {fileID: 0}
+    interval: 5
+    cost: 10
+  - image_inierval: {fileID: 0}
+    image_active: {fileID: 0}
+    interval: 8
+    cost: 20
+  - image_inierval: {fileID: 0}
+    image_active: {fileID: 0}
+    interval: 10
+    cost: 30
 --- !u!1 &4523243980400097400
 GameObject:
   m_ObjectHideFlags: 0

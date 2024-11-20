@@ -36,6 +36,8 @@ public class CSP_Shot : ActionBase
     private float scatter = 0.1f;
     [SerializeField, Header("オートエイム有効")]
     private bool isAuto;
+    public void SetAuto(bool flg) { isAuto = flg; }
+    public bool GetAuto() => isAuto;
     [SerializeField, Header("フルオートの発射間隔")]
     private float interval = 0.5f;
     [SerializeField, Header("リロードにかかる時間")]
@@ -44,6 +46,9 @@ public class CSP_Shot : ActionBase
     [Header("レティクル設定")]
     [SerializeField, Header("表示位置")]
     private UnityEngine.UI.Image detectionImage;
+    private Vector2 defaultSize;
+    [SerializeField, Header("オートエイム時のレティクルサイズ")]
+    private Vector2 autoSize;
     [SerializeField, Header("オートエイムの検出範囲")]
     float radiusAuto = 1.0f;
     [SerializeField, Header("レティクル変更の検出範囲")]
@@ -67,6 +72,9 @@ public class CSP_Shot : ActionBase
     protected override void Start()
     {
         base.Start();
+
+        // 初期レティクルサイズを保存
+        defaultSize = detectionImage.rectTransform.sizeDelta;
 
         // 残弾数を初期化
         bulletStock = initBulletStock;
@@ -199,9 +207,24 @@ public class CSP_Shot : ActionBase
                 {
                     // オブジェクトを取得
                     targetObject = hit.collider.gameObject;
+
+                    if (isAuto)
+                    {
+                        detectionImage.sprite = detectedSprite;
+                    }
+
                     break;
                 }
             }
+        }
+
+        if (isAuto)
+        {
+            detectionImage.rectTransform.sizeDelta = autoSize;
+        }
+        else
+        {
+            detectionImage.rectTransform.sizeDelta = defaultSize;
         }
     }
 
@@ -323,8 +346,8 @@ public class CSP_Shot : ActionBase
 
         // レティクル内に破壊可能オブジェクトが存在するなら、その方向に発射する
         if ((targetObject != null)&&(isAuto))
-        {
-            forwardVec = targetObject.transform.position - transform.position;
+        {            
+            forwardVec = targetObject.transform.position - GetPlayerManager().GetCameraTransform().position;
             forwardVec = forwardVec.normalized;
         }
 
@@ -348,7 +371,7 @@ public class CSP_Shot : ActionBase
             pos += forwardVec * (offsetDistance * (i + (burst - 1) / 2f) + 1f);
 
             // 散弾処理
-            if (!(GetInputSystem().GetLeftTrigger() > 0.1f))
+            if (!(GetInputSystem().GetLeftTrigger() > 0.1f) && (!isAuto))
             {
                 float randomRangeX = UnityEngine.Random.Range(-scatter, scatter);
                 float randomRangeY = UnityEngine.Random.Range(-scatter, scatter);

@@ -1,15 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class CSP_Skill : ActionBase
 {
-    [SerializeField, Header("スキルアイテム1")]
-    private GameObject skillItems1;
-    [SerializeField, Header("スキルアイテム2")]
-    private GameObject skillItems2;
-    [SerializeField, Header("スキルアイテム3")]
-    private GameObject skillItems3;
+    [System.Serializable]
+    public class SkillUI
+    {
+        public UnityEngine.UI.Image image_inierval;
+        public UnityEngine.UI.Image image_active;
+        public float interval;
+        public int cost;
+    }
+
+    [SerializeField, Header("1 トラバサミ")]
+    private GameObject skillItem1;
+    [SerializeField, Header("2 ダミーコア")]
+    private GameObject skillItem2;
+    [SerializeField, Header("3 ドームシールド")]
+    private GameObject skillItem3;
+    [SerializeField, Header("4 オートエイム")]
+    private CSP_Shot skill4;
+
+    [SerializeField, Header("スキルUI")]
+    private SkillUI[] SkillUIList;
+
+    private int stock;
 
     // クラフト中
     private bool isCraft;
@@ -55,11 +73,27 @@ public class CSP_Skill : ActionBase
             HandlSkill1();
             HandlSkill2();
             HandlSkill3();
+            HandlSkill4();
         }
 
         if (GetInputSystem().GetLeftTrigger() <= 0 && isCraft)
         {
             isCraft = false;
+        }
+
+        stock = GetPlayerManager().GetIngredientsStock();
+        foreach (SkillUI ui in SkillUIList)
+        {
+            ui.image_active.enabled = (ui.image_inierval.fillAmount == 1);
+
+            if (stock < ui.cost)
+            {
+                ui.image_inierval.fillAmount = 0;
+            }
+            else if(ui.image_inierval.fillAmount == 0)
+            {
+                ui.image_inierval.fillAmount = 1;
+            }
         }
     }
 
@@ -67,11 +101,13 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonAPressed())
-            && (!isCraft))
+            && (!isCraft)
+            && (SkillUIList[0].image_inierval.fillAmount == 1)
+            && (stock >= SkillUIList[0].cost))
         {
             Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
-            GameObject obj = Instantiate(skillItems1);
+            GameObject obj = Instantiate(skillItem1);
 
             Vector3 pos = GetPlayerManager().GetCameraTransform().position;
             pos += forwardVec;
@@ -80,6 +116,11 @@ public class CSP_Skill : ActionBase
             obj.transform.forward = forwardVec;
 
             isCraft = true;
+
+            SkillUIList[0].image_inierval.fillAmount = Mathf.Clamp01(0);
+            StartCoroutine(FillImageOverTime(SkillUIList[0].image_inierval, SkillUIList[0].interval));
+
+            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[0].cost);
         }
     }
 
@@ -87,11 +128,13 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonBPressed())
-            && (!isCraft))
+            && (!isCraft)
+            && (SkillUIList[1].image_inierval.fillAmount == 1)
+            && (stock >= SkillUIList[1].cost))
         {
             Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
-            GameObject obj = Instantiate(skillItems2);
+            GameObject obj = Instantiate(skillItem2);
 
             Vector3 pos = GetPlayerManager().GetCameraTransform().position;
             pos += forwardVec;
@@ -100,6 +143,12 @@ public class CSP_Skill : ActionBase
             obj.transform.forward = forwardVec;
 
             isCraft = true;
+
+            SkillUIList[1].image_inierval.fillAmount = Mathf.Clamp01(0);
+            StartCoroutine(FillImageOverTime(SkillUIList[1].image_inierval, SkillUIList[1].interval));
+
+            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[1].cost);
+
         }
     }
 
@@ -107,14 +156,70 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonYPressed())
-            && (!isCraft))
+            && (!isCraft)
+            && (SkillUIList[2].image_inierval.fillAmount == 1)
+            && (stock >= SkillUIList[2].cost))
         {
-            GameObject obj = Instantiate(skillItems3);
+            GameObject obj = Instantiate(skillItem3);
 
             Vector3 pos = GetPlayerManager().GetCameraTransform().position;
             obj.transform.position = pos;
 
             isCraft = true;
+
+            // インターバル開始
+            SkillUIList[2].image_inierval.fillAmount = Mathf.Clamp01(0);
+            StartCoroutine(FillImageOverTime(SkillUIList[2].image_inierval, SkillUIList[2].interval));
+
+            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[2].cost);
+
         }
+    }
+
+    void HandlSkill4()
+    {
+        if ((GetInputSystem().GetLeftTrigger() > 0)
+            && (GetInputSystem().GetButtonXPressed())
+            && (!isCraft)
+            && (SkillUIList[2].image_inierval.fillAmount == 1)
+            && (stock >= SkillUIList[2].cost))
+        {
+            isCraft = true;
+
+            skill4.SetAuto(true);
+
+            // インターバル開始
+            SkillUIList[3].image_inierval.fillAmount = Mathf.Clamp01(0);
+            StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[2].interval));
+
+            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[3].cost);
+
+        }
+    }
+
+    // 画像のFillAmountを0から1に指定した時間で加算するコルーチン
+    private IEnumerator FillImageOverTime(UnityEngine.UI.Image fillImage, float duration)
+    {
+        float startFillAmount = 0f;  // 初期値（0）
+        float endFillAmount = 1f;    // 目標値（1）
+        float elapsedTime = 0f;      // 経過時間を追跡
+
+        // 最初はFillAmountが0の状態
+        fillImage.fillAmount = startFillAmount;
+
+        // 経過時間が指定のdurationに達するまでループ
+        while (elapsedTime < duration)
+        {
+            // 経過時間を進行
+            elapsedTime += Time.deltaTime;
+
+            // FillAmountの進捗を計算（0から1に向かって加算）
+            fillImage.fillAmount = Mathf.Lerp(startFillAmount, endFillAmount, elapsedTime / duration);
+
+            // スムーズに進行させるために少し待つ
+            yield return null;
+        }
+
+        fillImage.fillAmount = endFillAmount;
     }
 }
