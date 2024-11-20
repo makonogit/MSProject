@@ -32,8 +32,6 @@ namespace Assets.C_Script.Electric.Switch
         /// <param name="value"></param>
         private void Transmission(GameObject gameObject,bool value) 
         {
-            if (value) gameObject.transform.SetParent(transform, true);
-            else gameObject.transform.SetParent(null, true);
             bool isHit = HitTags.Count <= 0;
             foreach (var hit in HitTags) if (hit == gameObject.transform.tag) isHit = true;
             if (!isHit) return;

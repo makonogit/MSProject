@@ -234,9 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341a3ec2d7cb4fa4b93bcbf7b84e4cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanical: {fileID: 0}
+  mechanical: {fileID: 7029161988132626896}
   mesh: {fileID: -341682174605423359, guid: 2f346d8901adc464386932329267ab4a, type: 3}
-  color: {r: 0, g: 1, b: 0, a: 0.6}
+  color: {r: 0, g: 1, b: 0, a: 0.050980393}
   lossyScale: 1
   show: 0
 --- !u!1 &757865542403391895
@@ -287,7 +287,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -308,9 +308,9 @@ MonoBehaviour:
   signal: 0
   transmitter:
     receivers:
-    - {fileID: 4793440105961746669}
-    - {fileID: 97426571688509638}
     - {fileID: 818729581174921385}
+    - {fileID: 7029161988132626896}
+    - {fileID: 5274207643802477747}
   sendType: 0
   outputType: 0
   HitTags:
@@ -359,9 +359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341a3ec2d7cb4fa4b93bcbf7b84e4cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanical: {fileID: 0}
+  mechanical: {fileID: 5274207643802477747}
   mesh: {fileID: -341682174605423359, guid: 2f346d8901adc464386932329267ab4a, type: 3}
-  color: {r: 0, g: 1, b: 0, a: 0.6}
+  color: {r: 0, g: 1, b: 0, a: 0.050980393}
   lossyScale: 1
   show: 0
 --- !u!1 &3878895627046053620
@@ -480,10 +480,10 @@ GameObject:
   - component: {fileID: 6940835308018998591}
   - component: {fileID: 5067068456299045920}
   - component: {fileID: 7532796308850227614}
-  - component: {fileID: 4793440105961746669}
   - component: {fileID: 3003611912058716737}
+  - component: {fileID: 7029161988132626896}
   m_Layer: 0
-  m_Name: ElevatorDorr_R
+  m_Name: ElevatorDoor_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +555,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4793440105961746669
+--- !u!65 &3003611912058716737
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731226481395951784}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 150.24884, y: 231.79153, z: 4}
+  m_Center: {x: -75.12442, y: 126.15636, z: -0.0000038146973}
+--- !u!114 &7029161988132626896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -564,13 +585,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4731226481395951784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ece45dbd9069f3478d438c4ada4adfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a1759f3c7ecf6442beb7b0148695d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
   endPoint: {x: -1.4619999, y: -0.006, z: 0.088999994}
   arrivalTime: 0.5
-  stick: 0
+  stick: 1
   Stop: 1
   animCurve:
     serializedVersion: 2
@@ -598,27 +619,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   tags: []
   drawer: {fileID: 517473241841028813}
---- !u!65 &3003611912058716737
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4731226481395951784}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 150.24884, y: 231.79153, z: 4}
-  m_Center: {x: -75.12442, y: 126.15636, z: -0.0000038146973}
 --- !u!1 &5963420936830096995
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,10 +630,10 @@ GameObject:
   - component: {fileID: 4557529008491523788}
   - component: {fileID: 4950311744627002678}
   - component: {fileID: 743181965639357703}
-  - component: {fileID: 97426571688509638}
   - component: {fileID: 2097419164613340479}
+  - component: {fileID: 5274207643802477747}
   m_Layer: 0
-  m_Name: ElevatorDorr_L
+  m_Name: ElevatorDoor_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,7 +705,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &97426571688509638
+--- !u!65 &2097419164613340479
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5963420936830096995}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 150.24884, y: 231.79153, z: 4}
+  m_Center: {x: -75.12442, y: 126.15636, z: -0.0000038146973}
+--- !u!114 &5274207643802477747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -714,13 +735,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5963420936830096995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ece45dbd9069f3478d438c4ada4adfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a1759f3c7ecf6442beb7b0148695d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
   endPoint: {x: 2.935, y: -0.006, z: 0.088999994}
   arrivalTime: 0.5
-  stick: 0
+  stick: 1
   Stop: 1
   animCurve:
     serializedVersion: 2
@@ -748,24 +769,3 @@ MonoBehaviour:
     m_RotationOrder: 4
   tags: []
   drawer: {fileID: 3287755497667218237}
---- !u!65 &2097419164613340479
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5963420936830096995}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 150.24884, y: 231.79153, z: 4}
-  m_Center: {x: -75.12442, y: 126.15636, z: -0.0000038146973}
