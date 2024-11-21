@@ -14,18 +14,29 @@ namespace SimplestarGame
         [SerializeField] float fadeDuration = 5f;
         [SerializeField] AnimationCurve fadeCurve;
 
+        //初期化
+        public void InitVoronoiFragment(MeshFilter fragment,int numberofpoint,float scaleradius,float minfragmentsize,float remainingtime,float fadeduration,AnimationCurve fadecurve)
+        {
+            fragmentPrefab = fragment;
+            numberOfPoints = numberofpoint;
+            scaleRadius = scaleradius;
+            minFragmentSize = minfragmentsize;
+            remainingTime = remainingtime;
+            fadeDuration = fadeduration;
+            fadeCurve = fadecurve;
+        }
 
         private void Update()
         {
-            //{
-        //    if (Input.GetMouseButtonDown(0)) // 左クリックでオブジェクトを破壊
-        //    {
-        //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //        if (Physics.Raycast(ray, out RaycastHit hit))
-        //        {
-        //            Fragment(hit);
-        //        }
-        //    }
+            
+            if (Input.GetMouseButtonDown(0)) // 左クリックでオブジェクトを破壊
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    Fragment(hit);
+                }
+            }
         }
 
         internal void Fragment(RaycastHit hit)

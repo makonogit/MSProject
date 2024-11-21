@@ -124,9 +124,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6087792309807618862}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6716824153282083446}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!1 &775102683367527804 stripped
 GameObject:
@@ -154,30 +151,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &6716824153282083446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775102683367527804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &4004892705883405852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228287807606457288, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
@@ -263,9 +236,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8985333479827477855}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2475775387009236199}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!1 &1173778046749420929 stripped
 GameObject:
@@ -293,30 +263,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &2475775387009236199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173778046749420929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &3251479706738869985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228287807606457288, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
@@ -402,9 +348,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4166491543603713011}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5439217502499653132}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &2256045486819223787 stripped
 Transform:
@@ -437,30 +380,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &5439217502499653132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2457450338741044107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &4180165754542314776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -541,9 +460,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2759942867513806822}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8033122072341533093}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &49271044376155856 stripped
 Transform:
@@ -576,30 +492,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &8033122072341533093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4466023517563502000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &4479440519972876631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -680,9 +572,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1467481931466326634}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7006679863948716156}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &326456206598533791 stripped
 Transform:
@@ -715,30 +604,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &7006679863948716156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4166468791115422207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &4888747197144817837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -819,9 +684,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3522908311557918889}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2442021780144359121}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!1 &4908993471036393477 stripped
 GameObject:
@@ -849,30 +711,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &2442021780144359121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4908993471036393477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &8752100425408144229 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228287807606457288, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
@@ -958,9 +796,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3443925179943072227}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 19748133799660259}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!1 &4833253959492209606 stripped
 GameObject:
@@ -988,30 +823,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &19748133799660259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4833253959492209606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &9099137825175101606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228287807606457288, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
@@ -1097,9 +908,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8855300692372164106}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6306516804576052658}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!1 &5971611168960833938 stripped
 GameObject:
@@ -1127,30 +935,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &6306516804576052658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971611168960833938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &8037491308853658354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228287807606457288, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
@@ -1236,9 +1020,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5141330185624786735}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6647591712883087198}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &6469701228657454051 stripped
 Transform:
@@ -1271,30 +1052,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &6647591712883087198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7250080200000553091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &7697871471154519716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1375,9 +1132,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6575970768263164491}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7924979683417349992}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &5798859555043073388 stripped
 Transform:
@@ -1410,30 +1164,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &7924979683417349992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7866728003404936716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &7962294872274159168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1514,9 +1244,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2693416984016555881}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4434778448597240674}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &6111987621291836808 stripped
 Transform:
@@ -1549,30 +1276,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &4434778448597240674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7604239052334051048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &8550906300778965211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1653,9 +1356,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1560530969193786714}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2676823681816442529}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &5478363561101880083 stripped
 Transform:
@@ -1688,30 +1388,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &2676823681816442529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8165736240537305203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &9109741354451942227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1792,9 +1468,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4177208722679052075}
-    - targetCorrespondingSourceObject: {fileID: 574330041028503720, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7020260498658098056}
   m_SourcePrefab: {fileID: 100100000, guid: 03a2b632ada08794d82b81c908b76195, type: 3}
 --- !u!4 &4954425941409708187 stripped
 Transform:
@@ -1827,27 +1500,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 200, z: 200}
   m_Center: {x: 0, y: -100, z: 0}
---- !u!114 &7020260498658098056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8760666061988025339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575362d892cf8bd42ae87b2684e953bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 8220359257503245624, guid: abb89fe8a62f5954781d4f0c5487c33b, type: 3}
-  numberOfPoints: 50
-  scaleRadius: 0.6
-  minFragmentSize: 0.1
-  remainingTime: 5
-  fadeDuration: 5
-  fadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4

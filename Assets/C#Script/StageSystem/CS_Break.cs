@@ -29,6 +29,10 @@ public class CS_Break : MonoBehaviour
     private float BreakTime = 5.0f;
     [SerializeField, Header("アラートを表示してから壊れるまでの時間")]
     private float AlartTime = 3.0f;
+    [SerializeField, Header("アラートの表示する高さ")]
+    private float ArartHeight = 2.4f;
+    [SerializeField, Header("アラートがどれだけ内側に来るか")]
+    private float ArartInnerOffset = 1.0f;
 
     [Header("==============サワルナキケン==============")]
     [SerializeField, Header("崩壊アラートPrefab")]
@@ -86,14 +90,30 @@ public class CS_Break : MonoBehaviour
     {
         RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one,areatrans.rotation, 1f, breakLayer);
         if(hits.Length <= 0) { return; }
-        
+
         //衝突したオブジェクト全てを破壊
         for(int i = 0; i< hits.Length;i++)
         {
-            hits[i].collider.gameObject.SetActive(false);
-            //SimplestarGame.VoronoiFragmenter voronoi;
-            //hits[i].collider.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
-            //if (voronoi) { voronoi.Fragment(hits[i]); }
+            //if(hits[i].collider)
+            //hits[i].collider.gameObject.SetActive(false);
+
+
+            SimplestarGame.VoronoiFragmenter voronoi;
+            //階段の処理、子オブジェクトになっているので
+            if (hits[i].collider.gameObject.name == "Collider")
+            {
+                hits[i].transform.parent.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
+                Destroy(hits[i].collider.gameObject);
+            }
+            else
+            {
+                hits[i].collider.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
+            }
+
+            hits[i].point = hits[i].collider.transform.position;
+            
+            if (voronoi) { voronoi.Fragment(hits[i]); }
+            //else { Debug.Log(hits[i].transform.name); }
         }
 
     }
@@ -104,9 +124,38 @@ public class CS_Break : MonoBehaviour
     /// <param 破壊エリアのTransform="areatrans"></param>
     private void CreateAlart(Transform areatrans)
     {
+        Vector3 HalfScale = areatrans.localScale * 0.5f;
+
+        Vector3[] ArartPos = new Vector3[]
+        {
+            new Vector3(0f                               , ArartHeight,-(HalfScale.z - ArartInnerOffset)), // 上
+            new Vector3(-(HalfScale.x - ArartInnerOffset), ArartHeight,0f                               ), // 右
+            new Vector3(0f                               , ArartHeight,HalfScale.z - ArartInnerOffset   ), // 下
+            new Vector3(HalfScale.x - ArartInnerOffset   , ArartHeight,0f                               )  // 左
+        };
+
+        // 各コーナーのワールド座標を計算
+        Vector3[] WorldCorners = new Vector3[ArartPos.Length];
+        for (int i = 0; i < ArartPos.Length; i++)
+        {
+            WorldCorners[i] = areatrans.position + ArartPos[i];
+        }
+
+        //Debug.Log("4隅の座標" + "\n左下" + WorldCorners[0] + "\n左上" + WorldCorners[1] + "\n右下" + WorldCorners[2] + "\n右上" + WorldCorners[3]);
+
         //アラートの生成
         CurrentAlartObj = Instantiate(BreakAlartBord);
-        CurrentAlartObj.transform.position = areatrans.position;
+        
+        //アラートの位置を設定
+        for(int i=0;i<CurrentAlartObj.transform.childCount;i++)
+        {
+            Transform childtrans = CurrentAlartObj.transform.GetChild(i).transform;
+            childtrans.position = WorldCorners[i];
+            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.025f, childtrans.localScale.y, childtrans.localScale.z);
+            //アラートのサイズ倍率0.025f
+        }
+
+        //CurrentAlartObj.transform.position = areatrans.position;
 
         //アラートのAnimatorを取得して設定、再生する
         Animator anim;
