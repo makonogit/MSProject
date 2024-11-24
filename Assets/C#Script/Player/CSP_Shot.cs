@@ -47,8 +47,8 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("表示位置")]
     private UnityEngine.UI.Image detectionImage;
     private Vector2 defaultSize;
-    [SerializeField, Header("オートエイム時のレティクルサイズ")]
-    private Vector2 autoSize;
+    [SerializeField, Header("オートエイムレティクル")]
+    private UnityEngine.UI.Image autoaim;
     [SerializeField, Header("オートエイムの検出範囲")]
     float radiusAuto = 1.0f;
     [SerializeField, Header("レティクル変更の検出範囲")]
@@ -64,6 +64,11 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("オートエイム対象のタグ")]
     private List<string> targetTag;
     private GameObject targetObject;// レティクル内の破壊可能オブジェクト
+    [SerializeField, Header("オーバーヒートゲージ")]
+    private UnityEngine.UI.Image overheat;
+    [SerializeField, Header("ロックオンレティクル")]
+    private UnityEngine.UI.Image lockon;
+    private RectTransform rectTransform;
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -85,6 +90,9 @@ public class CSP_Shot : ActionBase
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
         intervalCountdown = gameObject.AddComponent<CS_Countdown>();
+
+        lockon.enabled = false;
+        autoaim.enabled = false;
     }
 
     void FixedUpdate()
@@ -132,6 +140,9 @@ public class CSP_Shot : ActionBase
         {
            isShot = false;
         }
+
+        // オーバーヒート処理
+        overheat.fillAmount = magazine * 0.1f;
 
         // リロード処理
         //if (GetInputSystem().GetButtonXPressed())
@@ -220,11 +231,18 @@ public class CSP_Shot : ActionBase
 
         if (isAuto)
         {
-            detectionImage.rectTransform.sizeDelta = autoSize;
+            detectionImage.enabled = false;
+            autoaim.enabled = true;
+            lockon.enabled = true;
+
+            Vector2 screenPos = Camera.main.WorldToScreenPoint(targetObject.transform.position);
+            lockon.rectTransform.position = screenPos;
         }
         else
         {
-            detectionImage.rectTransform.sizeDelta = defaultSize;
+            detectionImage.enabled = true;
+            autoaim.enabled = false;
+            lockon.enabled = false;
         }
     }
 
@@ -422,4 +440,34 @@ public class CSP_Shot : ActionBase
 
     }
 
+    // デバック用に拡散範囲の円錐を表示
+    private void OnDrawGizmos()
+    {
+        float radius = range * scatter;
+        float height = range;
+        int segments = 30;
+
+        // 底面の円を描く
+        Vector3 center = Camera.main.transform.position + Camera.main.transform.forward * height;
+        for (int i = 0; i < segments; i++)
+        {
+            float angle0 = i * Mathf.PI * 2f / segments;
+            float angle1 = (i + 1) * Mathf.PI * 2f / segments;
+
+            Vector3 point0 = center + new Vector3(Mathf.Cos(angle0) * radius, Mathf.Sin(angle0) * radius,0);
+            Vector3 point1 = center + new Vector3(Mathf.Cos(angle1) * radius, Mathf.Sin(angle1) * radius,0);
+
+            Gizmos.DrawLine(point0, point1); // 底面の円を描く
+            Gizmos.DrawLine(center, point0); // 頂点に向かって線を描く
+        }
+
+        // 底面と頂点を結ぶ線を描く
+        Vector3 top = Camera.main.transform.position;
+        for (int i = 0; i < segments; i++)
+        {
+            float angle = i * Mathf.PI * 2f / segments;
+            Vector3 point = center + new Vector3(Mathf.Cos(angle) * radius,  Mathf.Sin(angle) * radius,0);
+            Gizmos.DrawLine(top, point);
+        }
+    }
 }
