@@ -19,6 +19,8 @@ namespace Assets.C_Script.Gimmick
         private bool started = false;
         [SerializeField]
         private float fallTime = 1.0f;
+        [SerializeField]
+        private AudioSource audioSource;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -62,6 +64,7 @@ namespace Assets.C_Script.Gimmick
         {
             base.PowerOn();
             started = false;
+            audioSource.Play();
         }
 
         protected override void Execute()

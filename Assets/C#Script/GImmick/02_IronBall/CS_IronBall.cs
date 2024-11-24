@@ -5,6 +5,7 @@
 //-------------------------------
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 namespace Assets.C_Script.Gimmick
 {
     public class CS_IronBall : MonoBehaviour
@@ -22,6 +23,7 @@ namespace Assets.C_Script.Gimmick
         [SerializeField]
         private AudioSource hitSource;
 
+        private float hitAngle = -0.125f;
         private void OnCollisionEnter(Collision collision)
         {
             if (!isRolling) return;
@@ -50,17 +52,36 @@ namespace Assets.C_Script.Gimmick
             if (shouldStop) rollingSource.Stop();
             
         }
-
+        /// <summary>
+        /// 弾き飛ばされる処理
+        /// </summary>
+        /// <param name="gameObject"></param>
         private void Knockback(GameObject gameObject) 
         {
             Rigidbody rb;
-            if (gameObject == null) return;
-            if (!gameObject.TryGetComponent<Rigidbody>(out rb)) return;
+            // 吹き飛ぶか？
+            if (!ShouldKnockBack(gameObject,out rb)) return;
             Vector3 vec = gameObject.transform.position - this.transform.position;
             vec.y *= -1;
             vec = vec.normalized;
             rb.AddForce(vec * knockbackPower ,ForceMode.Impulse);
             if (hitSource != null)hitSource.Play();
+        }
+        /// <summary>
+        /// 弾き飛ばすべきか
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="rb"></param>
+        /// <returns>true 弾け飛ぶ　false 飛ばない</returns>
+        private bool ShouldKnockBack(GameObject gameObject,out Rigidbody rb) 
+        {
+            rb = null;
+            if (gameObject == null) return false;
+            if (!gameObject.TryGetComponent<Rigidbody>(out rb)) return false;
+            Vector3 distance = gameObject.transform.position - this.transform.position;
+            float dot = Vector3.Dot(rigidbody.velocity.normalized, distance.normalized);
+            if (dot <= hitAngle) return false;
+            return true;
         }
 
     }
