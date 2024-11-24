@@ -39,6 +39,7 @@ public class CS_InputSystem : MonoBehaviour
     private bool isButtonXPressed;
     private bool isButtonRPressed;
     private bool isButtonLPressed;
+    private bool isStartTriggered;
 
     // ステックの入力状態
     private bool isLeftStick;
@@ -95,6 +96,7 @@ public class CS_InputSystem : MonoBehaviour
         isButtonBTriggered = IsButtonBTriggered();
         isButtonYTriggered = IsButtonYTriggered();
         isButtonXTriggered = IsButtonXTriggered();
+        isStartTriggered = IsButtonStartTriggered();
 
         isLeftStick = IsLeftStickActive(0.5f);
         isRightStick = IsRightStickActive(0.5f);
@@ -125,12 +127,16 @@ public class CS_InputSystem : MonoBehaviour
     public bool GetButtonRPressed() => isButtonRPressed;
     public bool GetButtonLPressed() => isButtonLPressed;
 
+
+
     public bool GetButtonRTriggered() => isButtonRTriggered;
     public bool GetButtonLTriggered() => isButtonLTriggered;
     public bool GetButtonATriggered() => isButtonATriggered;
     public bool GetButtonBTriggered() => isButtonBTriggered;
     public bool GetButtonXTriggered() => isButtonXTriggered;
     public bool GetButtonYTriggered() => isButtonYTriggered;
+
+    public bool GetButtonStartTriggered() => isStartTriggered;
 
     public bool GetLeftStickActive() => isLeftStick;
     public bool GetRightStickActive() => isRightStick;
@@ -169,6 +175,7 @@ public class CS_InputSystem : MonoBehaviour
     private bool IsButtonRPressed() => inputSystem.Controller.Button_R.ReadValue<float>() > 0.1f;
     private bool IsButtonLPressed() => inputSystem.Controller.Button_L.ReadValue<float>() > 0.1f;
 
+    private bool IsButtonStartPressed() => inputSystem.Controller.StartButton.ReadValue<float>() > 0.1f;
 
     private bool IsButtonATriggered() => inputSystem.Controller.Button_A.triggered;
     private bool IsButtonBTriggered() => inputSystem.Controller.Button_B.triggered;
@@ -176,6 +183,7 @@ public class CS_InputSystem : MonoBehaviour
     private bool IsButtonXTriggered() => inputSystem.Controller.Button_X.triggered;
     private bool IsButtonRTriggered() => inputSystem.Controller.Button_R.triggered;
     private bool IsButtonLTriggered() => inputSystem.Controller.Button_L.triggered;
+    private bool IsButtonStartTriggered() => inputSystem.Controller.StartButton.triggered;
 
     // スティック
     private bool IsLeftStickActive(float min)

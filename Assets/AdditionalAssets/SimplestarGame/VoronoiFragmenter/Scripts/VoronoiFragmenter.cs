@@ -29,14 +29,14 @@ namespace SimplestarGame
         private void Update()
         {
             
-            if (Input.GetMouseButtonDown(0)) // 左クリックでオブジェクトを破壊
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    Fragment(hit);
-                }
-            }
+            //if (Input.GetMouseButtonDown(0)) // 左クリックでオブジェクトを破壊
+            //{
+            //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //    if (Physics.Raycast(ray, out RaycastHit hit))
+            //    {
+            //        Fragment(hit);
+            //    }
+            //}
         }
 
         internal void Fragment(RaycastHit hit)

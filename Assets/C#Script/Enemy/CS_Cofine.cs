@@ -164,6 +164,7 @@ public class CS_Cofine : MonoBehaviour
     {
 
         //コアを取ったら帰宅
+        
         if (state == Cofin_State.CORESTEAL)
         {
             //コア座標を固定

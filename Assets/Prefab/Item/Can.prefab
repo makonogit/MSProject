@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3736421018483264549}
   - component: {fileID: 7791716861544513654}
   m_Layer: 7
-  m_Name: Item
+  m_Name: Can
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

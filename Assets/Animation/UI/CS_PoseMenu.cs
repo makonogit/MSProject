@@ -74,42 +74,45 @@ public class CS_PoseMenu : MonoBehaviour
         MaxMenu = MenuAnimators.Count - 1;
         
         //外部から呼び出してください
-        SetPoseState(true);
+        //SetPoseState(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool DownButton = InputSystem.GetDpadDownTriggered() || Input.GetKeyDown(KeyCode.DownArrow);
-        bool UpButton = InputSystem.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
-
-        if (Selected)
+        if (PosePanel.activeSelf)
         {
-            MenuSelect();
-        }
-        else
-        {
-            bool SelectButton = InputSystem.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
-            //入力がなければ終了
-            //if(!DownButton && !UpButton && !SelectButton) { return; }
+            bool DownButton = InputSystem.GetDpadDownTriggered() || Input.GetKeyDown(KeyCode.DownArrow);
+            bool UpButton = InputSystem.GetDpadUpTriggered() || Input.GetKeyDown(KeyCode.UpArrow);
 
-            //メニュー番号を更新
-            int oldMenu = (int)CurrentSelect;
-            if (DownButton) { CurrentSelect++; }
-            if (UpButton) { CurrentSelect--; }
-
-            if (oldMenu != (int)CurrentSelect)
+            if (Selected)
             {
-                //カーソル移動
-                CursorMove(oldMenu);
+                MenuSelect();
             }
-
-
-            //ポーズ選択項目を表示
-            if (SelectButton)
+            else
             {
-                Selected = true;
-                MenuInfo();
+                bool SelectButton = InputSystem.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
+                //入力がなければ終了
+                //if(!DownButton && !UpButton && !SelectButton) { return; }
+
+                //メニュー番号を更新
+                int oldMenu = (int)CurrentSelect;
+                if (DownButton) { CurrentSelect++; }
+                if (UpButton) { CurrentSelect--; }
+
+                if (oldMenu != (int)CurrentSelect)
+                {
+                    //カーソル移動
+                    CursorMove(oldMenu);
+                }
+
+
+                //ポーズ選択項目を表示
+                if (SelectButton)
+                {
+                    Selected = true;
+                    MenuInfo();
+                }
             }
         }
 

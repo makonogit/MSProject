@@ -101,7 +101,7 @@ public class CS_AirBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        bool GimmickHit = other.gameObject.CompareTag("Burst");
+       bool GimmickHit = other.gameObject.CompareTag("Burst");
 
         if (GimmickHit)
         {

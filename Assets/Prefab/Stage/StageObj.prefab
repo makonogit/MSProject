@@ -143,25 +143,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentBreakState: 0
   CurrentBreakAreaNum: 0
-  BreakArea:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  BreakArea: []
   BreakSpeed: 1
   BreakTime: 20
   AlartTime: 3
+  ArartHeight: 2.4
+  ArartInnerOffset: 1
   BreakAlartBord: {fileID: 6188735757174594130, guid: 38788d0f840eb4444ae4afcd2712647e, type: 3}
   breakLayer:
     serializedVersion: 2

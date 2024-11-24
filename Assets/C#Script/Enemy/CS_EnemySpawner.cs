@@ -148,7 +148,7 @@ public class CS_EnemySpawner : MonoBehaviour
         for(int i = 0; i < SynchroSpawnNum; i++)
         {
             Quaternion rotate = Quaternion.LookRotation(SpawnDirection);
-            Instantiate(SpawnEnemy,transform.position,rotate);
+            Instantiate(SpawnEnemy,transform.position + transform.forward * 2f,rotate);
             CurrentSpawnNum++;
         }
 
