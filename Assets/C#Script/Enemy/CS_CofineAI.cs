@@ -134,9 +134,10 @@ public class CS_CofineAI : MonoBehaviour
         //攻撃
         Attack();
 
+        //HPゲージの処理
         if(HP <= 0) { Destroy(this.gameObject); }
         HPSliderObj.transform.LookAt(PlayerTrans);
-
+        if (HPSliderObj.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
     }
 
 
@@ -216,6 +217,15 @@ public class CS_CofineAI : MonoBehaviour
     private void Jump()
     {
 
+    }
+
+
+    /// <summary>
+    /// HPゲージの表示
+    /// </summary>
+    public void ViewHPGage()
+    {
+        HPSliderObj.SetActive(true);
     }
 
 
@@ -474,6 +484,16 @@ public class CS_CofineAI : MonoBehaviour
         navmeshAgent.SetDestination(TargetPos);
 
     }
+
+    private IEnumerator EndViewHP()
+    {
+        yield return new WaitForSeconds(1f);
+
+        //再び非表示に
+        HPSliderObj.SetActive(false);
+
+    }
+
 
     private IEnumerator EndLight()
     {

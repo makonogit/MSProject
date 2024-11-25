@@ -122,7 +122,7 @@ public class CS_PlayerManager : MonoBehaviour
         tpsCamera = GameObject.Find("TpsCamera")?.GetComponent<CS_TpsCamera>();
         if (tpsCamera == null)
         {
-            UnityEngine.Debug.LogError("TpsCamera‚ğHierarchy‚É’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B");
+            //UnityEngine.Debug.LogError("TpsCamera‚ğHierarchy‚É’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B");
         }
 
 

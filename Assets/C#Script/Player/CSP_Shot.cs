@@ -57,6 +57,8 @@ public class CSP_Shot : ActionBase
     private Sprite detectedSprite;
     //[SerializeField]
     //private Color detectedColor = Color.green; // 検出時の色
+    [SerializeField, Header("冷却中のレティクル")]
+    private Sprite ColdREticle;
     [SerializeField, Header("非検出時のレティクル設定")]
     private Sprite notDetectedSprite; 
     //[SerializeField]
@@ -66,9 +68,14 @@ public class CSP_Shot : ActionBase
     private GameObject targetObject;// レティクル内の破壊可能オブジェクト
     [SerializeField, Header("オーバーヒートゲージ")]
     private UnityEngine.UI.Image overheat;
+    [SerializeField, Header("オーバーヒート中ゲージ")]
+    private UnityEngine.UI.Image overheatOut;
     [SerializeField, Header("ロックオンレティクル")]
     private UnityEngine.UI.Image lockon;
     private RectTransform rectTransform;
+
+    private bool Cold = false;  //冷却中かどうか
+    private float OverHeatAlpha = 0f;    //オーバーヒート中の画像の透明度(徐々に赤くする)
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -141,9 +148,44 @@ public class CSP_Shot : ActionBase
            isShot = false;
         }
 
-        // オーバーヒート処理
-        overheat.fillAmount = magazine * 0.1f;
+        //冷却中じゃなければ
+        if (!Cold)
+        {
+            // オーバーヒート処理
+            overheat.fillAmount = magazine * 0.1f;
+            overheatOut.fillAmount = overheat.fillAmount;
+        }
+        else
+        {
 
+            //レティクルを冷却中画像にする
+            detectionImage.sprite = ColdREticle;
+
+            //冷却処理
+            overheat.fillAmount += interval * Time.deltaTime;
+            overheatOut.fillAmount = overheat.fillAmount;
+            //リロードアニメーションが終了していたら冷却完了
+            if (overheat.fillAmount >= 1f && !GetAnimator().GetBool("Reload")) 
+            {
+                overheatOut.color = Color.clear;
+                Cold = false; 
+            }
+        }
+
+        //一定数残弾数が減ったらゲージを赤くする
+        if(overheat.fillAmount < 0.3f)
+        {
+            float AlphaSpeed = 2f;
+            OverHeatAlpha += AlphaSpeed * Time.deltaTime;
+            overheatOut.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
+        }
+
+        //残弾数が0になったら冷却
+        if(magazine <= 0)
+        {
+            Cold = true;
+        }
+        
         // リロード処理
         //if (GetInputSystem().GetButtonXPressed())
         //{
@@ -180,55 +222,72 @@ public class CSP_Shot : ActionBase
     //**
     void HandlReticle()
     {
+
         // レティクルとターゲットを初期化
         //detectionImage.color = notDetectedColor;
         detectionImage.sprite = notDetectedSprite;
         targetObject = null;
 
-        // レティクルの変更処理
-        {
-            // カメラ正面からレイを作成
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
 
-            // レティクル内に破壊可能オブジェクトがあるか判定
-            foreach (RaycastHit hit in hits)
+        // カメラ正面からレイを作成
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+
+        RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
+        RaycastHit[] autAnimhits = Physics.SphereCastAll(ray, radiusAuto, range);
+
+        // レティクルの変更処理
+        // レティクル内に破壊可能オブジェクトがあるか判定
+        foreach (RaycastHit hit in hits)
+        {
+            //// ヒットした場合の処理
+            //if (targetTag.Contains(hit.collider.tag))
+            //{
+            //    // レティクルを変更
+            //    detectionImage.sprite = detectedSprite;
+            //    break;
+            //}
+
+            //----- コフィンのHPゲージ表示 ------------
+            if (hit.collider.tag == "Emnemy")
             {
-                // ヒットした場合の処理
-                if (targetTag.Contains(hit.collider.tag))
-                {
-                    // レティクルを変更
-                    detectionImage.sprite = detectedSprite;
-                    break;
-                }
+                hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
+
+                if (cofine) { cofine.ViewHPGage(); }
+
             }
+
         }
 
         // オートエイム対象の取得処理
+        // レティクル内に破壊可能オブジェクトがあるか判定
+        foreach (RaycastHit hit in autAnimhits)
         {
-            // カメラ正面からレイを作成
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            RaycastHit[] hits = Physics.SphereCastAll(ray, radiusAuto, range);
-
-            // レティクル内に破壊可能オブジェクトがあるか判定
-            foreach (RaycastHit hit in hits)
+            // ヒットした場合の処理
+            if (targetTag.Contains(hit.collider.tag))
             {
-                // ヒットした場合の処理
-                if (targetTag.Contains(hit.collider.tag))
+                // オブジェクトを取得
+                targetObject = hit.collider.gameObject;
+
+                //if (isAuto)
+                //{
+                //    detectionImage.sprite = detectedSprite;
+                //}
+
+
+                //----- コフィンのHPゲージ表示 ------------
+                if (hit.collider.tag == "Emnemy")
                 {
-                    // オブジェクトを取得
-                    targetObject = hit.collider.gameObject;
+                    hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
 
-                    if (isAuto)
-                    {
-                        detectionImage.sprite = detectedSprite;
-                    }
+                    if (cofine) { cofine.ViewHPGage(); }
 
-                    break;
                 }
+                break;
             }
+          
         }
 
+        // UI切り替え
         if (isAuto)
         {
             detectionImage.enabled = false;
