@@ -3459,7 +3459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9007402106d15744dae90ae6cf083bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 6
   decelerationMount: 0.8
   decelerationHunger: 0
   initJumpStock: 1
