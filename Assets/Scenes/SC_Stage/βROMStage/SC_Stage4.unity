@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.105577156, g: 0.09699197, b: 0.11464383, a: 1}
+  m_IndirectSpecularColor: {r: 0.1055796, g: 0.09699626, b: 0.11464812, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1358,6 +1358,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1358449719}
     - target: {fileID: 9063622829144258966, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
+      propertyPath: CanGage
+      value: 
+      objectReference: {fileID: 1531031652}
+    - target: {fileID: 9063622829144258966, guid: 44655bf907afc9d48a22e7120b4ed1a8, type: 3}
       propertyPath: fallingThreshold
       value: 700
       objectReference: {fileID: 0}
@@ -2129,6 +2133,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4284147577190234085, guid: 59bae013ac8a213459e90e91069d8807, type: 3}
   m_PrefabInstance: {fileID: 1531031650}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1531031652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3522226283020327391, guid: 59bae013ac8a213459e90e91069d8807, type: 3}
+  m_PrefabInstance: {fileID: 1531031650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1587449795 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2862428999215649905, guid: 59bae013ac8a213459e90e91069d8807, type: 3}

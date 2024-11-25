@@ -9,10 +9,10 @@ public class CSP_Skill : ActionBase
     [System.Serializable]
     public class SkillUI
     {
-        public UnityEngine.UI.Image image_inierval;
-        public UnityEngine.UI.Image image_active;
-        public float interval;
-        public int cost;
+        public UnityEngine.UI.Image image_inierval; // クールダウン中のゲージ
+        public UnityEngine.UI.Image image_active;   // スキルが使用可能なUI
+        public float interval;                      // クールダウン時間
+        public int mp;                              // スキル使用時に必要な素材数
     }
 
     [SerializeField, Header("1 トラバサミ")]
@@ -27,7 +27,7 @@ public class CSP_Skill : ActionBase
     [SerializeField, Header("スキルUI")]
     private SkillUI[] SkillUIList;
 
-    private int stock;
+    private int stockMP;
 
     // クラフト中
     private bool isCraft;
@@ -81,12 +81,12 @@ public class CSP_Skill : ActionBase
             isCraft = false;
         }
 
-        stock = GetPlayerManager().GetIngredientsStock();
+        stockMP = GetPlayerManager().GetMP();
         foreach (SkillUI ui in SkillUIList)
         {
             ui.image_active.enabled = (ui.image_inierval.fillAmount == 1);
 
-            if (stock < ui.cost)
+            if (stockMP < ui.mp)
             {
                 ui.image_inierval.fillAmount = 0;
             }
@@ -95,6 +95,7 @@ public class CSP_Skill : ActionBase
                 ui.image_inierval.fillAmount = 1;
             }
         }
+
     }
 
     void HandlSkill1()
@@ -103,7 +104,7 @@ public class CSP_Skill : ActionBase
             && (GetInputSystem().GetButtonAPressed())
             && (!isCraft)
             && (SkillUIList[0].image_inierval.fillAmount == 1)
-            && (stock >= SkillUIList[0].cost))
+            && (stockMP >= SkillUIList[0].mp))
         {
             Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
@@ -120,7 +121,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[0].image_inierval.fillAmount = Mathf.Clamp01(0);
             StartCoroutine(FillImageOverTime(SkillUIList[0].image_inierval, SkillUIList[0].interval));
 
-            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[0].cost);
+            GetPlayerManager().SetMP(stockMP - SkillUIList[0].mp);
         }
     }
 
@@ -130,7 +131,7 @@ public class CSP_Skill : ActionBase
             && (GetInputSystem().GetButtonBPressed())
             && (!isCraft)
             && (SkillUIList[1].image_inierval.fillAmount == 1)
-            && (stock >= SkillUIList[1].cost))
+            && (stockMP >= SkillUIList[1].mp))
         {
             Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
 
@@ -147,7 +148,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[1].image_inierval.fillAmount = Mathf.Clamp01(0);
             StartCoroutine(FillImageOverTime(SkillUIList[1].image_inierval, SkillUIList[1].interval));
 
-            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[1].cost);
+            GetPlayerManager().SetMP(stockMP - SkillUIList[1].mp);
 
         }
     }
@@ -158,7 +159,7 @@ public class CSP_Skill : ActionBase
             && (GetInputSystem().GetButtonYPressed())
             && (!isCraft)
             && (SkillUIList[2].image_inierval.fillAmount == 1)
-            && (stock >= SkillUIList[2].cost))
+            && (stockMP >= SkillUIList[2].mp))
         {
             GameObject obj = Instantiate(skillItem3);
 
@@ -171,7 +172,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[2].image_inierval.fillAmount = Mathf.Clamp01(0);
             StartCoroutine(FillImageOverTime(SkillUIList[2].image_inierval, SkillUIList[2].interval));
 
-            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[2].cost);
+            GetPlayerManager().SetMP(stockMP - SkillUIList[2].mp);
 
         }
     }
@@ -182,7 +183,7 @@ public class CSP_Skill : ActionBase
             && (GetInputSystem().GetButtonXPressed())
             && (!isCraft)
             && (SkillUIList[2].image_inierval.fillAmount == 1)
-            && (stock >= SkillUIList[2].cost))
+            && (stockMP >= SkillUIList[2].mp))
         {
             isCraft = true;
 
@@ -192,7 +193,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[3].image_inierval.fillAmount = Mathf.Clamp01(0);
             StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[2].interval));
 
-            GetPlayerManager().SetIngredientsStock(stock - SkillUIList[3].cost);
+            GetPlayerManager().SetMP(stockMP - SkillUIList[3].mp);
 
         }
     }

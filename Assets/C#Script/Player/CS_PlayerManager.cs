@@ -20,6 +20,12 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField]
     private float nowHP;
     public float GetHP() => nowHP;
+    [SerializeField, Header("MPの最大値")]
+    private int MaxMP = 100;
+    [SerializeField]
+    private int nowMP = 0;
+    public int GetMP() => nowMP;
+    public void SetMP(int MP) { nowMP = MP;}
     public void SetHP(float setHP) { nowHP = setHP; }
     [SerializeField, Header("缶詰めの取得数")]
     private int itemStock = 0;
@@ -83,6 +89,11 @@ public class CS_PlayerManager : MonoBehaviour
     private CS_Countdown countdownStun;
 
 
+
+    [SerializeField, Header("空き缶残量ゲージ")]
+    private UnityEngine.UI.Image CanGage;
+
+
     //**
     //* 初期化
     //**
@@ -95,6 +106,10 @@ public class CS_PlayerManager : MonoBehaviour
 
         // HPを設定
         nowHP = initHP;
+
+        //空き缶ゲージの設定
+        CanGage.fillAmount = nowMP / MaxMP;
+
 
         // 自身のコンポーネントを取得
         rb = GetComponent<Rigidbody>();
@@ -154,6 +169,11 @@ public class CS_PlayerManager : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        //ゲージの状態を更新
+        CanGage.fillAmount = (float)nowMP / (float)MaxMP;
+
+
         // エネルギーコアの状態を設定
         if (core != null)
         {
@@ -245,7 +265,10 @@ public class CS_PlayerManager : MonoBehaviour
         {
             CS_Item item = collision.gameObject.GetComponent<CS_Item>();
 
-            itemStock++;
+            ingredientsStock++;
+            SetMP(nowMP + item.GetMP());
+             //ingredientsStock * 2;
+            //itemStock++;
 
             Destroy(collision.gameObject);
         }
