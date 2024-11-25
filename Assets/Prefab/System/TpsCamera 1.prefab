@@ -214,12 +214,12 @@ MonoBehaviour:
   inputSystem: {fileID: 0}
   offsetPos: {x: 0, y: 1.5, z: 0}
   offsetFocus: {x: 0, y: 0, z: 0}
-  wideSpeed: 50
-  hydeSpeed: 50
+  wideSpeed: 90
+  hydeSpeed: 40
   rotationSpeed: 50
   rotationLimitMax: 60
   rotationLimitMin: 0
-  cameraDistance: 2.5
+  cameraDistance: 1.5
   accelerationCurve:
     serializedVersion: 2
     m_Curve:

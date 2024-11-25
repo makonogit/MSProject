@@ -2735,7 +2735,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2831,7 +2831,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2927,7 +2927,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3216,7 +3216,6 @@ GameObject:
   - component: {fileID: 5443285586392053182}
   - component: {fileID: 9063622829144258966}
   - component: {fileID: 8908855115190931798}
-  - component: {fileID: 1022620957346792206}
   - component: {fileID: 6462524678093254582}
   - component: {fileID: 7738483730648989026}
   - component: {fileID: 7215450726017731647}
@@ -3263,8 +3262,8 @@ Rigidbody:
   m_GameObject: {fileID: 4432090128214523753}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 100
+  m_Drag: 1
+  m_AngularDrag: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3422,14 +3421,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initHP: 100
   nowHP: 100
+  MaxMP: 100
+  nowMP: 0
   itemStock: 0
   ingredientsStock: 0
   core: {fileID: 0}
   groundCheckDistance: 0.1
-  fallingThreshold: 1000
+  fallingThreshold: 700
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 897
   animatorBoolParameterList:
   - name: Use Item
     time: 2
@@ -3445,6 +3446,7 @@ MonoBehaviour:
   - name: Falling
     time: 0.1
   soundEffect: {fileID: 4599338107709330034}
+  CanGage: {fileID: 0}
 --- !u!114 &8908855115190931798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3457,36 +3459,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9007402106d15744dae90ae6cf083bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
+  jumpForce: 10
   decelerationMount: 0.8
-  decelerationHunger: 0.7
+  decelerationHunger: 0
   initJumpStock: 1
   climbCheckDistance: 1
   climbMax: 2
   climbMin: 0.25
   climbLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
   climbSpeed: 1
---- !u!114 &1022620957346792206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4432090128214523753}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 082a9e070f043b04ba5cd5e19304de50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  targetSpeed: 5
-  smoothTime: 0.5
-  dashInputValue: 0.75
-  decelerationMount: 0.8
-  decelerationHunger: 0.7
-  forceMagnitude: 10
 --- !u!114 &6462524678093254582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3508,13 +3491,18 @@ MonoBehaviour:
   interval: 0.5
   intervalReload: 3
   detectionImage: {fileID: 0}
+  autoaim: {fileID: 0}
   radiusAuto: 1
   radius: 2
-  detectedSprite: {fileID: 21300000, guid: cb9b89ac65e135c4aa337bfda089867a, type: 3}
-  notDetectedSprite: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
+  detectedSprite: {fileID: 21300000, guid: 5ff515e6d597cc147b54cbf605c35186, type: 3}
+  ColdREticle: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
+  notDetectedSprite: {fileID: 21300000, guid: f717aa80e24c49c43a2af5481d41cc22, type: 3}
   targetTag:
   - Burst
   - Enemy
+  overheat: {fileID: 0}
+  overheatOut: {fileID: 0}
+  lockon: {fileID: 0}
 --- !u!114 &7738483730648989026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3611,9 +3599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9044b37b0a4df49abd6a7e30403549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  targetSpeed: 10
-  smoothTime: 0.5
+  speed: 3
+  targetSpeed: 5.5
+  smoothTime: 1
   dashInputValue: 0.75
   animatorBoolSpeedList:
   - name: Mount
@@ -3623,7 +3611,7 @@ MonoBehaviour:
   - name: Hunger
     magnification: 0.7
     flg: 1
-  forceMagnitude: 10
+  forceMagnitude: 5
 --- !u!114 &6942797439788341726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3639,19 +3627,24 @@ MonoBehaviour:
   skillItem1: {fileID: 6320446359319034052, guid: 7cb8fd3180cb3b04e9ad260a8247ca8a, type: 3}
   skillItem2: {fileID: 2688024025619129708, guid: e0bfd457c05fa0f43959c8d5a425a3cb, type: 3}
   skillItem3: {fileID: 5379977817046357441, guid: 4df1b9e69f6fa7a49a43359ab25aa4f5, type: 3}
+  skill4: {fileID: 6462524678093254582}
   SkillUIList:
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
     interval: 5
-    cost: 10
+    mp: 1
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
     interval: 8
-    cost: 20
+    mp: 5
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
     interval: 10
-    cost: 30
+    mp: 10
+  - image_inierval: {fileID: 0}
+    image_active: {fileID: 0}
+    interval: 10
+    mp: 15
 --- !u!1 &4523243980400097400
 GameObject:
   m_ObjectHideFlags: 0
@@ -4385,7 +4378,7 @@ Transform:
   m_GameObject: {fileID: 5686107140829633313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 5.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
