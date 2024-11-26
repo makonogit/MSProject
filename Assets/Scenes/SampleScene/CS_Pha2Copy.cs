@@ -760,8 +760,7 @@ public class CS_Pha2Copy : MonoBehaviour
         ballobj.transform.position = pos;
         //Vector3 targetrot = targetCamera.transform.rotation;
         ballobj.transform.Rotate(0,90,0);
-        ballobj.GetComponent<CS_AirBall>().TargetPosition = Vector3.zero;//TargetObjPos;
-
+      
         //if (TargetObjPos == Vector3.zero)
         //{
         //    ballobj.transform.forward = forwardVec;
