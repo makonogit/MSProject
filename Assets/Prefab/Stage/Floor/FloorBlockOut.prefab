@@ -1,85 +1,96 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6537822632601396033
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.2595346
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.0499992
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 22.72663
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_Name
-      value: FloorBlockOut
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3050849441632633879, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3050849441632633879, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3088919078697994290}
-  m_SourcePrefab: {fileID: 100100000, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
---- !u!1 &8137380470242502486 stripped
+--- !u!1 &4616347717675780358
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3050849441632633879, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
-  m_PrefabInstance: {fileID: 6537822632601396033}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &3088919078697994290
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1221149737032246445}
+  - component: {fileID: 104951766865636354}
+  - component: {fileID: 7875501875876207922}
+  - component: {fileID: 8988585710604476413}
+  m_Layer: 9
+  m_Name: FloorBlockOut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1221149737032246445
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4616347717675780358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.64, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &104951766865636354
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4616347717675780358}
+  m_Mesh: {fileID: 5442844352474110320, guid: c44bc56a8b7e6f74d831c47c7a42b73d, type: 3}
+--- !u!23 &7875501875876207922
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4616347717675780358}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f77acfbdb5e77564680f77c17bb2b765, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8988585710604476413
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8137380470242502486}
+  m_GameObject: {fileID: 4616347717675780358}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
