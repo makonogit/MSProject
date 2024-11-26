@@ -938,15 +938,12 @@ MonoBehaviour:
   KnockBackForce: 30
   AttackPower: 1
   AttackSpace: 3
-  HP: 30
-  FloorDistance: 1
-  FloorRayFowardOffset: 0.1
-  FloorLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  HP: 3
   navmeshAgent: {fileID: 153386493854832457}
   CofinAnim: {fileID: 3200529328052254431}
   SpotLight: {fileID: 7189382914081252051}
   LightBrightness: 100
+  Can: {fileID: 7331570525175831317, guid: 7a484d37085f0ae43aacba4a7cc21a8c, type: 3}
+  CanNum: 3
   HPSlider: {fileID: 6079402098683386674}
   HPSliderObj: {fileID: 8346755128192319345}

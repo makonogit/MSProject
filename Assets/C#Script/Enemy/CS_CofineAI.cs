@@ -74,13 +74,7 @@ public class CS_CofineAI : MonoBehaviour
     private float HP = 30.0f;
 
     [Header("-----------------------------------------------")]
-    [Header("接地判定")]
-    [SerializeField, Tooltip("床を検知するRayの距離")]
-    private float FloorDistance = 1.0f;
-    [SerializeField, Tooltip("床を検知するRayの位置(前方)")]
-    private float FloorRayFowardOffset = 0.5f;
-    [SerializeField, Tooltip("床のlayer")]
-    private LayerMask FloorLayer;
+  
 
     [SerializeField, Tooltip("NavMesh")]
     private NavMeshAgent navmeshAgent;  //追跡用NavMesh
@@ -88,12 +82,14 @@ public class CS_CofineAI : MonoBehaviour
 
     [SerializeField, Tooltip("Animator")]
     private Animator CofinAnim;
-
     [SerializeField, Tooltip("Light")]
     private Light SpotLight;
     [SerializeField, Tooltip("発光時の明るさ")]
     private float LightBrightness = 100;
-
+    [SerializeField, Tooltip("空き缶")]
+    private GameObject Can;
+    [SerializeField, Tooltip("生成する空き缶の数")]
+    private int CanNum = 3;
     [SerializeField, Tooltip("HPSlider")]
     private Slider HPSlider;
     [SerializeField]
@@ -117,13 +113,15 @@ public class CS_CofineAI : MonoBehaviour
         //HPゲージを非表示
         HPSliderObj.SetActive(false);
 
-    }
+        // 自前の移動を行うためにAgentの自動更新を無効化
+        navmeshAgent.updatePosition = false;
+        navmeshAgent.updateRotation = false;
 
+    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
-        //接地判定
-        FloorCheck();
 
         //対象検知して追跡
         TargetDetection();
@@ -135,34 +133,17 @@ public class CS_CofineAI : MonoBehaviour
         Attack();
 
         //HPゲージの処理
-        if(HP <= 0) { Destroy(this.gameObject); }
+        if(HP <= 0) 
+        {
+            for(int i = 0;i<CanNum;i++)
+            {
+                //缶の生成
+                Instantiate(Can, transform.position, Quaternion.identity);
+            }
+            Destroy(this.gameObject); 
+        }
         HPSliderObj.transform.LookAt(PlayerTrans);
         if (HPSliderObj.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
-    }
-
-
-    /// <summary>
-    /// 接地判定
-    /// </summary>
-    ///　床にいてるか<returns></returns>
-    private bool FloorCheck()
-    {
-        // 自分の少し前方の位置を計算
-        Vector3 RayPos = transform.position + transform.forward * FloorRayFowardOffset;
-
-        Ray ray = new Ray(RayPos, Vector3.down);
-        RaycastHit hit;
-
-        //床が検出されたら
-        if (Physics.Raycast(ray, out hit, FloorDistance, FloorLayer))
-        {
-            navmeshAgent.enabled = true;
-            return true;
-        }
-
-        //床が検出されない場合
-        navmeshAgent.enabled = false;
-        return false;
     }
 
     /// <summary>
@@ -450,7 +431,7 @@ public class CS_CofineAI : MonoBehaviour
 
             if (ThisRd != null)
             {
-                navmeshAgent.enabled = false;
+                //navmeshAgent.enabled = false;
                 // 衝突方向の反対方向に力を加える
                 Vector3 knockbackDirection = (transform.position - other.transform.position).normalized;
                 ThisRd.AddForce(knockbackDirection * KnockBackForce, ForceMode.Impulse);
@@ -479,7 +460,7 @@ public class CS_CofineAI : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        navmeshAgent.enabled = true;
+        //navmeshAgent.enabled = true;
         // 目的地を再設定（例として元の目的地に戻す）
         navmeshAgent.SetDestination(TargetPos);
 

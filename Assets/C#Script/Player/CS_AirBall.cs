@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CS_AirBall : MonoBehaviour
 {
+    [SerializeField, Header("“G‚©‚ç‚Ì’e‚©")]
+    private bool FromEnemy = false;
 
     [SerializeField, Header("UŒ‚—Í")]
     private float AttackPower = 1.0f;
@@ -15,17 +17,17 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("Õ“ËEffect")]
     private GameObject HitEffect;
 
-    private Vector3 TargetPos;
+    //private Vector3 TargetPos;
 
     private float TimeMesure = 0.0f;
 
-    public Vector3 TargetPosition
-    {
-        set
-        {
-            TargetPos = value;
-        }
-    }
+    //public Vector3 TargetPosition
+    //{
+    //    set
+    //    {
+    //        TargetPos = value;
+    //    }
+    //}
 
     /// <summary>
     /// Power
@@ -101,7 +103,10 @@ public class CS_AirBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       bool GimmickHit = other.gameObject.CompareTag("Burst");
+        //“G‚Ì’e‚¾‚Á‚½‚çˆ—‚µ‚È‚¢
+        if (FromEnemy) { return; }
+
+        bool GimmickHit = other.gameObject.CompareTag("Burst");
 
         if (GimmickHit)
         {
