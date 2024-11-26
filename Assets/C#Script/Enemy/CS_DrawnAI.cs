@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /// <summary>
 /// 担当：菅　ドローンの敵AI
@@ -11,6 +12,7 @@ public class CS_DrawnAI : MonoBehaviour
     [Header("各パラメータ")]
     [SerializeField, Tooltip("HP")]
     private float HP = 80.0f;
+    private float NowHP;        //現在のHP
     [SerializeField, Tooltip("移動速度")]
     private float MoveSpeed = 3f;
     [SerializeField, Tooltip("攻撃間隔")]
@@ -40,6 +42,8 @@ public class CS_DrawnAI : MonoBehaviour
     private float progress = 0f;              // 弾道予測線表示割合
     [SerializeField, Tooltip("最大逃走距離")]
     private float MaxRanAwayDistance = 15f;
+    [SerializeField, Tooltip("死んだ時の空き缶生成数")]
+    private int DethCanNum = 3;
 
     [Header("------------サワルナキケン--------------")]
     [SerializeField, Tooltip("NavMesh")]
@@ -50,8 +54,10 @@ public class CS_DrawnAI : MonoBehaviour
     private float CreateBallDistance = 0.5f;
     [SerializeField, Tooltip("空き缶")]
     private GameObject Can;
-    [SerializeField, Tooltip("死んだ時の空き缶生成数")]
-    private int DethCanNum = 3;
+    [SerializeField, Tooltip("HPゲージ")]
+    private Image HPGage;
+    [SerializeField,Tooltip("ゲージキャンバス")]
+    private GameObject HPCanvas;
     [SerializeField, Tooltip("Rayを可視化するLineRenderer")] 
     private LineRenderer lineRenderer;
 
@@ -93,6 +99,9 @@ public class CS_DrawnAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //HPを保存
+        NowHP = HP;
+
         //始点と終点を初期化
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, transform.position);
@@ -113,6 +122,7 @@ public class CS_DrawnAI : MonoBehaviour
         agent.updateRotation = false;
 
         currentCoroutine = null;
+
         //目標を設定
         agent.SetDestination(PlayerTrans.position);
     }
@@ -120,8 +130,15 @@ public class CS_DrawnAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        ActionTable();
+        //HPゲージの処理
+        HPGage.fillAmount = NowHP / HP;
+        HPCanvas.transform.LookAt(PlayerTrans);
+        if (HPCanvas.activeSelf)
+        {
+            StartCoroutine(EndViewHP());
+        }
 
+        ActionTable();
 
         //死んでたら処理しない
         if (state == DrawnState.DETH) { return; }
@@ -451,10 +468,10 @@ public class CS_DrawnAI : MonoBehaviour
         {
             other.TryGetComponent<CS_AirBall>(out CS_AirBall ball);
             if (!ball) { return; }
-            HP -= ball.Power;
+            NowHP -= ball.Power;
 
             //死亡
-            if(HP <= 0) 
+            if(NowHP <= 0) 
             {
                 //缶を生成
                 for(int i = 0; i<DethCanNum;i++)
@@ -500,6 +517,30 @@ public class CS_DrawnAI : MonoBehaviour
         onComplete?.Invoke();
         currentCoroutine = null;
     }
+
+
+
+    /// <summary>
+    /// HPを表示するコルーチン
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator EndViewHP()
+    {
+        yield return new WaitForSeconds(3f);
+
+        //再び非表示に
+        HPCanvas.SetActive(false);
+
+    }
+
+    /// <summary>
+    /// HPゲージの表示
+    /// </summary>
+    public void ViewHPGage()
+    {
+        HPCanvas.SetActive(true);
+    }
+
 
 
 

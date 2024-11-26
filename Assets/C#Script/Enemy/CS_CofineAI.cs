@@ -72,6 +72,7 @@ public class CS_CofineAI : MonoBehaviour
     private float AttackSpace = 3f;
     [SerializeField, Tooltip("HP")]
     private float HP = 30.0f;
+    private float NowHP;    //現在のHP
 
     [Header("-----------------------------------------------")]
   
@@ -90,10 +91,10 @@ public class CS_CofineAI : MonoBehaviour
     private GameObject Can;
     [SerializeField, Tooltip("生成する空き缶の数")]
     private int CanNum = 3;
-    [SerializeField, Tooltip("HPSlider")]
-    private Slider HPSlider;
+    [SerializeField, Tooltip("HPGage")]
+    private Image HPGage;
     [SerializeField]
-    private GameObject HPSliderObj;
+    private GameObject HPCanvas;
 
 
     // Start is called before the first frame update
@@ -107,11 +108,11 @@ public class CS_CofineAI : MonoBehaviour
         PlayerTrans = CS_SpawnerInfo.GetPlayerTrans();
 
         //HPゲージを設定
-        HPSlider.maxValue = HP;
-        HPSlider.value = HP;
+        NowHP = HP;
+        HPGage.fillAmount = NowHP / HP;
 
         //HPゲージを非表示
-        HPSliderObj.SetActive(false);
+        //HPSliderObj.SetActive(false);
 
         // 自前の移動を行うためにAgentの自動更新を無効化
         navmeshAgent.updatePosition = false;
@@ -133,7 +134,8 @@ public class CS_CofineAI : MonoBehaviour
         Attack();
 
         //HPゲージの処理
-        if(HP <= 0) 
+        HPGage.fillAmount = NowHP / HP;
+        if(NowHP <= 0) 
         {
             for(int i = 0;i<CanNum;i++)
             {
@@ -142,8 +144,8 @@ public class CS_CofineAI : MonoBehaviour
             }
             Destroy(this.gameObject); 
         }
-        HPSliderObj.transform.LookAt(PlayerTrans);
-        if (HPSliderObj.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
+        HPCanvas.transform.LookAt(PlayerTrans);
+        if (HPCanvas.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
     }
 
     /// <summary>
@@ -206,7 +208,7 @@ public class CS_CofineAI : MonoBehaviour
     /// </summary>
     public void ViewHPGage()
     {
-        HPSliderObj.SetActive(true);
+        HPCanvas.SetActive(true);
     }
 
 
@@ -423,8 +425,8 @@ public class CS_CofineAI : MonoBehaviour
             other.transform.TryGetComponent<CS_AirBall>(out CS_AirBall airBall);
             if (airBall != null)
             {
-                HP -= airBall.Power;                    //HPを減らす
-                HPSlider.value = HP;
+                NowHP -= airBall.Power;                    //HPを減らす
+                
                 SpotLight.intensity = LightBrightness;  //発光させる
                 StartCoroutine(EndLight());
             }
@@ -468,10 +470,10 @@ public class CS_CofineAI : MonoBehaviour
 
     private IEnumerator EndViewHP()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         //再び非表示に
-        HPSliderObj.SetActive(false);
+        HPCanvas.SetActive(false);
 
     }
 
