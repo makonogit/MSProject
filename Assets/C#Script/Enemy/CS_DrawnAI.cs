@@ -19,6 +19,8 @@ public class CS_DrawnAI : MonoBehaviour
     private float AttackSpace = 10.0f;
     [SerializeField, Tooltip("移動速度低下付与時間")]
     private float MoveSpeedDownTime = 3f;
+    [SerializeField, Tooltip("移動速度低下率")]
+    [Range(0,1)]private float MoveSpeedDownParsentage = 0.5f;
     [SerializeField, Tooltip("逃走判定距離")]
     private float RunAwayDistance = 5f;
     [SerializeField, Tooltip("最大逃走時間")]
@@ -172,7 +174,8 @@ public class CS_DrawnAI : MonoBehaviour
         if(agent.path.corners.Length < 2) { return; }
 
         //チャージ中と攻撃中は動かない
-        if (attackstate != DrawnAttackState.NEXTATTACKSPACE && (state == DrawnState.CHARGE || state == DrawnState.ATTACK))
+        if ((attackstate == DrawnAttackState.NEXTATTACKSPACE && state == DrawnState.ATTACK) ||
+            (attackstate != DrawnAttackState.NEXTATTACKSPACE && (state == DrawnState.CHARGE || state == DrawnState.ATTACK)))
         {
             //プレイヤーの向きを向く
             if (attackstate != DrawnAttackState.ATTACKWAIT){ transform.LookAt(PlayerTrans); }
@@ -405,7 +408,10 @@ public class CS_DrawnAI : MonoBehaviour
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
 
         //弾オブジェクトを生成
-        Instantiate(BallObj, spawnPosition, rotationToTarget);
+        GameObject ball = Instantiate(BallObj, spawnPosition, rotationToTarget);
+        //弾に速度低下を付与
+        ball.TryGetComponent<CS_AirBall>(out CS_AirBall airball);
+        if (airball) { airball.SetSpeedDown(MoveSpeedDownTime, MoveSpeedDownParsentage); }
 
         CreateBallTrigger = true;
 

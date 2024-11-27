@@ -8,6 +8,15 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("敵からの弾か")]
     private bool FromEnemy = false;
 
+    //移動速度低下時間
+    private float MoveSpeedDownTime = 0f;
+    private float MoveSpeedDownParsentage = 0f;
+
+    //速度低下設定
+    public void SetSpeedDown(float time,float parsentage) 
+    { MoveSpeedDownTime = time; MoveSpeedDownParsentage = parsentage; }
+
+
     [SerializeField, Header("攻撃力")]
     private float AttackPower = 1.0f;
     [SerializeField, Header("速さ")]
@@ -103,8 +112,14 @@ public class CS_AirBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //敵の弾だったら処理しない
-        if (FromEnemy) { return; }
+        bool PlayerHit = other.gameObject.tag == "Player";
+        //敵の弾でプレイヤーの衝突したらコルーチンを起動
+        if (FromEnemy && PlayerHit) 
+        {
+            other.transform.TryGetComponent<CSP_ParallelMove>(out CSP_ParallelMove player);
+            if (player) { StartCoroutine(SpeedDown(player)); }
+            return; 
+        }
 
         bool GimmickHit = other.gameObject.CompareTag("Burst");
 
@@ -144,5 +159,18 @@ public class CS_AirBall : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スピードダウンコルーチン
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpeedDown(CSP_ParallelMove player)
+    {
+        float speed = player.GetSpeed();    //元の速度を保存
 
+        player.SetSpeed(speed * MoveSpeedDownParsentage);   //速度低下
+        //指定した秒数待つ
+        yield return new WaitForSeconds(MoveSpeedDownTime);
+
+        player.SetSpeed(speed); //速度を戻す
+    }
 }
