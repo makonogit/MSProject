@@ -182,8 +182,8 @@ public class CSP_Skill : ActionBase
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonXPressed())
             && (!isCraft)
-            && (SkillUIList[2].image_inierval.fillAmount == 1)
-            && (stockMP >= SkillUIList[2].mp))
+            && (SkillUIList[3].image_inierval.fillAmount == 1)
+            && (stockMP >= SkillUIList[3].mp))
         {
             isCraft = true;
 
@@ -191,7 +191,7 @@ public class CSP_Skill : ActionBase
 
             // インターバル開始
             SkillUIList[3].image_inierval.fillAmount = Mathf.Clamp01(0);
-            StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[2].interval));
+            StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[3].interval));
 
             GetPlayerManager().SetMP(stockMP - SkillUIList[3].mp);
 

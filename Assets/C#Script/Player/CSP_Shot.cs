@@ -85,9 +85,6 @@ public class CSP_Shot : ActionBase
     {
         base.Start();
 
-        // 初期レティクルサイズを保存
-        defaultSize = detectionImage.rectTransform.sizeDelta;
-
         // 残弾数を初期化
         bulletStock = initBulletStock;
 
@@ -98,15 +95,22 @@ public class CSP_Shot : ActionBase
         countdown = gameObject.AddComponent<CS_Countdown>();
         intervalCountdown = gameObject.AddComponent<CS_Countdown>();
 
-        lockon.enabled = false;
-        autoaim.enabled = false;
+        // 初期レティクルサイズを保存
+        //defaultSize = autoaim.transform.localScale;
+
+        // ロックオンカーソルを非表示
+        //lockon.enabled = false;
     }
 
     void FixedUpdate()
     {
-        // レティクル処理
-        HandlReticle();
+        // オートエイム処理
+        HandlAutoaim();
 
+        // レティクル処理
+        //HandlReticle();
+
+        // 照準処理
         if (GetInputSystem().GetLeftTrigger() > 0.1f)
         {
             GetPlayerManager().GetCameraManager().SwitchingCamera(2);
@@ -148,70 +152,11 @@ public class CSP_Shot : ActionBase
            isShot = false;
         }
 
-        //冷却中じゃなければ
-        if (!Cold)
-        {
-            // オーバーヒート処理
-            overheat.fillAmount = magazine * 0.1f;
-            overheatOut.fillAmount = overheat.fillAmount;
-        }
-        else
-        {
-
-            //レティクルを冷却中画像にする
-            detectionImage.sprite = ColdREticle;
-
-            //冷却処理
-            overheat.fillAmount += interval * Time.deltaTime;
-            overheatOut.fillAmount = overheat.fillAmount;
-            //リロードアニメーションが終了していたら冷却完了
-            if (overheat.fillAmount >= 1f && !GetAnimator().GetBool("Reload")) 
-            {
-                overheatOut.color = Color.clear;
-                Cold = false; 
-            }
-        }
-
-        //一定数残弾数が減ったらゲージを赤くする
-        if(overheat.fillAmount < 0.3f)
-        {
-            float AlphaSpeed = 2f;
-            OverHeatAlpha += AlphaSpeed * Time.deltaTime;
-            overheatOut.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
-        }
-
-        //残弾数が0になったら冷却
-        if(magazine <= 0)
-        {
-            Cold = true;
-        }
-        
-        // リロード処理
-        //if (GetInputSystem().GetButtonXPressed())
-        //{
-        //    StartCoroutine(ReloadCoroutine());
-        //}
+        // ヒートゲージ処理
+        HandlOverheat();
 
         // プレイヤーの向きを調整
-        float offsetAngle = 45f; // オフセット値
-
-        // カメラの前方ベクトルを取得
-        Vector3 cameraForward = Camera.main.transform.forward;
-
-        // プレイヤーの正面ベクトルを取得
-        Vector3 playerForward = transform.forward;
-
-        // カメラの正面とプレイヤーの正面の角度を計算
-        float angle = Vector3.Angle(cameraForward, playerForward);
-
-        // オフセット値を考慮して確認
-        if (angle > offsetAngle)
-        {
-            // プレイヤーをカメラの方向に向ける
-            Vector3 targetDirection = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
-        }
+        HandlPlayerAngle();
     }
 
     //**
@@ -223,86 +168,68 @@ public class CSP_Shot : ActionBase
     void HandlReticle()
     {
 
-        // レティクルとターゲットを初期化
-        //detectionImage.color = notDetectedColor;
-        detectionImage.sprite = notDetectedSprite;
-        targetObject = null;
+        //// レティクルとターゲットを初期化
+        ////detectionImage.color = notDetectedColor;
+        //detectionImage.sprite = notDetectedSprite;
+        //targetObject = null;
 
 
-        // カメラ正面からレイを作成
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        //// カメラ正面からレイを作成
+        //Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-        RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
-        RaycastHit[] autAnimhits = Physics.SphereCastAll(ray, radiusAuto, range);
+        //RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
 
-        // レティクルの変更処理
-        // レティクル内に破壊可能オブジェクトがあるか判定
-        foreach (RaycastHit hit in hits)
-        {
-            //// ヒットした場合の処理
-            //if (targetTag.Contains(hit.collider.tag))
-            //{
-            //    // レティクルを変更
-            //    detectionImage.sprite = detectedSprite;
-            //    break;
-            //}
+        //// レティクルの変更処理
+        //// レティクル内に破壊可能オブジェクトがあるか判定
+        //foreach (RaycastHit hit in hits)
+        //{
+        //    //// ヒットした場合の処理
+        //    //if (targetTag.Contains(hit.collider.tag))
+        //    //{
+        //    //    // レティクルを変更
+        //    //    detectionImage.sprite = detectedSprite;
+        //    //    break;
+        //    //}
 
-            //----- コフィンのHPゲージ表示 ------------
-            if (hit.collider.tag == "Emnemy")
-            {
-                hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
+        //    //----- コフィンのHPゲージ表示 ------------
+        //    if (hit.collider.tag == "Emnemy")
+        //    {
+        //        hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
 
-                if (cofine) { cofine.ViewHPGage(); }
+        //        if (cofine) { cofine.ViewHPGage(); }
 
-            }
+        //    }
 
-        }
+        //}
 
-        // オートエイム対象の取得処理
-        // レティクル内に破壊可能オブジェクトがあるか判定
-        foreach (RaycastHit hit in autAnimhits)
-        {
-            // ヒットした場合の処理
-            if (targetTag.Contains(hit.collider.tag))
-            {
-                // オブジェクトを取得
-                targetObject = hit.collider.gameObject;
+        //// レティクルをオートエイム用に切り替え
+        //if (isAuto)
+        //{
+        //    // 通常時のレティクルを非表示にする
+        //    detectionImage.enabled = false;
 
-                //if (isAuto)
-                //{
-                //    detectionImage.sprite = detectedSprite;
-                //}
+        //    // ロックオンカーソルを表示
+        //    lockon.enabled = true;
 
+        //    // カーソルを拡大（ここはオートエイム用のレティクルを表示するように変更）
+        //    autoaim.transform.localScale = new Vector3(2, 2, 2);
 
-                //----- コフィンのHPゲージ表示 ------------
-                if (hit.collider.tag == "Emnemy")
-                {
-                    hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
+        //    // ロックオンカーソルを最初に検知した敵の位置の上に移動させる
+        //    Vector2 screenPos = Camera.main.WorldToScreenPoint(targetObject.transform.position);
+        //    lockon.rectTransform.position = screenPos;
+        //}
+        //// 通常時
+        //else
+        //{
+        //    // 通常レティクルを表示
+        //    detectionImage.enabled = true;
 
-                    if (cofine) { cofine.ViewHPGage(); }
+        //    // ロックオンカーソルを非表示
+        //    lockon.enabled = false;
 
-                }
-                break;
-            }
-          
-        }
-
-        // UI切り替え
-        if (isAuto)
-        {
-            detectionImage.enabled = false;
-            autoaim.enabled = true;
-            lockon.enabled = true;
-
-            Vector2 screenPos = Camera.main.WorldToScreenPoint(targetObject.transform.position);
-            lockon.rectTransform.position = screenPos;
-        }
-        else
-        {
-            detectionImage.enabled = true;
-            autoaim.enabled = false;
-            lockon.enabled = false;
-        }
+        //    // カーソルを元に戻す（ここはオートエイム用のレティクルを非表示にするよう変更）
+        //    autoaim.transform.localScale = defaultSize;
+        //}
     }
 
 
@@ -320,10 +247,12 @@ public class CSP_Shot : ActionBase
         // コントローラー入力/発射中/装填数を判定
         if (GetInputSystem().GetRightTrigger() > 0 && !isShot)
         {
-            //CreateBullet(burstfire);
-            //isShot = true;
-
+            // 射撃状態に変更
             GetAnimator().SetBool("Shot", true);
+
+            // オーバーヒートゲージを表示
+            overheat.color = new Vector4(1, 1, 1, 1);
+            overheatOut.color = new Vector4(1, 1, 1, 1);
 
             // 装填数が0ならリロード
             if (isMagazine)
@@ -361,6 +290,7 @@ public class CSP_Shot : ActionBase
         if (GetInputSystem().GetRightTrigger() <= 0 && isShot)
         {
             ReloadMagazine(initMagazine);
+            Cold = true;
         }
     }
 
@@ -497,6 +427,115 @@ public class CSP_Shot : ActionBase
             }
         }
 
+    }
+
+    /*
+     * オートエイム処理
+     */
+    void HandlAutoaim()
+    {
+        // カメラ正面からレイを作成
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit[] autAnimhits = Physics.SphereCastAll(ray, radiusAuto, range);
+
+        // オートエイム対象の取得処理
+        // レティクル内に破壊可能オブジェクトがあるか判定
+        foreach (RaycastHit hit in autAnimhits)
+        {
+            // ヒットした場合の処理
+            if (targetTag.Contains(hit.collider.tag))
+            {
+                // オブジェクトを取得
+                targetObject = hit.collider.gameObject;
+
+                ////----- コフィンのHPゲージ表示 ------------
+                //if (hit.collider.tag == "Emnemy")
+                //{
+                //    hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
+
+                //    if (cofine) { cofine.ViewHPGage(); }
+
+                //}
+                break;
+            }
+
+        }
+    }
+
+    /*
+     * オーバーヒートゲージ処理
+     */
+    void HandlOverheat()
+    {
+        //冷却中じゃなければ
+        if (!Cold)
+        {
+            // オーバーヒート処理
+            overheat.fillAmount = magazine * 0.1f;
+            overheatOut.fillAmount = overheat.fillAmount;
+        }
+        else
+        {
+            //レティクルを冷却中画像にする
+            detectionImage.sprite = ColdREticle;
+
+            //冷却処理
+            overheat.fillAmount += interval * Time.deltaTime;
+            overheatOut.fillAmount = overheat.fillAmount;
+            //リロードアニメーションが終了していたら冷却完了
+            if (overheat.fillAmount >= 1f)
+            {
+                overheat.color = Color.clear;
+                overheatOut.color = Color.clear;
+                Cold = false;
+            }
+            else
+            {
+                overheat.color = new Vector4(1, 1, 1, 1);
+                overheatOut.color = new Vector4(1, 1, 1, 1);
+            }
+        }
+
+        //一定数残弾数が減ったらゲージを赤くする
+        if (overheat.fillAmount < 0.3f)
+        {
+            float AlphaSpeed = 2f;
+            OverHeatAlpha -= AlphaSpeed * Time.deltaTime;
+            overheat.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
+        }
+
+        //残弾数が0になったら冷却
+        if (magazine <= 0)
+        {
+            Cold = true;
+        }
+    }
+
+    /*
+     * カメラの角度からプレイヤーの向きを調整する関数
+     */
+    void HandlPlayerAngle()
+    {
+        // プレイヤーの向きを調整
+        float offsetAngle = 45f; // オフセット値
+
+        // カメラの前方ベクトルを取得
+        Vector3 cameraForward = Camera.main.transform.forward;
+
+        // プレイヤーの正面ベクトルを取得
+        Vector3 playerForward = transform.forward;
+
+        // カメラの正面とプレイヤーの正面の角度を計算
+        float angle = Vector3.Angle(cameraForward, playerForward);
+
+        // オフセット値を考慮して確認
+        if (angle > offsetAngle)
+        {
+            // プレイヤーをカメラの方向に向ける
+            Vector3 targetDirection = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
+        }
     }
 
     // デバック用に拡散範囲の円錐を表示

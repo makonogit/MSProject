@@ -23,6 +23,8 @@ public class CSP_ParallelMove : ActionBase
     [Header("移動設定")]
     [SerializeField, Header("移動速度")]
     private float speed = 1f;        // 移動速度
+    public float GetSpeed() => speed;
+    public void SetSpeed(float set) {  speed = set; }
     [SerializeField, Header("目標速度")]
     private float targetSpeed = 10f; // 目標速度
     [SerializeField, Header("最高速度に到達するまでの時間")]
@@ -185,23 +187,23 @@ public class CSP_ParallelMove : ActionBase
         }
 
 
-        // 坂道を降りるために速度を調整
-        float maxSlopeAngle = 30f;
-        // 地面の法線ベクトルを取得
-        RaycastHit hit;
-        if ((Physics.Raycast(transform.position, Vector3.down, out hit, 5f))
-            && GetPlayerManager().IsGrounded())
-        {
-            // 坂道の角度を計算
-            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+        //// 坂道を降りるために速度を調整
+        //float maxSlopeAngle = 30f;
+        //// 地面の法線ベクトルを取得
+        //RaycastHit hit;
+        //if ((Physics.Raycast(transform.position, Vector3.down, out hit, 5f))
+        //    && GetPlayerManager().IsGrounded())
+        //{
+        //    // 坂道の角度を計算
+        //    float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 
-            // 坂道が急すぎる場合、飛び越えを防ぐために速度を制限
-            if (slopeAngle > maxSlopeAngle)
-            {
-                speed = initSpeed;
-                GetAnimator().SetBool("Dash", false);
-            }
-        }
+        //    // 坂道が急すぎる場合、飛び越えを防ぐために速度を制限
+        //    if (slopeAngle > maxSlopeAngle)
+        //    {
+        //        speed = initSpeed;
+        //        GetAnimator().SetBool("Dash", false);
+        //    }
+        //}
 
 
         // 効果音を再生する
