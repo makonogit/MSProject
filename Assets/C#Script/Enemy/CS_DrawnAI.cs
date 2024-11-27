@@ -46,6 +46,8 @@ public class CS_DrawnAI : MonoBehaviour
     private float MaxRanAwayDistance = 15f;
     [SerializeField, Tooltip("死んだ時の空き缶生成数")]
     private int DethCanNum = 3;
+    [SerializeField, Tooltip("プレイヤーから離れて飛ぶ高さ")]
+    private float ApploachY = 1f;
 
     [Header("------------サワルナキケン--------------")]
     [SerializeField, Tooltip("NavMesh")]
@@ -154,14 +156,38 @@ public class CS_DrawnAI : MonoBehaviour
         bool RanAway = Distance <= RunAwayDistance;      //プレイヤーが近づいたら逃げる
 
         //一定距離まで追跡
-        if (Tracking && state == DrawnState.IDEL) { ChangeState(DrawnState.TRACKING); }
+        if (Tracking && (state == DrawnState.IDEL || attackstate == DrawnAttackState.NEXTATTACKSPACE)) { ChangeState(DrawnState.TRACKING); }
         //追跡中に一定距離まで近づいたらチャージ
         if(!Tracking && state == DrawnState.TRACKING) { ChangeState(DrawnState.CHARGE); }
         
         //逃走(チャージ時と攻撃時は逃げない？)
         if (RanAway && (state != DrawnState.ATTACK || state != DrawnState.CHARGE )) { ChangeState(DrawnState.FLEEING); }
 
-        
+
+        //Y軸のみ常にプレイヤーの近くを飛行
+        {
+            // Y軸方向の移動計算
+            float targetY = PlayerTrans.position.y + ApploachY;        //プレイヤーのY座標
+            float currentY = transform.position.y;              //敵の現在のY座標
+
+            float yDistance = Mathf.Abs(targetY - currentY);        // 距離を計算
+            float ySpeed = 0f;
+            //近づけてない時だけ更新
+            if (yDistance > 0.1f)
+            {
+                //固定解除
+                ThisRb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                float yDirection = Mathf.Sign(targetY - currentY); // 上下方向を計算
+                ySpeed = yDirection * MoveSpeed; // Y方向の移動速度を設定
+            }
+            else
+            {
+                //Y軸固定
+                ThisRb.constraints = RigidbodyConstraints.FreezePositionY;
+            }
+
+            ThisRb.velocity = new Vector3(ThisRb.velocity.x, ySpeed, ThisRb.velocity.z);
+        }
         if (state != DrawnState.ATTACK || state != DrawnState.CHARGE) { Move(); }//移動
     }
 
@@ -191,6 +217,13 @@ public class CS_DrawnAI : MonoBehaviour
         // 敵キャラクターを進行方向に移動させる
         float forward_x = transform.forward.x * MoveSpeed;
         float forward_z = transform.forward.z * MoveSpeed;
+
+        // Y軸方向の移動計算
+        float targetY = PlayerTrans.position.y + ApploachY;        //プレイヤーのY座標
+        float currentY = transform.position.y;              //敵の現在のY座標
+        float yDirection = Mathf.Sign(targetY - currentY);  //上下方向を計算
+
+        float ySpeed = yDirection * MoveSpeed; // Y方向の移動速度を設定（調整可能）
 
         ThisRb.velocity = new Vector3(forward_x, ThisRb.velocity.y, forward_z);
 
@@ -336,6 +369,8 @@ public class CS_DrawnAI : MonoBehaviour
             case DrawnAttackState.NONE:
 
                 //予測線の表示
+                Vector3 startpos = transform.position;
+                startpos.y += 1f;
                 lineRenderer.SetPosition(0, transform.position);    // 始点
 
                 //線を射出する形で表示
@@ -368,6 +403,7 @@ public class CS_DrawnAI : MonoBehaviour
                      lineRenderer.startColor = AttackWaitColor;
                      lineRenderer.endColor = AttackWaitColor;
                      CreateVec = PlayerTrans.position;  //生成方向を確定
+                     CreateVec.y += 0.5f;
                      ChangeAttackState(DrawnAttackState.ATTACKWAIT);
                  }));
                 break;
