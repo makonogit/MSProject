@@ -370,8 +370,8 @@ public class CS_DrawnAI : MonoBehaviour
 
                 //予測線の表示
                 Vector3 startpos = transform.position;
-                startpos.y += 1f;
-                lineRenderer.SetPosition(0, transform.position);    // 始点
+                startpos.y += 1.5f; //モデルのずれ
+                lineRenderer.SetPosition(0,startpos);    // 始点
 
                 //線を射出する形で表示
                 if (progress < 1f)
@@ -436,6 +436,8 @@ public class CS_DrawnAI : MonoBehaviour
 
         //自分の前方に生成位置を計算
         Vector3 spawnPosition = transform.position + transform.forward * CreateBallDistance;
+
+        spawnPosition.y += 1.5f;    //モデルのずれ
 
         //目標の方向を計算(プレイヤー)
         Vector3 directionToTarget = (CreateVec - spawnPosition).normalized;
