@@ -10,9 +10,12 @@ public class CSP_Skill : ActionBase
     public class SkillUI
     {
         public UnityEngine.UI.Image image_inierval; // クールダウン中のゲージ
-        public UnityEngine.UI.Image image_active;   // スキルが使用可能なUI
+        public UnityEngine.UI.Image image_active;   // スキルが使用可能な時のUI
+        public UnityEngine.UI.Image image_skill;   // スキル使用中のUI
         public float interval;                      // クールダウン時間
         public int mp;                              // スキル使用時に必要な素材数
+        public CraftItemBase craftItem;
+        public bool isCraft;
     }
 
     [SerializeField, Header("1 トラバサミ")]
@@ -23,17 +26,17 @@ public class CSP_Skill : ActionBase
     private GameObject skillItem3;
     [SerializeField, Header("4 オートエイム")]
     private CSP_Shot skill4;
+    [SerializeField, Header("オートエイムの効果時間")]
+    private float skill4_time = 10f;
 
     [SerializeField, Header("スキルUI")]
     private SkillUI[] SkillUIList;
 
     private int stockMP;
 
-    // クラフト中
-    private bool isCraft;
-
     // カウントダウン用クラス
     private CS_Countdown countdown;
+    private CS_Countdown skill4_countdown;// オートエイムの時間計測
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +44,7 @@ public class CSP_Skill : ActionBase
         base.Start();
 
         countdown = gameObject.AddComponent<CS_Countdown>();
+        skill4_countdown = gameObject.AddComponent<CS_Countdown>();
     }
 
     // Update is called once per frame
@@ -76,15 +80,16 @@ public class CSP_Skill : ActionBase
             HandlSkill4();
         }
 
-        if (GetInputSystem().GetLeftTrigger() <= 0 && isCraft)
-        {
-            isCraft = false;
-        }
+        //if (GetInputSystem().GetLeftTrigger() <= 0 && isCraft)
+        //{
+        //    isCraft = false;
+        //}
 
         stockMP = GetPlayerManager().GetMP();
         foreach (SkillUI ui in SkillUIList)
         {
             ui.image_active.enabled = (ui.image_inierval.fillAmount == 1);
+            ui.image_skill.enabled = (ui.isCraft);
 
             if (stockMP < ui.mp)
             {
@@ -102,26 +107,37 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonAPressed())
-            && (!isCraft)
+            && (!SkillUIList[0].isCraft)
             && (SkillUIList[0].image_inierval.fillAmount == 1)
             && (stockMP >= SkillUIList[0].mp))
         {
-            Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
+            Vector3 forwardVec = Camera.main.transform.forward * 3f ;
 
             GameObject obj = Instantiate(skillItem1);
 
-            Vector3 pos = GetPlayerManager().GetCameraTransform().position;
+            Vector3 pos = Camera.main.transform.position;
             pos += forwardVec;
 
             obj.transform.position = pos;
             obj.transform.forward = forwardVec;
 
-            isCraft = true;
-
-            SkillUIList[0].image_inierval.fillAmount = Mathf.Clamp01(0);
-            StartCoroutine(FillImageOverTime(SkillUIList[0].image_inierval, SkillUIList[0].interval));
+            SkillUIList[0].isCraft = true;
 
             GetPlayerManager().SetMP(stockMP - SkillUIList[0].mp);
+
+            SkillUIList[0].craftItem = obj.GetComponent<CraftItemBase>();
+        }
+
+        if (SkillUIList[0].isCraft)
+        {
+            // 設置が完了してからインターバル開始
+            if (SkillUIList[0].craftItem.GetSetUp())
+            {
+                SkillUIList[0].isCraft = false;
+
+                SkillUIList[0].image_inierval.fillAmount = Mathf.Clamp01(0);
+                StartCoroutine(FillImageOverTime(SkillUIList[0].image_inierval, SkillUIList[0].interval));
+            }
         }
     }
 
@@ -129,27 +145,37 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonBPressed())
-            && (!isCraft)
+            && (!SkillUIList[1].isCraft)
             && (SkillUIList[1].image_inierval.fillAmount == 1)
             && (stockMP >= SkillUIList[1].mp))
         {
-            Vector3 forwardVec = GetPlayerManager().GetCameraTransform().forward;
+            Vector3 forwardVec = Camera.main.transform.forward;
 
             GameObject obj = Instantiate(skillItem2);
 
-            Vector3 pos = GetPlayerManager().GetCameraTransform().position;
+            Vector3 pos = Camera.main.transform.position;
             pos += forwardVec;
 
             obj.transform.position = pos;
             obj.transform.forward = forwardVec;
 
-            isCraft = true;
-
-            SkillUIList[1].image_inierval.fillAmount = Mathf.Clamp01(0);
-            StartCoroutine(FillImageOverTime(SkillUIList[1].image_inierval, SkillUIList[1].interval));
+            SkillUIList[1].isCraft = true;
 
             GetPlayerManager().SetMP(stockMP - SkillUIList[1].mp);
 
+            SkillUIList[1].craftItem = obj.GetComponent<CraftItemBase>();
+        }
+
+        if (SkillUIList[1].isCraft)
+        {
+            // 設置が完了してからインターバル開始
+            if (SkillUIList[1].craftItem.GetSetUp())
+            {
+                SkillUIList[1].isCraft = false;
+
+                SkillUIList[1].image_inierval.fillAmount = Mathf.Clamp01(0);
+                StartCoroutine(FillImageOverTime(SkillUIList[1].image_inierval, SkillUIList[1].interval));
+            }
         }
     }
 
@@ -157,23 +183,33 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonYPressed())
-            && (!isCraft)
+            && (!SkillUIList[2].isCraft)
             && (SkillUIList[2].image_inierval.fillAmount == 1)
             && (stockMP >= SkillUIList[2].mp))
         {
             GameObject obj = Instantiate(skillItem3);
 
-            Vector3 pos = GetPlayerManager().GetCameraTransform().position;
+            Vector3 pos = Camera.main.transform.position;
             obj.transform.position = pos;
 
-            isCraft = true;
-
-            // インターバル開始
-            SkillUIList[2].image_inierval.fillAmount = Mathf.Clamp01(0);
-            StartCoroutine(FillImageOverTime(SkillUIList[2].image_inierval, SkillUIList[2].interval));
+            SkillUIList[2].isCraft = true;
 
             GetPlayerManager().SetMP(stockMP - SkillUIList[2].mp);
 
+            SkillUIList[2].craftItem = obj.GetComponent<CraftItemBase>();
+
+        }
+
+        if (SkillUIList[2].isCraft)
+        {
+            // 設置が完了してからインターバル開始
+            if (SkillUIList[2].craftItem.GetSetUp())
+            {
+                SkillUIList[2].isCraft = false;
+
+                SkillUIList[2].image_inierval.fillAmount = Mathf.Clamp01(0);
+                StartCoroutine(FillImageOverTime(SkillUIList[2].image_inierval, SkillUIList[2].interval));
+            }
         }
     }
 
@@ -181,20 +217,28 @@ public class CSP_Skill : ActionBase
     {
         if ((GetInputSystem().GetLeftTrigger() > 0)
             && (GetInputSystem().GetButtonXPressed())
-            && (!isCraft)
+            && (!SkillUIList[3].isCraft)
             && (SkillUIList[3].image_inierval.fillAmount == 1)
             && (stockMP >= SkillUIList[3].mp))
         {
-            isCraft = true;
+            SkillUIList[3].isCraft = true;
 
             skill4.SetAuto(true);
 
-            // インターバル開始
-            SkillUIList[3].image_inierval.fillAmount = Mathf.Clamp01(0);
-            StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[3].interval));
-
             GetPlayerManager().SetMP(stockMP - SkillUIList[3].mp);
 
+            skill4_countdown.Initialize(skill4_time);
+        }
+
+        if (SkillUIList[3].isCraft)
+        {
+            if (skill4_countdown.IsCountdownFinished())
+            {
+                SkillUIList[3].isCraft = false;
+
+                SkillUIList[3].image_inierval.fillAmount = Mathf.Clamp01(0);
+                StartCoroutine(FillImageOverTime(SkillUIList[3].image_inierval, SkillUIList[3].interval));
+            }
         }
     }
 

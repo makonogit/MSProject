@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using UnityEngine;
 
 // クラフトアイテム　バリア
 // 藤原昂祐
-public class CS_Barrier : ActionBase
+public class CS_Barrier : CraftItemBase
 {
     // 設定項目
     [SerializeField, Header("有効時間")]
     private float validityTime = 3f;
+    [SerializeField, Header("移動速度")]
+    private float speed = 3f;
+
 
     // 設置位置確認用オブジェクト
     private GameObject setup;
@@ -67,6 +71,17 @@ public class CS_Barrier : ActionBase
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!isActive)
+        {
+            Vector3 moveVec = GetMovementVector();
+            setup.transform.position = new Vector3(
+                setup.transform.position.x + moveVec.x * speed * Time.deltaTime,
+                setup.transform.position.y,
+                setup.transform.position.z + moveVec.z * speed * Time.deltaTime
+            );
+        }
+
+
         // Rトリガーで設置
         if (GetInputSystem().GetRightTrigger() > 0
             && !isActive)
@@ -81,6 +96,8 @@ public class CS_Barrier : ActionBase
             {
                 renderer.enabled = false;
             }
+
+            isSetUp = true;
         }
 
         // 使用後、自らを破棄
@@ -103,5 +120,21 @@ public class CS_Barrier : ActionBase
                 Destroy(other.gameObject);
             }
         }
+    }
+
+    //**
+    //* スティック入力からカメラから見た移動ベクトルを取得する
+    //*
+    //* in：無し
+    //* out：移動ベクトル
+    //**
+    Vector3 GetMovementVector()
+    {
+        Vector2 stick = GetInputSystem().GetRightStick();
+        Vector3 forward = Camera.main.transform.forward;
+        Vector3 right = Camera.main.transform.right;
+        Vector3 moveVec = forward * stick.y + right * stick.x;
+        moveVec.y = 0f; // y 軸の移動は不要
+        return moveVec.normalized;
     }
 }

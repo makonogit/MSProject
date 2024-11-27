@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CS_DummyCore : MonoBehaviour
+public class CS_DummyCore : CraftItemBase
 {
     [SerializeField, Header("”­ŽË‘¬“x")]
     private float speed = 1f;
@@ -13,7 +13,7 @@ public class CS_DummyCore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -30,5 +30,7 @@ public class CS_DummyCore : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         isMove = false;
+
+        isSetUp = true;
     }
 }

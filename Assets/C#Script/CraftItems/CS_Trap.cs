@@ -4,7 +4,7 @@ using UnityEngine;
 
 // クラフトアイテム　トラバサミ
 // 藤原昂祐
-public class CS_Trap : MonoBehaviour
+public class CS_Trap : CraftItemBase
 {
     // 設定項目
     [SerializeField, Header("拘束時間")]
@@ -33,6 +33,8 @@ public class CS_Trap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
+
         // 時間計測用オブジェクトを作成
         countdown = gameObject.AddComponent<CS_Countdown>();
 
@@ -89,6 +91,9 @@ public class CS_Trap : MonoBehaviour
         else
         {
             isMove = false;
+
+            isSetUp = true;
+
         }
 
     }
