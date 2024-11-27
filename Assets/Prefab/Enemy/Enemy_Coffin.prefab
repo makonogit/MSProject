@@ -695,7 +695,7 @@ MonoBehaviour:
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 1024
-  StartPos: {x: -10, y: 2, z: 0}
+  StartPos: {x: 8, y: 0, z: 0}
   ThisRd: {fileID: 8843199040453819684}
   MoveSpeed: 3
   RotationSpeed: 3
