@@ -242,6 +242,8 @@ public class CS_CofineAI : MonoBehaviour
         //カナメを攻撃
         if (state == Cofin_State.KANAMECHASE)
         {
+            navmeshAgent.SetDestination(PlayerTrans.position);
+
             float playerdistance = Vector3.Distance(transform.position, PlayerTrans.position);
             bool Playerattack = playerdistance < PlayerDistance;
 
@@ -281,11 +283,18 @@ public class CS_CofineAI : MonoBehaviour
 
         if (CoreGet)
         {
+            state = Cofin_State.GOHOME;
+            //コアの状態を変更
+            Corestate.STATE = CS_Core.CORE_STATE.HAVEENEMY;
             //コア座標を固定
             CoreTrans.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
 
         }
-        //if (state == Cofin_State.GOHOME && ) { return; }
+        
+        if (state == Cofin_State.GOHOME )
+        {
+            navmeshAgent.SetDestination(StartPos);
+        }
 
 
         //敵の当たり判定
@@ -305,7 +314,7 @@ public class CS_CofineAI : MonoBehaviour
             //コアを追跡
             if (CoreTracking) { SetTarget(CoreTrans.position, Cofin_State.CORECHASE); }
             //敵を追跡
-            else if (Enemyhit.Length > 0 && Enemyhit[0].gameObject != gameObject) { SetTarget(Enemyhit[0].transform.position, Cofin_State.ENEMYCHASE); }
+            //else if (Enemyhit.Length > 0 && Enemyhit[0].gameObject != gameObject) { SetTarget(Enemyhit[0].transform.position, Cofin_State.ENEMYCHASE); }
             //プレイヤーを追跡
             else if (PlayerTracking) { SetTarget(PlayerTrans.position, Cofin_State.KANAMECHASE); }
            
@@ -317,7 +326,7 @@ public class CS_CofineAI : MonoBehaviour
             //プレイヤーを追いかける
             if (PlayerTracking) { SetTarget(PlayerTrans.position, Cofin_State.KANAMECHASE); }
             //敵を追いかける
-            else if (Enemyhit.Length > 0 && Enemyhit[0].gameObject != gameObject) { SetTarget(Enemyhit[0].transform.position, Cofin_State.ENEMYCHASE); }
+            //else if (Enemyhit.Length > 0 && Enemyhit[0].gameObject != gameObject) { SetTarget(Enemyhit[0].transform.position, Cofin_State.ENEMYCHASE); }
         
         }
 
@@ -329,7 +338,8 @@ public class CS_CofineAI : MonoBehaviour
             SetTarget(StartPos, Cofin_State.GOHOME);
         }
 
-        if(!CoreTracking && !PlayerTracking && (Enemyhit.Length == 0 || Enemyhit.Length == 1 && Enemyhit[0].gameObject == gameObject))
+        
+        if(!CoreTracking && !PlayerTracking)
         {
             Destroy(this.gameObject);   //デスポーン
         }
@@ -426,7 +436,7 @@ public class CS_CofineAI : MonoBehaviour
             if (airBall != null)
             {
                 NowHP -= airBall.Power;                    //HPを減らす
-                
+
                 SpotLight.intensity = LightBrightness;  //発光させる
                 StartCoroutine(EndLight());
             }
@@ -441,7 +451,7 @@ public class CS_CofineAI : MonoBehaviour
                 StartCoroutine(EndKnockback());
             }
 
-            if(CoreGet)
+            if (CoreGet)
             {
                 Corestate.STATE = CS_Core.CORE_STATE.DROP;
                 state = Cofin_State.IDEL;
@@ -450,10 +460,12 @@ public class CS_CofineAI : MonoBehaviour
                 ////威嚇モーション
                 //state = Cofin_State.INTIMIDATION;
                 //CofinAnim.SetTrigger("Intimidation");
-               
+
             }
 
         }
+
+
     }
 
   
