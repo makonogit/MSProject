@@ -99,7 +99,10 @@ public class CSP_Jump : ActionBase
         bool isJumpStock = jumpStock > 0;
 
         // 接地判定と衝突状態とジャンプボタンの入力をチェック
-        if (GetInputSystem().GetButtonAPressed() && !isJump && isJumpStock)
+        if (GetInputSystem().GetButtonAPressed() 
+            && !isJump 
+            && isJumpStock
+            && GetInputSystem().GetLeftTrigger() < 0.1f)
         {
             // 効果音を再生
             GetSoundEffect().PlaySoundEffect(1, 1);
