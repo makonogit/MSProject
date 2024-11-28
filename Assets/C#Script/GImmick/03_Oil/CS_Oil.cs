@@ -12,7 +12,9 @@ namespace Assets.C_Script.Gimmick
     {
         [SerializeField,Tooltip("滑るスピード")]
         private float slipSpeed = 2.0f;
-        
+        [SerializeField, Tooltip("減速倍率:\n元のスピード×減速倍率\n1.0  ＝ 1/1\n0.5  ＝ 1/2\n0.25 ＝ 1/4"),Range(0.0f, 1.0f)]
+        private float slowlySpeed = 0.5f;
+
         [SerializeField]
         private bool isBurning = false;
         [SerializeField]
@@ -27,6 +29,8 @@ namespace Assets.C_Script.Gimmick
 
         private static GameObject playerObj;
         private static Rigidbody playerRb;
+        private static CSP_ParallelMove playerMove;
+        private static float orignalSpeed = 0.0f;
         private static Vector3 oldPlayerPosition;
         private const string playerTag = "Player";
         private const string burningTag = "BurningObject";
@@ -38,11 +42,20 @@ namespace Assets.C_Script.Gimmick
 
         private void OnCollisionExit(Collision collision)
         {
-            if (playerObj == collision.gameObject) playerObj = null;
+            if (playerObj == collision.gameObject) 
+            { 
+                playerObj = null; 
+                playerMove.SetSpeed(orignalSpeed);
+            }
         }
         private void OnTriggerExit(Collider other)
-        { 
-            if (playerObj == other.gameObject) playerObj = null;
+        {
+            if (playerObj == other.gameObject) 
+            { 
+                playerObj = null;
+                playerMove.SetSpeed(orignalSpeed);
+            }
+
         }
 
         private void Start()
@@ -54,8 +67,8 @@ namespace Assets.C_Script.Gimmick
 
         private void FixedUpdate()
         {
-            if (!IsBurning) PlayerSlip();
-            if (playerObj == null) oldPlayerPosition = Vector3.zero;
+            if (!IsBurning)PlayerSlip();
+            if (playerObj == null)oldPlayerPosition = Vector3.zero;
         }
 
 
@@ -84,8 +97,21 @@ namespace Assets.C_Script.Gimmick
         {
             if (gameObject == null) return;
             playerObj = gameObject;
-            playerObj.TryGetComponent(out playerRb);
+            if (playerRb == null) playerObj.TryGetComponent(out playerRb);
+            if (playerMove == null) playerObj.TryGetComponent(out playerMove);
+            if (playerMove != null && orignalSpeed == 0.0f) orignalSpeed = playerMove.GetSpeed();
             if (oldPlayerPosition.magnitude <= 0) oldPlayerPosition = gameObject.transform.position;
+            if(IsBurning)PlayerSlowly();
+        }
+
+        /// <summary>
+        /// プレイヤーが遅くなる処理
+        /// </summary>
+        private void PlayerSlowly() 
+        {
+            if(playerMove == null) return;
+            float speed = orignalSpeed * slowlySpeed;
+            playerMove.SetSpeed(speed);
         }
 
         /// <summary>
