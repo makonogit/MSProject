@@ -276,9 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d120ea1313178544db28810dfcfc4e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSetUp: 0
   restraintTime: 3
   restraintTag: Enemy
-  speed: 3
+  speed: 5
 --- !u!1 &6791084311630527191
 GameObject:
   m_ObjectHideFlags: 0

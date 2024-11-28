@@ -102,7 +102,7 @@ public class CSP_Jump : ActionBase
         if (GetInputSystem().GetButtonAPressed() 
             && !isJump 
             && isJumpStock
-            && GetInputSystem().GetLeftTrigger() < 0.1f)
+            && !GetInputSystem().GetButtonLPressed())
         {
             // Œø‰Ê‰¹‚ðÄ¶
             GetSoundEffect().PlaySoundEffect(1, 1);

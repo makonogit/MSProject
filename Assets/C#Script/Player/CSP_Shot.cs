@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CSP_Shot : ActionBase
 {
@@ -70,6 +71,8 @@ public class CSP_Shot : ActionBase
     private UnityEngine.UI.Image overheat;
     [SerializeField, Header("オーバーヒート中ゲージ")]
     private UnityEngine.UI.Image overheatOut;
+    [SerializeField, Header("オーバーヒート中テキスト")]
+    private TextMeshProUGUI overheatText;
     [SerializeField, Header("ロックオンレティクル")]
     private UnityEngine.UI.Image lockon;
     private RectTransform rectTransform;
@@ -84,6 +87,9 @@ public class CSP_Shot : ActionBase
     protected override void Start()
     {
         base.Start();
+
+        // オーバーヒートテキストを非表示
+        overheatText.enabled = false;
 
         // 残弾数を初期化
         bulletStock = initBulletStock;
@@ -156,7 +162,7 @@ public class CSP_Shot : ActionBase
         HandlOverheat();
 
         // プレイヤーの向きを調整
-        HandlPlayerAngle();
+        //HandlPlayerAngle();
     }
 
     //**
@@ -488,6 +494,7 @@ public class CSP_Shot : ActionBase
                 overheat.color = Color.clear;
                 overheatOut.color = Color.clear;
                 Cold = false;
+                overheatText.enabled = false;
             }
             else
             {
@@ -502,6 +509,8 @@ public class CSP_Shot : ActionBase
             float AlphaSpeed = 2f;
             OverHeatAlpha -= AlphaSpeed * Time.deltaTime;
             overheat.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
+
+            overheatText.enabled = true;
         }
 
         //残弾数が0になったら冷却

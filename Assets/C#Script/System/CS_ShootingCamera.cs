@@ -66,11 +66,14 @@ public class CS_ShootingCamera : ActionBase
         currentAcceleration = accelerationCurve.Evaluate(normalizedInput);
 
         // カメラを入力に応じて回転
-        Vector3 rotVec = new Vector3(0, stick.x, 0);
-        rotVec = rotVec.normalized;
-        Vector3 rot = target.rotation.eulerAngles;
-        rot += wideSpeed * rotVec * currentAcceleration * Time.deltaTime;
-        target.rotation = Quaternion.Euler(rot);
+        if ((offsetFocus.y > -5) && (offsetFocus.y < 5f))
+        {
+            Vector3 rotVec = new Vector3(0, stick.x, 0);
+            rotVec = rotVec.normalized;
+            Vector3 rot = target.rotation.eulerAngles;
+            rot += wideSpeed * rotVec * currentAcceleration * Time.deltaTime;
+            target.rotation = Quaternion.Euler(rot);
+        }
 
         // ターゲットの背面にカメラを配置
         Vector3 targetPosition = target.position - (target.forward * cameraDistance);
@@ -81,6 +84,14 @@ public class CS_ShootingCamera : ActionBase
         float movePos = offsetFocus.y + hydeSpeed * stick.y * currentAcceleration * Time.deltaTime;
         offsetFocus.y = Mathf.Lerp(offsetFocus.y, movePos, 0.1f);
 
+        if (offsetFocus.y < -5) 
+        { 
+            offsetFocus.y = -5f;
+        }
+        if (offsetFocus.y > 5f) 
+        { 
+            offsetFocus.y = 5f; 
+        }
     }
 
     //**
