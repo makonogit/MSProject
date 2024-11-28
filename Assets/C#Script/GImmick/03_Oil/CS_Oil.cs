@@ -10,16 +10,18 @@ namespace Assets.C_Script.Gimmick
 {
     public class CS_Oil : MonoBehaviour
     {
-        [SerializeField]
-        private float speed = 2.0f;
+        [SerializeField,Tooltip("滑るスピード")]
+        private float slipSpeed = 2.0f;
+        
         [SerializeField]
         private bool isBurning = false;
         [SerializeField]
         private List<string> tags = new List<string>();
         private Collider myCollider;
-        
+        [SerializeField]
+        private PhysicMaterial burningMaterial;
+
         private Rigidbody myRigidbody;
-        private float nowTime=0.0f;
         private AudioSource myAudioSource;
 
 
@@ -27,9 +29,8 @@ namespace Assets.C_Script.Gimmick
         private static Rigidbody playerRb;
         private static Vector3 oldPlayerPosition;
         private const string playerTag = "Player";
-        private const string burningTag = "Burning";
-        private const float overTime = 1.0f;
-        private const float MaxSpeed = 10.0f;
+        private const string burningTag = "BurningObject";
+        private const float MaxSpeed = 5.0f;
 
 
         private void OnCollisionEnter(Collision collision) => IntoArea(collision.gameObject);
@@ -53,8 +54,8 @@ namespace Assets.C_Script.Gimmick
 
         private void FixedUpdate()
         {
-            if (IsBurning) Burning();
-            else Slip();
+            if (!IsBurning) PlayerSlip();
+            if (playerObj == null) oldPlayerPosition = Vector3.zero;
         }
 
 
@@ -64,6 +65,7 @@ namespace Assets.C_Script.Gimmick
         /// <param name="gameObject"></param>
         private void IntoArea(GameObject gameObject)
         {
+            if (!myRigidbody.isKinematic) myRigidbody.isKinematic = true;
             // Playerが当たったか
             if (playerTag == gameObject.tag) HitPlayer(gameObject);
             // 燃えていたら抜ける
@@ -89,37 +91,22 @@ namespace Assets.C_Script.Gimmick
         /// <summary>
         /// プレイヤーが滑る処理
         /// </summary>
-        private void Slip() 
+        private void PlayerSlip() => PlayerAddSpeed(slipSpeed);
+        
+        /// <summary>
+        /// プレイヤの移動スピードに速度を足す
+        /// </summary>
+        /// <param name="speed"></param>
+        private void PlayerAddSpeed(float speed) 
         {
             if (playerObj == null) return;
             if (!IsPlayerRigidbody) return;
             Vector3 vec = playerRb.position - oldPlayerPosition;
+            // 過去の位置がない時
+            if (oldPlayerPosition == Vector3.zero) vec = playerRb.velocity.normalized;
+            // 現速度が最大速度を超えていないか
             if (playerRb.velocity.magnitude <= MaxSpeed) playerRb.AddForce(vec * speed, ForceMode.Impulse);
             oldPlayerPosition = playerRb.position;
-        }
-
-        /// <summary>
-        /// 燃えている時
-        /// </summary>
-        private void Burning() 
-        {
-            if (playerObj == null) 
-            {
-                nowTime = 0.0f;
-                return; 
-            }
-            
-            if (nowTime >= overTime)
-            {
-                // ダメージ処理
-
-                // 時間のリセット
-                nowTime = 0.0f;
-                myRigidbody.isKinematic = true;
-            }
-
-
-            nowTime += Time.deltaTime;
         }
 
         /// <summary>
@@ -133,7 +120,7 @@ namespace Assets.C_Script.Gimmick
                 // 滑る処理を無効にする
                 if (value == true) 
                 { 
-                    myCollider.material = null;
+                    myCollider.material = burningMaterial;
                     this.tag = burningTag;
                     myRigidbody.isKinematic = false;
                     myAudioSource.loop = true;

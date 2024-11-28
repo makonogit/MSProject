@@ -147,12 +147,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a582979eb1f5b34f8ec079a335b3314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2.5
+  slipSpeed: 2
+  slowlySpeed: -1
   isBurning: 0
   tags:
   - Attack
   - EnergyCore
   - Burning
+  burningMaterial: {fileID: 13400000, guid: 8f5ccea0a06362e478db7b8601b2f9a7, type: 2}
 --- !u!82 &3688941289055411300
 AudioSource:
   m_ObjectHideFlags: 0
