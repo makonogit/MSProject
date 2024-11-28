@@ -105,7 +105,7 @@ public class CSP_Skill : ActionBase
 
     void HandlSkill1()
     {
-        if ((GetInputSystem().GetLeftTrigger() > 0)
+        if (GetInputSystem().GetButtonLPressed()
             && (GetInputSystem().GetButtonAPressed())
             && (!SkillUIList[0].isCraft)
             && (SkillUIList[0].image_inierval.fillAmount == 1)
@@ -143,7 +143,7 @@ public class CSP_Skill : ActionBase
 
     void HandlSkill2()
     {
-        if ((GetInputSystem().GetLeftTrigger() > 0)
+        if (GetInputSystem().GetButtonLPressed()
             && (GetInputSystem().GetButtonBPressed())
             && (!SkillUIList[1].isCraft)
             && (SkillUIList[1].image_inierval.fillAmount == 1)
@@ -181,7 +181,7 @@ public class CSP_Skill : ActionBase
 
     void HandlSkill3()
     {
-        if ((GetInputSystem().GetLeftTrigger() > 0)
+        if (GetInputSystem().GetButtonLPressed()
             && (GetInputSystem().GetButtonYPressed())
             && (!SkillUIList[2].isCraft)
             && (SkillUIList[2].image_inierval.fillAmount == 1)
@@ -215,7 +215,7 @@ public class CSP_Skill : ActionBase
 
     void HandlSkill4()
     {
-        if ((GetInputSystem().GetLeftTrigger() > 0)
+        if (GetInputSystem().GetButtonLPressed()
             && (GetInputSystem().GetButtonXPressed())
             && (!SkillUIList[3].isCraft)
             && (SkillUIList[3].image_inierval.fillAmount == 1)
