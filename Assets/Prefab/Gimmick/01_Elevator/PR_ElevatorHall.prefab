@@ -589,7 +589,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  endPoint: {x: -1.4619999, y: -0.006, z: 0.088999994}
+  endpointObj: {fileID: 694511213086211143}
+  endPoint: {x: -20.911, y: 23.908, z: 15.457026}
   arrivalTime: 0.5
   stick: 1
   Stop: 1
@@ -739,7 +740,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  endPoint: {x: 2.935, y: -0.006, z: 0.088999994}
+  endpointObj: {fileID: 1265351058550345570}
+  endPoint: {x: -20.911, y: 23.908, z: 11.060024}
   arrivalTime: 0.5
   stick: 1
   Stop: 1
