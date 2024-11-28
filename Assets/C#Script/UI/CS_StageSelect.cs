@@ -19,7 +19,7 @@ public class CS_StageSelectUI : MonoBehaviour
     private List<string> SceneName;
 
     private int currentstage = 0;
-    private int maxstage = 0;   //配列で0始まり(解放分)
+    private int maxstage = 1;   //配列で0始まり(解放分)
 
     //====確認画面関係======
     [SerializeField, Header("確認ウィンドウ")]

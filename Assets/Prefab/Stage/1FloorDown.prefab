@@ -29,10 +29,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8423394800690335310}
   - {fileID: 3446505901869985127}
-  - {fileID: 5284108182664699150}
   - {fileID: 6911563902447535127}
+  - {fileID: 5284108182664699150}
+  - {fileID: 8423394800690335310}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &190731927881760933
@@ -416,6 +416,14 @@ PrefabInstance:
     - target: {fileID: 2638550037179893378, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
       propertyPath: m_Name
       value: FloorCornerGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.9
       objectReference: {fileID: 0}
     - target: {fileID: 7389232847316707971, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
       propertyPath: m_IsTrigger
@@ -2440,6 +2448,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloorMiddleGroup (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7094031555833394271, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 7876705669944396094, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -3531,6 +3543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloorMiddleGroup (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7094031555833394271, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7876705669944396094, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -3545,7 +3561,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8813163325091099665, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.999998
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8813163325091099665, guid: 79f9c6bfadc924745a88f1e2aa8aebfe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6002,8 +6018,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloorCornerGroup (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228004520627639200, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.26
+      objectReference: {fileID: 0}
     - target: {fileID: 7389232847316707971, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372531251427737957, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9058613549319056452, guid: cb1da3deb7435b54da4188d10ef9be4c, type: 3}
