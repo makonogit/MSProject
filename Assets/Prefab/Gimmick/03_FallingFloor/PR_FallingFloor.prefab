@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
+  endpointObj: {fileID: 5781428010025391715}
   endPoint: {x: 1.191, y: 2.8500001, z: -3.16}
   arrivalTime: 1
   stick: 1

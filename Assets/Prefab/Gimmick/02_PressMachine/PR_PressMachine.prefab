@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3096777086421269674}
   m_Layer: 0
   m_Name: PR_PressMachine
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
+  endpointObj: {fileID: 4209687023233367961}
   endPoint: {x: -42.898026, y: -0.02999878, z: -52.83436}
   arrivalTime: 3
   stick: 1
@@ -673,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341a3ec2d7cb4fa4b93bcbf7b84e4cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanical: {fileID: 0}
+  mechanical: {fileID: 8141173920577361761}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   color: {r: 0, g: 1, b: 0.033422947, a: 0.50980395}
   lossyScale: 1
