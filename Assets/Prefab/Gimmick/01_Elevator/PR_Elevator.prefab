@@ -58,8 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  moveAudioSource: {fileID: 8911697279668873670}
-  pressAudioSource: {fileID: 0}
+  endpointObj: {fileID: 7871639027744114461}
   endPoint: {x: -0.0012999999, y: 5.0516467, z: 0}
   arrivalTime: 5
   stick: 1

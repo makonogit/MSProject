@@ -14,6 +14,8 @@ namespace Assets.C_Script.Gimmick
     {
         private Vector3 startPoint = new Vector3();
         [SerializeField]
+        GameObject endpointObj;
+        [SerializeField]
         protected Vector3 endPoint = new Vector3();
         [SerializeField, Tooltip("到達時間：\nポイントまでの移動時間")]
         protected float arrivalTime = 1.0f;
@@ -34,6 +36,10 @@ namespace Assets.C_Script.Gimmick
             //割り算を毎ループしないためにここで割る
             arrivalTime = 1.0f / arrivalTime;
             startPoint = transform.position;
+            if (endpointObj != null)
+            {
+                endPoint = endpointObj.transform.position;
+            }
         }
 
         protected override void Execute()

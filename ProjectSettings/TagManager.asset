@@ -14,6 +14,7 @@ TagManager:
   - Gimmick
   - StunObject
   - PushObject
+  - BurningObject
   layers:
   - Default
   - TransparentFX

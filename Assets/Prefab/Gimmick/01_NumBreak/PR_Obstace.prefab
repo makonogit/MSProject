@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 11
   PitchUp: 0.5
-  DebrisParticle: {fileID: 6094323405058740018, guid: 7813c6cb2c62c3646bc40b6f4e397f34, type: 3}
+  DebrisParticle: {fileID: 6094323405058740018, guid: 3c2ae70b5e9f4174da24148d3f8f6398, type: 3}
   numberChanger: {fileID: 7083640246295782353}
   explosion: {fileID: 8300000, guid: 05f2b74dd5418ce4090f90023f4515ab, type: 3}
   hitSound: {fileID: 8300000, guid: 6ac3be23a164ed34b9a50f44977799fc, type: 3}

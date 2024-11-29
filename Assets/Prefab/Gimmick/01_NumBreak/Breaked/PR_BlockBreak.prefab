@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -891,7 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -1240,105 +1240,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1053241189731461545
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 949619771817078395}
-  - component: {fileID: 5931191185957057716}
-  - component: {fileID: 1583451383860937622}
-  - component: {fileID: 4268650923313123285}
-  m_Layer: 11
-  m_Name: NBBBreak16
-  m_TagString: Gimmick
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &949619771817078395
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053241189731461545}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2487732327438858277}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5931191185957057716
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053241189731461545}
-  m_Mesh: {fileID: 7672364483199900092, guid: eb4b09e64c280eb4da83140d7d7c8749, type: 3}
---- !u!23 &1583451383860937622
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053241189731461545}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 257
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c15e935df56fe9a44a1c09489c998f92, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4268650923313123285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053241189731461545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a577d07869baa9f4eb8916e10684e099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
-  isFixedUpdate: 1
-  CountdownStartFlag: 1
 --- !u!1 &1189336465514696996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1486,7 +1387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -1734,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -1982,7 +1883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -2230,7 +2131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -2478,7 +2379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -2726,7 +2627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -2974,7 +2875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -3222,7 +3123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -3470,7 +3371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -3718,7 +3619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -3966,7 +3867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -4214,7 +4115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -4462,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -4710,7 +4611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -4958,7 +4859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -5207,7 +5108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -5455,7 +5356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -5704,7 +5605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -5952,7 +5853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -6200,7 +6101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -6448,7 +6349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -6696,7 +6597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -6944,7 +6845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -7192,7 +7093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -7440,7 +7341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -7688,7 +7589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -7936,7 +7837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -8184,7 +8085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -8432,7 +8333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -8680,7 +8581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -8928,7 +8829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -9176,7 +9077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -9424,7 +9325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -9672,7 +9573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -9920,7 +9821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -10168,7 +10069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -10416,7 +10317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -10664,7 +10565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -10912,7 +10813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -11160,7 +11061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -11408,7 +11309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -11656,7 +11557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -11904,7 +11805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -12152,7 +12053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -12400,7 +12301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -12648,7 +12549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -12896,7 +12797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -13144,7 +13045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -13392,7 +13293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -13640,7 +13541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -13888,7 +13789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -14136,7 +14037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -14384,7 +14285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -14494,6 +14395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487732327438858277}
+  - component: {fileID: 223107424397586858}
   m_Layer: 11
   m_Name: PR_BlockBreak
   m_TagString: Untagged
@@ -14529,7 +14431,6 @@ Transform:
   - {fileID: 5218133268450499336}
   - {fileID: 2302273899935899316}
   - {fileID: 1537348242846105632}
-  - {fileID: 949619771817078395}
   - {fileID: 3467997176998374445}
   - {fileID: 1006347506703811447}
   - {fileID: 7563369993523286535}
@@ -14607,6 +14508,18 @@ Transform:
   - {fileID: 217582554249634007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &223107424397586858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094323405058740018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7d10d5dc470a044a8dc47516336cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6120061606412767818
 GameObject:
   m_ObjectHideFlags: 0
@@ -14754,7 +14667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -15002,7 +14915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -15250,7 +15163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -15498,7 +15411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -15746,7 +15659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -15994,7 +15907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -16242,7 +16155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -16490,7 +16403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -16739,7 +16652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -16987,7 +16900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -17235,7 +17148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -17483,7 +17396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -17731,7 +17644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -17979,7 +17892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -18227,7 +18140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -18475,7 +18388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -18723,7 +18636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -18971,7 +18884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -19219,7 +19132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -19467,7 +19380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -19715,7 +19628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -19963,7 +19876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -20211,7 +20124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -20460,7 +20373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -20709,7 +20622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -20957,7 +20870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -21205,7 +21118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -21453,7 +21366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -21701,7 +21614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -21949,7 +21862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -22198,7 +22111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
@@ -22446,7 +22359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b50d3ff8e4c2964ebd97e229cbe3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomDeleteTimeConstans: {x: 2.5, y: 5}
+  randomDeleteTimeConstans: {x: 0.5, y: 1}
   isFixedUpdate: 1
   CountdownStartFlag: 0
   VelocityRange: {x: 0.5, y: 10}
