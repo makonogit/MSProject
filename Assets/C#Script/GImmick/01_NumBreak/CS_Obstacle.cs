@@ -77,7 +77,7 @@ namespace Assets.C_Script.Gimmick
                 // あたり判定非アクティブ
                 collider.enabled = false;
                 // 壊れる演出
-                Instantiate(DebrisParticle, transform.position, Quaternion.identity);
+                CS_BreakBlockManager.CallBreakBlock(transform.position, transform.rotation, transform.localScale);
             }
             // 効果音が終わったら消す
             if(!audioSource.isPlaying)Destroy(this.gameObject);
