@@ -16,9 +16,7 @@ namespace Assets.C_Script.Gimmick
         private float PitchUp = 0.5f;
         // 読み取り用
         public int HP { get { return hp; } }
-        [SerializeField]
-        private GameObject DebrisParticle;
-
+        
         [SerializeField]
         private CS_NumberChanger numberChanger;
 
