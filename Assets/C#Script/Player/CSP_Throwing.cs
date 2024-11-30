@@ -120,33 +120,47 @@ public class CSP_Throwing : ActionBase
                 //    }
                 //}
 
-                // ラインレンダーの初期値位置を更新
-                if (targetObject != null)
-                {
-                    positions.Add(targetObject.transform.position);
-                    lineRenderer.positionCount = positions.Count;
-                    lineRenderer.SetPositions(positions.ToArray());
-                }
-                else
-                {
-                    GetAnimator().SetBool("Mount", false);
-                }
+                //// ラインレンダーの初期値位置を更新
+                //if (targetObject != null)
+                //{
+                //    positions.Add(targetObject.transform.position);
+                //    lineRenderer.positionCount = positions.Count;
+                //    lineRenderer.SetPositions(positions.ToArray());
+                //}
+                //else
+                //{
+                //    GetAnimator().SetBool("Mount", false);
+                //}
 
-                // 投げる時のコアの位置を更新
-                // 投げる軌道を予測して描画
-                if ((GetInputSystem().GetLeftTrigger() > 0) && (targetObject != null) && (!GetInputSystem().GetButtonBPressed()))
-                {
-                    GetAnimator().SetBool("Throwing", true);
+                //// 投げる時のコアの位置を更新
+                //// 投げる軌道を予測して描画
+                //if ((GetInputSystem().GetLeftTrigger() > 0) && (targetObject != null) && (!GetInputSystem().GetButtonBPressed()))
+                //{
+                //    GetAnimator().SetBool("Throwing", true);
 
-                    lineRenderer.enabled = true;
+                //    lineRenderer.enabled = true;
 
-                    Vector3 offset = new Vector3(0, 2.5f, 0);
-                    targetObject.transform.position = transform.position + offset;
+                //    Vector3 offset = new Vector3(0, 2.5f, 0);
+                //    targetObject.transform.position = transform.position + offset;
 
-                    DrawTrajectory();
-                }
+                //    DrawTrajectory();
+                //}
+                //// 背負う時のコアの位置を更新
+                //else if (targetObject != null)
+                //{
+                //    Vector3 offset = new Vector3(0, 1.0f, 0);
+                //    Vector3 backPosition = transform.position - transform.forward * distance;
+                //    targetObject.transform.position = backPosition + offset;
+                //    targetObject.transform.rotation = Quaternion.identity;
+                //    rb.useGravity = false;
+
+                //    targetObject.transform.rotation = Quaternion.Euler(fixedRotation);
+                //}
+
+                //oldLeftTrigger = GetInputSystem().GetLeftTrigger();
+
                 // 背負う時のコアの位置を更新
-                else if (targetObject != null)
+                if (targetObject != null)
                 {
                     Vector3 offset = new Vector3(0, 1.0f, 0);
                     Vector3 backPosition = transform.position - transform.forward * distance;
@@ -156,8 +170,6 @@ public class CSP_Throwing : ActionBase
 
                     targetObject.transform.rotation = Quaternion.Euler(fixedRotation);
                 }
-
-                oldLeftTrigger = GetInputSystem().GetLeftTrigger();
             }
         }
 

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Specialized;
 
 public class CSP_Shot : ActionBase
 {
@@ -77,6 +78,11 @@ public class CSP_Shot : ActionBase
     private UnityEngine.UI.Image lockon;
     private RectTransform rectTransform;
 
+    [SerializeField, Header("カメラターゲット")]
+    private GameObject cameraTarget; 
+    [SerializeField, Header("エイムターゲット")]
+    private GameObject aimTarget;
+
     private bool Cold = false;  //冷却中かどうか
     private float OverHeatAlpha = 0f;    //オーバーヒート中の画像の透明度(徐々に赤くする)
 
@@ -114,7 +120,7 @@ public class CSP_Shot : ActionBase
         HandlAutoaim();
 
         // レティクル処理
-        //HandlReticle();
+        HandlReticle();
 
         // 照準処理
         if (GetInputSystem().GetLeftTrigger() > 0.1f)
@@ -162,7 +168,7 @@ public class CSP_Shot : ActionBase
         HandlOverheat();
 
         // プレイヤーの向きを調整
-        //HandlPlayerAngle();
+        HandlPlayerAngle();
     }
 
     //**
@@ -174,10 +180,10 @@ public class CSP_Shot : ActionBase
     void HandlReticle()
     {
 
-        //// レティクルとターゲットを初期化
-        ////detectionImage.color = notDetectedColor;
+        // レティクルとターゲットを初期化
+        //detectionImage.color = notDetectedColor;
         //detectionImage.sprite = notDetectedSprite;
-        //targetObject = null;
+        targetObject = null;
 
 
         //// カメラ正面からレイを作成
@@ -189,23 +195,12 @@ public class CSP_Shot : ActionBase
         //// レティクル内に破壊可能オブジェクトがあるか判定
         //foreach (RaycastHit hit in hits)
         //{
-        //    //// ヒットした場合の処理
-        //    //if (targetTag.Contains(hit.collider.tag))
-        //    //{
-        //    //    // レティクルを変更
-        //    //    detectionImage.sprite = detectedSprite;
-        //    //    break;
-        //    //}
-
-        //    //----- コフィンのHPゲージ表示 ------------
-        //    if (hit.collider.tag == "Emnemy")
+        //    // ヒットした場合の処理
+        //    if (targetTag.Contains(hit.collider.tag))
         //    {
-        //        hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
-
-        //        if (cofine) { cofine.ViewHPGage(); }
-
+                
+        //        break;
         //    }
-
         //}
 
         //// レティクルをオートエイム用に切り替え
@@ -525,25 +520,46 @@ public class CSP_Shot : ActionBase
      */
     void HandlPlayerAngle()
     {
-        // プレイヤーの向きを調整
-        float offsetAngle = 45f; // オフセット値
+        // 回転軸を計算
+        Vector3 axis = Vector3.Cross(transform.forward, cameraTarget.transform.forward);
 
-        // カメラの前方ベクトルを取得
-        Vector3 cameraForward = Camera.main.transform.forward;
+        // 角度を計算
+        float angle = Vector3.Angle(transform.forward, cameraTarget.transform.forward) * (axis.y < 0 ? -1 : 1);
 
-        // プレイヤーの正面ベクトルを取得
-        Vector3 playerForward = transform.forward;
-
-        // カメラの正面とプレイヤーの正面の角度を計算
-        float angle = Vector3.Angle(cameraForward, playerForward);
-
-        // オフセット値を考慮して確認
-        if (angle > offsetAngle)
+        // 角度が閾値より大きい場合のみ回転を行う
+        if (Mathf.Abs(angle) > 45f)
         {
-            // プレイヤーをカメラの方向に向ける
-            Vector3 targetDirection = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5fは回転速度を調整
+            transform.rotation = Quaternion.Slerp(transform.rotation, cameraTarget.transform.rotation, 2f * Time.deltaTime);
+            cameraTarget.transform.rotation = Quaternion.Slerp(cameraTarget.transform.rotation, transform.rotation, 2f * Time.deltaTime);
+        }
+        else
+        {
+            GetAnimator().SetFloat("Turn", 0f);
+        }
+
+        // Aimのずらす方向を調整
+        Vector2 stick = GetInputSystem().GetRightStick();
+        if (stick.x > 0.3f)
+        {
+            aimTarget.transform.localPosition = Vector3.Lerp(
+            aimTarget.transform.localPosition,
+            new Vector3(3, 1, 1),
+            1f * Time.deltaTime
+            );
+
+            if (Mathf.Abs(angle) > 30f)
+                GetAnimator().SetFloat("Turn", 1f);
+        }
+        else if (stick.x < -0.3f)
+        {
+            aimTarget.transform.localPosition = Vector3.Lerp(
+            aimTarget.transform.localPosition,
+            new Vector3(1, 1, 1),
+            1f * Time.deltaTime
+            );
+
+            if (Mathf.Abs(angle) > 45f)
+                GetAnimator().SetFloat("Turn", -1f);
         }
     }
 
