@@ -17,6 +17,10 @@ namespace Assets.C_Script.GameEvent
         [SerializeField,Tooltip("撃つ")]
         private CSP_Shot shot;
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.transform.tag == "Player") StartEvent();
+        }
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player") StartEvent();
