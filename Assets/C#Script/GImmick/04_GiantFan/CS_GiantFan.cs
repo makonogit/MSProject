@@ -49,17 +49,20 @@ namespace Assets.C_Script.Gimmick
             if (rigidbodies.Count == 0) return;
             for (int i = 0; i < rigidbodies.Count; i++) 
             {
+                if (rigidbodies[i] == null) continue;
                 if (rigidbodies[i].transform.name == other.transform.name) rigidbodies.Remove(rigidbodies[i]);
-            }
-            foreach (var rb in rigidbodies) 
-            {
-               if (rb.transform.name ==  other.transform.name) rigidbodies.Remove(rb);
             }
         }
 
         private void FixedUpdate()
         {
-            if(type == Type.Infinity || IsRun) foreach(var rigidbody in rigidbodies)ForceWind(rigidbody);
+            if (type == Type.Infinity || IsRun) 
+            {
+                for (int i = 0; i < rigidbodies.Count; i++) 
+                {
+                    if (rigidbodies[i] != null) ForceWind(rigidbodies[i]);
+                }
+            }
             nowTime -= Time.deltaTime;
         }
 
@@ -95,8 +98,8 @@ namespace Assets.C_Script.Gimmick
             time /= startupTime;
             float force = startupForceCurve.Evaluate(time) * windPower;
             Vector3 forceVec = this.transform.forward * force;
-            if (rb.tag == "Player")rb.velocity += forceVec;    
-            else rb.AddForce(forceVec,ForceMode.Impulse);
+            if (rb != null && rb.tag == "Player") rb.velocity += forceVec;
+            else rb.AddForce(forceVec, ForceMode.Impulse);
 
         }
     }
