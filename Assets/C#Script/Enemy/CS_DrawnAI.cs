@@ -2,21 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /// <summary>
 /// 担当：菅　ドローンの敵AI
 /// </summary>
 public class CS_DrawnAI : MonoBehaviour
 {
+    private CS_EnemyManager EnemyManager;        //敵の管理用スクリプト
+
+    [Header("確認用、触らない！")]
+    [SerializeField]
+    private Vector3[] path;
+
+    [SerializeField]
+    private int CurrentPathNum = 1;     //現在の経路のインデックス(1始まり)
+
     [Header("各パラメータ")]
     [SerializeField, Tooltip("HP")]
     private float HP = 80.0f;
+    private float NowHP;        //現在のHP
     [SerializeField, Tooltip("移動速度")]
     private float MoveSpeed = 3f;
     [SerializeField, Tooltip("攻撃間隔")]
     private float AttackSpace = 10.0f;
     [SerializeField, Tooltip("移動速度低下付与時間")]
     private float MoveSpeedDownTime = 3f;
+    [SerializeField, Tooltip("移動速度低下率")]
+    [Range(0,1)]private float MoveSpeedDownParsentage = 0.5f;
     [SerializeField, Tooltip("逃走判定距離")]
     private float RunAwayDistance = 5f;
     [SerializeField, Tooltip("最大逃走時間")]
@@ -40,6 +53,10 @@ public class CS_DrawnAI : MonoBehaviour
     private float progress = 0f;              // 弾道予測線表示割合
     [SerializeField, Tooltip("最大逃走距離")]
     private float MaxRanAwayDistance = 15f;
+    [SerializeField, Tooltip("死んだ時の空き缶生成数")]
+    private int DethCanNum = 3;
+    [SerializeField, Tooltip("プレイヤーから離れて飛ぶ高さ")]
+    private float ApploachY = 1f;
 
     [Header("------------サワルナキケン--------------")]
     [SerializeField, Tooltip("NavMesh")]
@@ -50,8 +67,10 @@ public class CS_DrawnAI : MonoBehaviour
     private float CreateBallDistance = 0.5f;
     [SerializeField, Tooltip("空き缶")]
     private GameObject Can;
-    [SerializeField, Tooltip("死んだ時の空き缶生成数")]
-    private int DethCanNum = 3;
+    [SerializeField, Tooltip("HPゲージ")]
+    private Image HPGage;
+    [SerializeField,Tooltip("ゲージキャンバス")]
+    private GameObject HPCanvas;
     [SerializeField, Tooltip("Rayを可視化するLineRenderer")] 
     private LineRenderer lineRenderer;
 
@@ -61,7 +80,7 @@ public class CS_DrawnAI : MonoBehaviour
     private bool CreateBallTrigger = false; //弾を生成したトリガー
     private Vector3 CreateVec;              //生成する向き
 
-    private int CurrentPathNum = 1;     //現在の経路のインデックス(1始まり)
+   
 
     private Transform PlayerTrans;      //プレイヤーの位置
 
@@ -77,6 +96,7 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
     [SerializeField]private DrawnState state;   //現在の状態
+    private Vector3 CurrentTargetPos;   //現在の目標位置
     private Rigidbody ThisRb;   //自分のRigitBody
   
     //攻撃状態
@@ -90,9 +110,13 @@ public class CS_DrawnAI : MonoBehaviour
 
     [SerializeField] private DrawnAttackState attackstate;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        //HPを保存
+        NowHP = HP;
+
         //始点と終点を初期化
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, transform.position);
@@ -105,23 +129,53 @@ public class CS_DrawnAI : MonoBehaviour
         //RigitBodyを取得
         TryGetComponent<Rigidbody>(out ThisRb);
 
+        //親からマネージャーを取得
+        transform.parent.TryGetComponent<CS_EnemyManager>(out EnemyManager);
+
         //プレイヤーの状態をスポナーから取得
-        PlayerTrans = CS_SpawnerInfo.GetPlayerTrans();
+        PlayerTrans = EnemyManager.GetPlayerTrans();
+
 
         //自前の移動を行うためにAgentの自動更新を無効化
         agent.updatePosition = false;
         agent.updateRotation = false;
 
         currentCoroutine = null;
+
         //目標を設定
-        agent.SetDestination(PlayerTrans.position);
+        SetTarget(PlayerTrans.position);
+    }
+
+    /// <summary>
+    /// 目標設定
+    /// </summary>
+    /// <param 目標座標="pos"></param>
+    private void SetTarget(Vector3 pos)
+    {
+        NavMeshHit hit;
+        bool Target = NavMesh.SamplePosition(pos, out hit, 100, NavMesh.AllAreas);
+        if (Target)
+        {
+            agent.SetDestination(pos);
+            CurrentTargetPos = pos; //現在の目標を設定
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        ActionTable();
+        path = agent.path.corners;
 
+       
+        //HPゲージの処理
+        HPGage.fillAmount = NowHP / HP;
+        HPCanvas.transform.LookAt(PlayerTrans);
+        if (HPCanvas.activeSelf)
+        {
+            StartCoroutine(EndViewHP());
+        }
+
+        ActionTable();
 
         //死んでたら処理しない
         if (state == DrawnState.DETH) { return; }
@@ -135,14 +189,38 @@ public class CS_DrawnAI : MonoBehaviour
         bool RanAway = Distance <= RunAwayDistance;      //プレイヤーが近づいたら逃げる
 
         //一定距離まで追跡
-        if (Tracking && state == DrawnState.IDEL) { ChangeState(DrawnState.TRACKING); }
+        if (Tracking && (state == DrawnState.IDEL || attackstate == DrawnAttackState.NEXTATTACKSPACE)) { ChangeState(DrawnState.TRACKING); }
         //追跡中に一定距離まで近づいたらチャージ
         if(!Tracking && state == DrawnState.TRACKING) { ChangeState(DrawnState.CHARGE); }
         
         //逃走(チャージ時と攻撃時は逃げない？)
         if (RanAway && (state != DrawnState.ATTACK || state != DrawnState.CHARGE )) { ChangeState(DrawnState.FLEEING); }
 
-        
+
+        //Y軸のみ常にプレイヤーの近くを飛行
+        {
+            // Y軸方向の移動計算
+            float targetY = PlayerTrans.position.y + ApploachY;        //プレイヤーのY座標
+            float currentY = transform.position.y;              //敵の現在のY座標
+
+            float yDistance = Mathf.Abs(targetY - currentY);        // 距離を計算
+            float ySpeed = 0f;
+            //近づけてない時だけ更新
+            if (yDistance > 0.1f)
+            {
+                //固定解除
+                ThisRb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                float yDirection = Mathf.Sign(targetY - currentY); // 上下方向を計算
+                ySpeed = yDirection * MoveSpeed; // Y方向の移動速度を設定
+            }
+            else
+            {
+                //Y軸固定
+                ThisRb.constraints = RigidbodyConstraints.FreezePositionY;
+            }
+
+            ThisRb.velocity = new Vector3(ThisRb.velocity.x, ySpeed, ThisRb.velocity.z);
+        }
         if (state != DrawnState.ATTACK || state != DrawnState.CHARGE) { Move(); }//移動
     }
 
@@ -155,7 +233,8 @@ public class CS_DrawnAI : MonoBehaviour
         if(agent.path.corners.Length < 2) { return; }
 
         //チャージ中と攻撃中は動かない
-        if (attackstate != DrawnAttackState.NEXTATTACKSPACE && (state == DrawnState.CHARGE || state == DrawnState.ATTACK))
+        if ((attackstate == DrawnAttackState.NEXTATTACKSPACE && state == DrawnState.ATTACK) ||
+            (attackstate != DrawnAttackState.NEXTATTACKSPACE && (state == DrawnState.CHARGE || state == DrawnState.ATTACK)))
         {
             //プレイヤーの向きを向く
             if (attackstate != DrawnAttackState.ATTACKWAIT){ transform.LookAt(PlayerTrans); }
@@ -172,6 +251,13 @@ public class CS_DrawnAI : MonoBehaviour
         float forward_x = transform.forward.x * MoveSpeed;
         float forward_z = transform.forward.z * MoveSpeed;
 
+        // Y軸方向の移動計算
+        float targetY = PlayerTrans.position.y + ApploachY;        //プレイヤーのY座標
+        float currentY = transform.position.y;              //敵の現在のY座標
+        float yDirection = Mathf.Sign(targetY - currentY);  //上下方向を計算
+
+        float ySpeed = yDirection * MoveSpeed; // Y方向の移動速度を設定（調整可能）
+
         ThisRb.velocity = new Vector3(forward_x, ThisRb.velocity.y, forward_z);
 
         // 進行方向に向けて回転させる
@@ -184,18 +270,23 @@ public class CS_DrawnAI : MonoBehaviour
         }
 
         // 次の経路点に到達した場合、次の経路点へ進む
-        if (Vector3.Distance(currentPosition, nextWaypoint) < 0.1f)
+        currentPosition.y = 0;
+        nextWaypoint.y = 0;
+        float dis = Vector3.Distance(currentPosition, nextWaypoint);
+        Debug.Log(dis);
+        if (dis < 1.5f)
         {
             // 次の経路点に進むためにインデックスを更新
             if (CurrentPathNum < agent.path.corners.Length - 1)
             {
                 CurrentPathNum++;  // インデックスを進める
             }
-            else
-            {
-                CurrentPathNum = 1;
-            }
+          
         }
+        //else
+        //{
+        //    Debug.Log(currentPosition + ""+ nextWaypoint);
+        //}
 
     }
 
@@ -215,7 +306,8 @@ public class CS_DrawnAI : MonoBehaviour
             currentCoroutine = null;
         }
 
-        agent.SetDestination(transform.position);
+        SetTarget(transform.position);
+        //agent.SetDestination(transform.position);
 
         //予測線の初期化
         lineRenderer.SetPosition(0, transform.position);
@@ -297,8 +389,10 @@ public class CS_DrawnAI : MonoBehaviour
     /// </summary>
     private void Tracking()
     {
+        if(agent.destination == PlayerTrans.position) { return; }
         //目標を設定
-        agent.SetDestination(PlayerTrans.position);
+        SetTarget(PlayerTrans.position);
+        //agent.SetDestination(PlayerTrans.position);
     }
 
     /// <summary>
@@ -316,7 +410,9 @@ public class CS_DrawnAI : MonoBehaviour
             case DrawnAttackState.NONE:
 
                 //予測線の表示
-                lineRenderer.SetPosition(0, transform.position);    // 始点
+                Vector3 startpos = transform.position;
+                startpos.y += 1.5f; //モデルのずれ
+                lineRenderer.SetPosition(0,startpos);    // 始点
 
                 //線を射出する形で表示
                 if (progress < 1f)
@@ -348,6 +444,7 @@ public class CS_DrawnAI : MonoBehaviour
                      lineRenderer.startColor = AttackWaitColor;
                      lineRenderer.endColor = AttackWaitColor;
                      CreateVec = PlayerTrans.position;  //生成方向を確定
+                     CreateVec.y += 0.5f;
                      ChangeAttackState(DrawnAttackState.ATTACKWAIT);
                  }));
                 break;
@@ -381,6 +478,8 @@ public class CS_DrawnAI : MonoBehaviour
         //自分の前方に生成位置を計算
         Vector3 spawnPosition = transform.position + transform.forward * CreateBallDistance;
 
+        spawnPosition.y += 1.5f;    //モデルのずれ
+
         //目標の方向を計算(プレイヤー)
         Vector3 directionToTarget = (CreateVec - spawnPosition).normalized;
 
@@ -388,7 +487,10 @@ public class CS_DrawnAI : MonoBehaviour
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
 
         //弾オブジェクトを生成
-        Instantiate(BallObj, spawnPosition, rotationToTarget);
+        GameObject ball = Instantiate(BallObj, spawnPosition, rotationToTarget);
+        //弾に速度低下を付与
+        ball.TryGetComponent<CS_AirBall>(out CS_AirBall airball);
+        if (airball) { airball.SetSpeedDown(MoveSpeedDownTime, MoveSpeedDownParsentage); }
 
         CreateBallTrigger = true;
 
@@ -445,16 +547,18 @@ public class CS_DrawnAI : MonoBehaviour
         //死んでたら無視
         if(state == DrawnState.DETH) { return; }
         bool AttackHit = other.tag == "Attack";
-
+       
         //弾に当たったらHP減少
         if(AttackHit)
         {
             other.TryGetComponent<CS_AirBall>(out CS_AirBall ball);
+            
             if (!ball) { return; }
-            HP -= ball.Power;
+            if (ball.GetEnemyType()) { return; }    //敵からの弾なら無視
+            NowHP -= ball.Power;
 
             //死亡
-            if(HP <= 0) 
+            if(NowHP <= 0) 
             {
                 //缶を生成
                 for(int i = 0; i<DethCanNum;i++)
@@ -467,12 +571,29 @@ public class CS_DrawnAI : MonoBehaviour
 
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    //死んでてどっかに当たったら消去
-    //    if(state == DrawnState.DETH) { Destroy(this.gameObject); }
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        //どっかにあったったら退避
+        //新しい経路を設定
+        Vector3 newTarget = transform.position + Vector3.back * 1f; // 後ろに退避
+        SetTarget(newTarget);
 
+        //死んでてどっかに当たったら消去
+        if (state == DrawnState.DETH) { Destroy(this.gameObject); }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("うわああ");
+        //どっかにあったったら退避
+        //新しい経路を設定
+        if (collision.transform.tag != "Enemy")
+        {
+            Vector3 newTarget = transform.position + Vector3.back * 3f; // 後ろに退避
+
+            SetTarget(newTarget);
+        }
+    }
 
     /// <summary>
     /// 攻撃状態の変更
@@ -502,5 +623,29 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// HPを表示するコルーチン
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator EndViewHP()
+    {
+        yield return new WaitForSeconds(3f);
+
+        //再び非表示に
+        HPCanvas.SetActive(false);
+
+    }
+
+    /// <summary>
+    /// HPゲージの表示
+    /// </summary>
+    public void ViewHPGage()
+    {
+        HPCanvas.SetActive(true);
+    }
+
+
+    
 
 }

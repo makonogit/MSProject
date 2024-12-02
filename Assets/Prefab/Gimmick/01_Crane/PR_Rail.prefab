@@ -1004,6 +1004,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
+  startUnit: {fileID: 2330619930972186288}
+  endUnit: {fileID: 2843215411027220755}
+  arm: {fileID: 1870166547662409516}
 --- !u!82 &4234835224268751379
 AudioSource:
   m_ObjectHideFlags: 0

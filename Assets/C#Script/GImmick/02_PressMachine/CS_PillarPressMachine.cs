@@ -11,15 +11,19 @@ namespace Assets.C_Script.Gimmick
     {
         private AudioSource audioSource;
         [SerializeField]
+        private bool noDamage = false;
+        [SerializeField]
         private int hp = 5;
         [SerializeField]
         private CS_PressMachine pressMachine;
+        private Transform Base;
         [SerializeField]
         private Rigidbody rb;
         private const string attackTag = "Attack";
         private void Start()
         {
             if (!TryGetComponent(out audioSource)) Debug.LogError("null AudioSource component");
+            Base = this.transform.parent.parent;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -31,15 +35,26 @@ namespace Assets.C_Script.Gimmick
         {
             if (other.tag == attackTag) HitDamage(1);
         }
+        private void FixedUpdate()
+        {
+            Vector3 scale = this.transform.localScale;
+            if(pressMachine != null) scale.y = Base.position.y - pressMachine.transform.position.y;
+            scale.y *= 0.5f;
+            this.transform.localScale = scale;
+        }
 
         private void HitDamage(int damage) 
         {
+            if (noDamage) return;
             hp -= damage;
             if (hp <=0 )
             {
                 rb.isKinematic = false;
-                pressMachine.Power = false;
-                pressMachine.StopSounds();
+                if (pressMachine != null) 
+                {
+                    pressMachine.Power = false;
+                    pressMachine.StopSounds();
+                }
                 audioSource.Play();
             }
             

@@ -19,9 +19,10 @@ public class CS_Break : MonoBehaviour
     [SerializeField]
     private int CurrentBreakAreaNum = 0;    //現在の崩壊エリア番号
 
-
     [SerializeField, Header("崩壊するエリア※順番に登録")]
     private List<GameObject> BreakArea;
+
+    public void SetBreakList(List<GameObject> list) { BreakArea = list; }
 
     [SerializeField, Header("崩壊スピード")]
     private float BreakSpeed = 1.0f;
@@ -151,7 +152,7 @@ public class CS_Break : MonoBehaviour
         {
             Transform childtrans = CurrentAlartObj.transform.GetChild(i).transform;
             childtrans.position = WorldCorners[i];
-            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.025f, childtrans.localScale.y, childtrans.localScale.z * 0.025f);
+            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.08f, childtrans.localScale.y, childtrans.localScale.x * 0.08f);
             //アラートのサイズ倍率0.025f
         }
 
@@ -168,7 +169,7 @@ public class CS_Break : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(BreakArea[CurrentBreakAreaNum].transform.position, BreakArea[CurrentBreakAreaNum].transform.localScale);
+        if(BreakArea.Count > 0)Gizmos.DrawCube(BreakArea[CurrentBreakAreaNum].transform.position, BreakArea[CurrentBreakAreaNum].transform.localScale);
     }
 
 }

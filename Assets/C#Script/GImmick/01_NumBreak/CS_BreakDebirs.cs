@@ -6,7 +6,7 @@
 using UnityEngine;
 namespace Assets.C_Script.Gimmick
 {
-    public class CS_BreakDebirs:CS_TimeDelete
+    public class CS_BreakDebirs:CS_TimeOff
     {
         protected AudioSource audioSource;
         protected Rigidbody rigidbody;
@@ -16,13 +16,14 @@ namespace Assets.C_Script.Gimmick
         protected Vector2 VelocityRange = new Vector2(0.5f, 10.0f);
         [SerializeField, Tooltip("ピッチの範囲:\n X ＝ 下限　Y ＝ 上限\n")]
         protected Vector2 PitchRange = new Vector2(0.75f, 2.0f);
+        [SerializeField]
         private const float soundVelocity = 1.8f;
         
 
         private void OnCollisionEnter(UnityEngine.Collision collision)
         {
             PlaySound();
-            if (this.tag != collision.transform.tag) CountdownStartFlag = true;
+            CountdownStartFlag = true;
         }
 
         protected override void Start()
@@ -30,8 +31,32 @@ namespace Assets.C_Script.Gimmick
             base.Start();
             if (!TryGetComponent(out rigidbody)) Debug.LogError("null Rigidbody component");
             if (!TryGetComponent(out audioSource)) Debug.LogError("null AudioSource component");
-            CountdownStartFlag = false;
         }
+
+        protected void OnDisable()
+        {
+            if (rigidbody == null)return;
+            rigidbody.useGravity = false;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.isKinematic = true;
+        }
+
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        protected override void Init()
+        {
+            base.Init();
+            CountdownStartFlag = false;
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.identity;
+            if (rigidbody == null) return;
+            rigidbody.useGravity = true;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.isKinematic = false;
+        }
+
+
         // 以下より効果音関係の関数のみ
 
         /// <summary>
@@ -41,7 +66,7 @@ namespace Assets.C_Script.Gimmick
         {
             if (rigidbody == null) return;
             if (audioSource == null) return;
-            if (rigidbody.velocity.magnitude <= soundVelocity)return;
+            if (rigidbody.velocity.sqrMagnitude <= soundVelocity * soundVelocity) return;
             audioSource.pitch = GetPitch(PitchRange);
             audioSource.Play();
         }

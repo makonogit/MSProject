@@ -6,6 +6,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 using Assets.C_Script.Gimmick;
+using System.Net;
 
 namespace Assets.C_Script.Gimmick
 {
@@ -15,6 +16,12 @@ namespace Assets.C_Script.Gimmick
         private float duration;
         private bool Return = false;
         private AudioSource audioSource;
+        [SerializeField]
+        private Transform startUnit;
+        [SerializeField]
+        private Transform endUnit;
+        [SerializeField]
+        private Transform arm;
 
         protected override void Start()
         {
@@ -23,6 +30,7 @@ namespace Assets.C_Script.Gimmick
             splineAnimate.ElapsedTime = 0.01f;
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) Debug.LogError("null component");
+            SetUnitPosition();
         }
 
         override protected void FixedUpdate()
@@ -71,6 +79,38 @@ namespace Assets.C_Script.Gimmick
                 }
                 return false;
             }
+        }
+
+        private void SetUnitPosition() 
+        {
+            if (splineAnimate == null) return;
+            if (startUnit == null) return;
+            if (endUnit == null) return;
+            if (arm == null) return;
+            Vector3 position= Vector3.zero;
+            // スタートポイントの設定
+            float time = splineAnimate.ElapsedTime;
+            // エンドポイントの設定
+            {
+                // エンド位置に設定
+                splineAnimate.ElapsedTime = splineAnimate.Duration;
+                // 位置の取得
+                position = arm.transform.position;
+                position.y = endUnit.position.y;
+                endUnit.position = position;
+            }
+
+            {
+                // スタート位置に設定
+                splineAnimate.ElapsedTime = 0;
+                // 位置の取得
+                position = arm.transform.position;
+                position.y = startUnit.position.y;
+                startUnit.position = position;
+            }
+            // 元に戻す
+            splineAnimate.ElapsedTime = time;
+
         }
     }
 }

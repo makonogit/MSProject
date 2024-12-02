@@ -58,7 +58,7 @@ namespace Assets.C_Script.Electric
             Vector3 scale = transform.localScale;
             
             if (lossyScale)scale = transform.lossyScale;
-            Gizmos.DrawMesh(mesh, 0, pos, this.transform.rotation, scale);
+            for (int i = 0; i < mesh.subMeshCount; i++)Gizmos.DrawMesh(mesh, i, pos, this.transform.rotation, scale);
         }
 
         public Vector3 GetPosition() 

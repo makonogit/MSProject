@@ -105,6 +105,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: -3912707464909264312, guid: 40fe48a8cf83e5748bda41305916f548, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 40fe48a8cf83e5748bda41305916f548, type: 3}
       propertyPath: m_Name
       value: StairsBlockIn
