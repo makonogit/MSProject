@@ -11,20 +11,24 @@ public class CS_CofineAI : MonoBehaviour
 {
     public enum Cofin_State
     {
-        IDEL,       //待機
-        KANAMECHASE,    //カナメを追いかける
-        ENEMYCHASE,     //他のEnemyを追いかける    
-        CORECHASE,      //コアを追いかける
-        KANAMEATTACK,   //飛びつき攻撃
-        CORESTEAL,      //コアを取得
-        GOHOME,         //帰宅
-        INTIMIDATION,   //威嚇
-        FALL,           //落下
-        DETH,           //死亡
+        IDEL,                //待機
+        MOVE,                //移動状態
+        KANAMECHASE,         //カナメを追いかける
+        ENEMYCHASE,          //他のEnemyを追いかける    
+        CORECHASE,           //コアを追いかける
+        KANAMEATTACKLOTTERY, //攻撃抽選
+        KANAMEATTACK,        //飛びつき攻撃
+        CORESTEAL,           //コアを取得
+        GOHOME,              //帰宅
+        INTIMIDATION,        //威嚇
+        FALL,                //落下
+        DETH,                //死亡
     }
 
     [SerializeField, Tooltip("ENEMYSTATE")]
     private Cofin_State state;
+
+    public Cofin_State GetState() => state; //状態を取得
 
     [Header("-----------------------------------------------")]
 
@@ -52,6 +56,7 @@ public class CS_CofineAI : MonoBehaviour
     private Transform PlayerTrans;  //プレイヤーの位置
 
     private Vector3 TargetPos;                        //追跡ターゲットの座標
+
     //private Vector3 TargetDirection;                 //追跡ターゲットの向き
     //private Quaternion CurrentDestinationsRotate;    //現在の目標向き
 
@@ -95,17 +100,22 @@ public class CS_CofineAI : MonoBehaviour
     private Image HPGage;
     [SerializeField]
     private GameObject HPCanvas;
+   
 
+    private CS_EnemyManager EnemyManager;        //敵の管理用スクリプト
 
     // Start is called before the first frame update
     void Start()
     {
-        state = Cofin_State.IDEL;
+        state = Cofin_State.MOVE;
+
+        //親からマネージャーを取得
+        transform.parent.TryGetComponent<CS_EnemyManager>(out EnemyManager);
        
-        //コアとプレイヤーの状態をスポナーから取得
-        Corestate = CS_SpawnerInfo.GetCoreState();
-        CoreTrans = CS_SpawnerInfo.GetCoreTrans();
-        PlayerTrans = CS_SpawnerInfo.GetPlayerTrans();
+        //コアとプレイヤーの状態をマネージャーから取得
+        Corestate = EnemyManager.GetCS_Core();
+        CoreTrans = EnemyManager.GetCoreTrans();
+        PlayerTrans = EnemyManager.GetPlayerTrans();
 
         //HPゲージを設定
         NowHP = HP;
@@ -118,11 +128,18 @@ public class CS_CofineAI : MonoBehaviour
         navmeshAgent.updatePosition = false;
         navmeshAgent.updateRotation = false;
 
+
     }
     
     // Update is called once per frame
     void FixedUpdate()
     {
+        //一定時間待機
+        if(state == Cofin_State.IDEL)
+        {
+            StartCoroutine(EndStop());
+            return;
+        }
 
         //対象検知して追跡
         TargetDetection();
@@ -131,7 +148,7 @@ public class CS_CofineAI : MonoBehaviour
         Move();
 
         //攻撃
-        Attack();
+        //Attack();
 
         //HPゲージの処理
         HPGage.fillAmount = NowHP / HP;
@@ -176,19 +193,18 @@ public class CS_CofineAI : MonoBehaviour
         }
 
         // 次の経路点に到達した場合、次の経路点へ進む
-        if (Vector3.Distance(currentPosition, nextWaypoint) < DistanceStop)
+        currentPosition.y = 0;
+        nextWaypoint.y = 0;
+        float dis = Vector3.Distance(currentPosition, nextWaypoint);
+        if (dis < 1.5f)
         {
             // 次の経路点に進むためにインデックスを更新
             if (CurrentPathNum < navmeshAgent.path.corners.Length - 1)
             {
                 CurrentPathNum++;  // インデックスを進める
             }
-            else
-            {
-                CurrentPathNum = 1;
-            }
-        }
 
+        }
         // デバッグ用に経路線を表示
         Debug.DrawLine(currentPosition, nextWaypoint, Color.red);
 
@@ -237,41 +253,12 @@ public class CS_CofineAI : MonoBehaviour
     /// <summary>
     /// 攻撃
     /// </summary>
-    private void Attack()
+    public void Attack()
     {
-        //カナメを攻撃
-        if (state == Cofin_State.KANAMECHASE)
-        {
-            navmeshAgent.SetDestination(PlayerTrans.position);
-
-            float playerdistance = Vector3.Distance(transform.position, PlayerTrans.position);
-            bool Playerattack = playerdistance < PlayerDistance;
-
-            if (!Playerattack) { return; }
-
-            CofinAnim.SetTrigger("Attack");
-            state = Cofin_State.KANAMEATTACK;
-            //hit.transform.GetComponent<CS_Player>()
-            //プレイヤーの情報を取得して攻撃
-
-            state = Cofin_State.KANAMECHASE;
-        }
-
-        //コアを取得
-        //if (state == Cofin_State.CORECHASE)
-        //{
-        //    float coredistance = Vector3.Distance(transform.position, CoreTrans.position);
-        //    CoreGet = coredistance < CoreDistance;
-
-        //    if (!CoreGet) { return; }
-
-        //    //コア座標を固定
-        //    CoreTrans.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
-        //    //子オブジェクトにする
-        //    //transform.SetParent(hit.transform.parent);
-
-        //}
-
+        SetTarget(PlayerTrans.position, Cofin_State.KANAMEATTACK);
+        CofinAnim.SetTrigger("Attack");
+        // EnemyManager.DeleteApproachCofin(this); //攻撃終了したら消去
+        state = Cofin_State.IDEL;
     }
 
 
@@ -280,7 +267,6 @@ public class CS_CofineAI : MonoBehaviour
     /// </summary>
     private void TargetDetection()
     {
-
         if (CoreGet)
         {
             state = Cofin_State.GOHOME;
@@ -293,13 +279,14 @@ public class CS_CofineAI : MonoBehaviour
         
         if (state == Cofin_State.GOHOME )
         {
-            navmeshAgent.SetDestination(StartPos);
+            SetTarget(StartPos, state);
         }
 
 
         //敵の当たり判定
         Collider[] Enemyhit = Physics.OverlapSphere(transform.position, TargetDistance, EnemyLayer);
         
+       
         float playerdistance = Vector3.Distance(transform.position, PlayerTrans.position);
         float coredistance = Vector3.Distance(transform.position, CoreTrans.position);
 
@@ -316,12 +303,12 @@ public class CS_CofineAI : MonoBehaviour
             //敵を追跡
             //else if (Enemyhit.Length > 0 && Enemyhit[0].gameObject != gameObject) { SetTarget(Enemyhit[0].transform.position, Cofin_State.ENEMYCHASE); }
             //プレイヤーを追跡
-            else if (PlayerTracking) { SetTarget(PlayerTrans.position, Cofin_State.KANAMECHASE); }
+            else if (PlayerTracking && state != Cofin_State.KANAMEATTACK) { SetTarget(PlayerTrans.position, Cofin_State.KANAMECHASE); }
            
         }
 
         //プレイヤーがコアを持っていたら
-        if (Corestate.STATE == CS_Core.CORE_STATE.HAVEPLAYER)
+        if (Corestate.STATE == CS_Core.CORE_STATE.HAVEPLAYER && state != Cofin_State.KANAMEATTACK)
         {
             //プレイヤーを追いかける
             if (PlayerTracking) { SetTarget(PlayerTrans.position, Cofin_State.KANAMECHASE); }
@@ -338,8 +325,31 @@ public class CS_CofineAI : MonoBehaviour
             SetTarget(StartPos, Cofin_State.GOHOME);
         }
 
-        
-        if(!CoreTracking && !PlayerTracking)
+        //カナメを攻撃(抽選へ)
+        if (state == Cofin_State.KANAMECHASE)
+        {
+            //指定距離離れた場所を設定
+            Vector3 PlayerFoward = transform.forward;
+            Vector3 distancepos = PlayerTrans.position + (PlayerFoward.normalized * PlayerDistance);
+            SetTarget(distancepos, state);
+            //navmeshAgent.SetDestination(PlayerTrans.position);
+
+            bool Playerattack = playerdistance <= PlayerDistance;
+
+            if (!Playerattack) 
+            {
+                EnemyManager.DeleteApproachCofin(this);
+                return; 
+            }
+
+            //抽選中へ
+            EnemyManager.AddApproachCofin(this);
+            state = Cofin_State.KANAMEATTACKLOTTERY;
+            
+        }
+
+
+        if (!CoreTracking && !PlayerTracking)
         {
             Destroy(this.gameObject);   //デスポーン
         }
@@ -353,35 +363,23 @@ public class CS_CofineAI : MonoBehaviour
     /// <param 対象座標="targetpos"></param>
     public void SetTarget(Vector3 targetpos, Cofin_State changestate)
     {
+        //目的地を設定
+        NavMeshHit hit;
+        bool Target = NavMesh.SamplePosition(targetpos, out hit, 100, NavMesh.AllAreas);
+        if (Target)
+        {
+            navmeshAgent.SetDestination(targetpos);
+
+            TargetPos = targetpos;
+        }
+
+
         //ステートが違うか
         bool Set = state != changestate;
 
         if (!Set) { return; }
 
         state = changestate;
-
-        //目的地を設定
-        if (navmeshAgent && navmeshAgent.enabled)
-        {
-            navmeshAgent.SetDestination(targetpos);
-        }
-           
-        TargetPos = targetpos;
-        //TargetDirection = (targetpos - transform.position).normalized;
-        
-        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-
-
-        ////NavMeshが準備できているか判断
-        //if (navmeshAgent.enabled)
-        //{
-        //    TargetPos = targetpos;
-        //    bool setnav = navmeshAgent.pathStatus != NavMeshPathStatus.PathInvalid;
-        //    if (setnav) { navmeshAgent.SetDestination(targetpos); }
-        //}
-
-
-
     }
 
 
@@ -408,7 +406,7 @@ public class CS_CofineAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
+      
 
         if (collision.gameObject.tag == "EnergyCore")
         {
@@ -448,7 +446,7 @@ public class CS_CofineAI : MonoBehaviour
                 Vector3 knockbackDirection = (transform.position - other.transform.position).normalized;
                 ThisRd.AddForce(knockbackDirection * KnockBackForce, ForceMode.Impulse);
                 // ノックバックの終了を待機するコルーチンを開始
-                StartCoroutine(EndKnockback());
+                state = Cofin_State.IDEL;
             }
 
             if (CoreGet)
@@ -468,17 +466,15 @@ public class CS_CofineAI : MonoBehaviour
 
     }
 
-  
 
-    private IEnumerator EndKnockback()
+    //一定時間待機して移動状態へ
+    private IEnumerator EndStop()
     {
-        yield return new WaitForSeconds(1f);
-
-        //navmeshAgent.enabled = true;
-        // 目的地を再設定（例として元の目的地に戻す）
-        navmeshAgent.SetDestination(TargetPos);
-
+        yield return new WaitForSeconds(AttackSpace);
+        EnemyManager.DeleteApproachCofin(this);
+        state = Cofin_State.MOVE;
     }
+
 
     private IEnumerator EndViewHP()
     {

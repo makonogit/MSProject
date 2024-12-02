@@ -492,15 +492,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 138.45
+      value: -78.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 29.418169
+      value: 18.92
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -31.28
+      value: 10.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -601,10 +601,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.37070835
+  m_Radius: 0.4072123
   m_Height: 1.8
   m_Direction: 2
-  m_Center: {x: -0.02000004, y: 0.3375166, z: -0.13}
+  m_Center: {x: 0.01650393, y: 0.33751664, z: -0.12999997}
 --- !u!54 &8843199040453819684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -688,17 +688,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  TargetDistance: 10
+  TargetDistance: 20
   CoreDistance: 2
-  PlayerDistance: 3
+  PlayerDistance: 5
   DistanceStop: 0.01
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 1024
   StartPos: {x: 8, y: 0, z: 0}
   ThisRd: {fileID: 8843199040453819684}
-  MoveSpeed: 3
-  RotationSpeed: 3
+  MoveSpeed: 2
+  RotationSpeed: 2
   KnockBackForce: 30
   AttackPower: 1
   AttackSpace: 3

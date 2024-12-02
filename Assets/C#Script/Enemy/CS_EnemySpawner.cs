@@ -13,6 +13,9 @@ public class CS_EnemySpawner : MonoBehaviour
     [SerializeField, Header("ゲーム開始時からスポーンするか")]
     private bool SpawnonAwake = false;
 
+    [SerializeField, Header("EnemyManagerのオブジェクト")]
+    private GameObject EnemyManager;
+
     private enum SpawnConditions
     {
         APPROACH,   //接近
@@ -39,6 +42,8 @@ public class CS_EnemySpawner : MonoBehaviour
 
     [SerializeField, Header("接近時のスポーン距離")]
     private float SpawnDistance = 1f;
+    [SerializeField, Header("接近時のスポーン距離(高さ)")]
+    private float SpawnYDistance = 1f;
 
     [SerializeField, Header("通過用の判定バーの長さ")]
     private float PathSwitchBarLength = 5f;
@@ -46,11 +51,7 @@ public class CS_EnemySpawner : MonoBehaviour
     private LayerMask PathLayer;
 
     [Header("-------触らないで---------")]
-    [SerializeField, Tooltip("コアの場所")]
-    private Transform CoreTrans;
-    [SerializeField, Tooltip("コアの状態")]
-    private CS_Core CoreState;
-    [SerializeField, Tooltip("プレイヤーの位置")]
+   [SerializeField, Tooltip("プレイヤーの位置")]
     private Transform PlayerTrans;
 
     //時間計測用
@@ -63,11 +64,6 @@ public class CS_EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //各項目を設定
-        CS_SpawnerInfo.SetCoreState(CoreState);
-        CS_SpawnerInfo.SetCoreTrans(CoreTrans);
-        CS_SpawnerInfo.SetPlayerTrans(PlayerTrans);
-
         if (SpawnonAwake) { SpawnSwitch = true;  }
 
     }
@@ -84,8 +80,17 @@ public class CS_EnemySpawner : MonoBehaviour
         {
             if (conditions == SpawnConditions.APPROACH)
             {
-                float Distance = Vector3.Distance(transform.position, PlayerTrans.position);
-                bool Approach = Distance < SpawnDistance;
+                Vector3 thispos = transform.position;
+                Vector3 PlayerPos = PlayerTrans.position;
+
+                // Y軸の距離
+                float verticalDistance = Mathf.Abs(thispos.y - PlayerPos.y);
+                
+                //XZ平面の距離
+                thispos.y = 0;
+                PlayerPos.y = 0;
+                float Distance = Vector3.Distance(thispos, PlayerPos);
+                bool Approach = Distance < SpawnDistance && verticalDistance < SpawnYDistance;
                 if (Approach) { SpawnSwitch = true; }
             }
 
@@ -118,6 +123,8 @@ public class CS_EnemySpawner : MonoBehaviour
 
         Gizmos.DrawLine(start,end);
 
+        Debug.DrawRay(transform.position, Vector3.down * SpawnYDistance, Color.red);
+
         Gizmos.DrawSphere(transform.position, 1.0f);
 
         Gizmos.DrawWireSphere(transform.position, SpawnDistance);
@@ -129,27 +136,29 @@ public class CS_EnemySpawner : MonoBehaviour
         if (CurrentSpawnNum >= MaxSpawnNum) { end = true; return; }//{ Destroy(this.gameObject); }
 
         //スポーン開始時間を計測
-        bool Start = SpawnStartTime > SpawnDeley;
+        bool Start = SpawnStartTime >= SpawnDeley;
         if (!Start) 
         {
             SpawnStartTime += Time.deltaTime;
             return;
         }
 
-        //スポーン感覚を設定
-        bool Space = SpawnSpaceTime > SpawnSpace;
-        if (!Space)
-        {
-            SpawnSpaceTime += Time.deltaTime;
-            return; 
-        }
-        
         //向き指定して生成
         for(int i = 0; i < SynchroSpawnNum; i++)
         {
             Quaternion rotate = Quaternion.LookRotation(SpawnDirection);
-            Instantiate(SpawnEnemy,transform.position + transform.forward * 2f,rotate);
+            GameObject enemy = Instantiate(SpawnEnemy,transform.position + transform.forward * 2f,rotate);
+            enemy.transform.SetParent(EnemyManager.transform);   //子オブジェクトに設定
             CurrentSpawnNum++;
+        }
+
+
+        //スポーン感覚を設定
+        bool Space = SpawnSpaceTime >= SpawnSpace;
+        if (!Space)
+        {
+            SpawnSpaceTime += Time.deltaTime;
+            return;
         }
 
         SpawnSpaceTime = 0f;
