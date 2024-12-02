@@ -37,6 +37,8 @@ public class CS_DropGameOver : MonoBehaviour
 
             // ƒJƒƒ‰‚ÌØ‚è‘Ö‚¦
             cameraManager.SwitchingCamera(1);
+
+            CSGE_GameOver.GameOver();
         }
     }
 }

@@ -181,6 +181,7 @@ public class CS_PlayerManager : MonoBehaviour
         if (nowHP <= 0)
         {
             animator.SetBool("GameOver", true);
+            CSGE_GameOver.GameOver();
         }
 
         animator.SetBool("isGrounded", IsGrounded());
@@ -291,10 +292,6 @@ public class CS_PlayerManager : MonoBehaviour
         // ’n–Ê”»’è
         return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
     }
-
-
-
-
 
     //**
     //* •Ç‚ÉÚ‚µ‚Ä‚¢‚é‚©‚ð”»’f‚·‚é
