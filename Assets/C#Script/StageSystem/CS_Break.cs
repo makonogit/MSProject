@@ -152,7 +152,7 @@ public class CS_Break : MonoBehaviour
         {
             Transform childtrans = CurrentAlartObj.transform.GetChild(i).transform;
             childtrans.position = WorldCorners[i];
-            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.025f, childtrans.localScale.y, childtrans.localScale.z * 0.025f);
+            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.08f, childtrans.localScale.y, childtrans.localScale.x * 0.08f);
             //アラートのサイズ倍率0.025f
         }
 
