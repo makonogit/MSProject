@@ -46,9 +46,14 @@ namespace Assets.C_Script.Gimmick
         }
         private void OnTriggerExit(Collider other)
         {
+            if (rigidbodies.Count == 0) return;
+            for (int i = 0; i < rigidbodies.Count; i++) 
+            {
+                if (rigidbodies[i].transform.name == other.transform.name) rigidbodies.Remove(rigidbodies[i]);
+            }
             foreach (var rb in rigidbodies) 
             {
-               if (rb.transform ==  other.transform) rigidbodies.Remove(rb);
+               if (rb.transform.name ==  other.transform.name) rigidbodies.Remove(rb);
             }
         }
 
@@ -90,7 +95,9 @@ namespace Assets.C_Script.Gimmick
             time /= startupTime;
             float force = startupForceCurve.Evaluate(time) * windPower;
             Vector3 forceVec = this.transform.forward * force;
-            rb.AddForce(forceVec,ForceMode.Impulse);
+            if (rb.tag == "Player")rb.velocity += forceVec;    
+            else rb.AddForce(forceVec,ForceMode.Impulse);
+
         }
     }
 }

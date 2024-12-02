@@ -177,7 +177,7 @@ MonoBehaviour:
   stopTime: 2
   runTime: 10
   startupTime: 4
-  windPower: 0.25
+  windPower: 1
   startupForceCurve:
     serializedVersion: 2
     m_Curve:
