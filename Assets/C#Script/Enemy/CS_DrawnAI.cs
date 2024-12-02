@@ -9,6 +9,15 @@ using UnityEngine.UI;
 /// </summary>
 public class CS_DrawnAI : MonoBehaviour
 {
+    private CS_EnemyManager EnemyManager;        //敵の管理用スクリプト
+
+    [Header("確認用、触らない！")]
+    [SerializeField]
+    private Vector3[] path;
+
+    [SerializeField]
+    private int CurrentPathNum = 1;     //現在の経路のインデックス(1始まり)
+
     [Header("各パラメータ")]
     [SerializeField, Tooltip("HP")]
     private float HP = 80.0f;
@@ -71,7 +80,7 @@ public class CS_DrawnAI : MonoBehaviour
     private bool CreateBallTrigger = false; //弾を生成したトリガー
     private Vector3 CreateVec;              //生成する向き
 
-    private int CurrentPathNum = 1;     //現在の経路のインデックス(1始まり)
+   
 
     private Transform PlayerTrans;      //プレイヤーの位置
 
@@ -87,6 +96,7 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
     [SerializeField]private DrawnState state;   //現在の状態
+    private Vector3 CurrentTargetPos;   //現在の目標位置
     private Rigidbody ThisRb;   //自分のRigitBody
   
     //攻撃状態
@@ -99,6 +109,7 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
     [SerializeField] private DrawnAttackState attackstate;
+
 
     // Start is called before the first frame update
     void Start()
@@ -118,8 +129,12 @@ public class CS_DrawnAI : MonoBehaviour
         //RigitBodyを取得
         TryGetComponent<Rigidbody>(out ThisRb);
 
+        //親からマネージャーを取得
+        transform.parent.TryGetComponent<CS_EnemyManager>(out EnemyManager);
+
         //プレイヤーの状態をスポナーから取得
-        PlayerTrans = CS_SpawnerInfo.GetPlayerTrans();
+        PlayerTrans = EnemyManager.GetPlayerTrans();
+
 
         //自前の移動を行うためにAgentの自動更新を無効化
         agent.updatePosition = false;
@@ -128,12 +143,30 @@ public class CS_DrawnAI : MonoBehaviour
         currentCoroutine = null;
 
         //目標を設定
-        agent.SetDestination(PlayerTrans.position);
+        SetTarget(PlayerTrans.position);
+    }
+
+    /// <summary>
+    /// 目標設定
+    /// </summary>
+    /// <param 目標座標="pos"></param>
+    private void SetTarget(Vector3 pos)
+    {
+        NavMeshHit hit;
+        bool Target = NavMesh.SamplePosition(pos, out hit, 100, NavMesh.AllAreas);
+        if (Target)
+        {
+            agent.SetDestination(pos);
+            CurrentTargetPos = pos; //現在の目標を設定
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        path = agent.path.corners;
+
+       
         //HPゲージの処理
         HPGage.fillAmount = NowHP / HP;
         HPCanvas.transform.LookAt(PlayerTrans);
@@ -237,18 +270,23 @@ public class CS_DrawnAI : MonoBehaviour
         }
 
         // 次の経路点に到達した場合、次の経路点へ進む
-        if (Vector3.Distance(currentPosition, nextWaypoint) < 0.1f)
+        currentPosition.y = 0;
+        nextWaypoint.y = 0;
+        float dis = Vector3.Distance(currentPosition, nextWaypoint);
+        Debug.Log(dis);
+        if (dis < 1.5f)
         {
             // 次の経路点に進むためにインデックスを更新
             if (CurrentPathNum < agent.path.corners.Length - 1)
             {
                 CurrentPathNum++;  // インデックスを進める
             }
-            else
-            {
-                CurrentPathNum = 1;
-            }
+          
         }
+        //else
+        //{
+        //    Debug.Log(currentPosition + ""+ nextWaypoint);
+        //}
 
     }
 
@@ -268,7 +306,8 @@ public class CS_DrawnAI : MonoBehaviour
             currentCoroutine = null;
         }
 
-        agent.SetDestination(transform.position);
+        SetTarget(transform.position);
+        //agent.SetDestination(transform.position);
 
         //予測線の初期化
         lineRenderer.SetPosition(0, transform.position);
@@ -350,8 +389,10 @@ public class CS_DrawnAI : MonoBehaviour
     /// </summary>
     private void Tracking()
     {
+        if(agent.destination == PlayerTrans.position) { return; }
         //目標を設定
-        agent.SetDestination(PlayerTrans.position);
+        SetTarget(PlayerTrans.position);
+        //agent.SetDestination(PlayerTrans.position);
     }
 
     /// <summary>
@@ -506,12 +547,14 @@ public class CS_DrawnAI : MonoBehaviour
         //死んでたら無視
         if(state == DrawnState.DETH) { return; }
         bool AttackHit = other.tag == "Attack";
-
+       
         //弾に当たったらHP減少
         if(AttackHit)
         {
             other.TryGetComponent<CS_AirBall>(out CS_AirBall ball);
+            
             if (!ball) { return; }
+            if (ball.GetEnemyType()) { return; }    //敵からの弾なら無視
             NowHP -= ball.Power;
 
             //死亡
@@ -528,12 +571,29 @@ public class CS_DrawnAI : MonoBehaviour
 
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    //死んでてどっかに当たったら消去
-    //    if(state == DrawnState.DETH) { Destroy(this.gameObject); }
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        //どっかにあったったら退避
+        //新しい経路を設定
+        Vector3 newTarget = transform.position + Vector3.back * 1f; // 後ろに退避
+        SetTarget(newTarget);
 
+        //死んでてどっかに当たったら消去
+        if (state == DrawnState.DETH) { Destroy(this.gameObject); }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("うわああ");
+        //どっかにあったったら退避
+        //新しい経路を設定
+        if (collision.transform.tag != "Enemy")
+        {
+            Vector3 newTarget = transform.position + Vector3.back * 3f; // 後ろに退避
+
+            SetTarget(newTarget);
+        }
+    }
 
     /// <summary>
     /// 攻撃状態の変更
@@ -586,6 +646,6 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
 
-
+    
 
 }
