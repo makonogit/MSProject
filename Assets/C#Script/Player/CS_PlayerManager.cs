@@ -35,8 +35,8 @@ public class CS_PlayerManager : MonoBehaviour
     private int ingredientsStock = 0;
     public int GetIngredientsStock() => ingredientsStock;
     public void SetIngredientsStock(int val) { ingredientsStock = val; }
-    [SerializeField, Header("CS_Coreをここにセット")]
-    private CS_Core core;
+    //[SerializeField, Header("CS_Coreをここにセット")]
+    //private CS_Core core;
 
     [Header("接地判定")]
     [SerializeField]
@@ -68,12 +68,16 @@ public class CS_PlayerManager : MonoBehaviour
     // 外部オブジェクト（名前検索で取得）
     private Transform cameraTransform;
     public Transform GetCameraTransform() => cameraTransform;
+    [SerializeField, Header("インプットシステム設定")]
     private CS_InputSystem inputSystem;     // インプットシステム
     public CS_InputSystem GetInputSystem()=> inputSystem;
+    [SerializeField, Header("カメラマネージャー設定")]
     private CS_CameraManager cameraManager; // カメラマネージャー
     public CS_CameraManager GetCameraManager() => cameraManager;
-    private CS_TpsCamera tpsCamera;         // TPSカメラ
-    public CS_TpsCamera GetTpsCamera() => tpsCamera;
+    //[SerializeField, Header("カメラ設定")]
+    //private CS_TpsCamera tpsCamera;
+    //public CS_TpsCamera GetTpsCamera() => tpsCamera;
+    [SerializeField, Header("リザルト表示設定")]
     private CS_Result result;
     public CS_Result GetResult() => result;
 
@@ -122,48 +126,48 @@ public class CS_PlayerManager : MonoBehaviour
             UnityEngine.Debug.LogError("Main CameraをHierarchyに追加してください。");
         }
 
-        inputSystem = GameObject.Find("InputSystem")?.GetComponent<CS_InputSystem>();
-        if (inputSystem == null)
-        {
-            UnityEngine.Debug.LogError("InputSystemをHierarchyに追加してください。");
-        }
+        //inputSystem = GameObject.Find("InputSystem")?.GetComponent<CS_InputSystem>();
+        //if (inputSystem == null)
+        //{
+        //    UnityEngine.Debug.LogError("InputSystemをHierarchyに追加してください。");
+        //}
 
-        cameraManager = GameObject.Find("CameraManager")?.GetComponent<CS_CameraManager>();
-        if (cameraManager == null)
-        {
-            UnityEngine.Debug.LogError("CameraManagerをHierarchyに追加してください。");
-        }
+        //cameraManager = GameObject.Find("CameraManager")?.GetComponent<CS_CameraManager>();
+        //if (cameraManager == null)
+        //{
+        //    UnityEngine.Debug.LogError("CameraManagerをHierarchyに追加してください。");
+        //}
 
-        tpsCamera = GameObject.Find("TpsCamera")?.GetComponent<CS_TpsCamera>();
-        if (tpsCamera == null)
-        {
-            //UnityEngine.Debug.LogError("TpsCameraをHierarchyに追加してください。");
-        }
+        //tpsCamera = GameObject.Find("TpsCamera")?.GetComponent<CS_TpsCamera>();
+        //if (tpsCamera == null)
+        //{
+        //    //UnityEngine.Debug.LogError("TpsCameraをHierarchyに追加してください。");
+        //}
 
 
 
-        GameObject resultCanvas = GameObject.Find("ResultCanvas");
+        //GameObject resultCanvas = GameObject.Find("ResultCanvas");
 
-        if (resultCanvas == null)
-        {
-            UnityEngine.Debug.LogError("ResultCanvasをHierarchyに追加してください。");
-        }
-        else
-        {
-            Transform resultPanelTransform = resultCanvas.transform.Find("ResultPanel");
-            if (resultPanelTransform != null)
-            {
-                result = resultPanelTransform.GetComponent<CS_Result>();
-                if (result == null)
-                {
-                    UnityEngine.Debug.LogError("ResultPanelにCS_Resultコンポーネントがアタッチされているか確認してください。");
-                }
-            }
-            else
-            {
-                UnityEngine.Debug.LogError("ResultPanelをHierarchyに追加してください。");
-            }
-        }
+        //if (resultCanvas == null)
+        //{
+        //    UnityEngine.Debug.LogError("ResultCanvasをHierarchyに追加してください。");
+        //}
+        //else
+        //{
+        //    Transform resultPanelTransform = resultCanvas.transform.Find("ResultPanel");
+        //    if (resultPanelTransform != null)
+        //    {
+        //        result = resultPanelTransform.GetComponent<CS_Result>();
+        //        if (result == null)
+        //        {
+        //            UnityEngine.Debug.LogError("ResultPanelにCS_Resultコンポーネントがアタッチされているか確認してください。");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        UnityEngine.Debug.LogError("ResultPanelをHierarchyに追加してください。");
+        //    }
+        //}
 
     }
 
@@ -172,24 +176,6 @@ public class CS_PlayerManager : MonoBehaviour
 
         //ゲージの状態を更新
         CanGage.fillAmount = (float)nowMP / (float)MaxMP;
-
-
-        // エネルギーコアの状態を設定
-        if (core != null)
-        {
-            if (animator.GetBool("Mount"))
-            {
-                core.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
-            }
-            else if(core.STATE != CS_Core.CORE_STATE.HAVEENEMY)
-            {
-                core.STATE = CS_Core.CORE_STATE.DROP;
-            }
-        }
-        else
-        {
-            UnityEngine.Debug.LogError("CS_Coreオブジェクトが設定されていません");
-        }
 
         // ゲームオーバー
         if (nowHP <= 0)

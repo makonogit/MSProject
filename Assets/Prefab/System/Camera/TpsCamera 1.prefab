@@ -219,7 +219,7 @@ MonoBehaviour:
   rotationSpeed: 50
   rotationLimitMax: 60
   rotationLimitMin: 0
-  cameraDistance: 1.5
+  cameraDistance: 2
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -245,3 +245,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxInputValue: 1
+  minInputValue: 0.3
+  targetTag:
+  - Enemy
+  mask:
+    serializedVersion: 2
+    m_Bits: 769
+  range: 100
+  radius: 2
+  assistVal: 0.3
+  manyAssistVal: 0.7

@@ -3244,6 +3244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8235595900021618050}
   - {fileID: 3184427594132639132}
   - {fileID: 7783003397835187861}
   - {fileID: 1096046397155508728}
@@ -3427,7 +3428,7 @@ MonoBehaviour:
   ingredientsStock: 0
   core: {fileID: 0}
   groundCheckDistance: 0.1
-  fallingThreshold: 700
+  fallingThreshold: 300
   groundLayer:
     serializedVersion: 2
     m_Bits: 897
@@ -3439,7 +3440,7 @@ MonoBehaviour:
   - name: Goal
     time: 3
   - name: Damage
-    time: 3
+    time: 1
   - name: Stun
     time: 3
   animatorFloatParameterList:
@@ -3492,7 +3493,7 @@ MonoBehaviour:
   intervalReload: 3
   detectionImage: {fileID: 0}
   autoaim: {fileID: 0}
-  radiusAuto: 1
+  radiusAuto: 100
   radius: 2
   detectedSprite: {fileID: 21300000, guid: 5ff515e6d597cc147b54cbf605c35186, type: 3}
   ColdREticle: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
@@ -3502,7 +3503,10 @@ MonoBehaviour:
   - Enemy
   overheat: {fileID: 0}
   overheatOut: {fileID: 0}
+  overheatText: {fileID: 0}
   lockon: {fileID: 0}
+  cameraTarget: {fileID: 6084475069427706823}
+  aimTarget: {fileID: 7854558541856226930}
 --- !u!114 &7738483730648989026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3628,23 +3632,36 @@ MonoBehaviour:
   skillItem2: {fileID: 2688024025619129708, guid: e0bfd457c05fa0f43959c8d5a425a3cb, type: 3}
   skillItem3: {fileID: 5379977817046357441, guid: 4df1b9e69f6fa7a49a43359ab25aa4f5, type: 3}
   skill4: {fileID: 6462524678093254582}
+  skill4_time: 10
   SkillUIList:
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
+    image_skill: {fileID: 0}
     interval: 5
     mp: 1
+    craftItem: {fileID: 0}
+    isCraft: 0
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
+    image_skill: {fileID: 0}
     interval: 8
     mp: 5
+    craftItem: {fileID: 0}
+    isCraft: 0
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
+    image_skill: {fileID: 0}
     interval: 10
     mp: 10
+    craftItem: {fileID: 0}
+    isCraft: 0
   - image_inierval: {fileID: 0}
     image_active: {fileID: 0}
-    interval: 10
+    image_skill: {fileID: 0}
+    interval: 60
     mp: 15
+    craftItem: {fileID: 0}
+    isCraft: 0
 --- !u!1 &4523243980400097400
 GameObject:
   m_ObjectHideFlags: 0
@@ -4684,6 +4701,37 @@ Transform:
   m_Children:
   - {fileID: 9215236290850640495}
   m_Father: {fileID: 1476582940469599414}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6084475069427706823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8235595900021618050}
+  m_Layer: 3
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8235595900021618050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084475069427706823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3948006307911280083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6112666915866494203
 GameObject:

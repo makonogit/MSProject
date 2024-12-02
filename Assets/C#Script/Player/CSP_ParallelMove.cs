@@ -38,7 +38,8 @@ public class CSP_ParallelMove : ActionBase
     private StringNumberPair[] animatorBoolSpeedList;
     [SerializeField]
     private StringNumberPair[] animatorFloatSpeedList;
-
+    [SerializeField, Header("アニメーションの切り替え速度")]
+    private float animSpeed = 0.1f;
 
 
     // カウントダウン用クラス
@@ -125,8 +126,9 @@ public class CSP_ParallelMove : ActionBase
             Vector3 moveVec = GetMovementVector();
 
             Vector2 stick = GetInputSystem().GetLeftStick();
-            GetAnimator().SetFloat("MoveVecZ", stick.x);
-            GetAnimator().SetFloat("MoveVecX", stick.y);
+
+            GetAnimator().SetFloat("MoveVecZ", SmoothlyChange(GetAnimator().GetFloat("MoveVecZ"), stick.x,animSpeed));
+            GetAnimator().SetFloat("MoveVecX", SmoothlyChange(GetAnimator().GetFloat("MoveVecX"), stick.y, animSpeed));
 
             // 位置を更新
             MoveCharacter(moveVec);
@@ -296,5 +298,11 @@ public class CSP_ParallelMove : ActionBase
 
             countdownDamage.Initialize(1);
         }
+    }
+
+    float SmoothlyChange(float curren,float target,float lerpSpeed)
+    {
+        // 現在の値からターゲット値へ補間
+        return Mathf.Lerp(curren, target, lerpSpeed);
     }
 }

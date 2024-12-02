@@ -543,11 +543,11 @@ public class CSP_Shot : ActionBase
         {
             aimTarget.transform.localPosition = Vector3.Lerp(
             aimTarget.transform.localPosition,
-            new Vector3(3, 1, 1),
+            new Vector3(1, 1, -1),
             1f * Time.deltaTime
             );
 
-            if (Mathf.Abs(angle) > 30f)
+            if (Mathf.Abs(angle) > 25f)
                 GetAnimator().SetFloat("Turn", 1f);
         }
         else if (stick.x < -0.3f)
@@ -558,7 +558,7 @@ public class CSP_Shot : ActionBase
             1f * Time.deltaTime
             );
 
-            if (Mathf.Abs(angle) > 45f)
+            if (Mathf.Abs(angle) > 25f)
                 GetAnimator().SetFloat("Turn", -1f);
         }
     }

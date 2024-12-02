@@ -123,7 +123,7 @@ public class CSP_Jump : ActionBase
 
             // アニメーターの値を変更
             GetAnimator().SetBool("Jump", true);
-            GetAnimator().SetFloat("UsuallyMove_Y", 0.5f);
+            //GetAnimator().SetFloat("UsuallyMove_Y", 0.5f);
 
             isJump = true;
         }
@@ -131,7 +131,7 @@ public class CSP_Jump : ActionBase
         if (!GetInputSystem().GetButtonAPressed() && isJump)
         {
             GetAnimator().SetBool("Jump", false);
-            GetAnimator().SetFloat("UsuallyMove_Y", 0);
+            //GetAnimator().SetFloat("UsuallyMove_Y", 0);
 
             isJump = false;
             jumpStock--;
@@ -192,6 +192,21 @@ public class CSP_Jump : ActionBase
 
         // 登れる条件を返す
         return !isMax && isMin;
+    }
+
+    //**
+    //* キャラクターを進行方向に向ける
+    //*
+    //* in：移動ベクトル
+    //* out：無し
+    //**
+    void AdjustForwardDirection(Vector3 moveVec)
+    {
+        if (moveVec.sqrMagnitude > 0)
+        {
+            Vector3 targetForward = moveVec.normalized;
+            transform.forward = Vector3.Lerp(transform.forward, targetForward, 0.1f);
+        }
     }
 
 }

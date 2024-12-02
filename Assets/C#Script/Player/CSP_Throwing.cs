@@ -25,8 +25,8 @@ public class CSP_Throwing : ActionBase
     private string targetTag;// 投擲対象のタグ
 
     [Header("ターゲット関連")]
-    [SerializeField] 
     private GameObject targetObject;
+    private CS_Core targetCore;
     public GameObject GetEnergyCore() => targetObject;
     private Rigidbody rb;
     private LineRenderer lineRenderer;
@@ -58,6 +58,19 @@ public class CSP_Throwing : ActionBase
 
     void FixedUpdate()
     {
+        // エネルギーコアの状態を設定
+        if (targetObject != null)
+        {
+            if (GetAnimator().GetBool("Mount"))
+            {
+                targetCore.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
+            }
+            else if (targetCore.STATE != CS_Core.CORE_STATE.HAVEENEMY)
+            {
+                targetCore.STATE = CS_Core.CORE_STATE.DROP;
+            }
+        }
+
         // 硬直処理
 
         // bool
@@ -184,6 +197,7 @@ public class CSP_Throwing : ActionBase
                 targetObject = null;
                 rb = null;
                 collider = null;
+                targetCore = null;
             }
         }
     }
@@ -249,6 +263,8 @@ public class CSP_Throwing : ActionBase
                     targetObject = collision.gameObject;
                     targetObject.SetActive(false);
 
+                    targetCore = targetObject.GetComponent<CS_Core>();
+
                     // リジットボディを取得
                     rb = targetObject.GetComponent<Rigidbody>();
 
@@ -279,6 +295,7 @@ public class CSP_Throwing : ActionBase
                 targetObject = null;
                 rb = null;
                 collider = null;
+                targetCore = null;
             }
         }
     }

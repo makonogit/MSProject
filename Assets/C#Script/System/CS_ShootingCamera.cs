@@ -34,7 +34,7 @@ public class CS_ShootingCamera : ActionBase
     public float cameraDistance = 5.0f;
     [SerializeField, Header("反応曲線")]
     private AnimationCurve accelerationCurve;       // 反応曲線
-    [SerializeField, Header("入力範囲の限界")]
+    [SerializeField, Header("入力範囲")]
     private float maxInputValue = 1f;         // スティックの最大入力値
     [SerializeField]
     private float minInputValue = 0.3f;         // スティックの最小入力値
