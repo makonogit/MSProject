@@ -8,6 +8,8 @@ public class CS_AirBall : MonoBehaviour
     [SerializeField, Header("“G‚©‚ç‚Ì’e‚©")]
     private bool FromEnemy = false;
 
+    public bool GetEnemyType() => FromEnemy;
+
     //ˆÚ“®‘¬“x’á‰ºŽžŠÔ
     private float MoveSpeedDownTime = 0f;
     private float MoveSpeedDownParsentage = 0f;
