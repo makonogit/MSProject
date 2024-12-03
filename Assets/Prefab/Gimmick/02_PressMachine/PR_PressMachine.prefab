@@ -116,6 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8799834369909858976}
   - component: {fileID: 8198385128063078115}
+  - component: {fileID: 8944439751761087644}
   m_Layer: 0
   m_Name: DeadArea
   m_TagString: Untagged
@@ -159,6 +160,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 400, y: 20, z: 400}
   m_Center: {x: 0, y: -310, z: 0}
+--- !u!114 &8944439751761087644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081013020206118392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1beb86009d7a607428bb84d912e32a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3820783710568192569
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +436,6 @@ MonoBehaviour:
   noDamage: 0
   hp: 5
   pressMachine: {fileID: 8014929371351869087}
-  Point: {fileID: 0}
   rb: {fileID: 9201180018645166490}
 --- !u!82 &6325502418048734969
 AudioSource:
