@@ -32,6 +32,7 @@ namespace Assets.C_Script.GameEvent
             base.EventUpdate();
             animator.SetBool("Display", true);
             if (display && inputSystem.GetButtonBTriggered()) isFinish = true;
+            Time.timeScale = 0f;
         }
 
         protected override void Init()
@@ -46,6 +47,7 @@ namespace Assets.C_Script.GameEvent
             base.Uninit();
             animator.SetBool("Close", true);
             animator.SetBool("Display", false);
+            Time.timeScale = 1f;
             end = true;
         }
 

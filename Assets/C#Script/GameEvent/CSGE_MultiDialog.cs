@@ -43,6 +43,7 @@ namespace Assets.C_Script.GameEvent
         protected override void EventUpdate()
         {
             base.EventUpdate();
+            Time.timeScale = 1f;
             animator.SetBool("Display", true);
             if (display) ChangeSprite();
         }
@@ -59,6 +60,7 @@ namespace Assets.C_Script.GameEvent
             base.Uninit();
             animator.SetBool("Close", true);
             animator.SetBool("Display", false);
+            Time.timeScale = 0f;
             end = true;
         }
         private void ChangeSprite()
