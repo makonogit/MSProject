@@ -39,6 +39,7 @@ namespace Assets.C_Script.Gimmick
             if (endpointObj != null)
             {
                 endPoint = endpointObj.transform.position;
+                endpointObj.transform.SetParent(transform, true);
             }
         }
 

@@ -5,7 +5,6 @@
 //-------------------------------
 using Assets.C_Script.Electric.Sensor;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace Assets.C_Script.Gimmick
 {

@@ -11,18 +11,18 @@ namespace Assets.C_Script.Gimmick
     {
         private Vector3 firstPosition;
         private Transform Wall;
-
         private void Start()
         {
             Wall = transform.parent;
-            firstPosition = Wall.localPosition;
+            firstPosition = Wall.position;
         }
 
         private void FixedUpdate()
         {
+            const float rate = 0.5f;
             Vector3 scale = this.transform.localScale;
-            scale.y = Wall.localPosition.y - firstPosition.y;
-            scale.y *= -0.005f;
+            float mag = (Wall.position - firstPosition).magnitude;
+            scale.y = mag * rate;
             this.transform.localScale = scale;
         }
     }
