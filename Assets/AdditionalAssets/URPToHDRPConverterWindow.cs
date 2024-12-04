@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -206,3 +207,4 @@ public class URPToHDRPConverterWindow : EditorWindow
         // 他のプロパティも必要に応じて追加できます
     }
 }
+#endif // UNITY_EDITOR

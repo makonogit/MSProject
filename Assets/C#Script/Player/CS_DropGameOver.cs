@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.C_Script.GameEvent;
 
 public class CS_DropGameOver : MonoBehaviour
 {
