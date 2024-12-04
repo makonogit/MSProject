@@ -11,6 +11,8 @@ namespace Assets.C_Script.GameEvent
     {
         [SerializeField,Tooltip("イベント")]
         private CS_GameEvent gameEvent;
+        [SerializeField,Tooltip("離れたらイベントを終わる")]
+        private bool OutOff = false; 
         [Header("行動制限の解放したいもの")]
         [SerializeField,Tooltip("ジャンプ")]
         private CSP_Jump jump;
@@ -26,11 +28,25 @@ namespace Assets.C_Script.GameEvent
             if (other.tag == "Player") StartEvent();
         }
 
+        private void OnCollisionExit(Collision collision)
+        {
+            if (OutOff && collision.transform.tag == "Player") EndEvent();
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (OutOff && other.tag == "Player") EndEvent();
+        }
+
         private void StartEvent() 
         {
             gameEvent.enabled = true;
             if (jump != null) jump.enabled = true;
             if (shot != null) shot.enabled = true;
+        }
+        private void EndEvent() 
+        {
+            gameEvent.enabled = false;
         }
     }
 }

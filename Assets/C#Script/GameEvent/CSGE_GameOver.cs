@@ -26,9 +26,6 @@ namespace Assets.C_Script.GameEvent
         public static void SetPosition(Vector3 pos) => position = pos;
         public static void SetRotation(Quaternion rotate)=> rotation = rotate;
 
-
-        [SerializeField]
-        private List<GameObject> floors = new List<GameObject>();
         [SerializeField]
         private float timeSpeed =1.0f;
         [SerializeField]
@@ -46,13 +43,12 @@ namespace Assets.C_Script.GameEvent
         {
             base.Awake();
             GameOverEvent = this;
-            if (floorNumber > 0) 
-            {
-                int Max = Mathf.Min(floors.Count - 1, floorNumber - 1);
-                player.position = position;
+            if (player != null) 
+            { 
+                player.position = position; 
                 player.rotation = rotation;
-                for (int i = 0; i < Max; i++) floors[i].SetActive(false);
             }
+            
         }
 
         protected override void EventUpdate()
@@ -60,7 +56,7 @@ namespace Assets.C_Script.GameEvent
             base.EventUpdate();
             animator.SetBool("GameOver", true);
             SetSlowly(timeSpeed);
-            if (canContinue&&inputSystem.GetButtonATriggered()) isFinish = true;
+            if (canContinue&&inputSystem.GetButtonATriggered()) Restart();
         }
 
         protected override void Init()
@@ -71,9 +67,13 @@ namespace Assets.C_Script.GameEvent
         protected override void Uninit()
         {
             base.Uninit();
+        }
+
+        private void Restart()
+        {
+            canContinue = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             SetSlowly(1.0f);
-            
         }
 
         /// <summary>
@@ -82,8 +82,9 @@ namespace Assets.C_Script.GameEvent
         /// <param name="value"></param>
         private void SetSlowly(float value) 
         {
-            Time.timeScale = value;
-            audioMixer.SetFloat("MasterPitch", value);
+            float val = Mathf.Min(Mathf.Max(0f, value), 1f);
+            Time.timeScale = val;
+            audioMixer.SetFloat("MasterPitch", val);
         }
 
     }

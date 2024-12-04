@@ -25,6 +25,7 @@ namespace Assets.C_Script.GameEvent
         protected override void Awake()
         {
             base.Awake();
+            if (inputSystem == null) Debug.LogError("InputSystemが設定されていません。 " + gameObject.name);
         }
 
         protected override void EventUpdate()

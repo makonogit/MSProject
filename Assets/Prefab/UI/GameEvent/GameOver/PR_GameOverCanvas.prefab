@@ -214,7 +214,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &996717083543409713
 MonoBehaviour:
@@ -271,14 +271,6 @@ MonoBehaviour:
   nextEvent: {fileID: 0}
   Wait: 0
   isFinish: 0
-  floors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   timeSpeed: 1
   audioMixer: {fileID: 24100000, guid: 3f5731b21b1f5da40a32d051c1aed82a, type: 2}
   animator: {fileID: 4456261175687769467}

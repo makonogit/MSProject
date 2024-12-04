@@ -17,8 +17,8 @@ namespace Assets.C_Script.Player
 
         private void Start() 
         {
-            ShotControl.enabled = false;
-            jumpControl.enabled = false;
+            if (ShotControl != null) ShotControl.enabled = false;
+            if (jumpControl != null) jumpControl.enabled = false;
         }
     }
 }

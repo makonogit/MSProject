@@ -38,6 +38,7 @@ namespace Assets.C_Script.GameEvent
         {
             base.Awake();
             if (sprites.Count > 0) image.sprite = sprites[0];
+            if (inputSystem == null) Debug.LogError("InputSystemが設定されていません。 "+gameObject.name);
         }
 
         protected override void EventUpdate()
@@ -58,9 +59,9 @@ namespace Assets.C_Script.GameEvent
         protected override void Uninit()
         {
             base.Uninit();
+            Time.timeScale = 1f;
             animator.SetBool("Close", true);
             animator.SetBool("Display", false);
-            Time.timeScale = 1f;
             end = true;
         }
         private void ChangeSprite()
