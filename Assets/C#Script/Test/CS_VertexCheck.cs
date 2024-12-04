@@ -1,5 +1,6 @@
-﻿using UnityEditor.SceneManagement;
+﻿#if UNITY_EDITOR
 using UnityEngine;
+
 
 namespace Assets.C_Script.Test
 {
@@ -58,3 +59,4 @@ namespace Assets.C_Script.Test
 
     }
 }
+#endif // UNITY_EDITOR

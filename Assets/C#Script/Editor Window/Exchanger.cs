@@ -1,12 +1,9 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using System.Collections.Generic;
-using static Unity.VisualScripting.Member;
-using Unity.VisualScripting;
 using System.Linq;
-using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
 
-#if UNITY_EDITOR
 using UnityEditor;
 
 public class Exchanger :EditorWindow

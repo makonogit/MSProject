@@ -1,12 +1,9 @@
-﻿//-------------------------------
+﻿#if UNITY_EDITOR
+//-------------------------------
 // クラス名 :CS_CheckTest
 // 内容     :クラスのチェック用
 // 担当者   :中川 直登
 //-------------------------------
-using Assets.C_Script.Electric.notElectric;
-using Assets.C_Script.Gimmick;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.C_Script.Test
 {
@@ -14,24 +11,25 @@ namespace Assets.C_Script.Test
     {
 
         [SerializeField]
-        private CS_NumberChanger numberChanger;
-
-        [SerializeField, Range(0, 11)]
-        private int num = 0;
-        [SerializeField]
-        private bool flag = false;
+        private Transform otherTransform;
+        private LineRenderer lineRenderer;
+        
         private void Start() 
         {
+            TryGetComponent(out lineRenderer);
+            Vector3[] positions ={
+                this.transform.position,
+                otherTransform.position
+            };
+            lineRenderer.SetPositions(positions);
         }
         private void Update()
         {
-            if (flag)
-            {
-                numberChanger.SetNumber(num);
-                flag = false;
-            }
+            lineRenderer.SetPosition(0,this.transform.position);
+            lineRenderer.SetPosition(1,otherTransform.position);
         }
         
 
     }
 }
+#endif //UNITY_EDITOR
