@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 担当:菅　崩壊
@@ -14,8 +15,11 @@ public class CS_Break : MonoBehaviour
         BREAK = 2,
     }
 
+    [Header("確認用......")]
     [SerializeField]
     private BREAKSTATE CurrentBreakState;   //現在の崩壊状態
+    [SerializeField]
+    private bool StopBreak = false;     //崩壊しているか
     [SerializeField]
     private int CurrentBreakAreaNum = 0;    //現在の崩壊エリア番号
 
@@ -23,6 +27,9 @@ public class CS_Break : MonoBehaviour
     private List<GameObject> BreakArea;
 
     public void SetBreakList(List<GameObject> list) { BreakArea = list; }
+
+    [Header("----------------------------------------------------")]
+
 
     [SerializeField, Header("崩壊スピード")]
     private float BreakSpeed = 1.0f;
@@ -38,6 +45,8 @@ public class CS_Break : MonoBehaviour
     [Header("==============サワルナキケン==============")]
     [SerializeField, Header("崩壊アラートPrefab")]
     private GameObject BreakAlartBord;
+    [SerializeField, Header("アラート演出UI")]
+    private GameObject ArartEffectUI;
     [SerializeField, Header("崩壊するオブジェクトのLayer")]
     private LayerMask breakLayer;
 
@@ -45,6 +54,16 @@ public class CS_Break : MonoBehaviour
     
    
     private GameObject CurrentAlartObj;     //現在再生中のアラートObj
+
+
+    /// <summary>
+    /// 崩壊を停止させる
+    /// </summary>
+    /// <param trueで停止falseで解除="stopflg"></param>
+    public void ArartStop(bool stopflg)
+    {
+        StopBreak = stopflg;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +74,9 @@ public class CS_Break : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //停止中は更新しない
+        if (StopBreak) { return; }
+ 
         //時間計測
         BreakTimeMesure += Time.deltaTime * BreakSpeed;
 
@@ -66,11 +88,12 @@ public class CS_Break : MonoBehaviour
                 //アラートを生成
                 CreateAlart(BreakArea[CurrentBreakAreaNum].transform);
                 CurrentBreakState = BREAKSTATE.ALART;
+                ArartEffectUI.SetActive(true);
                 break;
             case BREAKSTATE.ALART:
                 //再生終了したらアラートObjectが消えるので消えたら崩壊
                 bool AlartEnd = CurrentAlartObj == null;
-                if (AlartEnd) { CurrentBreakState = BREAKSTATE.BREAK; }
+                if (AlartEnd) { ArartEffectUI.SetActive(false); CurrentBreakState = BREAKSTATE.BREAK; }
                 break;
             case BREAKSTATE.BREAK:
                 BreakStage(BreakArea[CurrentBreakAreaNum].transform);
