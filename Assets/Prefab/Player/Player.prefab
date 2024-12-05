@@ -3426,7 +3426,6 @@ MonoBehaviour:
   nowMP: 0
   itemStock: 0
   ingredientsStock: 0
-  core: {fileID: 0}
   groundCheckDistance: 0.1
   fallingThreshold: 300
   groundLayer:
@@ -3447,6 +3446,9 @@ MonoBehaviour:
   - name: Falling
     time: 0.1
   soundEffect: {fileID: 4599338107709330034}
+  inputSystem: {fileID: 0}
+  cameraManager: {fileID: 0}
+  result: {fileID: 0}
   CanGage: {fileID: 0}
 --- !u!114 &8908855115190931798
 MonoBehaviour:
@@ -3523,7 +3525,6 @@ MonoBehaviour:
   distance: 0
   fixedRotation: {x: 0, y: 30, z: 0}
   targetTag: EnergyCore
-  targetObject: {fileID: 0}
   forceMagnitude: 50
   angle: 45
 --- !u!95 &7215450726017731647
@@ -3615,6 +3616,7 @@ MonoBehaviour:
   - name: Hunger
     magnification: 0.7
     flg: 1
+  animSpeed: 0.1
   forceMagnitude: 5
 --- !u!114 &6942797439788341726
 MonoBehaviour:
@@ -5371,9 +5373,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7393424136857624628}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09849657, y: -0.6816483, z: -0.1513005, w: 0.7090573}
-  m_LocalPosition: {x: -0.24, y: 0.05, z: -0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.33613288, y: -0.6311035, z: -0.33369943, w: 0.61430275}
+  m_LocalPosition: {x: -0.3, y: -0.011, z: -0.089}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2739385069874308532}
