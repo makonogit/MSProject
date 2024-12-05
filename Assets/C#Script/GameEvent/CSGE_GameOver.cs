@@ -43,7 +43,7 @@ namespace Assets.C_Script.GameEvent
         {
             base.Awake();
             GameOverEvent = this;
-            if (player != null) 
+            if (player != null&&floorNumber>0) 
             { 
                 player.position = position; 
                 player.rotation = rotation;
