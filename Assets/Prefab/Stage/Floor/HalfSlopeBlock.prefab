@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4457390321859033567}
   - component: {fileID: 7428811441239828157}
   - component: {fileID: 1290994663309180461}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HalfSlopeBlock
-  m_TagString: Untagged
+  m_TagString: BigCanItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,9 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6033970039234559236}
   - component: {fileID: 4155065990579652625}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: BigCanItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 387696659262095619}
   - component: {fileID: 9146219447522374105}
   - component: {fileID: 8734835025390468176}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HalfFloorBlockB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
