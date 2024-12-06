@@ -21,18 +21,24 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField]
     private float nowHP;
     public float GetHP() => nowHP;
+    public void SetHP(float setHP) { nowHP = setHP; }
     [SerializeField, Header("MPの最大値")]
     private int MaxMP = 100;
     [SerializeField]
     private int nowMP = 0;
     public int GetMP() => nowMP;
     public void SetMP(int MP) { nowMP = MP;}
-    public void SetHP(float setHP) { nowHP = setHP; }
-    [SerializeField, Header("缶詰めの取得数")]
+    [SerializeField, Header("デカ缶の取得数")]
+    private int nowBigCan = 0;
+    public int GetBigCan() => nowBigCan;
+    public void SetBigCan(int set) { nowBigCan = set; }
+
+
+    //[SerializeField, Header("缶詰めの取得数")]
     private int itemStock = 0;
     public int GetItemStock() => itemStock;
     public void SetItemStock(int val) { itemStock = val; }
-    [SerializeField, Header("空き缶の個数")]
+    //[SerializeField, Header("空き缶の個数")]
     private int ingredientsStock = 0;
     public int GetIngredientsStock() => ingredientsStock;
     public void SetIngredientsStock(int val) { ingredientsStock = val; }
@@ -230,11 +236,11 @@ public class CS_PlayerManager : MonoBehaviour
 
 
         // ゴールモーションが終了してからリザルトを表示
-        if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
-        {
-            result.StartResult();
-            animator.SetBool("Goal",false);
-        }
+        //if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
+        //{
+        //    result.StartResult();
+        //    animator.SetBool("Goal",false);
+        //}
 
         // 気絶状態
         if (countdownStun.IsCountdownFinished() && animator.GetBool("Stun"))
@@ -253,12 +259,16 @@ public class CS_PlayerManager : MonoBehaviour
         {
             CS_Item item = collision.gameObject.GetComponent<CS_Item>();
 
-            ingredientsStock++;
+            //ingredientsStock++;
             SetMP(nowMP + item.GetMP());
              //ingredientsStock * 2;
             //itemStock++;
 
             Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "BigCanItem")
+        {
+            nowBigCan++;
         }
         else if (collision.gameObject.tag == "StunObject")
         {
@@ -273,9 +283,11 @@ public class CS_PlayerManager : MonoBehaviour
         else if (collision.gameObject.tag == "Goal")
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
-            animator.SetBool("Goal", true);
+            //animator.SetBool("Goal", true);
 
-            countdownGoal.Initialize(3);
+            //countdownGoal.Initialize(3);
+
+            result.StartResult();
         }
     }
 

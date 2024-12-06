@@ -20,24 +20,24 @@ public class CSP_Jump : ActionBase
     [Header("ジャンプ設定")]
     [SerializeField, Header("ジャンプ力")]
     private float jumpForce = 5f;
-    [SerializeField, Header("マウント時の減速倍率")]
+    //[SerializeField, Header("マウント時の減速倍率")]
     private float decelerationMount;
-    [SerializeField, Header("飢餓時の減速倍率")]
+    //[SerializeField, Header("飢餓時の減速倍率")]
     private float decelerationHunger;
-    [SerializeField, Header("多段ジャンプ回数の初期値")]
+    //[SerializeField, Header("多段ジャンプ回数の初期値")]
     private int initJumpStock = 1;
     private int jumpStock;      // 残りのジャンプ回数
     private bool isJump = false;// ジャンプ中
-    [Header("壁判定")]
-    [SerializeField, Header("壁との距離")]
+    //[Header("壁判定")]
+    //[SerializeField, Header("壁との距離")]
     private float climbCheckDistance = 1f;
-    [SerializeField, Header("登れる壁の高さ")]
+    //[SerializeField, Header("登れる壁の高さ")]
     private float climbMax = 2f;
-    [SerializeField]
+    //[SerializeField]
     private float climbMin = 0.25f;
-    [SerializeField, Header("登れる壁のレイヤー")]
+    //[SerializeField, Header("登れる壁のレイヤー")]
     private LayerMask climbLayer;
-    [SerializeField, Header("登る速さの倍率")]
+    //[SerializeField, Header("登る速さの倍率")]
     private float climbSpeed = 1f;
 
     // 時間計測クラス
@@ -110,14 +110,14 @@ public class CSP_Jump : ActionBase
             // ジャンプ力を加える
             float forceVal = jumpForce;
 
-            if (GetAnimator().GetBool("Mount"))
-            {
-                forceVal *= decelerationMount;
-            }
-            if (GetAnimator().GetFloat("Hunger") == 1)
-            {
-                forceVal *= decelerationHunger;
-            }
+            //if (GetAnimator().GetBool("Mount"))
+            //{
+            //    forceVal *= decelerationMount;
+            //}
+            //if (GetAnimator().GetFloat("Hunger") == 1)
+            //{
+            //    forceVal *= decelerationHunger;
+            //}
 
             GetRigidbody().AddForce(Vector3.up * forceVal, ForceMode.Impulse);
 

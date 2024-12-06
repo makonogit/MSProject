@@ -34,13 +34,12 @@ public class CSP_ParallelMove : ActionBase
     private float initSpeed;         // スピードの初期値を保存しておく変数
     [SerializeField, Header("ダッシュ入力の閾値")]
     private float dashInputValue = 0.75f;
-    [SerializeField, Header("状態/移動速度の倍率")]
+    //[SerializeField, Header("状態/移動速度の倍率")]
     private StringNumberPair[] animatorBoolSpeedList;
-    [SerializeField]
+    //[SerializeField]
     private StringNumberPair[] animatorFloatSpeedList;
-    [SerializeField, Header("アニメーションの切り替え速度")]
+    //[SerializeField, Header("アニメーションの切り替え速度")]
     private float animSpeed = 0.1f;
-
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -229,20 +228,20 @@ public class CSP_ParallelMove : ActionBase
         Vector3 direction = moveVec * speed * Time.deltaTime;
 
         // 状態によって移動速度を変更する
-        foreach (var pair in animatorBoolSpeedList)
-        {
-            if (GetAnimator().GetBool(pair.name) == pair.flg)
-            {
-                direction *= pair.magnification;
-            }
-        }
-        foreach (var pair in animatorFloatSpeedList)
-        {
-            if ((GetAnimator().GetFloat(pair.name) >= 1) == pair.flg)
-            {
-                direction *= pair.magnification;
-            }
-        }
+        //foreach (var pair in animatorBoolSpeedList)
+        //{
+        //    if (GetAnimator().GetBool(pair.name) == pair.flg)
+        //    {
+        //        direction *= pair.magnification;
+        //    }
+        //}
+        //foreach (var pair in animatorFloatSpeedList)
+        //{
+        //    if ((GetAnimator().GetFloat(pair.name) >= 1) == pair.flg)
+        //    {
+        //        direction *= pair.magnification;
+        //    }
+        //}
 
         GetRigidbody().MovePosition(GetRigidbody().position + direction);
     }
@@ -253,7 +252,7 @@ public class CSP_ParallelMove : ActionBase
         GetSoundEffect().StopPlayingSound(0);
 
         // 移動速度を初期化
-        speed = initSpeed;
+        speed = 0f;
 
         // アニメーターの値を変更
         GetAnimator().SetBool("Move", false);
@@ -287,7 +286,8 @@ public class CSP_ParallelMove : ActionBase
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy"
+            && !GetAnimator().GetBool("Damage"))
         {
             GetSoundEffect().PlaySoundEffect(3, 7);
 

@@ -17,6 +17,8 @@ public class CS_CameraManager : MonoBehaviour
     // 自身のコンポーネント
     private CinemachineImpulseSource impulseSource;// 振動
 
+    private int nowIndex; // 現在のカメラインデックス
+
     //**
     //* 初期化
     //**
@@ -62,6 +64,8 @@ public class CS_CameraManager : MonoBehaviour
 
     public void SwitchingCamera(int index)
     {
+        nowIndex = index;
+
         // 全てのカメラのPriorityを下げる
         foreach (var virtualCamera in virtualCameras)
         {
@@ -69,5 +73,14 @@ public class CS_CameraManager : MonoBehaviour
         }
         // 対象のカメラのPriorityを上げる
         virtualCameras[index].Priority = 10;
+    }
+
+    /*
+     * 現在のカメラを取得する
+     */
+
+    public int NowCameraNumber()
+    {
+        return nowIndex;
     }
 }

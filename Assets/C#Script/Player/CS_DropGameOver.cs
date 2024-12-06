@@ -5,28 +5,34 @@ using Assets.C_Script.GameEvent;
 
 public class CS_DropGameOver : MonoBehaviour
 {
+    [SerializeField, Header("カメラマネージャー")]
     private CS_CameraManager cameraManager;     // カメラマネージャー
+    [SerializeField, Header("TPSカメラ")]
     private GameObject tpsCamera;               // TPSカメラ
+    [SerializeField, Header("落下時カメラ")]
     private GameObject fallingCamera;           // 落下時カメラ
+    [SerializeField, Header("遷移までの待機時間")]
+    private float delay = 0.5f;           // 遷移までの待機時間
 
+
+    private CS_Countdown countdown; // カウントダウンオブジェクト
+
+    private bool isGameOver = false; //ゲームオーバーフラグ
 
     // Start is called before the first frame update
     void Start()
     {
-        cameraManager = GameObject.Find("CameraManager")?.GetComponent<CS_CameraManager>();
-        tpsCamera = GameObject.Find("TpsCamera");
-        fallingCamera = GameObject.Find("FallingCamera");
-        if (fallingCamera == null)
+        countdown = gameObject.AddComponent<CS_Countdown>();
+    }
+
+    void FixedUpdate()
+    {
+        if (isGameOver && countdown.IsCountdownFinished())
         {
-            UnityEngine.Debug.LogError("FallingCameraをHierarchyに追加してください。");
+            CSGE_GameOver.GameOver();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -39,7 +45,11 @@ public class CS_DropGameOver : MonoBehaviour
             // カメラの切り替え
             cameraManager.SwitchingCamera(1);
 
-            CSGE_GameOver.GameOver();
+            // ゲームオーバー状態に変更
+            isGameOver = true;
+
+            // 待機してゲームオーバーに遷移
+            countdown.Initialize(delay);
         }
     }
 }

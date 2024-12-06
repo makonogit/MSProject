@@ -5,7 +5,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 //**
-//* 投擲処理
+//* 投擲・背負う処理
 //*
 //* 担当：藤原昂祐
 //**
@@ -15,16 +15,16 @@ public class CSP_Throwing : ActionBase
     [Header("表示用コア")]
     public GameObject core;
 
-    [Header("コアの位置/回転")]
-    [SerializeField]
+    //[Header("コアの位置/回転")]
+    //[SerializeField]
     private float distance = 0.75f;
-    public Vector3 fixedRotation;
+    private Vector3 fixedRotation;
 
-    [Header("投擲設定")]
-    [SerializeField]
-    private string targetTag;// 投擲対象のタグ
+    //[Header("")]
+    //[SerializeField]
+    //private string targetTag;
 
-    [Header("ターゲット関連")]
+    //[Header("ターゲット関連")]
     private GameObject targetObject;
     private CS_Core targetCore;
     public GameObject GetEnergyCore() => targetObject;
@@ -33,9 +33,9 @@ public class CSP_Throwing : ActionBase
     private List<Vector3> positions = new List<Vector3>();
     private Collider collider;
 
-    [Header("力の設定")]
-    public float forceMagnitude = 10f;          // 力の大きさ
-    public float angle = 45f;                   // 投げる角度
+    //[Header("力の設定")]
+    private float forceMagnitude = 10f;          // 力の大きさ
+    private float angle = 45f;                   // 投げる角度
     private int steps = 30;                     // 描画の精度
     private float timeStep = 0.1f;              // 時間のステップ
 
@@ -256,7 +256,8 @@ public class CSP_Throwing : ActionBase
 
         if (countdown.IsCountdownFinished())
         {
-            if (collision.gameObject.tag == targetTag)
+            if (collision.gameObject.tag == "EnergyCore"
+                && targetObject == null)
             {
                 if (GetInputSystem().GetButtonYPressed())
                 {

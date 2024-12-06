@@ -49,19 +49,19 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("表示位置")]
     private UnityEngine.UI.Image detectionImage;
     private Vector2 defaultSize;
-    [SerializeField, Header("オートエイムレティクル")]
+    //[SerializeField, Header("レティクル変更の検出範囲")]
+    //float radius = 1.0f;
+    //[SerializeField, Header("オートエイムレティクル")]
     private UnityEngine.UI.Image autoaim;
-    [SerializeField, Header("オートエイムの検出範囲")]
-    float radiusAuto = 1.0f;
-    [SerializeField, Header("レティクル変更の検出範囲")]
-    float radius = 1.0f;
-    [SerializeField, Header("検出時のレティクル設定")]
+    //[SerializeField, Header("検出時のレティクル設定")]
     private Sprite detectedSprite;
     //[SerializeField]
     //private Color detectedColor = Color.green; // 検出時の色
+    [SerializeField, Header("通常時のレティクル")]
+    private Sprite reticle;
     [SerializeField, Header("冷却中のレティクル")]
     private Sprite ColdREticle;
-    [SerializeField, Header("非検出時のレティクル設定")]
+    //[SerializeField, Header("非検出時のレティクル設定")]
     private Sprite notDetectedSprite; 
     //[SerializeField]
     //private Color notDetectedColor = Color.red; // 非検出時の色
@@ -74,7 +74,7 @@ public class CSP_Shot : ActionBase
     private UnityEngine.UI.Image overheatOut;
     [SerializeField, Header("オーバーヒート中テキスト")]
     private TextMeshProUGUI overheatText;
-    [SerializeField, Header("ロックオンレティクル")]
+    //[SerializeField, Header("ロックオンレティクル")]
     private UnityEngine.UI.Image lockon;
     private RectTransform rectTransform;
 
@@ -84,11 +84,13 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("判定間隔")]
     private float autoaimCheckInterval = 0.5f;
     private float nextAutoaimCheckTime = 0;
-
     [SerializeField, Header("カメラターゲット")]
     private GameObject cameraTarget; 
     [SerializeField, Header("エイムターゲット")]
     private GameObject aimTarget;
+    [SerializeField, Header("検知範囲")]
+    float radiusAuto = 10f;
+
 
     private bool Cold = false;  //冷却中かどうか
     private float OverHeatAlpha = 0f;    //オーバーヒート中の画像の透明度(徐々に赤くする)
@@ -104,6 +106,9 @@ public class CSP_Shot : ActionBase
 
         // オーバーヒートテキストを非表示
         overheatText.enabled = false;
+        // オーバーヒートゲージを非表示
+        overheat.enabled = false;
+        overheatOut.enabled = false;
 
         // 残弾数を初期化
         bulletStock = initBulletStock;
@@ -131,16 +136,17 @@ public class CSP_Shot : ActionBase
         // レティクル処理
         HandlReticle();
 
-        // 照準処理
-        if (GetInputSystem().GetLeftTrigger() > 0.1f)
-        {
-            GetPlayerManager().GetCameraManager().SwitchingCamera(2);
-        }
-        else
-        {
-            GetPlayerManager().GetCameraManager().SwitchingCamera(0);
-
-        }
+        // 照準処理            
+        //if (GetInputSystem().GetLeftTrigger() > 0.1f 
+        //    && GetPlayerManager().GetCameraManager().NowCameraNumber() != 1)
+        //{
+        //    GetPlayerManager().GetCameraManager().SwitchingCamera(2);
+        //}
+        //if (GetInputSystem().GetLeftTrigger() < 0.1f
+        //    && GetPlayerManager().GetCameraManager().NowCameraNumber() != 1)
+        //{
+        //    GetPlayerManager().GetCameraManager().SwitchingCamera(0);
+        //}
 
         // 硬直処理
 
@@ -260,8 +266,8 @@ public class CSP_Shot : ActionBase
             GetAnimator().SetBool("Shot", true);
 
             // オーバーヒートゲージを表示
-            overheat.color = new Vector4(1, 1, 1, 1);
-            overheatOut.color = new Vector4(1, 1, 1, 1);
+            overheat.enabled = true;
+            overheatOut.enabled = true;
 
             // 装填数が0ならリロード
             if (isMagazine)
@@ -482,6 +488,7 @@ public class CSP_Shot : ActionBase
             // オーバーヒート処理
             overheat.fillAmount = magazine * 0.1f;
             overheatOut.fillAmount = overheat.fillAmount;
+
         }
         else
         {
@@ -494,26 +501,40 @@ public class CSP_Shot : ActionBase
             //リロードアニメーションが終了していたら冷却完了
             if (overheat.fillAmount >= 1f)
             {
-                overheat.color = Color.clear;
-                overheatOut.color = Color.clear;
+                // レティクルを元に戻す
+                detectionImage.sprite = reticle;
+
+                // オーバーヒートゲージを非表示
+                overheat.enabled = false;
+                overheatOut.enabled = false;
                 Cold = false;
                 overheatText.enabled = false;
             }
             else
             {
-                overheat.color = new Vector4(1, 1, 1, 1);
-                overheatOut.color = new Vector4(1, 1, 1, 1);
+                overheat.enabled = true;
+                overheatOut.enabled = true;
             }
         }
 
         //一定数残弾数が減ったらゲージを赤くする
-        if (overheat.fillAmount < 0.3f)
+        if (overheat.fillAmount < 0.5f)
         {
-            float AlphaSpeed = 2f;
-            OverHeatAlpha -= AlphaSpeed * Time.deltaTime;
-            overheat.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
+            //float AlphaSpeed = 2f;
+            //OverHeatAlpha -= AlphaSpeed * Time.deltaTime;
+            //overheat.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
 
+            overheat.enabled = false;
             overheatText.enabled = true;
+        }
+        else
+        {
+            //float AlphaSpeed = 2f;
+            //OverHeatAlpha += AlphaSpeed * Time.deltaTime;
+            //overheat.color = new Color(1.0f, 1.0f, 1.0f, OverHeatAlpha);
+
+            //overheat.enabled = true;
+            overheatText.enabled = false;
         }
 
         //残弾数が0になったら冷却
@@ -535,7 +556,7 @@ public class CSP_Shot : ActionBase
         float angle = Vector3.Angle(transform.forward, cameraTarget.transform.forward) * (axis.y < 0 ? -1 : 1);
 
         // 角度が閾値より大きい場合のみ回転を行う
-        if (Mathf.Abs(angle) > 45f)
+        if (Mathf.Abs(angle) > 25f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, cameraTarget.transform.rotation, 2f * Time.deltaTime);
             cameraTarget.transform.rotation = Quaternion.Slerp(cameraTarget.transform.rotation, transform.rotation, 2f * Time.deltaTime);
