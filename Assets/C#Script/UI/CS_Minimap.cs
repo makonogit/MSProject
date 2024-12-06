@@ -41,6 +41,8 @@ public class CS_Minimap : MonoBehaviour
     private GameObject EnemySencorCenter;
     [SerializeField, Header("缶詰アイコンのPrefab")]
     private GameObject CanIconPrefab;
+    [SerializeField, Header("デカアイコンのUI")]
+    private GameObject BigCanIconImage;
     [SerializeField, Header("コアアイコンのUI")]
     private GameObject CoreIconImage;
     [SerializeField, Header("MinmapUITrans")]
@@ -56,6 +58,8 @@ public class CS_Minimap : MonoBehaviour
     private string EnemyTagName;
     [SerializeField, Tooltip("缶詰")]
     private string CanTagName;
+    [SerializeField, Tooltip("デカ缶詰")]
+    private string BigCanTagName;
     [SerializeField, Tooltip("コア")]
     private string CoreTagName;
 
@@ -120,6 +124,8 @@ public class CS_Minimap : MonoBehaviour
 
         //コアの非表示
         if (CoreIconImage.activeSelf) { CoreIconImage.SetActive(false); }
+        //デカ缶詰の非表示
+        if (BigCanIconImage.activeSelf) { BigCanIconImage.SetActive(false); }
         //中央センサーの非表示
         if (EnemySencorCenter.activeSelf) { EnemySencorCenter.SetActive(false); }
 
@@ -129,7 +135,7 @@ public class CS_Minimap : MonoBehaviour
             bool Enemyhit = hit.tag == EnemyTagName;
             bool CanHit = hit.tag == CanTagName;
             bool CoreHit = hit.tag == CoreTagName;
-
+            bool BigCanHit = hit.tag == BigCanTagName;
 
             Vector3 relativePos = hit.transform.position - PlayerTrans.position; // プレイヤーからの相対位置
             float distance = relativePos.magnitude;
@@ -206,6 +212,14 @@ public class CS_Minimap : MonoBehaviour
                 icon.GetComponent<RectTransform>().anchoredPosition = minimapPosition;
 
                 currentIcons.Add(icon);
+            }
+
+
+            //デカ缶詰の場合は位置を変更
+            if (BigCanHit)
+            {
+                BigCanIconImage.SetActive(true);
+                BigCanIconImage.GetComponent<RectTransform>().anchoredPosition = minimapPosition;
             }
 
             //コアの場合は位置を変更

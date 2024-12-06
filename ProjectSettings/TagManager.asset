@@ -15,6 +15,7 @@ TagManager:
   - StunObject
   - PushObject
   - BurningObject
+  - BigCanItem
   layers:
   - Default
   - TransparentFX
