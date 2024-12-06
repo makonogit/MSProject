@@ -78,6 +78,13 @@ public class CSP_Shot : ActionBase
     private UnityEngine.UI.Image lockon;
     private RectTransform rectTransform;
 
+    [Header("オートエイム設定")]
+    [SerializeField, Header("オートエイム効果時間")]
+    private float autoTime = 10f;
+    [SerializeField, Header("判定間隔")]
+    private float autoaimCheckInterval = 0.5f;
+    private float nextAutoaimCheckTime = 0;
+
     [SerializeField, Header("カメラターゲット")]
     private GameObject cameraTarget; 
     [SerializeField, Header("エイムターゲット")]
@@ -89,6 +96,7 @@ public class CSP_Shot : ActionBase
     // カウントダウン用クラス
     private CS_Countdown countdown;
     private CS_Countdown intervalCountdown;
+    private CS_Countdown autoaimCountdown;
 
     protected override void Start()
     {
@@ -106,6 +114,7 @@ public class CSP_Shot : ActionBase
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
         intervalCountdown = gameObject.AddComponent<CS_Countdown>();
+        autoaimCountdown = gameObject.AddComponent<CS_Countdown>();
 
         // 初期レティクルサイズを保存
         //defaultSize = autoaim.transform.localScale;
@@ -179,7 +188,6 @@ public class CSP_Shot : ActionBase
     //**
     void HandlReticle()
     {
-
         // レティクルとターゲットを初期化
         //detectionImage.color = notDetectedColor;
         //detectionImage.sprite = notDetectedSprite;
@@ -435,31 +443,31 @@ public class CSP_Shot : ActionBase
      */
     void HandlAutoaim()
     {
-        // カメラ正面からレイを作成
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit[] autAnimhits = Physics.SphereCastAll(ray, radiusAuto, range);
-
-        // オートエイム対象の取得処理
-        // レティクル内に破壊可能オブジェクトがあるか判定
-        foreach (RaycastHit hit in autAnimhits)
+        // オートエイム状態の処理
+        if (isAuto && Time.time >= nextAutoaimCheckTime)
         {
-            // ヒットした場合の処理
-            if (targetTag.Contains(hit.collider.tag))
+            // オートエイムの効果時間のカウントを開始
+            autoaimCountdown.Initialize(autoTime);
+
+            // レイの判定間隔を更新
+            nextAutoaimCheckTime = Time.time + autoaimCheckInterval;
+
+            // カメラ正面からレイを作成
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit hit;
+            if (Physics.SphereCast(ray, radiusAuto, out hit, range))
             {
-                // オブジェクトを取得
-                targetObject = hit.collider.gameObject;
-
-                ////----- コフィンのHPゲージ表示 ------------
-                //if (hit.collider.tag == "Emnemy")
-                //{
-                //    hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
-
-                //    if (cofine) { cofine.ViewHPGage(); }
-
-                //}
-                break;
+                if (targetTag.Contains(hit.collider.tag))
+                {
+                    targetObject = hit.collider.gameObject;
+                }
             }
+        }
 
+        // 効果時間の終了処理
+        if (autoaimCountdown.IsCountdownFinished())
+        {
+            isAuto = false;
         }
     }
 

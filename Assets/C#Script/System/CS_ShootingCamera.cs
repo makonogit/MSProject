@@ -282,7 +282,6 @@ public class CS_ShootingCamera : ActionBase
             return false;
         }
 
-        // 壁を避けて、ターゲットオブジェクトを探す
         RaycastHit[] hits = Physics.SphereCastAll(ray, radius, range);
 
         // レティクル内に破壊可能オブジェクトがあるか判定
