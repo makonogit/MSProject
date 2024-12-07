@@ -461,7 +461,9 @@ public class CSP_Shot : ActionBase
             // ƒJƒƒ‰³–Ê‚©‚çƒŒƒC‚ğì¬
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             RaycastHit hit;
-            if (Physics.SphereCast(ray, radiusAuto, out hit, range))
+            Vector3 boxSize = new Vector3(radiusAuto, radiusAuto, radiusAuto);
+
+            if (Physics.BoxCast(ray.origin, boxSize / 2, ray.direction, out hit, Quaternion.identity, range))
             {
                 if (targetTag.Contains(hit.collider.tag))
                 {
@@ -593,33 +595,33 @@ public class CSP_Shot : ActionBase
     }
 
     // ƒfƒoƒbƒN—p‚ÉŠgU”ÍˆÍ‚Ì‰~‚ğ•\¦
-    private void OnDrawGizmos()
-    {
-        float radius = range * scatter;
-        float height = range;
-        int segments = 30;
+    //private void OnDrawGizmos()
+    //{
+    //    float radius = range * scatter;
+    //    float height = range;
+    //    int segments = 30;
 
-        // ’ê–Ê‚Ì‰~‚ğ•`‚­
-        Vector3 center = Camera.main.transform.position + Camera.main.transform.forward * height;
-        for (int i = 0; i < segments; i++)
-        {
-            float angle0 = i * Mathf.PI * 2f / segments;
-            float angle1 = (i + 1) * Mathf.PI * 2f / segments;
+    //    // ’ê–Ê‚Ì‰~‚ğ•`‚­
+    //    Vector3 center = Camera.main.transform.position + Camera.main.transform.forward * height;
+    //    for (int i = 0; i < segments; i++)
+    //    {
+    //        float angle0 = i * Mathf.PI * 2f / segments;
+    //        float angle1 = (i + 1) * Mathf.PI * 2f / segments;
 
-            Vector3 point0 = center + new Vector3(Mathf.Cos(angle0) * radius, Mathf.Sin(angle0) * radius,0);
-            Vector3 point1 = center + new Vector3(Mathf.Cos(angle1) * radius, Mathf.Sin(angle1) * radius,0);
+    //        Vector3 point0 = center + new Vector3(Mathf.Cos(angle0) * radius, Mathf.Sin(angle0) * radius,0);
+    //        Vector3 point1 = center + new Vector3(Mathf.Cos(angle1) * radius, Mathf.Sin(angle1) * radius,0);
 
-            Gizmos.DrawLine(point0, point1); // ’ê–Ê‚Ì‰~‚ğ•`‚­
-            Gizmos.DrawLine(center, point0); // ’¸“_‚ÉŒü‚©‚Á‚Äü‚ğ•`‚­
-        }
+    //        Gizmos.DrawLine(point0, point1); // ’ê–Ê‚Ì‰~‚ğ•`‚­
+    //        Gizmos.DrawLine(center, point0); // ’¸“_‚ÉŒü‚©‚Á‚Äü‚ğ•`‚­
+    //    }
 
-        // ’ê–Ê‚Æ’¸“_‚ğŒ‹‚Ôü‚ğ•`‚­
-        Vector3 top = Camera.main.transform.position;
-        for (int i = 0; i < segments; i++)
-        {
-            float angle = i * Mathf.PI * 2f / segments;
-            Vector3 point = center + new Vector3(Mathf.Cos(angle) * radius,  Mathf.Sin(angle) * radius,0);
-            Gizmos.DrawLine(top, point);
-        }
-    }
+    //    // ’ê–Ê‚Æ’¸“_‚ğŒ‹‚Ôü‚ğ•`‚­
+    //    Vector3 top = Camera.main.transform.position;
+    //    for (int i = 0; i < segments; i++)
+    //    {
+    //        float angle = i * Mathf.PI * 2f / segments;
+    //        Vector3 point = center + new Vector3(Mathf.Cos(angle) * radius,  Mathf.Sin(angle) * radius,0);
+    //        Gizmos.DrawLine(top, point);
+    //    }
+    //}
 }

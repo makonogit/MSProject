@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 84f5c5a68c16b114bb0aa89fd6e95fb9
+guid: b38b73657741dc742a1b8629dc9cec9b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BaseBlockColor
-    second: {fileID: 2100000, guid: f77acfbdb5e77564680f77c17bb2b765, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -37,7 +32,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1

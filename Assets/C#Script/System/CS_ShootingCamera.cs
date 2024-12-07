@@ -52,7 +52,7 @@ public class CS_ShootingCamera : ActionBase
     [SerializeField, Header("検知距離")]
     private float range = 100f;
     [SerializeField, Header("検出範囲")]
-    float radius = 3.0f;
+    float radius = 0.5f;
     [SerializeField, Header("単体へのアシスト倍率")]
     private float assistVal = 0.3f;
     //[SerializeField, Header("複数体へのアシスト倍率")]
@@ -62,6 +62,7 @@ public class CS_ShootingCamera : ActionBase
     private float checkInterval = 0.5f;
     private float nextCheckTime = 0;
     private bool isOldCheck = false;
+    [SerializeField, Header("アシスト状態")]
     private bool isAssist = false;
 
     // 自身のコンポーネント
@@ -186,25 +187,16 @@ public class CS_ShootingCamera : ActionBase
             nextCheckTime = Time.time + checkInterval;
 
             // カメラ正面からレイを作成
-            Ray ray = new Ray(target.transform.position, Camera.main.transform.forward);
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             RaycastHit hit;
+            Vector3 boxSize = new Vector3(radius, radius, radius);
 
-            if (Physics.SphereCast(ray, radius, out hit, range))
+            if (Physics.BoxCast(ray.origin, boxSize / 2, ray.direction, out hit, Quaternion.identity, range))
             {
                 if (targetTag.Contains(hit.collider.tag))
                 {
                     isOldCheck = true;
                 }
-            }
-
-            // レイの可視化
-            if (isAssist)
-            {
-                UnityEngine.Debug.DrawRay(ray.origin, ray.direction * range, Color.red, checkInterval);
-            }
-            else
-            {
-                UnityEngine.Debug.DrawRay(ray.origin, ray.direction * range, Color.yellow, checkInterval);
             }
         }
 
