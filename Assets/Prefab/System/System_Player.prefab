@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 8558316370094406827}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7219238, y: -0.2999878, z: -0.0004104972}
+  m_LocalPosition: {x: -978.2747, y: -541.3204, z: -0.5562059}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6715925832504961421, guid: f88e659feeb8a1d48808405d22350084, type: 3}
+      propertyPath: PlayerTrans
+      value: 
+      objectReference: {fileID: 5068815770028365204}
     - target: {fileID: 8536324890424212320, guid: f88e659feeb8a1d48808405d22350084, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -637,6 +641,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2226242038342832754 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1173990442604324856, guid: f88e659feeb8a1d48808405d22350084, type: 3}
+  m_PrefabInstance: {fileID: 1058320902071334282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3786383988664099085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4189501513092682887, guid: f88e659feeb8a1d48808405d22350084, type: 3}
@@ -659,11 +674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7068510014927369025 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7833885282479654603, guid: f88e659feeb8a1d48808405d22350084, type: 3}
-  m_PrefabInstance: {fileID: 1058320902071334282}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7872898292243514148 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7200637913521026734, guid: f88e659feeb8a1d48808405d22350084, type: 3}
@@ -2084,9 +2094,13 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1826830665359163693, guid: 41cd948b84d65c94e820a4019b10a178, type: 3}
+      propertyPath: PlayerTrans
+      value: 
+      objectReference: {fileID: 5068815770028365204}
+    - target: {fileID: 1826830665359163693, guid: 41cd948b84d65c94e820a4019b10a178, type: 3}
       propertyPath: ArartEffectUI
       value: 
-      objectReference: {fileID: 7068510014927369025}
+      objectReference: {fileID: 2226242038342832754}
     - target: {fileID: 6626019400324016022, guid: 41cd948b84d65c94e820a4019b10a178, type: 3}
       propertyPath: m_Name
       value: StageObj
@@ -2206,13 +2220,17 @@ PrefabInstance:
       value: 497.62677
       objectReference: {fileID: 0}
     - target: {fileID: 6432679673486121398, guid: f81d564dcdfd9904fa622035c6ad1976, type: 3}
+      propertyPath: focus
+      value: 
+      objectReference: {fileID: 6675306349607763419}
+    - target: {fileID: 6432679673486121398, guid: f81d564dcdfd9904fa622035c6ad1976, type: 3}
       propertyPath: radius
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6432679673486121398, guid: f81d564dcdfd9904fa622035c6ad1976, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5068815770028365204}
     - target: {fileID: 6432679673486121398, guid: f81d564dcdfd9904fa622035c6ad1976, type: 3}
       propertyPath: hydeSpeed
       value: 40

@@ -17,6 +17,8 @@ public class CS_BreakAlart : MonoBehaviour
     {
         //if(anim.GetBool("Alarm") == false) { return; }
 
+        if(anim.speed <= 0) { return; }
+
         TimeMesure += Time.deltaTime;
 
         float time = anim.GetFloat("AlartTime");

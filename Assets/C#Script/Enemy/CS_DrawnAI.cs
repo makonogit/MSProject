@@ -640,8 +640,9 @@ public class CS_DrawnAI : MonoBehaviour
     /// <summary>
     /// HPÉQÅ[ÉWÇÃï\é¶
     /// </summary>
-    public void ViewHPGage()
+    public void ViewHPGage(Transform PlayerTrans)
     {
+        HPCanvas.transform.LookAt(PlayerTrans);
         HPCanvas.SetActive(true);
     }
 
