@@ -14,7 +14,7 @@ public class CS_ShootingCamera : ActionBase
     // 外部オブジェクト
     [Header("外部オブジェクト")]
     public Transform target; // 追尾対象
-    public Transform focus; // 追尾対象
+    public Transform focus;  // 追尾対象
     public CS_InputSystem inputSystem;// インプットマネージャー
 
 
