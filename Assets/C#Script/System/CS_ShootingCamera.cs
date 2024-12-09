@@ -149,10 +149,13 @@ public class CS_ShootingCamera : ActionBase
             rot += speedX * rotVec * currentAcceleration * Time.deltaTime;
             target.rotation = Quaternion.Euler(rot);
 
+            float maxMovePosY = 5f;  // ç≈ëÂYà íu
+            float minMovePosY = -5f; // ç≈è¨Yà íu
             float speedY = hydeSpeed;
             if (isAds) speedY *= adsWeight;
             if (isAssist) speedY *= assistVal;
             float movePos = offsetFocus.y + speedY * stick.y * currentAcceleration * Time.deltaTime;
+            movePos = Mathf.Clamp(movePos, minMovePosY, maxMovePosY);
             offsetFocus.y = Mathf.Lerp(offsetFocus.y, movePos, 0.1f);
         }
 
@@ -162,14 +165,14 @@ public class CS_ShootingCamera : ActionBase
 
         UpdateCameraRotation();
 
-        if (offsetFocus.y < -5)
-        {
-            offsetFocus.y = -5f;
-        }
-        if (offsetFocus.y > 5f)
-        {
-            offsetFocus.y = 5f;
-        }
+        //if (offsetFocus.y < -5)
+        //{
+        //    offsetFocus.y = -5f;
+        //}
+        //if (offsetFocus.y > 5f)
+        //{
+        //    offsetFocus.y = 5f;
+        //}
 
     }
 
