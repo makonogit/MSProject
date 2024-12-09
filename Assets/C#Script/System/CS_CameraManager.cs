@@ -9,9 +9,9 @@ public class CS_CameraManager : MonoBehaviour
     //**
     //* 変数
     //**
-
-    // 外部オブジェクト
-    [Header("外部オブジェクト")]
+    [SerializeField, Header("開始時のカメラ")]
+    private int initIndex = 0;
+    [Header("使用するカメラを設定")]
     public CinemachineVirtualCamera[] virtualCameras;// カメラのリスト
 
     // 自身のコンポーネント
@@ -27,15 +27,9 @@ public class CS_CameraManager : MonoBehaviour
     {
         // 自身のコンポーネントを取得
         impulseSource = GetComponent<CinemachineImpulseSource>();
-    }
 
-    //**
-    //* 更新
-    //**
-
-    void Update()
-    {
-
+        // 開始時のカメラを設定
+        SwitchingCamera(initIndex);
     }
 
     //**

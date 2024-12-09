@@ -14,7 +14,7 @@ public class CS_ShootingCamera : ActionBase
     // 外部オブジェクト
     [Header("外部オブジェクト")]
     public Transform target; // 追尾対象
-    public Transform focus; // 追尾対象
+    public Transform focus;  // 追尾対象
     public CS_InputSystem inputSystem;// インプットマネージャー
 
 
@@ -149,10 +149,13 @@ public class CS_ShootingCamera : ActionBase
             rot += speedX * rotVec * currentAcceleration * Time.deltaTime;
             target.rotation = Quaternion.Euler(rot);
 
+            float maxMovePosY = 5f;  // 最大Y位置
+            float minMovePosY = -5f; // 最小Y位置
             float speedY = hydeSpeed;
             if (isAds) speedY *= adsWeight;
             if (isAssist) speedY *= assistVal;
             float movePos = offsetFocus.y + speedY * stick.y * currentAcceleration * Time.deltaTime;
+            movePos = Mathf.Clamp(movePos, minMovePosY, maxMovePosY);
             offsetFocus.y = Mathf.Lerp(offsetFocus.y, movePos, 0.1f);
         }
 
@@ -162,14 +165,14 @@ public class CS_ShootingCamera : ActionBase
 
         UpdateCameraRotation();
 
-        if (offsetFocus.y < -5)
-        {
-            offsetFocus.y = -5f;
-        }
-        if (offsetFocus.y > 5f)
-        {
-            offsetFocus.y = 5f;
-        }
+        //if (offsetFocus.y < -5)
+        //{
+        //    offsetFocus.y = -5f;
+        //}
+        //if (offsetFocus.y > 5f)
+        //{
+        //    offsetFocus.y = 5f;
+        //}
 
     }
 
