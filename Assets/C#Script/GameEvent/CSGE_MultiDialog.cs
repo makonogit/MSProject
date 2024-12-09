@@ -25,11 +25,23 @@ namespace Assets.C_Script.GameEvent
         [SerializeField]
         private CS_InputSystem inputSystem = null;
         private int index = 0;
+        [SerializeField]
+        private GameObject b_button = null;
+        [SerializeField]
+        private GameObject T_button = null;
+        [SerializeField]
+        private GameObject next_button = null;
+        [SerializeField]
+        private GameObject prev_button = null;
         private int Index 
         {
             set 
             {
                 index = Mathf.Max(Mathf.Min(value, sprites.Count - 1),0);
+                next_button.SetActive(true);
+                prev_button.SetActive(true);
+                if (index == 0) prev_button.SetActive(false);
+                if (index == sprites.Count-1) next_button.SetActive(false);
             }
             get { return index; }
         }
@@ -39,6 +51,7 @@ namespace Assets.C_Script.GameEvent
             base.Awake();
             if (sprites.Count > 0) image.sprite = sprites[0];
             if (inputSystem == null) Debug.LogError("InputSystemが設定されていません。 "+gameObject.name);
+            Index = 0;
         }
 
         protected override void EventUpdate()
@@ -46,6 +59,7 @@ namespace Assets.C_Script.GameEvent
             base.EventUpdate();
             Time.timeScale = 0f;
             animator.SetBool("Display", true);
+            
             if (display) ChangeSprite();
         }
 
@@ -54,6 +68,8 @@ namespace Assets.C_Script.GameEvent
             base.Init();
             if (end && isOnce) isFinish = true;
             animator.SetBool("Close", false);
+            b_button.SetActive(false);
+            T_button.SetActive(false);
         }
 
         protected override void Uninit()
@@ -63,9 +79,12 @@ namespace Assets.C_Script.GameEvent
             animator.SetBool("Close", true);
             animator.SetBool("Display", false);
             end = true;
+            b_button.SetActive(false);
+            T_button.SetActive(false);
         }
         private void ChangeSprite()
         {
+            T_button.SetActive(true);
             if (inputSystem.GetDpadLeftTriggered()) 
             { 
                 Index--; 
@@ -76,6 +95,7 @@ namespace Assets.C_Script.GameEvent
                 Index++;
                 image.sprite = sprites[index];
             }
+            b_button.SetActive(index >= sprites.Count - 1);
             if (index>= sprites.Count-1 && inputSystem.GetButtonBTriggered()) isFinish = true;
         }
     }
