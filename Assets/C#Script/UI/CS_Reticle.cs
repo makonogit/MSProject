@@ -32,7 +32,6 @@ public class CS_Reticle : MonoBehaviour
             //----- デカ缶詰のHPゲージ表示 ------------
             if (hit.collider.tag == "BigCanItem")
             {
-                if(hit.collider.gameObject == null) { return; }
                 hit.transform.TryGetComponent<CS_BigCan>(out CS_BigCan can);
                
                 if (can) { can.ViewHPGage(PlayerTrans); }

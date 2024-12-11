@@ -40,6 +40,9 @@ public class CS_InputSystem : MonoBehaviour
     private bool isButtonRPressed;
     private bool isButtonLPressed;
     private bool isStartTriggered;
+    private bool isStartPressed;
+    private bool isSharePressed;
+    private bool isViewPressed;
 
     // ステックの入力状態
     private bool isLeftStick;
@@ -89,6 +92,9 @@ public class CS_InputSystem : MonoBehaviour
         isButtonXPressed = IsButtonXPressed();
         isButtonRPressed = IsButtonRPressed();
         isButtonLPressed = IsButtonLPressed();
+        isStartPressed = IsButtonStartPressed();
+        isSharePressed = IsButtonSharePressed();
+        isViewPressed = IsButtonViewPressed();
 
         isButtonRTriggered = IsButtonRTriggered();
         isButtonLTriggered = IsButtonLTriggered();
@@ -127,7 +133,11 @@ public class CS_InputSystem : MonoBehaviour
     public bool GetButtonRPressed() => isButtonRPressed;
     public bool GetButtonLPressed() => isButtonLPressed;
 
+    public bool GetButtonStartPressed() => isStartPressed;
 
+    public bool GetButtonSharePressed() => isSharePressed;
+
+    public bool GetButtonViewPressed() => isViewPressed;
 
     public bool GetButtonRTriggered() => isButtonRTriggered;
     public bool GetButtonLTriggered() => isButtonLTriggered;
@@ -176,6 +186,10 @@ public class CS_InputSystem : MonoBehaviour
     private bool IsButtonLPressed() => inputSystem.Controller.Button_L.ReadValue<float>() > 0.1f;
 
     private bool IsButtonStartPressed() => inputSystem.Controller.StartButton.ReadValue<float>() > 0.1f;
+
+    private bool IsButtonSharePressed() => inputSystem.Controller.ShareButton.ReadValue<float>() > 0.1f;
+    private bool IsButtonViewPressed() => inputSystem.Controller.ViewButton.ReadValue<float>() > 0.1f;
+
 
     private bool IsButtonATriggered() => inputSystem.Controller.Button_A.triggered;
     private bool IsButtonBTriggered() => inputSystem.Controller.Button_B.triggered;

@@ -60,7 +60,7 @@ public class CS_BigCan : MonoBehaviour
     /// </summary>
     public void ViewHPGage(Transform PlayerTrans)
     {
-        if(HPCanvas == null) { return; }
+        if (HPCanvas == null) { return; }
         HPCanvas.transform.LookAt(PlayerTrans); //HPゲージを常にプレイヤーの方へ
         HPCanvas.SetActive(true);
         if(currentCoroutine != null) { return; }

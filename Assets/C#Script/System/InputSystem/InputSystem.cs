@@ -197,6 +197,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShareButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4b150de-46ed-49a2-becd-de212a66538d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ViewButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""bda2bc18-8500-43d5-839d-f226a06b5f3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -301,30 +319,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1c2bbe3e-9ee3-4ee7-8c30-4398daba8544"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dpad_up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6aee76cb-c853-432b-a048-bd4271d52aca"",
                     ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dpad_right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f762eedd-da3c-4683-bf31-2f2e548224be"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -345,30 +341,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""88a62bc5-d557-4acb-bf78-d982ab65896a"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dpad_left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""62e21baa-c312-494a-90a3-26ef792c9f24"",
                     ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dpad_down"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a230c955-a54b-437e-b780-d1e20149e26d"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -540,6 +514,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""StartButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61ab5613-f904-4ac6-b3c1-a28ac52615e4"",
+                    ""path"": ""<DualSenseGamepadHID>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShareButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b372966-d226-429c-b1b2-bace52bd8f95"",
+                    ""path"": ""<XInputController>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ViewButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -567,6 +563,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Controller_Stick_L_Button = m_Controller.FindAction("Stick_L_Button", throwIfNotFound: true);
         m_Controller_Stick_R_Button = m_Controller.FindAction("Stick_R_Button", throwIfNotFound: true);
         m_Controller_StartButton = m_Controller.FindAction("StartButton", throwIfNotFound: true);
+        m_Controller_ShareButton = m_Controller.FindAction("ShareButton", throwIfNotFound: true);
+        m_Controller_ViewButton = m_Controller.FindAction("ViewButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -647,6 +645,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controller_Stick_L_Button;
     private readonly InputAction m_Controller_Stick_R_Button;
     private readonly InputAction m_Controller_StartButton;
+    private readonly InputAction m_Controller_ShareButton;
+    private readonly InputAction m_Controller_ViewButton;
     public struct ControllerActions
     {
         private @InputSystem m_Wrapper;
@@ -670,6 +670,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Stick_L_Button => m_Wrapper.m_Controller_Stick_L_Button;
         public InputAction @Stick_R_Button => m_Wrapper.m_Controller_Stick_R_Button;
         public InputAction @StartButton => m_Wrapper.m_Controller_StartButton;
+        public InputAction @ShareButton => m_Wrapper.m_Controller_ShareButton;
+        public InputAction @ViewButton => m_Wrapper.m_Controller_ViewButton;
         public InputActionMap Get() { return m_Wrapper.m_Controller; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -736,6 +738,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @StartButton.started += instance.OnStartButton;
             @StartButton.performed += instance.OnStartButton;
             @StartButton.canceled += instance.OnStartButton;
+            @ShareButton.started += instance.OnShareButton;
+            @ShareButton.performed += instance.OnShareButton;
+            @ShareButton.canceled += instance.OnShareButton;
+            @ViewButton.started += instance.OnViewButton;
+            @ViewButton.performed += instance.OnViewButton;
+            @ViewButton.canceled += instance.OnViewButton;
         }
 
         private void UnregisterCallbacks(IControllerActions instance)
@@ -797,6 +805,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @StartButton.started -= instance.OnStartButton;
             @StartButton.performed -= instance.OnStartButton;
             @StartButton.canceled -= instance.OnStartButton;
+            @ShareButton.started -= instance.OnShareButton;
+            @ShareButton.performed -= instance.OnShareButton;
+            @ShareButton.canceled -= instance.OnShareButton;
+            @ViewButton.started -= instance.OnViewButton;
+            @ViewButton.performed -= instance.OnViewButton;
+            @ViewButton.canceled -= instance.OnViewButton;
         }
 
         public void RemoveCallbacks(IControllerActions instance)
@@ -835,5 +849,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnStick_L_Button(InputAction.CallbackContext context);
         void OnStick_R_Button(InputAction.CallbackContext context);
         void OnStartButton(InputAction.CallbackContext context);
+        void OnShareButton(InputAction.CallbackContext context);
+        void OnViewButton(InputAction.CallbackContext context);
     }
 }
