@@ -99,11 +99,8 @@ public class CS_PlayerManager : MonoBehaviour
     private CS_Countdown countdownGoal;
     private CS_Countdown countdownStun;
 
-
-
     [SerializeField, Header("空き缶残量ゲージ")]
     private UnityEngine.UI.Image CanGage;
-
 
     //**
     //* 初期化
@@ -180,7 +177,6 @@ public class CS_PlayerManager : MonoBehaviour
 
     void FixedUpdate()
     {
-
         //ゲージの状態を更新
         CanGage.fillAmount = (float)nowMP / (float)MaxMP;
 
@@ -219,6 +215,7 @@ public class CS_PlayerManager : MonoBehaviour
 
         if (countdown.IsCountdownFinished())
         {
+            // 着地判定
             if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
             {
                 if ((oldAcceleration.y < -fallingThreshold))
@@ -236,11 +233,11 @@ public class CS_PlayerManager : MonoBehaviour
 
 
         // ゴールモーションが終了してからリザルトを表示
-        //if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
-        //{
-        //    result.StartResult();
-        //    animator.SetBool("Goal",false);
-        //}
+        if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
+        {
+            result.StartResult();
+            animator.SetBool("Goal", false);
+        }
 
         // 気絶状態
         if (countdownStun.IsCountdownFinished() && animator.GetBool("Stun"))
@@ -283,12 +280,13 @@ public class CS_PlayerManager : MonoBehaviour
         else if (collision.gameObject.tag == "Goal")
         {
             TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
-            //animator.SetBool("Goal", true);
+            animator.SetBool("Goal", true);
 
-            //countdownGoal.Initialize(3);
+            countdownGoal.Initialize(3);
 
-            result.StartResult();
+            //result.StartResult();
         }
+
     }
 
     //**

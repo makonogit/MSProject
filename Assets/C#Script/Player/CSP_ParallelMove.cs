@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 //**
@@ -39,7 +40,7 @@ public class CSP_ParallelMove : ActionBase
     //[SerializeField]
     private StringNumberPair[] animatorFloatSpeedList;
     //[SerializeField, Header("アニメーションの切り替え速度")]
-    private float animSpeed = 0.1f;
+    private float animSpeed = 0.25f;
 
     // カウントダウン用クラス
     private CS_Countdown countdown;
@@ -60,7 +61,6 @@ public class CSP_ParallelMove : ActionBase
         // Countdownオブジェクトを生成
         countdown = gameObject.AddComponent<CS_Countdown>();
         countdownDamage = gameObject.AddComponent<CS_Countdown>();
-
     }
 
     void FixedUpdate()
@@ -243,7 +243,13 @@ public class CSP_ParallelMove : ActionBase
         //    }
         //}
 
-        GetRigidbody().MovePosition(GetRigidbody().position + direction);
+
+
+        //GetRigidbody().MovePosition(GetRigidbody().position + direction);
+
+        Vector3 newPos = transform.position + direction;
+        transform.position = newPos;
+
     }
 
     void StopMove()
@@ -261,7 +267,6 @@ public class CSP_ParallelMove : ActionBase
         // 平行な移動成分を取り除く
         Vector3 currentVelocity = GetRigidbody().velocity;
         GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
-
     }
 
     private void OnCollisionStay(Collision collision)
