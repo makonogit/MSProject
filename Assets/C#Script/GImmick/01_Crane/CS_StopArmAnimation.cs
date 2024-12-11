@@ -16,7 +16,10 @@ namespace Assets.C_Script.Gimmick
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.transform.tag == hittag) animator.SetFloat("speed", 0);
+            if (other.transform.tag == hittag) 
+            { 
+                animator.SetFloat("speed", 0);
+            }
         }
     }
 }

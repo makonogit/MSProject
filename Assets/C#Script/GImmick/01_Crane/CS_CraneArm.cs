@@ -30,6 +30,7 @@ namespace Assets.C_Script.Gimmick
         private float speedOffset = 0.034f;
         [SerializeField]
         private bool downFlag;
+        [SerializeField]
         private bool stopFlag;
         [SerializeField]
         private CS_CoreUnit endPointCoreUnit;
@@ -82,7 +83,6 @@ namespace Assets.C_Script.Gimmick
 
             if (Drop)DropItem();
             else if (!caught)HoldItem();
-            if (!crabTrolley.Power && animaArm.GetFloat("speed") == 0&&!Dropped)stopFlag = false;
         }
         // ギミックシャットダウン時
         protected override void PowerOff()
@@ -100,7 +100,6 @@ namespace Assets.C_Script.Gimmick
             if(Dropped)return;
             itemObject = gameObject;
             itemRb = gameObject.GetComponent<Rigidbody>();
-            stopFlag = true;
         }
 
         /// <summary>
@@ -125,7 +124,6 @@ namespace Assets.C_Script.Gimmick
             // 閉じる
             animaArm.SetFloat("speed", 1);
             animaArm.Play("AM_ArmClosing", 0, 0);
-
             
             audioSource.clip = garbSound;
             audioSource.loop = false;
@@ -146,7 +144,6 @@ namespace Assets.C_Script.Gimmick
             // コアを台に置く
             endPointCoreUnit.SetCore(itemObject);
             caught = false;     // 放した
-            stopFlag = false;   // 動く
             downFlag = false;   // 上がる
             Drop = false;       // 落とした
             Dropped = true;
@@ -174,7 +171,7 @@ namespace Assets.C_Script.Gimmick
             {
                 bool isMove = crabTrolley.Power;
                 if (isMove) return false;
-                if (stopFlag) return false;
+                if (stopFlag) return false; 
                 return downFlag;
             }
         }
@@ -187,7 +184,6 @@ namespace Assets.C_Script.Gimmick
             {
                 bool isMove = crabTrolley.Power;
                 if (isMove) return false;
-                if (stopFlag) return false;
                 return !downFlag;
             }
         }
@@ -214,7 +210,6 @@ namespace Assets.C_Script.Gimmick
             if (audioSource.isPlaying)audioSource.Play();
             if (shouldStopDown) 
             {
-                stopFlag = true;
                 Drop = true;
             }
         }
@@ -230,11 +225,11 @@ namespace Assets.C_Script.Gimmick
             // 上がり切ったら
             if (Cable.transform.lossyScale.y <= Top) 
             { 
-                stopFlag = true; 
                 downFlag = true;
                 crabTrolley.Power = caught;
                 audioSource.Stop();
             }
+            if (crabTrolley.endPoint) stopFlag = true;
         }
 
         /// <summary>

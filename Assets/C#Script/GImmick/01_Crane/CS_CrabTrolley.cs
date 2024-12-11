@@ -13,7 +13,6 @@ namespace Assets.C_Script.Gimmick
     public class CS_CrabTrolley :CS_Mechanical
     {
         private SplineAnimate splineAnimate;
-        private float duration;
         private bool Return = false;
         private AudioSource audioSource;
         [SerializeField]
@@ -62,6 +61,15 @@ namespace Assets.C_Script.Gimmick
             }
         }
 
+        public bool endPoint 
+        {
+            get
+            {
+                bool value = splineAnimate.Duration <= splineAnimate.ElapsedTime;
+                return value; 
+            }
+        }
+
         /// <summary>
         /// 止めるとき
         /// </summary>
@@ -93,7 +101,7 @@ namespace Assets.C_Script.Gimmick
             // エンドポイントの設定
             {
                 // エンド位置に設定
-                splineAnimate.ElapsedTime = splineAnimate.Duration;
+                splineAnimate.ElapsedTime = splineAnimate.Duration + 0.05f;
                 // 位置の取得
                 position = arm.transform.position;
                 position.y = endUnit.position.y;

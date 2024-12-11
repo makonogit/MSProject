@@ -66,6 +66,8 @@ public class CS_EnemySpawner : MonoBehaviour
     {
         if (SpawnonAwake) { SpawnSwitch = true;  }
 
+        //1回目生成時は無視するように設定
+        SpawnSpaceTime = SpawnSpace;
     }
 
     // Update is called once per frame
@@ -143,16 +145,6 @@ public class CS_EnemySpawner : MonoBehaviour
             return;
         }
 
-        //向き指定して生成
-        for(int i = 0; i < SynchroSpawnNum; i++)
-        {
-            Quaternion rotate = Quaternion.LookRotation(SpawnDirection);
-            GameObject enemy = Instantiate(SpawnEnemy,transform.position + transform.forward * 2f,rotate);
-            enemy.transform.SetParent(EnemyManager.transform);   //子オブジェクトに設定
-            CurrentSpawnNum++;
-        }
-
-
         //スポーン感覚を設定
         bool Space = SpawnSpaceTime >= SpawnSpace;
         if (!Space)
@@ -162,6 +154,18 @@ public class CS_EnemySpawner : MonoBehaviour
         }
 
         SpawnSpaceTime = 0f;
+
+        //向き指定して生成
+        for (int i = 0; i < SynchroSpawnNum; i++)
+        {
+            Quaternion rotate = Quaternion.LookRotation(SpawnDirection);
+            GameObject enemy = Instantiate(SpawnEnemy,transform.position + transform.forward * 2f,rotate);
+            enemy.transform.SetParent(EnemyManager.transform);   //子オブジェクトに設定
+            CurrentSpawnNum++;
+        }
+
+
+      
         
     }
 

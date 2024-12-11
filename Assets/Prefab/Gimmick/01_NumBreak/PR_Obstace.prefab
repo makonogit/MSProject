@@ -140,7 +140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 11
   PitchUp: 0.5
-  DebrisParticle: {fileID: 6094323405058740018, guid: 3c2ae70b5e9f4174da24148d3f8f6398, type: 3}
   numberChanger: {fileID: 7083640246295782353}
   explosion: {fileID: 8300000, guid: 05f2b74dd5418ce4090f90023f4515ab, type: 3}
   hitSound: {fileID: 8300000, guid: 6ac3be23a164ed34b9a50f44977799fc, type: 3}
@@ -155,7 +154,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -4035763419403263393, guid: 3f5731b21b1f5da40a32d051c1aed82a, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

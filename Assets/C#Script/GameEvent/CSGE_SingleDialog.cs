@@ -21,6 +21,8 @@ namespace Assets.C_Script.GameEvent
         private Animator animator = null;
         [SerializeField]
         private CS_InputSystem inputSystem = null;
+        [SerializeField]
+        private GameObject b_button = null;
 
         protected override void Awake()
         {
@@ -33,6 +35,7 @@ namespace Assets.C_Script.GameEvent
             base.EventUpdate();
             animator.SetBool("Display", true);
             if (display && inputSystem.GetButtonBTriggered()) isFinish = true;
+            b_button.SetActive(true);
             Time.timeScale = 0f;
         }
 
@@ -41,6 +44,7 @@ namespace Assets.C_Script.GameEvent
             base.Init();
             if(end&&isOnce)isFinish = true;
             animator.SetBool("Close", false);
+            b_button.SetActive(false);
         }
 
         protected override void Uninit()
@@ -50,6 +54,7 @@ namespace Assets.C_Script.GameEvent
             animator.SetBool("Display", false);
             Time.timeScale = 1f;
             end = true;
+            b_button.SetActive(false);
         }
 
         

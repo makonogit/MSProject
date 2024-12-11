@@ -23,6 +23,8 @@ public class CS_Break : MonoBehaviour
     [SerializeField]
     private int CurrentBreakAreaNum = 0;    //現在の崩壊エリア番号
 
+    private int PlayerOnBreakAtraNum = 0;   //プレイヤーが立っているエリア
+
     [SerializeField, Header("崩壊するエリア※順番に登録")]
     private List<GameObject> BreakArea;
 
@@ -41,17 +43,25 @@ public class CS_Break : MonoBehaviour
     private float ArartHeight = 2.4f;
     [SerializeField, Header("アラートがどれだけ内側に来るか")]
     private float ArartInnerOffset = 1.0f;
+    [SerializeField, Header("崩壊演出UI表示最大距離")]
+    private int BreakEffectMaxDistance = 5;
 
     [Header("==============サワルナキケン==============")]
     [SerializeField, Header("崩壊アラートPrefab")]
     private GameObject BreakAlartBord;
     [SerializeField, Header("アラート演出UI")]
-    private GameObject ArartEffectUI;
+    private Image ArartEffectUI;
+    //アラート関係
+    private float EffectAlpha = 0f;
+    private bool AlphaChange = false;
+
     [SerializeField, Header("崩壊するオブジェクトのLayer")]
     private LayerMask breakLayer;
 
+    [SerializeField, Header("PlayerのTransform")]
+    private Transform PlayerTrans;
+  
     private float BreakTimeMesure = 0.0f;   //崩壊時間計測用
-    
    
     private GameObject CurrentAlartObj;     //現在再生中のアラートObj
 
@@ -63,20 +73,79 @@ public class CS_Break : MonoBehaviour
     public void ArartStop(bool stopflg)
     {
         StopBreak = stopflg;
+        //停止
+        if (stopflg)
+        {
+            ArartEffectUI.enabled = false;
+            if (CurrentAlartObj == null) { return; }
+            //アラートのAnimatorを取得して一時停止
+            Animator anim;
+            CurrentAlartObj.TryGetComponent<Animator>(out anim);
+            anim.speed = 0;
+        }
+        //再生
+        else
+        {
+            ArartEffectUI.enabled = true;
+            if (CurrentAlartObj == null) { return; }
+            //アラートのAnimatorを取得して再生
+            Animator anim;
+            CurrentAlartObj.TryGetComponent<Animator>(out anim);
+            anim.speed = 1;
+        }
+    }
+
+    //現在の崩壊エリア番号を取得
+    public int GetBreakAreaDistance() => PlayerOnBreakAtraNum - CurrentBreakAreaNum;
+
+
+    /// <summary>
+    /// エリアの番号を取得
+    /// </summary>
+    /// <param BreakAreaオブジェクト="breakarea"></param>
+    /// <returns></returns>
+    public int GetBreakAreaNum(GameObject breakarea)
+    {
+        return BreakArea.IndexOf(breakarea);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        CurrentBreakState = BREAKSTATE.NONE;
+        CurrentBreakState = BREAKSTATE.NONE; 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
         //停止中は更新しない
-        if (StopBreak) { return; }
- 
+        if (StopBreak) 
+        {
+            return; 
+        }
+
+        //プレイヤーが居てるエリアを取得
+        {
+            int OldDistance = GetBreakAreaDistance();
+
+            //下向きにRayを飛ばして床Get
+            Vector3 Pos = PlayerTrans.position;
+            Pos.y += 1f;
+            Ray ray = new Ray(Pos, Vector3.down);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 5f, breakLayer);
+            bool AreaHit = hits.Length > 0 && hits[0].collider.transform.childCount > 0;
+
+            if (AreaHit)
+            {
+
+                PlayerOnBreakAtraNum = GetBreakAreaNum(hits[0].collider.transform.GetChild(0).gameObject);
+            }
+
+            //アラートUIのα値編集
+            ChangeAlpha();
+        }
+
         //時間計測
         BreakTimeMesure += Time.deltaTime * BreakSpeed;
 
@@ -88,12 +157,11 @@ public class CS_Break : MonoBehaviour
                 //アラートを生成
                 CreateAlart(BreakArea[CurrentBreakAreaNum].transform);
                 CurrentBreakState = BREAKSTATE.ALART;
-                ArartEffectUI.SetActive(true);
                 break;
             case BREAKSTATE.ALART:
                 //再生終了したらアラートObjectが消えるので消えたら崩壊
                 bool AlartEnd = CurrentAlartObj == null;
-                if (AlartEnd) { ArartEffectUI.SetActive(false); CurrentBreakState = BREAKSTATE.BREAK; }
+                if (AlartEnd) { CurrentBreakState = BREAKSTATE.BREAK; }
                 break;
             case BREAKSTATE.BREAK:
                 BreakStage(BreakArea[CurrentBreakAreaNum].transform);
@@ -105,6 +173,30 @@ public class CS_Break : MonoBehaviour
         }
     }
 
+    private void ChangeAlpha()
+    {
+        //最大距離より小さければ
+        int BreakAreaDistance = GetBreakAreaDistance();
+        bool ViewEffect = BreakEffectMaxDistance >= BreakAreaDistance;
+
+        if (ViewEffect)
+        {
+            float alpha = 1 - ((float)BreakAreaDistance / (float)BreakEffectMaxDistance);
+
+            //αの値を直接変更、大きさによって速度を変える
+            if (!AlphaChange) { EffectAlpha += (alpha / 1f) * Time.deltaTime; }
+            else { EffectAlpha -= (alpha / 1f) * Time.deltaTime; }
+            if (EffectAlpha >= alpha) { AlphaChange = true; }
+            if(EffectAlpha <= 0) { AlphaChange = false; }
+
+            ArartEffectUI.color = new Color(1, 0, 0, EffectAlpha);
+        }
+        else
+        {
+            ArartEffectUI.color = new Color(1, 0, 0, 0);
+        }
+
+    }
 
     /// <summary>
     /// 破壊システム
@@ -118,9 +210,6 @@ public class CS_Break : MonoBehaviour
         //衝突したオブジェクト全てを破壊
         for(int i = 0; i< hits.Length;i++)
         {
-            //if(hits[i].collider)
-            //hits[i].collider.gameObject.SetActive(false);
-
 
             SimplestarGame.VoronoiFragmenter voronoi;
             //階段の処理、子オブジェクトになっているので

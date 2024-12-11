@@ -39,7 +39,7 @@ namespace Assets.C_Script.Gimmick
             if (endpointObj != null)
             {
                 endPoint = endpointObj.transform.position;
-                endpointObj.transform.SetParent(transform, true);
+                ///endpointObj.transform.SetParent(transform, true);
             }
         }
 
@@ -48,18 +48,23 @@ namespace Assets.C_Script.Gimmick
             base.Execute();
             Movement(GetPosition());
         }
-
+        private Transform parent;
         // コリジョン
         private void OnCollisionEnter(Collision collision)
         {
             bool shouldSet = false;
             foreach (string tag in tags) if( tag == collision.transform.tag)shouldSet = true;
             if (!shouldSet)return;
-            if (stick) collision.transform.SetParent(transform, true);
+            if (stick) 
+            {
+                
+                parent = collision.transform.parent;
+                collision.transform.SetParent(transform, true); 
+            }
         }
         private void OnCollisionExit(Collision collision)
         {
-            if (stick) collision.transform.SetParent(null, true);
+            if (stick) collision.transform.SetParent(parent, true);
         }
 
         // トリガー

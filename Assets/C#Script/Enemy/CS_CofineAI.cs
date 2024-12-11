@@ -161,7 +161,7 @@ public class CS_CofineAI : MonoBehaviour
             }
             Destroy(this.gameObject); 
         }
-        HPCanvas.transform.LookAt(PlayerTrans);
+      
         if (HPCanvas.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
     }
 
@@ -222,8 +222,9 @@ public class CS_CofineAI : MonoBehaviour
     /// <summary>
     /// HPゲージの表示
     /// </summary>
-    public void ViewHPGage()
+    public void ViewHPGage(Transform PlayerTrans)
     {
+        HPCanvas.transform.LookAt(PlayerTrans);
         HPCanvas.SetActive(true);
     }
 
