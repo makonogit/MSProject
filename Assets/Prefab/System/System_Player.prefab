@@ -2070,6 +2070,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2837693769834101754, guid: dd7e7bef73d301748900ad8fc6da9cee, type: 3}
+      propertyPath: InputSystem
+      value: 
+      objectReference: {fileID: 8242043574146402236}
     - target: {fileID: 3695395906818908951, guid: dd7e7bef73d301748900ad8fc6da9cee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 200
@@ -2210,7 +2214,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 4320991253783766645}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e9794793896d604eada27841c185901, type: 3}
   m_Name: 
