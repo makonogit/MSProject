@@ -28,7 +28,7 @@ public class CS_TrackCamera : MonoBehaviour
     [SerializeField, Header("終了後に変更するカメラの番号")]
     private int nextCameraIndex = 0;
     [SerializeField, Header("終了後にActiveにするオブジェクト")]
-    private GameObject activeObj;
+    private GameObject[] activeObj;
 
     void Start()
     {
@@ -49,7 +49,10 @@ public class CS_TrackCamera : MonoBehaviour
 
                 dollyCart.m_Speed = 0;
 
-                activeObj.SetActive(true);
+                foreach (GameObject obj in activeObj)
+                {
+                    obj.SetActive(true); // オブジェクトをアクティブにする
+                }
             }
         }
     }

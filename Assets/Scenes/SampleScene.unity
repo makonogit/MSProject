@@ -1496,6 +1496,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &625847659 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5554026560014520110, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 4038796293934424311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,11 +3771,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5023234023044442328, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_Priority
-      value: -1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5068815770028365204, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalPosition.y
       value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 5554026560014520110, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5554026560014520110, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_TagString
@@ -3794,7 +3803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7232680178976852405, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: initIndex
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7783087431022057864, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_IsKinematic
@@ -3804,6 +3813,18 @@ PrefabInstance:
       propertyPath: activeObj
       value: 
       objectReference: {fileID: 4038796293934424312}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.data[0]
+      value: 
+      objectReference: {fileID: 4038796293934424312}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.data[1]
+      value: 
+      objectReference: {fileID: 625847659}
     - target: {fileID: 9192858788085004805, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LookAt
       value: 
