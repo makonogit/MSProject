@@ -13,6 +13,10 @@ namespace Assets.C_Script.Gimmick
         private float countDownTime = 9.0f;
         private int oldTime = 0;
         private bool firstTime = false;
+
+        [SerializeField]
+        private Material gauge;
+        [Header("効果音")]
         // 効果音
         [SerializeField]
         private AudioClip countSound;
@@ -34,6 +38,7 @@ namespace Assets.C_Script.Gimmick
             base.Start();
             this.stick = true;
             countDownTime = CountDown;
+            SetMaterialGauge();
         }
         protected override void PowerOn()
         {
@@ -57,6 +62,7 @@ namespace Assets.C_Script.Gimmick
                 SoundPlay(countAudioSource,countSound, false);
             }
             oldTime = Mathf.FloorToInt(countDownTime);
+            SetMaterialGauge();
         }
         protected override void PowerOff()
         {
@@ -65,6 +71,7 @@ namespace Assets.C_Script.Gimmick
             if (moveAudioSource.isPlaying)moveAudioSource.Stop();
             if (countAudioSource.isPlaying)countAudioSource.Stop();
             if (audioSource.isPlaying)audioSource.Stop();
+            SetMaterialGauge();
         }
 
         private void SoundPlay(AudioSource audio,AudioClip clip,bool loop) 
@@ -74,6 +81,13 @@ namespace Assets.C_Script.Gimmick
             audio.clip = clip;
             audio.loop = loop;
             audio.Play();
+        }
+
+        private void SetMaterialGauge() 
+        {
+            float value = 1.0f - (countDownTime / CountDown);
+            value = Mathf.Max(0f, Mathf.Min(value, 1f));
+            if (gauge != null) gauge.SetFloat("_FillAmount", value);
         }
     }
 }
