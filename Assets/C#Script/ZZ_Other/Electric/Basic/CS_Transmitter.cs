@@ -21,7 +21,7 @@ namespace Assets.C_Script.Electric.Basic
         /// <param name="signal"></param>
         public void Transmission(bool signal)
         {
-            foreach (CS_Mechanical mechanical in receivers) mechanical.Power = signal;
+            foreach (CS_Mechanical mechanical in receivers) if (mechanical != null) mechanical.Power = signal;
         }
     }
 }

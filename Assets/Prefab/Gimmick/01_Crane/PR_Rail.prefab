@@ -321,7 +321,7 @@ MonoBehaviour:
   lockY: 0
   lockZ: 1
   lockSize: 1
-  size: 50
+  size: 25
 --- !u!114 &5170505792488944775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1819,6 +1819,10 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1318254005443723739}
+    - target: {fileID: 7043880917517357536, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
+      propertyPath: transmitter.receivers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1473756814543666375, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
     m_RemovedGameObjects: []
