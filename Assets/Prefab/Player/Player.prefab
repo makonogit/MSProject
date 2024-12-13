@@ -3424,8 +3424,7 @@ MonoBehaviour:
   nowHP: 100
   MaxMP: 100
   nowMP: 0
-  itemStock: 0
-  ingredientsStock: 0
+  nowBigCan: 0
   groundCheckDistance: 0.1
   fallingThreshold: 300
   groundLayer:
@@ -3463,16 +3462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 6
-  decelerationMount: 0.8
-  decelerationHunger: 0
-  initJumpStock: 1
-  climbCheckDistance: 1
-  climbMax: 2
-  climbMin: 0.25
-  climbLayer:
-    serializedVersion: 2
-    m_Bits: 513
-  climbSpeed: 1
 --- !u!114 &6462524678093254582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3494,21 +3483,19 @@ MonoBehaviour:
   interval: 0.5
   intervalReload: 3
   detectionImage: {fileID: 0}
-  autoaim: {fileID: 0}
-  radiusAuto: 100
-  radius: 2
-  detectedSprite: {fileID: 21300000, guid: 5ff515e6d597cc147b54cbf605c35186, type: 3}
+  reticle: {fileID: 0}
   ColdREticle: {fileID: 21300000, guid: d9b09c198a66e2b4aa9ac07e48bfe965, type: 3}
-  notDetectedSprite: {fileID: 21300000, guid: f717aa80e24c49c43a2af5481d41cc22, type: 3}
   targetTag:
   - Burst
   - Enemy
   overheat: {fileID: 0}
   overheatOut: {fileID: 0}
   overheatText: {fileID: 0}
-  lockon: {fileID: 0}
+  autoTime: 10
+  autoaimCheckInterval: 0.5
   cameraTarget: {fileID: 6084475069427706823}
   aimTarget: {fileID: 7854558541856226930}
+  radiusAuto: 100
 --- !u!114 &7738483730648989026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3522,11 +3509,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 8014516803352631319}
-  distance: 0
-  fixedRotation: {x: 0, y: 30, z: 0}
-  targetTag: EnergyCore
-  forceMagnitude: 50
-  angle: 45
 --- !u!95 &7215450726017731647
 Animator:
   serializedVersion: 5
@@ -3608,16 +3590,7 @@ MonoBehaviour:
   targetSpeed: 5.5
   smoothTime: 1
   dashInputValue: 0.75
-  animatorBoolSpeedList:
-  - name: Mount
-    magnification: 0.8
-    flg: 1
-  animatorFloatSpeedList:
-  - name: Hunger
-    magnification: 0.7
-    flg: 1
-  animSpeed: 0.1
-  forceMagnitude: 5
+  forceMagnitude: 3
 --- !u!114 &6942797439788341726
 MonoBehaviour:
   m_ObjectHideFlags: 0
