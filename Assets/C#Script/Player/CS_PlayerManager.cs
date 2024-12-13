@@ -216,7 +216,7 @@ public class CS_PlayerManager : MonoBehaviour
         if (countdown.IsCountdownFinished())
         {
             // 着地判定
-            if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
+            if (IsGrounded() && Mathf.Approximately(acceleration.y, 0) && oldAcceleration.y != 0)
             {
                 if ((oldAcceleration.y < -fallingThreshold))
                 {
@@ -301,8 +301,21 @@ public class CS_PlayerManager : MonoBehaviour
         float groundCheckDistance = 0.0f;   // 地面との距離
 
         // 地面判定
-        return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
+
+        // トリガーと衝突した場合は false を返す
+        bool notTrigger = true;
+        foreach (var collider in colliders)
+        {
+            notTrigger = !collider.isTrigger;
+        }
+
+        if(notTrigger == false)return false;
+
+        // トリガーでない場合、地面と接触していると判定
+        return colliders.Length > 0;
     }
+
 
     //**
     //* 壁に接しているかを判断する
@@ -324,7 +337,7 @@ public class CS_PlayerManager : MonoBehaviour
         float groundCheckDistance = 0.0f;
 
         // 接地状態を色で可視化
-        if (Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer))
+        if (IsGrounded())
         {
             Gizmos.color = Color.green;
         }
