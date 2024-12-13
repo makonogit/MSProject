@@ -3587,10 +3587,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  targetSpeed: 6
+  targetSpeed: 5.5
   smoothTime: 1
   dashInputValue: 0.75
-  forceMagnitude: 5
+  forceMagnitude: 3
 --- !u!114 &6942797439788341726
 MonoBehaviour:
   m_ObjectHideFlags: 0
