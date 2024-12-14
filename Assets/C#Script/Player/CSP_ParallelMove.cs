@@ -302,6 +302,8 @@ public class CSP_ParallelMove : ActionBase
             collisionNormal = collision.contacts[0].normal;
 
             countdownDamage.Initialize(1);
+
+            CS_ControllerVibration.StartVibrationWithCurve(1f,1,1,1);
         }
     }
 
