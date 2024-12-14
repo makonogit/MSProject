@@ -41,7 +41,7 @@ Material:
     m_Floats:
     - _Ambient: 1
     - _AmbientOcclusion: 1
-    - _Metallic: 0
+    - _Metallic: 0.125
     - _Smoothness: 0.95
     - _SpeedScale: 0.0625
     - _StencilRefDepth: 0
