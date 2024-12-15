@@ -12,6 +12,8 @@ namespace Assets.C_Script.UI.Gage
     {
         [SerializeField]
         private RectMask2D RectMask;
+        [SerializeField]
+        private float offset = 0f;
         private float value = 0.0f;
 
         public bool SetValue(float val) 
@@ -20,7 +22,7 @@ namespace Assets.C_Script.UI.Gage
             Vector4 padding = RectMask.padding;
             float Max = RectMask.rectTransform.rect.width;
             float rate = Max * (1 - val);
-            padding.z = rate;
+            padding.z = rate - offset;
             RectMask.padding = padding;
             value = val;
             return true;

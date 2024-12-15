@@ -6,6 +6,7 @@
 using Assets.C_Script.GameEvent;
 using Assets.C_Script.UI.Gage;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
@@ -13,8 +14,9 @@ using UnityEngine.UI;
 
 namespace Assets.C_Script.UI.Result
 {
-    public class CS_Result : CS_GameEvent
+    public class CSGE_Result : CS_GameEvent
     {
+        private static int bigCanNum = 0;
         [SerializeField]
         private float MaxTime = 400f;  
         [SerializeField]
@@ -81,17 +83,24 @@ namespace Assets.C_Script.UI.Result
         [SerializeField]
         private GameObject decideButton;
 
+        /// <summary>
+        /// デカ缶詰を取得した
+        /// </summary>
+        public static void GettingBigCan() => bigCanNum++;
+
         protected override void Awake()
         {
             base.Awake();
             startTime = Time.time;
             arrivalTime = 1 / arrivalTime;
             rankArrivalTime = 1 / rankArrivalTime;
+            bigCanNum = 0;
         }
         public void Set() 
         {
-            SetClearTime(Time.time - startTime);
-            SetBigCanCount(10);
+            //SetClearTime(Time.time - startTime);
+            SetClearTime(203.0f);
+            SetBigCanCount(bigCanNum);
             SetEnergyValue(core.GetEnergy() * 0.1f);
             MoveSlider = true;
         }
@@ -124,7 +133,6 @@ namespace Assets.C_Script.UI.Result
             // コアエネルギースライダーのアニメーション
             if (CoreEnergySliderAnimation(value)) return;
         }
-
         /// <summary>
         /// クリアタイムスライダーのアニメーション
         /// </summary>
@@ -134,6 +142,7 @@ namespace Assets.C_Script.UI.Result
         {
             bool isClearTime = clearRate > clearSlider.GetValue() && !clearTime.gameObject.activeSelf;
             bool isEndClear = clearRate <= clearSlider.GetValue() && !clearTime.gameObject.activeSelf;
+            
             if (isClearTime)
             {
                 clearSlider.SetValue(value * clearRate);
@@ -222,8 +231,7 @@ namespace Assets.C_Script.UI.Result
         /// クリアタイムのパーセントを求める
         /// </summary>
         /// <param name="time"></param>
-        /// <returns></returns>
-        public float SetClearTime(float time)
+        public void SetClearTime(float time)
         {
             int minutes = Mathf.FloorToInt(time / 60f);
             int seconds = Mathf.FloorToInt(time - minutes * 60f);
@@ -251,14 +259,13 @@ namespace Assets.C_Script.UI.Result
                 clearRate *= rate[num];
             }
             else clearRate = 1f;
-            return clearRate;
         }
 
         /// <summary>
         /// デカ缶詰のパーセントを求める
         /// </summary>
         /// <param name="count"></param>
-        public void SetBigCanCount(int count) 
+        public float SetBigCanCount(int count) 
         {
             BigCanCount.text = count.ToString()+"個";
             rank++;
@@ -284,8 +291,13 @@ namespace Assets.C_Script.UI.Result
                 bigCanRate *= rate[num];
             }
             else bigCanRate = 1f;
+            return bigCanRate;
         }
 
+        /// <summary>
+        /// コアエネルギーのパーセントを設定
+        /// </summary>
+        /// <param name="value"></param>
         public void SetEnergyValue(float value) 
         {
             float percent = value * 100f;
@@ -295,6 +307,10 @@ namespace Assets.C_Script.UI.Result
             EnergyRate = value;
         }
 
+        /// <summary>
+        /// ランクを求める
+        /// </summary>
+        /// <param name="rank"></param>
         private void CheckRank(int rank) 
         {
             const int B = 5;
@@ -338,8 +354,8 @@ namespace Assets.C_Script.UI.Result
             }
 
         }
-
-#if UNITY_EDITOR
+        
+/*#if UNITY_EDITOR
         [Header("###デバッグ用###")]
         [SerializeField]
         private bool on = false;
@@ -350,33 +366,25 @@ namespace Assets.C_Script.UI.Result
         [SerializeField]
         private string DebugString = null;
         [SerializeField]
-        private Vector3 hanni = new Vector3();   
+        private int3 hanni = new int3();   
         private void OnValidate()
         {
             if (on) 
             {
                 string log = "";
                 int count = 0;
-                bool draw = false;
-                for (DebugFloat = hanni.x; DebugFloat <= hanni.y; DebugFloat += hanni.z) 
+                
+                for (DebugInt = hanni.x; DebugInt <= hanni.y; DebugInt += hanni.z) 
                 {
-                    draw = true;
                     count++;
-                    float result = SetClearTime(DebugFloat);
-                    log += "In：" + DebugFloat + "  Out：" + result * 100f + "%" + DebugString + "\n";
-                    rank = 0;
-                    if (count >= 10) 
-                    {
-                        Debug.Log(log);
-                        log = "";
-                        count = 0;
-                        draw = false;
-                    }
+                    float result = SetBigCanCount(DebugInt);
+                    log += "In：" + DebugInt + "  Out：" + result * 100f + "%" + DebugString + "\n";
+                    rank = 0;   
                 }
-                if(draw)Debug.Log(log);
+                Debug.Log(log);
                 on = false;
             }
         }
-#endif // UNITY_EDITOR
+#endif // UNITY_EDITOR*/
     }
 }

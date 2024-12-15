@@ -2862,6 +2862,7 @@ MonoBehaviour:
   nextEvent: {fileID: 0}
   Wait: 0
   isFinish: 0
+  MaxTime: 400
   timeReviews:
   - 90
   - 60
@@ -3306,7 +3307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_Padding.z
-      value: 900
+      value: 1010
       objectReference: {fileID: 0}
     - target: {fileID: 8658219295645402181, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3521,13 +3522,17 @@ PrefabInstance:
       propertyPath: value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7305869263462270260, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
+      propertyPath: offset
+      value: -110
+      objectReference: {fileID: 0}
     - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_Padding.z
-      value: 900
+      value: 1010
       objectReference: {fileID: 0}
     - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_Softness.x
@@ -3748,7 +3753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_Padding.z
-      value: 900
+      value: 1010
       objectReference: {fileID: 0}
     - target: {fileID: 8658219295645402181, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3938,6 +3943,14 @@ PrefabInstance:
     - target: {fileID: 7305869263462270260, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: value
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7305869263462270260, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
+      propertyPath: offset
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591449963787515048, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
+      propertyPath: m_Padding.z
+      value: 1017
       objectReference: {fileID: 0}
     - target: {fileID: 8658219295645402181, guid: 518035c3d25a0044f94efdbec5640288, type: 3}
       propertyPath: m_SizeDelta.x
