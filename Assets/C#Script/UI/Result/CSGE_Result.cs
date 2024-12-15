@@ -98,8 +98,7 @@ namespace Assets.C_Script.UI.Result
         }
         public void Set() 
         {
-            //SetClearTime(Time.time - startTime);
-            SetClearTime(203.0f);
+            SetClearTime(Time.time - startTime);
             SetBigCanCount(bigCanNum);
             SetEnergyValue(core.GetEnergy() * 0.1f);
             MoveSlider = true;
@@ -354,37 +353,5 @@ namespace Assets.C_Script.UI.Result
             }
 
         }
-        
-/*#if UNITY_EDITOR
-        [Header("###デバッグ用###")]
-        [SerializeField]
-        private bool on = false;
-        [SerializeField]
-        private float DebugFloat = 0f;
-        [SerializeField]
-        private int DebugInt = 0;
-        [SerializeField]
-        private string DebugString = null;
-        [SerializeField]
-        private int3 hanni = new int3();   
-        private void OnValidate()
-        {
-            if (on) 
-            {
-                string log = "";
-                int count = 0;
-                
-                for (DebugInt = hanni.x; DebugInt <= hanni.y; DebugInt += hanni.z) 
-                {
-                    count++;
-                    float result = SetBigCanCount(DebugInt);
-                    log += "In：" + DebugInt + "  Out：" + result * 100f + "%" + DebugString + "\n";
-                    rank = 0;   
-                }
-                Debug.Log(log);
-                on = false;
-            }
-        }
-#endif // UNITY_EDITOR*/
     }
 }

@@ -22,6 +22,8 @@ namespace Assets.C_Script.Electric
         [SerializeField]
         private Color color;
         [SerializeField]
+        private Vector3 offset = new Vector3();
+        [SerializeField]
         private bool lossyScale = false;
         [SerializeField]
         private bool show = false;
@@ -63,8 +65,8 @@ namespace Assets.C_Script.Electric
 
         public Vector3 GetPosition() 
         {
-            Vector3 pos = position;
-            if (!EditorApplication.isPlaying) pos = this.transform.position;
+            Vector3 pos = position + offset;
+            if (!EditorApplication.isPlaying) pos = this.transform.position + offset;
             return pos;
         }
     }
