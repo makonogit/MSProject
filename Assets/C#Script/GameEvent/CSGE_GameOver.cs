@@ -78,7 +78,7 @@ namespace Assets.C_Script.GameEvent
             }
             if (core != null && floorNumber > 0) core.position = corePosition;
 
-            if (stage == null) Debug.LogError("CSGE_GameOverに stage を設定してください。");
+            if (stage == null) Debug.LogError(gameObject.name+"内のCSGE_GameOverに変数 Stage(一番下)に stage を設定してください。");
 
             for (int i = 0; i <= floorNumber; i++)
             {
