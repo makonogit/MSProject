@@ -27,18 +27,27 @@ public class CS_ControllerVibration : MonoBehaviour
     private void Start()
     {
         // ゲームパッドが接続されているか確認
-        gamepad = Gamepad.current;
-
-        // 振動カーブをコピー
-        vibrationCurve = new AnimationCurve[curve.Length];
-        for (int i = 0; i < curve.Length; i++)
+        if(gamepad == null)
         {
-            vibrationCurve[i] = new AnimationCurve(curve[i].keys);
+            gamepad = Gamepad.current;
         }
 
-        // 振動強さをコピー
-        vibrationPower = new float[power.Length];
-        power.CopyTo(vibrationPower, 0);
+        if (vibrationCurve == null)
+        {
+            // 振動カーブをコピー
+            vibrationCurve = new AnimationCurve[curve.Length];
+            for (int i = 0; i < curve.Length; i++)
+            {
+                vibrationCurve[i] = new AnimationCurve(curve[i].keys);
+            }
+        }
+
+        if(vibrationPower == null)
+        {
+            // 振動強さをコピー
+            vibrationPower = new float[power.Length];
+            power.CopyTo(vibrationPower, 0);
+        }
     }
 
     /*
@@ -75,9 +84,9 @@ public class CS_ControllerVibration : MonoBehaviour
         }
 
         float elapsedTime = 0f; // 経過時間
-    
+
         // 繰り返し回数だけ実行
-        for (int i = 0; i < repetition; i++)
+        for (int i = 0; (i < repetition || isLoop); i++)
         {
             // 時間の経過に従って振動強さを補間
             while (elapsedTime < duration)
@@ -111,7 +120,7 @@ public class CS_ControllerVibration : MonoBehaviour
         }
 
         // コルーチンが終了したらオブジェクトを破棄
-        MonoBehaviour.Destroy(vibrationObject);
+        Destroy(vibrationObject);
     }
 }
 
