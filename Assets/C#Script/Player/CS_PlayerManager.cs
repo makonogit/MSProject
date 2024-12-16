@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using Assets.C_Script.GameEvent;
+using Assets.C_Script.UI.Result;
+using Assets.C_Script.GameEvent;
+using Assets.C_Script.UI.Gage;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 //**
 //* プレイヤーマネージャー
@@ -85,8 +90,8 @@ public class CS_PlayerManager : MonoBehaviour
     //private CS_TpsCamera tpsCamera;
     //public CS_TpsCamera GetTpsCamera() => tpsCamera;
     [SerializeField, Header("リザルト表示設定")]
-    private CS_Result result;
-    public CS_Result GetResult() => result;
+    private Assets.C_Script.UI.Result.CS_Result result;
+    public Assets.C_Script.UI.Result.CS_Result GetResult() => result;
 
     // 自身のコンポーネント
     private Rigidbody rb;       // リジットボディ
@@ -101,6 +106,12 @@ public class CS_PlayerManager : MonoBehaviour
 
     [SerializeField, Header("空き缶残量ゲージ")]
     private UnityEngine.UI.Image CanGage;
+
+    private CS_GoalDoor goal;
+
+    //[SerializeField, Header("リザルトパネル")]
+    //private CS_Result result;
+
 
     //**
     //* 初期化
@@ -216,7 +227,7 @@ public class CS_PlayerManager : MonoBehaviour
         if (countdown.IsCountdownFinished())
         {
             // 着地判定
-            if (IsGrounded() && acceleration.y == 0 && oldAcceleration.y != 0)
+            if (IsGrounded() && Mathf.Approximately(acceleration.y, 0) && oldAcceleration.y != 0)
             {
                 if ((oldAcceleration.y < -fallingThreshold))
                 {
@@ -233,10 +244,15 @@ public class CS_PlayerManager : MonoBehaviour
 
 
         // ゴールモーションが終了してからリザルトを表示
-        if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
+        //if (countdownGoal.IsCountdownFinished() && animator.GetBool("Goal"))
+        if(goal != null)
         {
-            result.StartResult();
-            animator.SetBool("Goal", false);
+            if (goal.GetEnd())
+            {
+                //result.StartResult();
+                result.enabled = true;
+                animator.SetBool("Goal", false);
+            }
         }
 
         // 気絶状態
@@ -277,16 +293,26 @@ public class CS_PlayerManager : MonoBehaviour
 
             countdownStun.Initialize(3);
         }
-        else if (collision.gameObject.tag == "Goal")
-        {
-            TemporaryStorage.DataSave("ingredientsStock",ingredientsStock);
-            animator.SetBool("Goal", true);
 
-            countdownGoal.Initialize(3);
+    }
+
+    void OnTriggerStay(Collider collision)
+    {
+        if (collision.gameObject.tag == "Goal")
+        {
+            if (GetInputSystem().GetButtonBPressed() && !animator.GetBool("Goal"))
+            {
+                TemporaryStorage.DataSave("ingredientsStock", ingredientsStock);
+                animator.SetBool("Goal", true);
+
+                countdownGoal.Initialize(2);
+
+                goal = collision.gameObject.GetComponent<CS_GoalDoor>();
+                goal.Open(2);
+            }
 
             //result.StartResult();
         }
-
     }
 
     //**
@@ -301,8 +327,21 @@ public class CS_PlayerManager : MonoBehaviour
         float groundCheckDistance = 0.0f;   // 地面との距離
 
         // 地面判定
-        return Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
+
+        // トリガーと衝突した場合は false を返す
+        bool notTrigger = true;
+        foreach (var collider in colliders)
+        {
+            notTrigger = !collider.isTrigger;
+        }
+
+        if(notTrigger == false)return false;
+
+        // トリガーでない場合、地面と接触していると判定
+        return colliders.Length > 0;
     }
+
 
     //**
     //* 壁に接しているかを判断する
@@ -324,7 +363,7 @@ public class CS_PlayerManager : MonoBehaviour
         float groundCheckDistance = 0.0f;
 
         // 接地状態を色で可視化
-        if (Physics.CheckSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer))
+        if (IsGrounded())
         {
             Gizmos.color = Color.green;
         }

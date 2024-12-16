@@ -172,7 +172,10 @@ public class CSP_Shot : ActionBase
         // ËŒ‚ˆ—
         if (countdown.IsCountdownFinished())
         {
-            HandlShot();
+            if (!GetAnimator().GetBool("Push"))
+            {
+                HandlShot();
+            }
         }
         if (intervalCountdown.IsCountdownFinished() && isShot)
         {
