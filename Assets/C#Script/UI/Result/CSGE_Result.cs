@@ -6,14 +6,19 @@
 using Assets.C_Script.GameEvent;
 using Assets.C_Script.UI.Gage;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.C_Script.UI.Result
 {
-    public class CS_Result : CS_GameEvent
+    public class CSGE_Result : CS_GameEvent
     {
+        private static int bigCanNum = 0;
+        [SerializeField]
+        private float MaxTime = 400f;  
         [SerializeField]
         private List<float> timeReviews = new List<float>();
         [SerializeField]
@@ -78,17 +83,23 @@ namespace Assets.C_Script.UI.Result
         [SerializeField]
         private GameObject decideButton;
 
+        /// <summary>
+        /// デカ缶詰を取得した
+        /// </summary>
+        public static void GettingBigCan() => bigCanNum++;
+
         protected override void Awake()
         {
             base.Awake();
             startTime = Time.time;
             arrivalTime = 1 / arrivalTime;
             rankArrivalTime = 1 / rankArrivalTime;
+            bigCanNum = 0;
         }
         public void Set() 
         {
             SetClearTime(Time.time - startTime);
-            SetBigCanCount(10);
+            SetBigCanCount(bigCanNum);
             SetEnergyValue(core.GetEnergy() * 0.1f);
             MoveSlider = true;
         }
@@ -98,7 +109,7 @@ namespace Assets.C_Script.UI.Result
             Time.timeScale = 0.0f;
             animator.SetBool("Start", true);
             if (MoveSlider) AnimationSlider();
-            if (RankAnimationSlider) RankAnimation();
+            if (RankAnimationSlider) RankSliderAnimation();
             if (cans.End) decideButton.SetActive(true);
             if (cans.End && inputSystem.GetButtonATriggered()) 
             {
@@ -107,44 +118,81 @@ namespace Assets.C_Script.UI.Result
             }
         }
 
+        /// <summary>
+        /// スライダーのアニメーション
+        /// </summary>
         private void AnimationSlider() 
         {
             nowTime += Time.unscaledDeltaTime;
             float value = animationCurve.Evaluate(nowTime * arrivalTime);
+            // クリアタイムスライダーのアニメーション
+            if (ClearTimeSliderAnimation(value)) return;
+            // デカ缶詰スライダーのアニメーション
+            if (BigCanSliderAnimation(value)) return;
+            // コアエネルギースライダーのアニメーション
+            if (CoreEnergySliderAnimation(value)) return;
+        }
+        /// <summary>
+        /// クリアタイムスライダーのアニメーション
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool ClearTimeSliderAnimation(float value) 
+        {
             bool isClearTime = clearRate > clearSlider.GetValue() && !clearTime.gameObject.activeSelf;
             bool isEndClear = clearRate <= clearSlider.GetValue() && !clearTime.gameObject.activeSelf;
-            if (isClearTime) 
-            { 
-                clearSlider.SetValue(value * clearRate); 
-                return;
+            
+            if (isClearTime)
+            {
+                clearSlider.SetValue(value * clearRate);
+                return true;
             }
-            if (isEndClear) 
+            if (isEndClear)
             {
                 clearTime.gameObject.SetActive(true);
                 nowTime = 0.0f;
-                return;
+                return true;
             }
+            return false;
+        }
 
+        /// <summary>
+        /// デカ缶詰スライダーのアニメーション   
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool BigCanSliderAnimation(float value) 
+        {
             bool isBigCan = bigCanRate > BigCanSlider.GetValue() && !BigCanCount.gameObject.activeSelf;
             bool isEndBigCan = bigCanRate <= BigCanSlider.GetValue() && !BigCanCount.gameObject.activeSelf;
-            if (isBigCan) 
-            { 
-                BigCanSlider.SetValue(value * bigCanRate); 
-                return;
+            if (isBigCan)
+            {
+                BigCanSlider.SetValue(value * bigCanRate);
+                return true;
             }
             if (isEndBigCan)
             {
                 BigCanCount.gameObject.SetActive(true);
                 nowTime = 0.0f;
-                return ;
+                return true;
             }
+            return false;
+        }
 
+        
+        /// <summary>
+        /// コアエネルギースライダーのアニメーション
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool CoreEnergySliderAnimation(float value) 
+        {
             bool isEnergy = EnergyRate > CoreEnergySlider.GetValue() && !CoreEnergy.gameObject.activeSelf;
             bool isEndEnergy = EnergyRate <= CoreEnergySlider.GetValue() && !CoreEnergy.gameObject.activeSelf;
-            if (isEnergy) 
-            { 
-                CoreEnergySlider.SetValue(value * EnergyRate); 
-                return;
+            if (isEnergy)
+            {
+                CoreEnergySlider.SetValue(value * EnergyRate);
+                return true;
             }
             if (isEndEnergy)
             {
@@ -153,11 +201,15 @@ namespace Assets.C_Script.UI.Result
                 CheckRank(rank);
                 animator.SetBool("EnergyMove", true);
                 MoveSlider = false;
-                return;
+                return true;
             }
-
+            return false;
         }
-        private void RankAnimation() 
+
+        /// <summary>
+        /// ランクスライダーのアニメーション
+        /// </summary>
+        private void RankSliderAnimation() 
         {
             nowTime += Time.unscaledDeltaTime;
             float value = animationCurve.Evaluate(nowTime * rankArrivalTime);
@@ -174,6 +226,10 @@ namespace Assets.C_Script.UI.Result
             }
         }
 
+        /// <summary>
+        /// クリアタイムのパーセントを求める
+        /// </summary>
+        /// <param name="time"></param>
         public void SetClearTime(float time)
         {
             int minutes = Mathf.FloorToInt(time / 60f);
@@ -191,22 +247,24 @@ namespace Assets.C_Script.UI.Result
             }
             if (num > 0 && num < timeReviews.Count)
             {
-                clearRate = (time - timeReviews[num]);
-                clearRate /= timeReviews[num];
-                clearRate = 1 - clearRate;
+                clearRate = (time - timeReviews[num - 1]);
+                clearRate /= timeReviews[num] - timeReviews[num - 1];
                 clearRate *= rate[num] - rate[num - 1];
                 clearRate += rate[num-1];
             }
             else if (num == 0)
             {
-                clearRate = time / timeReviews[num];
-                clearRate = 1 - clearRate;
+                clearRate = (time - MaxTime) / (timeReviews[num] - MaxTime);
                 clearRate *= rate[num];
             }
             else clearRate = 1f;
         }
 
-        public void SetBigCanCount(int count) 
+        /// <summary>
+        /// デカ缶詰のパーセントを求める
+        /// </summary>
+        /// <param name="count"></param>
+        public float SetBigCanCount(int count) 
         {
             BigCanCount.text = count.ToString()+"個";
             rank++;
@@ -232,8 +290,13 @@ namespace Assets.C_Script.UI.Result
                 bigCanRate *= rate[num];
             }
             else bigCanRate = 1f;
+            return bigCanRate;
         }
 
+        /// <summary>
+        /// コアエネルギーのパーセントを設定
+        /// </summary>
+        /// <param name="value"></param>
         public void SetEnergyValue(float value) 
         {
             float percent = value * 100f;
@@ -243,6 +306,10 @@ namespace Assets.C_Script.UI.Result
             EnergyRate = value;
         }
 
+        /// <summary>
+        /// ランクを求める
+        /// </summary>
+        /// <param name="rank"></param>
         private void CheckRank(int rank) 
         {
             const int B = 5;

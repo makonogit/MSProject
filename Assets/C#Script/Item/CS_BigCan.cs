@@ -1,3 +1,4 @@
+using Assets.C_Script.UI.Result;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -139,6 +140,8 @@ public class CS_BigCan : MonoBehaviour
             //ˆê’èŠÔ’â~‚·‚é
             StartCoroutine(EndStopBreak(StopTime));
 
+            // Š”‚ğ‘‰Á‚·‚é             // * ’Ç‰ÁF’†ì
+            CSGE_Result.GettingBigCan();    // * ’Ç‰ÁF’†ì
         }
     }
 

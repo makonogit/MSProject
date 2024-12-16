@@ -1143,9 +1143,13 @@ PrefabInstance:
       value: PR_GameOverCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 4582830920554347822, guid: a3579c41d20ce04478ac3a586c7e30c3, type: 3}
+      propertyPath: core
+      value: 
+      objectReference: {fileID: 921632639679320283}
+    - target: {fileID: 4582830920554347822, guid: a3579c41d20ce04478ac3a586c7e30c3, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5068815770028365204}
     - target: {fileID: 4582830920554347822, guid: a3579c41d20ce04478ac3a586c7e30c3, type: 3}
       propertyPath: inputSystem
       value: 

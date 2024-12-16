@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3785164190111086410}
+  - {fileID: 6262690590302518481}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2491418038088309880
@@ -68,6 +69,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 1
+--- !u!1 &2828565171164497145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6262690590302518481}
+  - component: {fileID: 787861791584873224}
+  m_Layer: 4
+  m_Name: CoreRespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6262690590302518481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2828565171164497145}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.209, y: -0.21000099, z: 0}
+  m_LocalScale: {x: 1.9, y: 1.9, z: 1.9}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2512767338393405278}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787861791584873224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2828565171164497145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341a3ec2d7cb4fa4b93bcbf7b84e4cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mechanical: {fileID: 0}
+  mesh: {fileID: 2781847978938744853, guid: d3d6ceb970ec4d845a1a178344f221cd, type: 3}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  offset: {x: 0, y: 0, z: 0}
+  lossyScale: 0
+  show: 1
 --- !u!1 &7848814777474085965
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3785164190111086410}
   - component: {fileID: 3514707711892248003}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: RespawnPositon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,5 +166,6 @@ MonoBehaviour:
   mechanical: {fileID: 0}
   mesh: {fileID: -4584717173506535880, guid: b53751d8989519140891a840094a8949, type: 3}
   color: {r: 0, g: 1, b: 0, a: 1}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 0
-  show: 0
+  show: 1

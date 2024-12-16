@@ -4,12 +4,13 @@
 // 担当者   :中川 直登
 //-------------------------------
 using Assets.C_Script.Gimmick;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.C_Script.Electric.Basic
 {
-    [System.Serializable]
+    [Serializable]
     public class CS_Transmitter
     {
 
