@@ -99,7 +99,7 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curveType;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
@@ -109,7 +109,7 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType1 = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType1 = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curveType1;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition1 = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
@@ -119,7 +119,7 @@ public class CS_PlayerManager : MonoBehaviour
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType2 = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType2 = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curveType2;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition2 = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 

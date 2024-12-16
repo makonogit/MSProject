@@ -28,7 +28,7 @@ public class CSP_UseEnergyCore : ActionBase
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curve;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
@@ -95,7 +95,7 @@ public class CSP_UseEnergyCore : ActionBase
             targetObject = null;
             coreUnit = null;
             // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
-            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
         }
         else if (GetAnimator().GetBool("Mount"))
         {

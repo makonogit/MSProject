@@ -11,9 +11,9 @@ public class CS_ControllerVibration : MonoBehaviour
 {
     private static Gamepad gamepad;
 
-    [SerializeField,Header("U“®‚Ìü”g”‚Ìí—Ş")]
-    private AnimationCurve[] curve;
-    private static AnimationCurve[] vibrationCurve;
+    //[SerializeField,Header("U“®‚Ìü”g”‚Ìí—Ş")]
+    //private AnimationCurve[] curve;
+    //private static AnimationCurve[] vibrationCurve;
 
     [SerializeField, Header("U“®‚Ì‹­‚³‚Ìí—Ş")]
     private float[] power;
@@ -32,15 +32,15 @@ public class CS_ControllerVibration : MonoBehaviour
             gamepad = Gamepad.current;
         }
 
-        if (vibrationCurve == null)
-        {
-            // U“®ƒJ[ƒu‚ğƒRƒs[
-            vibrationCurve = new AnimationCurve[curve.Length];
-            for (int i = 0; i < curve.Length; i++)
-            {
-                vibrationCurve[i] = new AnimationCurve(curve[i].keys);
-            }
-        }
+        //if (vibrationCurve == null)
+        //{
+        //    // U“®ƒJ[ƒu‚ğƒRƒs[
+        //    vibrationCurve = new AnimationCurve[curve.Length];
+        //    for (int i = 0; i < curve.Length; i++)
+        //    {
+        //        vibrationCurve[i] = new AnimationCurve(curve[i].keys);
+        //    }
+        //}
 
         if(vibrationPower == null)
         {
@@ -56,28 +56,28 @@ public class CS_ControllerVibration : MonoBehaviour
     public static void StartVibrationWithCurve(
             float duration,         // U“®‚Ì’·‚³
             int powerType,          // U“®‚Ì‹­‚³i4’iŠKj
-            int curveType,          // U“®‚Ìü”g”
+            AnimationCurve curve,   // U“®‚Ìü”g”
             int repetition          // ŒJ‚è•Ô‚µ‰ñ”
         )
     {
         // ƒRƒ‹[ƒ`ƒ“‚ğŠJn
         GameObject vibrationObject = new GameObject();
-        MonoBehaviour.Instantiate(vibrationObject).AddComponent<CS_ControllerVibration>().StartCoroutine(StartVibrationCoroutine(duration, powerType, curveType, repetition, vibrationObject));
+        MonoBehaviour.Instantiate(vibrationObject).AddComponent<CS_ControllerVibration>().StartCoroutine(StartVibrationCoroutine(duration, powerType, curve, repetition, vibrationObject));
     }
 
     // U“®‚Ì‹­‚³‚ğŠÔ‚Å•âŠÔ‚·‚éƒRƒ‹[ƒ`ƒ“
     private static IEnumerator StartVibrationCoroutine(
             float duration,         // U“®‚Ì’·‚³
             int powerType,          // U“®‚Ì‹­‚³i4’iŠKj
-            int curveType,          // U“®‚Ìü”g”
+            AnimationCurve curve,   // U“®‚Ìü”g”
             int repetition,         // ŒJ‚è•Ô‚µ‰ñ”
             GameObject vibrationObject // ì¬‚µ‚½GameObject‚ÌQÆ
         )
     {
-        if (curveType >= 0 && curveType < vibrationCurve.Length)
-        {
-            curveType = vibrationCurve.Length - 1;
-        }
+        //if (curveType >= 0 && curveType < vibrationCurve.Length)
+        //{
+        //    curveType = vibrationCurve.Length - 1;
+        //}
         if (powerType >= 0 && powerType < vibrationPower.Length)
         {
             powerType = vibrationPower.Length - 1;
@@ -92,10 +92,8 @@ public class CS_ControllerVibration : MonoBehaviour
             while (elapsedTime < duration)
             {
                 // ŠÔ‚ÉŠî‚Ã‚¢‚Ä‹Èü‚ğ•]‰¿
-                float t = elapsedTime / duration; // is“x (0.0f ‚©‚ç 1.0f)
-                float vibrationStrength = Mathf.Clamp01(vibrationCurve[curveType - 1].Evaluate(t)); // ‹Èü‚ÉŠî‚Ã‚­U“®‹­‚³
-
-                // ãŒÀ‚ğ“K—p
+                float t = elapsedTime / duration; // is“x
+                float vibrationStrength = Mathf.Clamp01(curve.Evaluate(t));
                 vibrationStrength = Mathf.Min(vibrationStrength, vibrationPower[powerType - 1]);
 
                 // U“®‚Ì‹­‚³‚ğİ’è

@@ -237,15 +237,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b51bf098e6dc2f24d96775e8a6a9405a, type: 2}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.x
-      value: -67.81788
+      value: 7.801494
       objectReference: {fileID: 0}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.y
-      value: 38.11
+      value: 7.710001
       objectReference: {fileID: 0}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.z
-      value: -27.985912
+      value: 23.237564
       objectReference: {fileID: 0}
     - target: {fileID: 5507837405182369974, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: m_LocalPosition.y
@@ -441,6 +441,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1100013080747177705, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4293524272464515058, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: signal
       value: 0
@@ -452,6 +456,10 @@ PrefabInstance:
     - target: {fileID: 6776659613971408003, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: m_Name
       value: PR_CoreUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776659613971408003, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7043880917517357536, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: transmitter.receivers.Array.data[0]
@@ -622,27 +630,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.x
-      value: -64.87661
+      value: 10.742769
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.y
-      value: 29.908
+      value: -0.4919986
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.z
-      value: -27.896912
+      value: 23.326565
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.x
-      value: -69.273605
+      value: 6.3457694
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.y
-      value: 29.908
+      value: -0.4919986
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.z
-      value: -27.896912
+      value: 23.326565
       objectReference: {fileID: 0}
     - target: {fileID: 7407632809417419678, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: m_RendererPriority

@@ -18,7 +18,7 @@ public class CSP_Throwing : ActionBase
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curveType;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 

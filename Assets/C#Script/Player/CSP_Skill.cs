@@ -38,7 +38,7 @@ public class CSP_Skill : ActionBase
     [SerializeField, Header("U“®‚Ì‹­‚³")]
     private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
     [SerializeField, Header("U“®‚Ìü”g”")]
-    private int curveType = 1;          // U“®‚Ìü”g”
+    private AnimationCurve curve;          // U“®‚Ìü”g”
     [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
     private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
@@ -138,7 +138,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[0].craftItem = obj.GetComponent<CraftItemBase>();
 
             // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
-            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
         }
 
         if (SkillUIList[0].isCraft)
@@ -179,7 +179,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[1].craftItem = obj.GetComponent<CraftItemBase>();
 
             // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
-            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
         }
 
         if (SkillUIList[1].isCraft)
@@ -215,7 +215,7 @@ public class CSP_Skill : ActionBase
             SkillUIList[2].craftItem = obj.GetComponent<CraftItemBase>();
 
             // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
-            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
 
         }
 
@@ -249,7 +249,7 @@ public class CSP_Skill : ActionBase
             skill4_countdown.Initialize(skill4_time);
 
             // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
-            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
         }
 
         if (SkillUIList[3].isCraft)
