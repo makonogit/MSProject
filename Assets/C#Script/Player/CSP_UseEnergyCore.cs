@@ -22,6 +22,16 @@ public class CSP_UseEnergyCore : ActionBase
     [SerializeField]
     private CS_CoreUnit coreUnit;
 
+    [Header("コアセット時の振動設定")]
+    [SerializeField, Header("振動の長さ")]
+    private float duration = 0.5f;         // 振動の長さ
+    [SerializeField, Header("振動の強さ")]
+    private int powerType = 1;          // 振動の強さ（4段階）
+    [SerializeField, Header("振動の周波数")]
+    private int curveType = 1;          // 振動の周波数
+    [SerializeField, Header("繰り返し回数")]
+    private int repetition = 1;         // 繰り返し回数
+
     // 自身のコンポーネント
     private CSP_Throwing csp_throwing;
 
@@ -84,6 +94,8 @@ public class CSP_UseEnergyCore : ActionBase
             csp_throwing.GetEnergyCore().transform.position = targetObject.transform.position;
             targetObject = null;
             coreUnit = null;
+            // コントローラーを振動
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
         }
         else if (GetAnimator().GetBool("Mount"))
         {

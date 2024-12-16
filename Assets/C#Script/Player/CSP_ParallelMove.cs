@@ -51,6 +51,16 @@ public class CSP_ParallelMove : ActionBase
     [SerializeField, Header("ƒ_ƒ[ƒW‚ÌƒmƒbƒNƒoƒbƒN")]
     private float forceMagnitude = 0.5f;
 
+    [Header("ƒ_ƒ[ƒW‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
     protected override void Start()
     {
         base.Start();
@@ -303,7 +313,8 @@ public class CSP_ParallelMove : ActionBase
 
             countdownDamage.Initialize(1);
 
-            CS_ControllerVibration.StartVibrationWithCurve(1f,1,1,1);
+            // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
         }
     }
 

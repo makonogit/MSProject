@@ -12,6 +12,16 @@ using UnityEngine;
 
 public class CSP_Throwing : ActionBase
 {
+    [Header("ƒRƒAæ“¾‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
     [Header("•\¦—pƒRƒA")]
     public GameObject core;
 
@@ -277,6 +287,9 @@ public class CSP_Throwing : ActionBase
                     positions.Add(targetObject.transform.position);
 
                     GetAnimator().SetBool("Mount", true);
+
+                    // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+                    CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
                 }
             }
         }

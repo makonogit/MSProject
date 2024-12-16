@@ -32,6 +32,16 @@ public class CSP_Skill : ActionBase
     [SerializeField, Header("スキルUI")]
     private SkillUI[] SkillUIList;
 
+    [Header("スキル使用時の振動設定")]
+    [SerializeField, Header("振動の長さ")]
+    private float duration = 0.5f;         // 振動の長さ
+    [SerializeField, Header("振動の強さ")]
+    private int powerType = 1;          // 振動の強さ（4段階）
+    [SerializeField, Header("振動の周波数")]
+    private int curveType = 1;          // 振動の周波数
+    [SerializeField, Header("繰り返し回数")]
+    private int repetition = 1;         // 繰り返し回数
+
     private int stockMP;
 
     // カウントダウン用クラス
@@ -126,6 +136,9 @@ public class CSP_Skill : ActionBase
             GetPlayerManager().SetMP(stockMP - SkillUIList[0].mp);
 
             SkillUIList[0].craftItem = obj.GetComponent<CraftItemBase>();
+
+            // コントローラーを振動
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
         }
 
         if (SkillUIList[0].isCraft)
@@ -164,6 +177,9 @@ public class CSP_Skill : ActionBase
             GetPlayerManager().SetMP(stockMP - SkillUIList[1].mp);
 
             SkillUIList[1].craftItem = obj.GetComponent<CraftItemBase>();
+
+            // コントローラーを振動
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
         }
 
         if (SkillUIList[1].isCraft)
@@ -198,6 +214,9 @@ public class CSP_Skill : ActionBase
 
             SkillUIList[2].craftItem = obj.GetComponent<CraftItemBase>();
 
+            // コントローラーを振動
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+
         }
 
         if (SkillUIList[2].isCraft)
@@ -228,6 +247,9 @@ public class CSP_Skill : ActionBase
             GetPlayerManager().SetMP(stockMP - SkillUIList[3].mp);
 
             skill4_countdown.Initialize(skill4_time);
+
+            // コントローラーを振動
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
         }
 
         if (SkillUIList[3].isCraft)

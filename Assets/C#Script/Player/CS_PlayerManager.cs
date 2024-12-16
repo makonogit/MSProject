@@ -90,8 +90,38 @@ public class CS_PlayerManager : MonoBehaviour
     //private CS_TpsCamera tpsCamera;
     //public CS_TpsCamera GetTpsCamera() => tpsCamera;
     [SerializeField, Header("ƒŠƒUƒ‹ƒg•\¦İ’è")]
-    private Assets.C_Script.UI.Result.CS_Result result;
-    public Assets.C_Script.UI.Result.CS_Result GetResult() => result;
+    private Assets.C_Script.UI.Result.CSGE_Result result;
+    public Assets.C_Script.UI.Result.CSGE_Result GetResult() => result;
+
+    [Header("‹ó‚«ŠÊæ“¾‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
+    [Header("ƒfƒJŠÊæ“¾‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration1 = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType1 = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType1 = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition1 = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
+    [Header("ƒXƒ^ƒ“‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration2 = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType2 = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType2 = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition2 = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
     // ©g‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
     private Rigidbody rb;       // ƒŠƒWƒbƒgƒ{ƒfƒB
@@ -272,6 +302,9 @@ public class CS_PlayerManager : MonoBehaviour
         {
             CS_Item item = collision.gameObject.GetComponent<CS_Item>();
 
+            // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+            CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+
             //ingredientsStock++;
             SetMP(nowMP + item.GetMP());
              //ingredientsStock * 2;
@@ -282,6 +315,10 @@ public class CS_PlayerManager : MonoBehaviour
         else if (collision.gameObject.tag == "BigCanItem")
         {
             nowBigCan++;
+
+            // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+            CS_ControllerVibration.StartVibrationWithCurve(duration1, powerType1, curveType1, repetition1);
+
         }
         else if (collision.gameObject.tag == "StunObject")
         {
@@ -292,6 +329,10 @@ public class CS_PlayerManager : MonoBehaviour
             GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
 
             countdownStun.Initialize(3);
+
+            // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+            CS_ControllerVibration.StartVibrationWithCurve(duration2, powerType2, curveType2, repetition2);
+
         }
 
     }

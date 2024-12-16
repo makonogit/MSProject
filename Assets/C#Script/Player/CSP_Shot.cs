@@ -91,6 +91,15 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("ŒŸ’m”ÍˆÍ")]
     float radiusAuto = 10f;
 
+    [Header("UŒ‚‚ÌU“®İ’è")]
+    [SerializeField, Header("U“®‚Ì’·‚³")]
+    private float duration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Header("U“®‚Ì‹­‚³")]
+    private int powerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Header("U“®‚Ìü”g”")]
+    private int curveType = 1;          // U“®‚Ìü”g”
+    [SerializeField, Header("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int repetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
 
     private bool Cold = false;  //—â‹p’†‚©‚Ç‚¤‚©
     private float OverHeatAlpha = 0f;    //ƒI[ƒo[ƒq[ƒg’†‚Ì‰æ‘œ‚Ì“§–¾“x(™X‚ÉÔ‚­‚·‚é)
@@ -275,6 +284,9 @@ public class CSP_Shot : ActionBase
             // ‘•“U”‚ª0‚È‚çƒŠƒ[ƒh
             if (isMagazine)
             {
+                // ƒRƒ“ƒgƒ[ƒ‰[‚ğU“®
+                CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curveType, repetition);
+
                 CreateBullet(burstfire);
                 isShot = true;
                 //weaponIdle.SetActive(false);
