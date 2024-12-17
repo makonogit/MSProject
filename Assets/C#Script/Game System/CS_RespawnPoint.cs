@@ -26,6 +26,7 @@ namespace Assets.C_Script.Game_System
                 CSGE_GameOver.SetPlayerRotation(trans.rotation);
                 trans = this.transform.GetChild(1);
                 CSGE_GameOver.SetCorePosition(trans.position);
+                gameObject.SetActive(false);
             }
         }
 
