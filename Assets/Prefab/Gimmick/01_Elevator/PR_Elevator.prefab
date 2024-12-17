@@ -93,12 +93,40 @@ MonoBehaviour:
   - EnergyCore
   drawer: {fileID: 3482180944230693606}
   CountDown: 10
+  gauge: {fileID: 0}
   countSound: {fileID: 8300000, guid: ce3be7306b6f8a5469754f5b2cd54d66, type: 3}
   moveSound: {fileID: 8300000, guid: f04285a65a2b69b48a93ca69d883bc97, type: 3}
   riseSound: {fileID: 8300000, guid: bdc0944a775cacd4488a31757a2401e6, type: 3}
   audioSource: {fileID: 841926914316125086}
   countAudioSource: {fileID: 9212017392167591776}
   moveAudioSource: {fileID: 8911697279668873670}
+  duration: 5
+  powerType: 1
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  repetition: 1
 --- !u!33 &7565119754732599927
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -631,5 +659,6 @@ MonoBehaviour:
   mechanical: {fileID: 2535168651044104237}
   mesh: {fileID: -9172179803078943045, guid: 62fbce4e722cd3f4384ea71a6b6189bc, type: 3}
   color: {r: 0, g: 1, b: 0, a: 0.6}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 1
   show: 0
