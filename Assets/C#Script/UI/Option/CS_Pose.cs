@@ -129,6 +129,32 @@ public class CS_Pose : MonoBehaviour
     private Vector2 RSPos;
 
 
+
+    [Header("=============ƒRƒ“ƒgƒ[ƒ‰[U“®===============")]
+    [Header("yƒJ[ƒ\ƒ‹ˆÚ“®‚ÌU“®İ’èz")]
+    [SerializeField, Tooltip("U“®‚Ì’·‚³")]
+    private float Cursorduration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Tooltip("U“®‚Ì‹­‚³")]
+    private int CursorpowerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Tooltip("U“®‚Ìü”g”")]
+    private AnimationCurve CursorcurveType;          // U“®‚Ìü”g”
+    [SerializeField, Tooltip("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int Cursorrepetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
+    [Header("yŒˆ’è‚ÌU“®İ’èz")]
+    [SerializeField, Tooltip("U“®‚Ì’·‚³")]
+    private float Decisionduration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Tooltip("U“®‚Ì‹­‚³")]
+    private int DecisionpowerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Tooltip("U“®‚Ìü”g”")]
+    private AnimationCurve DecisioncurveType;          // U“®‚Ìü”g”
+    [SerializeField, Tooltip("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int Decisionrepetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
+    [SerializeField, Header("İ’è—pƒpƒlƒ‹")]
+    private List<GameObject> SettingPanels;    //•\¦—pƒpƒlƒ‹
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -227,8 +253,16 @@ public class CS_Pose : MonoBehaviour
         //‘O‰ñ‚Ìƒ_ƒCƒAƒƒO”Ô†‚ğ•Û‘¶
         int olddialognum = CurrentDialogNum;
 
-        if (DownButton) { CurrentDialogNum++; } 
-        if (UpButton) { CurrentDialogNum--; }
+        if (DownButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentDialogNum++; 
+        } 
+        if (UpButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentDialogNum--; 
+        }
        
         //–îˆó‚ÌF•ÏX
         bool DownPressed = InputSystem.GetDpadDownPressed();
@@ -483,7 +517,11 @@ public class CS_Pose : MonoBehaviour
         Decision = InputSystem.GetButtonATriggered(); //Œˆ’è
 
         //€–Ú‘I‘ğ’†‚©‚Ìó‘Ô
-        if (Decision) { Select = true; }
+        if (Decision)
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Decisionduration, DecisionpowerType, DecisioncurveType, Decisionrepetition);
+            Select = true; 
+        }
 
         if (Select) { SelectAction(); } //‘I‘ğs“®
         else { CursorMove(); }          //ƒJ[ƒ\ƒ‹ˆÚ“®        
@@ -499,8 +537,16 @@ public class CS_Pose : MonoBehaviour
         bool DownButton = InputSystem.GetDpadDownTriggered();
         bool UpButton = InputSystem.GetDpadUpTriggered();
 
-        if (DownButton) { CurrentState++; }
-        if (UpButton) { CurrentState--; }
+        if (DownButton)
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentState++; 
+        }
+        if (UpButton)
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentState--; 
+        }
 
         //“ü—Íã‰ºŒÀ‚Ìİ’è
         if (CurrentState < PoseState.OPTION) { CurrentState = PoseState.RESUME; }
