@@ -854,6 +854,10 @@ PrefabInstance:
     - target: {fileID: 624749273210349618, guid: f2a17706c03c45642bff7d7f9ab458eb, type: 3}
       propertyPath: m_LookAt
       value: 
+      objectReference: {fileID: 205082084963665349}
+    - target: {fileID: 6000093546844886080, guid: f2a17706c03c45642bff7d7f9ab458eb, type: 3}
+      propertyPath: m_MinimumOcclusionTime
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7049308165718726993, guid: f2a17706c03c45642bff7d7f9ab458eb, type: 3}
       propertyPath: m_Name
@@ -1818,19 +1822,19 @@ PrefabInstance:
       objectReference: {fileID: 6462667259184428645}
     - target: {fileID: 7113808576034000571, guid: 40f37a40770f20746b17622ec4d50235, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000079459954
+      value: 0.9999619
       objectReference: {fileID: 0}
     - target: {fileID: 7113808576034000571, guid: 40f37a40770f20746b17622ec4d50235, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000007673362
+      value: -0.008726463
       objectReference: {fileID: 0}
     - target: {fileID: 7113808576034000571, guid: 40f37a40770f20746b17622ec4d50235, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.71933967
+      value: -0.000000043756437
       objectReference: {fileID: 0}
     - target: {fileID: 7113808576034000571, guid: 40f37a40770f20746b17622ec4d50235, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.6946586
+      value: -3.8185463e-10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1913,10 +1917,14 @@ PrefabInstance:
       propertyPath: mNoiseOffsets.z
       value: -510.1759
       objectReference: {fileID: 0}
+    - target: {fileID: 1826585136220168884, guid: 5965a10fc39ee334b99a3f66154ffc66, type: 3}
+      propertyPath: m_MinimumOcclusionTime
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5450012103036782950, guid: 5965a10fc39ee334b99a3f66154ffc66, type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 205082084963665349}
     - target: {fileID: 5450012103036782950, guid: 5965a10fc39ee334b99a3f66154ffc66, type: 3}
       propertyPath: m_Priority
       value: -1
