@@ -58,6 +58,12 @@ namespace Assets.C_Script.GameEvent
         private bool canContinue = false;
         [SerializeField]
         private GameObject stage;
+        private bool once = false;
+        [Header("振動の設定")]
+        [SerializeField] private float duration = 1.0f;
+        [SerializeField] private int powerType = 0;
+        [SerializeField] private AnimationCurve curve;
+        [SerializeField] private int repetition = 1;
 
         protected override void Awake()
         {
@@ -144,6 +150,11 @@ namespace Assets.C_Script.GameEvent
             base.EventUpdate();
             animator.SetBool("GameOver", true);
             SetSlowly(timeSpeed);
+            if (!once) 
+            { 
+                CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
+                once = true;
+            }
             if (canContinue&&inputSystem.GetButtonATriggered()) Restart();
         }
 

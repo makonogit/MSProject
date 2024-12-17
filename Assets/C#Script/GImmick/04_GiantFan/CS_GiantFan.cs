@@ -31,6 +31,11 @@ namespace Assets.C_Script.Gimmick
         private AnimationCurve startupForceCurve;
         [SerializeField]
         private List<Rigidbody> rigidbodies = new List<Rigidbody> ();
+        [Header("振動の設定")]
+        [SerializeField] private float duration = 1.0f;
+        [SerializeField] private int powerType = 0;
+        [SerializeField] private AnimationCurve curve;
+        [SerializeField] private int repetition = 1;
 
         private AudioSource myAudioSource;
 
@@ -41,11 +46,13 @@ namespace Assets.C_Script.Gimmick
         }
         private void OnTriggerEnter(Collider other)
         {
+            if (other.tag == "Player") CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
             if (!other.gameObject.TryGetComponent(out Rigidbody rb)) return;
             rigidbodies.Add(rb);
         }
         private void OnTriggerExit(Collider other)
         {
+            
             if (rigidbodies.Count == 0) return;
             for (int i = 0; i < rigidbodies.Count; i++) 
             {

@@ -30,6 +30,11 @@ namespace Assets.C_Script.Gimmick
         private AudioSource countAudioSource;
         [SerializeField]
         private AudioSource moveAudioSource;
+        [Header("振動の設定")]
+        [SerializeField] private float duration = 1.0f;
+        [SerializeField] private int powerType = 0;
+        [SerializeField] private AnimationCurve curve;
+        [SerializeField] private int repetition = 1;
 
 
 
@@ -53,6 +58,7 @@ namespace Assets.C_Script.Gimmick
             if (countDownTime <= 0)
             {
                 this.Movement(this.GetPosition());
+                if (isPlayerOnThis && firstTime) CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
                 if (firstTime) SoundPlay(audioSource,riseSound,false);
                 else SoundPlay(moveAudioSource,moveSound, true);
                 firstTime = false;
@@ -81,6 +87,7 @@ namespace Assets.C_Script.Gimmick
             audio.clip = clip;
             audio.loop = loop;
             audio.Play();
+            
         }
 
         private void SetMaterialGauge() 

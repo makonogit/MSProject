@@ -25,6 +25,7 @@ namespace Assets.C_Script.Gimmick
         protected bool Stop = true;
         protected float nowTime = 0.0f;
         protected bool GoEndPoint = true;
+        protected bool isPlayerOnThis = false;
         [SerializeField, Tooltip("イージング：\n")]
         private AnimationCurve animCurve = new AnimationCurve();
         [SerializeField,Tooltip("子オブジェクトにするタグ")]
@@ -53,6 +54,7 @@ namespace Assets.C_Script.Gimmick
         private void OnCollisionEnter(Collision collision)
         {
             bool shouldSet = false;
+            if (collision.gameObject.tag == "Player") isPlayerOnThis = true;
             foreach (string tag in tags) if( tag == collision.transform.tag)shouldSet = true;
             if (!shouldSet)return;
             if (stick) 
@@ -65,18 +67,21 @@ namespace Assets.C_Script.Gimmick
         private void OnCollisionExit(Collision collision)
         {
             if (stick) collision.transform.SetParent(parent, true);
+            if (collision.gameObject.tag == "Player") isPlayerOnThis = false;
         }
 
         // トリガー
         private void OnTriggerEnter(Collider other)
         {
             bool shouldSet = false;
+            if (other.tag == "Player") isPlayerOnThis = true;
             foreach (string tag in tags) if (tag == other.tag) shouldSet = true;
             if (!shouldSet) return;
             if (stick) other.transform.SetParent(transform, true);
         }
         private void OnTriggerExit(Collider other)
         {
+            if (other.tag == "Player") isPlayerOnThis = false;
             if (stick) other.transform.SetParent(null, true);
         }
 
