@@ -72,7 +72,7 @@ public class CS_AirBall : MonoBehaviour
         //    //transform.position += transform.forward * AttackSpeed * Time.deltaTime;
         //}
 
-        if (TimeMesure > 30.0f)
+        if (TimeMesure > 10.0f)
         {
             Destroy(this.gameObject);   //Õ“Ë‚µ‚½‚ç©M‚ğ”jŠü
         }

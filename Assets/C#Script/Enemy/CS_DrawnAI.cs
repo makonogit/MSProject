@@ -61,6 +61,8 @@ public class CS_DrawnAI : MonoBehaviour
     [Header("------------サワルナキケン--------------")]
     [SerializeField, Tooltip("NavMesh")]
     private NavMeshAgent agent;
+    [SerializeField, Tooltip("Animator")]
+    private Animator anim;
     [SerializeField, Tooltip("弾Prefab")]
     private GameObject BallObj;
     [SerializeField, Tooltip("弾を生成する距離")]
@@ -73,6 +75,13 @@ public class CS_DrawnAI : MonoBehaviour
     private GameObject HPCanvas;
     [SerializeField, Tooltip("Rayを可視化するLineRenderer")] 
     private LineRenderer lineRenderer;
+    [SerializeField, Tooltip("SE再生Source")]
+    private AudioSource SE;
+    [SerializeField, Tooltip("SEList")]
+    private　List<AudioClip> SEList;
+    [SerializeField, Tooltip("チャージ時のエフェクト")]
+    private GameObject ChargeEffect;
+    private GameObject CurrentChargeEffect;  //現在表示しているチャージエフェクト
 
     //--------タイマー関連---------
     private Coroutine currentCoroutine; //現在計測しているコルーチン
@@ -299,6 +308,8 @@ public class CS_DrawnAI : MonoBehaviour
         //同じ状態なら更新しない
         if(state == _state) { return; }
 
+        if(CurrentChargeEffect != null) { Destroy(CurrentChargeEffect); }
+
         //時間計測中だったら止める
         if(currentCoroutine != null)
         {
@@ -333,7 +344,9 @@ public class CS_DrawnAI : MonoBehaviour
     /// </summary>
     private void ActionTable()
     {
-        switch(state)
+        anim.SetBool("Idle", state == DrawnState.IDEL);
+
+        switch (state)
         {
             case DrawnState.IDEL:       //待機(行動選択中)
                 break;
@@ -377,6 +390,7 @@ public class CS_DrawnAI : MonoBehaviour
         if (currentCoroutine != null) { return; }
         currentCoroutine = StartCoroutine(Timer(MaxRanAwayTime,() =>
         {
+            
             ChangeState(DrawnState.IDEL);
         }));
 
@@ -405,6 +419,13 @@ public class CS_DrawnAI : MonoBehaviour
 
         float LineOffsetY = 1f;
 
+        if(CurrentChargeEffect != null)
+        {
+            Vector3 pos = transform.position;
+            pos.y += 1.5f;
+            CurrentChargeEffect.transform.position = pos;
+        }
+
         switch(attackstate)
         {
             case DrawnAttackState.NONE:
@@ -428,6 +449,9 @@ public class CS_DrawnAI : MonoBehaviour
                 }
                 else
                 {
+                    Vector3 pos = transform.position;
+                    pos.y += 1f;
+                    CurrentChargeEffect = Instantiate(ChargeEffect, pos, Quaternion.identity);
                     ChangeAttackState(DrawnAttackState.VIEWLINE);
                 }
 
@@ -453,6 +477,7 @@ public class CS_DrawnAI : MonoBehaviour
                 if (currentCoroutine != null) { return; }
                 currentCoroutine = StartCoroutine(Timer(AttackWaitTime, () =>
                 {
+                   
                     progress = 0f;                  //割合初期化
                     ChangeState(DrawnState.ATTACK);
                 }));
@@ -485,7 +510,13 @@ public class CS_DrawnAI : MonoBehaviour
 
         //生成するオブジェクトの回転を計算
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
+        
+        if (CurrentChargeEffect != null) { Destroy(CurrentChargeEffect); }
 
+
+        //SE再生
+        PlaySE(0, false);
+       
         //弾オブジェクトを生成
         GameObject ball = Instantiate(BallObj, spawnPosition, rotationToTarget);
         //弾に速度低下を付与
@@ -530,16 +561,17 @@ public class CS_DrawnAI : MonoBehaviour
         //Y軸固定を解除して落とす
         if ((ThisRb.constraints & RigidbodyConstraints.FreezePositionY) != 0)
         {
+            
             ThisRb.constraints &= ~RigidbodyConstraints.FreezePositionY;
         }
+    }
 
-        //時間待って消去　なんか一旦3秒
-        if (currentCoroutine != null) { return; }
-        currentCoroutine = StartCoroutine(Timer(3f, () =>
-        {
-            Destroy(this.gameObject);
-        }));
-     
+    /// <summary>
+    /// 死亡後消去　アニメーションで呼び出し
+    /// </summary>
+    private void DethDestroy()
+    {
+        Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -551,6 +583,7 @@ public class CS_DrawnAI : MonoBehaviour
         //弾に当たったらHP減少
         if(AttackHit)
         {
+            PlaySE(2, false);
             other.TryGetComponent<CS_AirBall>(out CS_AirBall ball);
             
             if (!ball) { return; }
@@ -563,37 +596,41 @@ public class CS_DrawnAI : MonoBehaviour
                 //缶を生成
                 for(int i = 0; i<DethCanNum;i++)
                 {
-                    Instantiate(Can,transform.position,Quaternion.identity);
+                    Vector3 pos = transform.position;
+                    pos.y += 1.5f;
+                    Instantiate(Can,pos,Quaternion.identity);
                 }
-                ChangeState(DrawnState.DETH); 
+                ChangeState(DrawnState.DETH);
+                anim.SetBool("Deth", true);
+                PlaySE(1, false);
             }
         }
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //どっかにあったったら退避
-        //新しい経路を設定
-        Vector3 newTarget = transform.position + Vector3.back * 1f; // 後ろに退避
-        SetTarget(newTarget);
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.transform.tag == transform.tag) { return; }
+    //    //どっかにあったったら退避
+    //    //新しい経路を設定
+    //    Vector3 newTarget = transform.position + Vector3.back * 1f; // 後ろに退避
+    //    SetTarget(newTarget);
 
-        //死んでてどっかに当たったら消去
-        if (state == DrawnState.DETH) { Destroy(this.gameObject); }
-    }
+    //    //死んでてどっかに当たったら消去
+    //    if (state == DrawnState.DETH) { Destroy(this.gameObject); }
+    //}
 
-    private void OnCollisionStay(Collision collision)
-    {
-        Debug.Log("うわああ");
-        //どっかにあったったら退避
-        //新しい経路を設定
-        if (collision.transform.tag != "Enemy")
-        {
-            Vector3 newTarget = transform.position + Vector3.back * 3f; // 後ろに退避
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    //どっかにあったったら退避
+    //    //新しい経路を設定
+    //    if (collision.transform.tag != "Enemy")
+    //    {
+    //        Vector3 newTarget = transform.position + Vector3.back * 1f; // 後ろに退避
 
-            SetTarget(newTarget);
-        }
-    }
+    //        SetTarget(newTarget);
+    //    }
+    //}
 
     /// <summary>
     /// 攻撃状態の変更
@@ -647,6 +684,24 @@ public class CS_DrawnAI : MonoBehaviour
     }
 
 
-    
+    //SE再生用
+    private void PlaySE(int PlayNum, bool Loop)
+    {
+        if (SE.clip == SEList[PlayNum]) { return; }
+
+        if (!Loop)
+        {
+            SE.Stop();
+            SE.clip = null;
+            SE.PlayOneShot(SEList[PlayNum]);
+            return;
+        }
+
+        if (SE.isPlaying) { return; }
+        SE.clip = SEList[PlayNum];
+        SE.Play();
+    }
+
+
 
 }
