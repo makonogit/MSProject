@@ -19,14 +19,19 @@ namespace Assets.C_Script.GameEvent
         private static Vector3 position = Vector3.zero;
         private static Vector3 corePosition = Vector3.zero;
         private static Quaternion rotation = Quaternion.identity;
+        private static bool hitRespqwn = false;
         public static void GameOver() 
         {
             if (GameOverEvent == null) return;
             GameOverEvent.enabled = true;
         }
-        public static void SetFloorNumber(int num) => floorNumber = num;
+        public static void SetFloorNumber(int num) => floorNumber = num - 1;
         public static void SetGroupNumber(int num) => groupNumber = num;
-        public static void SetPlayerPosition(Vector3 pos) => position = pos;
+        public static void SetPlayerPosition(Vector3 pos)
+        {
+            position = pos;
+            hitRespqwn = true;
+        }
         public static void SetPlayerRotation(Quaternion rotate)=> rotation = rotate;
         public static void SetCorePosition(Vector3 pos) => corePosition = pos;
         /// <summary>
@@ -39,6 +44,7 @@ namespace Assets.C_Script.GameEvent
             position = Vector3.zero;
             corePosition = Vector3.zero;
             rotation = Quaternion.identity;
+            hitRespqwn= false;
         }
 
 
@@ -77,12 +83,12 @@ namespace Assets.C_Script.GameEvent
         /// </summary>
         private void RespawnSystem() 
         {
-            if (player != null && floorNumber > 0)
+            if (player != null && hitRespqwn)
             {
                 player.position = position;
                 player.rotation = rotation;
             }
-            if (core != null && floorNumber > 0) core.position = corePosition;
+            if (core != null && hitRespqwn) core.position = corePosition;
 
             if (stage == null) Debug.LogError(gameObject.name+"内のCSGE_GameOverに変数 Stage(一番下)に stage を設定してください。");
 
