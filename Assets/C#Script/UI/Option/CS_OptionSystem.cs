@@ -86,6 +86,27 @@ public class CS_OptionSystem : MonoBehaviour
     private int GraphicSettingNum;  //Œ»İİ’è’†‚Ì‰æ¿
 
 
+    [Header("=============ƒRƒ“ƒgƒ[ƒ‰[U“®===============")]
+    [Header("yƒJ[ƒ\ƒ‹ˆÚ“®‚ÌU“®İ’èz")]
+    [SerializeField, Tooltip("U“®‚Ì’·‚³")]
+    private float Cursorduration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Tooltip("U“®‚Ì‹­‚³")]
+    private int CursorpowerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Tooltip("U“®‚Ìü”g”")]
+    private AnimationCurve CursorcurveType;          // U“®‚Ìü”g”
+    [SerializeField, Tooltip("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int Cursorrepetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
+    [Header("yŒˆ’è‚ÌU“®İ’èz")]
+    [SerializeField, Tooltip("U“®‚Ì’·‚³")]
+    private float Decisionduration = 0.5f;         // U“®‚Ì’·‚³
+    [SerializeField, Tooltip("U“®‚Ì‹­‚³")]
+    private int DecisionpowerType = 1;          // U“®‚Ì‹­‚³i4’iŠKj
+    [SerializeField, Tooltip("U“®‚Ìü”g”")]
+    private AnimationCurve DecisioncurveType;          // U“®‚Ìü”g”
+    [SerializeField, Tooltip("ŒJ‚è•Ô‚µ‰ñ”")]
+    private int Decisionrepetition = 1;         // ŒJ‚è•Ô‚µ‰ñ”
+
     [SerializeField, Header("İ’è—pƒpƒlƒ‹")]
     private List<GameObject> SettingPanels;    //•\¦—pƒpƒlƒ‹
 
@@ -145,7 +166,11 @@ public class CS_OptionSystem : MonoBehaviour
             //“ü—Í(ã‰º)
             bool DownButton = InputSystem.GetDpadDownTriggered();
             bool UpButton = InputSystem.GetDpadUpTriggered();
-            if (DownButton || UpButton) { CameraSelectNum = CameraSelectNum == 0 ? 1 : 0; }
+            if (DownButton || UpButton) 
+            {
+                CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+                CameraSelectNum = CameraSelectNum == 0 ? 1 : 0;
+            }
 
             //ƒJ[ƒ\ƒ‹ˆÚ“®
             CameraCursor.anchoredPosition = CameraCursorPos[CameraSelectNum].anchoredPosition;
@@ -213,7 +238,11 @@ public class CS_OptionSystem : MonoBehaviour
             //“ü—Í(ã‰º)
             bool DownButton = InputSystem.GetDpadDownTriggered();
             bool UpButton = InputSystem.GetDpadUpTriggered();
-            if (DownButton || UpButton) { SoundSelectNum = SoundSelectNum == 0 ? 1 : 0; }
+            if (DownButton || UpButton)
+            {
+                CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+                SoundSelectNum = SoundSelectNum == 0 ? 1 : 0;
+            }
 
             //ƒJ[ƒ\ƒ‹ˆÚ“®
             SoundCursor.anchoredPosition = SoundCursorPos[SoundSelectNum].anchoredPosition;
@@ -278,8 +307,16 @@ public class CS_OptionSystem : MonoBehaviour
         bool DownButton = InputSystem.GetDpadDownTriggered();
         bool UpButton = InputSystem.GetDpadUpTriggered();
 
-        if (DownButton) { CurrentGraphicSettingNum--; }
-        if (UpButton) { CurrentGraphicSettingNum++; }
+        if (DownButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentGraphicSettingNum--; 
+        }
+        if (UpButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentGraphicSettingNum++;
+        }
 
         //ã‰ºŒÀ‚Ìİ’è
         if (CurrentGraphicSettingNum > GraphicCursorPos.Count - 1) { CurrentGraphicSettingNum = 0; }
@@ -321,7 +358,11 @@ public class CS_OptionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {                                  
-        if (Decision) { Select = true; }//€–Ú‘I‘ğ’†‚©‚Ìó‘Ô
+        if (Decision) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Decisionduration, DecisionpowerType, DecisioncurveType, Decisionrepetition);
+            Select = true; 
+        }//€–Ú‘I‘ğ’†‚©‚Ìó‘Ô
         
         Cancel = InputSystem.GetButtonBTriggered();@//–ß‚é
         Decision = InputSystem.GetButtonATriggered(); //Œˆ’è
@@ -354,8 +395,16 @@ public class CS_OptionSystem : MonoBehaviour
         bool DownButton = InputSystem.GetDpadDownTriggered();
         bool UpButton = InputSystem.GetDpadUpTriggered();
 
-        if (DownButton) { CurrentState++; }
-        if (UpButton) { CurrentState--; }
+        if (DownButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentState++; 
+        }
+        if (UpButton) 
+        {
+            CS_ControllerVibration.StartVibrationWithCurve(Cursorduration, CursorpowerType, CursorcurveType, Cursorrepetition);
+            CurrentState--; 
+        }
 
         //“ü—Íã‰ºŒÀ‚Ìİ’è
         if (CurrentState < OptionState.SOUND) { CurrentState = OptionState.GRAPHIC; }

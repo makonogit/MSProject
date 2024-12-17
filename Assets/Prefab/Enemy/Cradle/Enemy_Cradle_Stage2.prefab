@@ -451,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 5528336508876421557, guid: 91c9a9f7021546f4b9bd83e72ee8b093, type: 3}
     - target: {fileID: 919132149155446097, guid: 4ad1477f669e38043a0b6b56b416a57b, type: 3}
       propertyPath: m_Name
-      value: Enemy_Cradle
+      value: Enemy_Cradle_Stage2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4ad1477f669e38043a0b6b56b416a57b, type: 3}
       propertyPath: m_Layer

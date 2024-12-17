@@ -1039,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_Name
-      value: Enemy_Coffin
+      value: Enemy_Coffin_Stage5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       propertyPath: m_Layer
