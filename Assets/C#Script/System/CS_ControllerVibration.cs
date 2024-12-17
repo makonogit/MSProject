@@ -103,7 +103,7 @@ public class CS_ControllerVibration : MonoBehaviour
                 }
 
                 // 経過時間を更新
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaleDeltaTime;
 
                 // 次のフレームまで待機
                 yield return null;
