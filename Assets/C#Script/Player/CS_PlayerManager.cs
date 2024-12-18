@@ -347,7 +347,7 @@ public class CS_PlayerManager : MonoBehaviour
 
     void OnTriggerStay(Collider collision)
     {
-        if (collision.gameObject.tag == "Goal")
+        if ((collision.gameObject.tag == "Goal")&&(animator.GetBool("Mount")))
         {
             if (GetInputSystem().GetButtonBPressed() && !animator.GetBool("Goal"))
             {
