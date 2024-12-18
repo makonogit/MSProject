@@ -22,7 +22,7 @@ public class CS_Reticle : MonoBehaviour
             //----- コフィンのHPゲージ表示 ------------
             if (hit.collider.tag == "Enemy")
             {
-                hit.transform.TryGetComponent<CS_CofineAI>(out CS_CofineAI cofine);
+                hit.transform.TryGetComponent<CS_Cofine>(out CS_Cofine cofine);
                 hit.transform.TryGetComponent<CS_DrawnAI>(out CS_DrawnAI drawn);
 
                 if (cofine) { cofine.ViewHPGage(PlayerTrans); }

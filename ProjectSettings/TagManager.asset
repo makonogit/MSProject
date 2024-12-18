@@ -16,6 +16,7 @@ TagManager:
   - PushObject
   - BurningObject
   - BigCanItem
+  - CoreUnit
   layers:
   - Default
   - TransparentFX

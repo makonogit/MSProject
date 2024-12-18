@@ -461,10 +461,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_CoreUnit
       objectReference: {fileID: 0}
-    - target: {fileID: 6776659613971408003, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 7043880917517357536, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: transmitter.receivers.Array.data[0]
       value: 

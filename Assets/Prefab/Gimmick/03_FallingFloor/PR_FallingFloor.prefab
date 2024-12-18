@@ -47,6 +47,7 @@ MonoBehaviour:
   mechanical: {fileID: 8394725635344176741}
   mesh: {fileID: -976508380998006113, guid: 0b5dbdf4dc9492e4d977a3ca822d1ced, type: 3}
   color: {r: 0, g: 1, b: 0.033422947, a: 0.03529412}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 1
   show: 0
 --- !u!1 &6696865334278279899
@@ -69,7 +70,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5300734897515742670
 Transform:
@@ -199,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   endpointObj: {fileID: 5781428010025391715}
-  endPoint: {x: -35.88, y: -0.22658499, z: 11.787429}
+  endPoint: {x: 0.00006484985, y: 6.547502, z: -9.996494}
   arrivalTime: 1
   stick: 1
   Stop: 1

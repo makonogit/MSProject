@@ -237,6 +237,7 @@ MonoBehaviour:
   mechanical: {fileID: 7029161988132626896}
   mesh: {fileID: -341682174605423359, guid: 2f346d8901adc464386932329267ab4a, type: 3}
   color: {r: 0, g: 1, b: 0, a: 0.050980393}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 1
   show: 0
 --- !u!1 &757865542403391895
@@ -291,7 +292,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 300, y: 300, z: 250}
+  m_Size: {x: 300, y: 300, z: 150}
   m_Center: {x: 0, y: 150, z: 50}
 --- !u!114 &5022554312436085561
 MonoBehaviour:
@@ -362,6 +363,7 @@ MonoBehaviour:
   mechanical: {fileID: 5274207643802477747}
   mesh: {fileID: -341682174605423359, guid: 2f346d8901adc464386932329267ab4a, type: 3}
   color: {r: 0, g: 1, b: 0, a: 0.050980393}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 1
   show: 0
 --- !u!1 &3878895627046053620

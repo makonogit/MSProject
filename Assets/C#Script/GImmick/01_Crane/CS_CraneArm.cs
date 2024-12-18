@@ -107,6 +107,7 @@ namespace Assets.C_Script.Gimmick
         /// </summary>
         private void ClearItem() 
         {
+            if (!Dropped) DropItem();
             itemObject = null;
             itemRb = null;
         }

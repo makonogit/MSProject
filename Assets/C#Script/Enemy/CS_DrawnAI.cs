@@ -55,6 +55,7 @@ public class CS_DrawnAI : MonoBehaviour
     private float MaxRanAwayDistance = 15f;
     [SerializeField, Tooltip("死んだ時の空き缶生成数")]
     private int DethCanNum = 3;
+    private int CurrentDethCanNum = 0;
     [SerializeField, Tooltip("プレイヤーから離れて飛ぶ高さ")]
     private float ApploachY = 1f;
 
@@ -591,10 +592,12 @@ public class CS_DrawnAI : MonoBehaviour
             NowHP -= ball.Power;
 
             //死亡
-            if(NowHP <= 0) 
+            if(NowHP <= 0 && CurrentDethCanNum < DethCanNum) 
             {
+                //コライダーを無効に
+                transform.tag = "Untagged";
                 //缶を生成
-                for(int i = 0; i<DethCanNum;i++)
+                for (; CurrentDethCanNum<DethCanNum;CurrentDethCanNum++)
                 {
                     Vector3 pos = transform.position;
                     pos.y += 1.5f;

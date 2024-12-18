@@ -1367,9 +1367,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8676699047268094996}
   serializedVersion: 4
-  m_Mass: 5
-  m_Drag: 5
-  m_AngularDrag: 5
+  m_Mass: 10
+  m_Drag: 1
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1460,14 +1460,14 @@ MonoBehaviour:
   AttackPower: 1
   AttackSpace: 3
   HP: 3
-  TargetDistance: 10
+  TargetDistance: 15
   CoreDistance: 2
   PlayerDistance: 3
   DistanceStop: 0.01
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 1024
-  StartPos: {x: 11.61, y: 0.5400001, z: 1.4}
+  StartPos: {x: -18, y: 4, z: -26}
   ThisRd: {fileID: 8843199040453819684}
   navmeshAgent: {fileID: 153386493854832457}
   CofinAnim: {fileID: 3200529328052254431}
