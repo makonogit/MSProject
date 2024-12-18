@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1100013080747177705}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.247, z: 0}
+  m_LocalPosition: {x: 0, y: 17.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -47,6 +47,7 @@ MonoBehaviour:
   mechanical: {fileID: 0}
   mesh: {fileID: 2781847978938744853, guid: d3d6ceb970ec4d845a1a178344f221cd, type: 3}
   color: {r: 1, g: 0.78632903, b: 0, a: 0.44705883}
+  offset: {x: 0, y: 0, z: 0}
   lossyScale: 0
   show: 0
 --- !u!1 &6776659613971408003
@@ -66,7 +67,7 @@ GameObject:
   - component: {fileID: 3563904771454047774}
   m_Layer: 0
   m_Name: PR_CoreUnit
-  m_TagString: Gimmick
+  m_TagString: CoreUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +157,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 82, y: 8, z: 82}
+  m_Size: {x: 100, y: 10, z: 100}
   m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &7043880917517357536
 MonoBehaviour:
