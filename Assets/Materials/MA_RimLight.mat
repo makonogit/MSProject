@@ -52,9 +52,9 @@ Material:
     - _StencilRefMV: 33
     - _StencilWriteMaskMV: 43
     - _SurfaceType: 1
-    - _TransparentZWrite: 1
+    - _TransparentZWrite: 0
     - _ZTestDepthEqualForOpaque: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0, g: 5.077002, b: 6.0834327, a: 1}
     - _Vector3: {r: 4, g: 4, b: 4, a: 0}
