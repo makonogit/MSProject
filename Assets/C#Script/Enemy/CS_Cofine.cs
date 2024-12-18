@@ -94,6 +94,7 @@ public class CS_Cofine : MonoBehaviour
     private GameObject Can;
     [SerializeField, Tooltip("生成する空き缶の数")]
     private int CanNum = 3;
+    private int CurrentCanNum = 0;  //現在の缶詰の数
     [SerializeField, Tooltip("HPGage")]
     private Image HPGage;
     [SerializeField]
@@ -142,6 +143,8 @@ public class CS_Cofine : MonoBehaviour
         HPGage.fillAmount = NowHP / HP;
         if (HPCanvas.activeSelf) { StartCoroutine(EndViewHP()); }    //HPが表示されていたら消す
     
+        if(state == Cofin_State.DETH) { return; }
+
         ActionTable();
     }
 
@@ -303,7 +306,6 @@ public class CS_Cofine : MonoBehaviour
     /// </summary>
     private void TargetDetection()
     {
-        Debug.Log(navmeshAgent.isOnNavMesh);
 
         float playerdistance = Vector3.Distance(transform.position, PlayerTrans.position);
         float coredistance = Vector3.Distance(transform.position, CoreTrans.position);
@@ -336,7 +338,7 @@ public class CS_Cofine : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
+        if(state == Cofin_State.DETH) { return; }
         //コアの取得
         if (collision.gameObject.tag == "EnergyCore")
         {
@@ -374,6 +376,7 @@ public class CS_Cofine : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(state == Cofin_State.DETH) { return; }
         bool Attack = other.gameObject.tag == "Attack";
         //攻撃されたら
         if (Attack)
@@ -392,12 +395,13 @@ public class CS_Cofine : MonoBehaviour
                 StartCoroutine(EndLight());             //しばらくしたら発光停止
 
                 //死亡処理
-                if (NowHP <= 0 && state != Cofin_State.DETH)
+                if (NowHP <= 0 && CurrentCanNum < CanNum)
                 {
                     state = Cofin_State.DETH;
+
                     //コライダーを無効に
                     transform.tag = "Untagged";
-                    for (int i = 0; i < CanNum; i++)
+                    for (; CurrentCanNum < CanNum; CurrentCanNum++)
                     {
                         //缶の生成
                         Instantiate(Can, transform.position, Quaternion.identity);
