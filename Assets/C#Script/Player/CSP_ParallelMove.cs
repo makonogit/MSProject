@@ -147,6 +147,9 @@ public class CSP_ParallelMove : ActionBase
             // ˆÊ’u‚ğXV
             MoveCharacter(moveVec);
             GetAnimator().SetBool("Move", true);
+
+            if (GetPlayerManager().IsGrounded())
+                CS_ParticleStarter.StartParticleSystemAtIndex(2);
         }
         else
         {

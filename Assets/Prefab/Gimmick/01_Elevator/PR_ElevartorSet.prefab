@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6912941178787799823}
   - component: {fileID: 8221851548776832762}
   - component: {fileID: 2721957801726992042}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,15 +237,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b51bf098e6dc2f24d96775e8a6a9405a, type: 2}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.x
-      value: 7.801494
+      value: -0.0012999999
       objectReference: {fileID: 0}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.y
-      value: 7.710001
+      value: 8.11
       objectReference: {fileID: 0}
     - target: {fileID: 2535168651044104237, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: endPoint.z
-      value: 23.237564
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5507837405182369974, guid: 1d90b7d814cf48c4f9e096af8ea2b252, type: 3}
       propertyPath: m_LocalPosition.y
@@ -443,6 +443,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1100013080747177705, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
       propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3112000059525938100, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4293524272464515058, guid: 3af7716f69a56e44dae3e43adf1b9c97, type: 3}
@@ -630,27 +634,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.x
-      value: 10.742769
+      value: 2.9399753
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.y
-      value: -0.4919986
+      value: -0.09199996
       objectReference: {fileID: 0}
     - target: {fileID: 5274207643802477747, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.z
-      value: 23.326565
+      value: 0.088999994
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.x
-      value: 6.3457694
+      value: -1.4570246
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.y
-      value: -0.4919986
+      value: -0.09199996
       objectReference: {fileID: 0}
     - target: {fileID: 7029161988132626896, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: endPoint.z
-      value: 23.326565
+      value: 0.088999994
       objectReference: {fileID: 0}
     - target: {fileID: 7407632809417419678, guid: 84c5ad8601b79e94ab254443e2019f0f, type: 3}
       propertyPath: m_RendererPriority

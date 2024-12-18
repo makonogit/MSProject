@@ -21,10 +21,18 @@ public class CS_ParticleStarter : MonoBehaviour
         // 配列の範囲内か確認
         if (index >= 0 && index < particleSystems.Length)
         {
-            // 指定したインデックスのパーティクルシステムを停止してクリア
-            particleSystems[index].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             // 再生を開始
             particleSystems[index].Play();
+        }
+    }
+    // 停止するメソッド
+    public static void StopParticleSystemAtIndex(int index)
+    {
+        // 配列の範囲内か確認
+        if (index >= 0 && index < particleSystems.Length)
+        {
+            // 指定したインデックスのパーティクルシステムを停止してクリア
+            particleSystems[index].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 
@@ -32,7 +40,7 @@ public class CS_ParticleStarter : MonoBehaviour
     {
         if (particleSystems == null)
         {
-            // 振動カーブをコピー
+            // パーティクルリストをコピー
             particleSystems = new ParticleSystem[particleList.Length];
             particleList.CopyTo(particleSystems, 0);
         }

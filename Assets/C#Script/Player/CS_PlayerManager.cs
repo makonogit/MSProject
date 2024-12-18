@@ -263,6 +263,9 @@ public class CS_PlayerManager : MonoBehaviour
                 {
                     animator.SetFloat("Falling", 1);
                     countdown.Initialize(0.5f);
+
+                    // エフェクト再生
+                    CS_ParticleStarter.StartParticleSystemAtIndex(1);
                 }
                 else
                 {
@@ -289,6 +292,11 @@ public class CS_PlayerManager : MonoBehaviour
         if (countdownStun.IsCountdownFinished() && animator.GetBool("Stun"))
         {
             animator.SetBool("Stun", false);
+        }
+        
+        if(animator.GetBool("Stun"))
+        {
+            CS_ParticleStarter.StartParticleSystemAtIndex(3);
         }
     }
 

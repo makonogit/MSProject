@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 担当：菅　ザコ敵
 /// </summary>
-public class CS_CofineAI : MonoBehaviour
+public class CS_CofineAI : CS_Cofine
 {
     public enum Cofin_State
     {

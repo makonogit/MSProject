@@ -522,8 +522,9 @@ public class CSP_Shot : ActionBase
                 detectionImage.sprite = reticle;
 
                 // オーバーヒートゲージを非表示
-                overheat.enabled = false;
-                overheatOut.enabled = false;
+                //overheat.enabled = false;
+                //overheatOut.enabled = false;
+
                 Cold = false;
                 overheatText.enabled = false;
             }

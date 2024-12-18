@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class CS_SoundEffect : MonoBehaviour
@@ -10,6 +11,8 @@ public class CS_SoundEffect : MonoBehaviour
     private AudioSource[] audioSource;
     [SerializeField, Header("音声ファイル")]
     private AudioClip[] audioClips;
+
+    private bool isAllStop = false;
 
     //**
     //* 音声ファイルを再生する
@@ -55,5 +58,26 @@ public class CS_SoundEffect : MonoBehaviour
                && indexClip >= 0
                && indexClip < audioClips.Length
                && (!audioSource[indexSource].isPlaying || audioSource[indexSource].clip != audioClips[indexClip]);
+    }
+
+    // ポーズ画面中は再生を停止
+    void Update()
+    {
+        if(Time.timeScale == 0f)
+        {
+            if (!isAllStop)
+            {
+                foreach (AudioSource audio in audioSource)
+                {
+                    audio.Stop();  // 各AudioSourceを停止
+                }
+
+                isAllStop = true;
+            }
+        }
+        else
+        {
+            isAllStop = false;
+        }
     }
 }

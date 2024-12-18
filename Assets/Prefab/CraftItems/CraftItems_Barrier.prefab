@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetUp: 0
-  validityTime: 100
+  validityTime: 15
   speed: 3
 --- !u!54 &5306712601261476035
 Rigidbody:
