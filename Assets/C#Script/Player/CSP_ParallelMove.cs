@@ -116,7 +116,12 @@ public class CSP_ParallelMove : ActionBase
             GetRigidbody().AddForce(reverseForce, ForceMode.Impulse);
 
             if (countdownDamage.IsCountdownFinished())
+            {
                 GetAnimator().SetBool("Damage", false);
+
+                // エフェクト再生
+                CS_ParticleStarter.StartParticleSystemAtIndex(1);
+            }
         }
     }
 
@@ -315,6 +320,9 @@ public class CSP_ParallelMove : ActionBase
 
             // コントローラーを振動
             CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
+
+            // エフェクト再生
+            CS_ParticleStarter.StartParticleSystemAtIndex(0);
         }
     }
 

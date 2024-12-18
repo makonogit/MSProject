@@ -388,7 +388,7 @@ public class CSP_Shot : ActionBase
             forwardVec = forwardVec.normalized;
         }
 
-        float offsetDistance = 1.5f; // Še’e‚ÌŠÔŠu
+        float offsetDistance = 0f;//1.5f; // Še’e‚ÌŠÔŠu
 
         if (burst > magazine)
         {
