@@ -47,8 +47,8 @@ public class CS_PlayerManager : MonoBehaviour
     private int ingredientsStock = 0;
     public int GetIngredientsStock() => ingredientsStock;
     public void SetIngredientsStock(int val) { ingredientsStock = val; }
-    //[SerializeField, Header("CS_Coreをここにセット")]
-    //private CS_Core core;
+    [SerializeField, Header("CS_Coreをここにセット")]
+    private CS_Core core;
 
     [Header("接地判定")]
     [SerializeField]
@@ -218,6 +218,21 @@ public class CS_PlayerManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        // エネルギーコアの状態を設定
+        if (core != null)
+        {
+            if (GetAnimator().GetBool("Mount"))
+            {
+                core.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
+            }
+            else if (core.STATE != CS_Core.CORE_STATE.HAVEENEMY)
+            {
+                core.STATE = CS_Core.CORE_STATE.DROP;
+            }
+        }
+
+
+
         //ゲージの状態を更新
         CanGage.fillAmount = (float)nowMP / (float)MaxMP;
 

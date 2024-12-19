@@ -68,18 +68,18 @@ public class CSP_Throwing : ActionBase
 
     void FixedUpdate()
     {
-        // エネルギーコアの状態を設定
-        if (targetObject != null)
-        {
-            if (GetAnimator().GetBool("Mount"))
-            {
-                targetCore.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
-            }
-            else if (targetCore.STATE != CS_Core.CORE_STATE.HAVEENEMY)
-            {
-                targetCore.STATE = CS_Core.CORE_STATE.DROP;
-            }
-        }
+        //// エネルギーコアの状態を設定
+        //if (targetObject != null)
+        //{
+        //    if (GetAnimator().GetBool("Mount"))
+        //    {
+        //        targetCore.STATE = CS_Core.CORE_STATE.HAVEPLAYER;
+        //    }
+        //    else if (targetCore.STATE != CS_Core.CORE_STATE.HAVEENEMY)
+        //    {
+        //        targetCore.STATE = CS_Core.CORE_STATE.DROP;
+        //    }
+        //}
 
         // 硬直処理
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 4775.571, g: 3105.8462, b: 2293.3362, a: 1}
+  m_IndirectSpecularColor: {r: 4705.2896, g: 3109.9673, b: 2397.7737, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1881,6 +1881,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961863164 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6701219961215313746, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 4038796293934424311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6a65f506f774483039b9bb1234cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &977999919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4228,6 +4239,10 @@ PrefabInstance:
       propertyPath: accelerationCurve.Array.data[1].m_Curve.Array.data[1].tangentMode
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 962181761024805329, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: core
+      value: 
+      objectReference: {fileID: 961863164}
     - target: {fileID: 1418867068215785000, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_Layer
       value: 13

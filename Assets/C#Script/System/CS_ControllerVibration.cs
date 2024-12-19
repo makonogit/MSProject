@@ -24,6 +24,8 @@ public class CS_ControllerVibration : MonoBehaviour
     public static void SetLoop(bool flg) { isLoop = flg; }
     public static bool GetLoop() {  return isLoop; }
 
+    private static bool isAllStop = false;
+
     private void Start()
     {
         // ゲームパッドが接続されているか確認
@@ -47,6 +49,23 @@ public class CS_ControllerVibration : MonoBehaviour
             // 振動強さをコピー
             vibrationPower = new float[power.Length];
             power.CopyTo(vibrationPower, 0);
+        }
+    }
+
+    // ポーズ画面中は再生を停止
+    void Update()
+    {
+        if (Time.timeScale == 0f)
+        {
+            if (!isAllStop)
+            {
+                gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                isAllStop = true;
+            }
+        }
+        else
+        {
+            isAllStop = false;
         }
     }
 
@@ -88,6 +107,11 @@ public class CS_ControllerVibration : MonoBehaviour
         // 繰り返し回数だけ実行
         for (int i = 0; (i < repetition || isLoop); i++)
         {
+            if (isAllStop)
+            {
+                break;
+            }
+
             // 時間の経過に従って振動強さを補間
             while (elapsedTime < duration)
             {
@@ -119,6 +143,7 @@ public class CS_ControllerVibration : MonoBehaviour
         }
 
         // コルーチンが終了したらオブジェクトを破棄
+        // ※非同期タスク内でDestroyしているのでHierarchyから名前が消えないことがある
         Destroy(vibrationObject);
     }
 }
