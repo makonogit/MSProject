@@ -101,7 +101,7 @@ public class CSP_UseEnergyCore : ActionBase
         {
             if (targetObject != null)
             {
-                if (GetInputSystem().GetButtonYPressed() &&
+                if (GetInputSystem().GetButtonYTriggered() &&
                     !GetAnimator().GetBool("UseEnergyCore"))
                 {
                     GetSoundEffect().PlaySoundEffect(2, 6);
