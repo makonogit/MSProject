@@ -10,8 +10,8 @@ public class CS_Title : MonoBehaviour
     private string GameSceneName;
 
     [Header("タイトル項目")]
-    [SerializeField, Tooltip("選択項目RectTrans")]
-    private List<RectTransform> TitleSelectTrans;
+    [SerializeField, Tooltip("選択項目Text")]
+    private List<Text> TitleSelectText;
 
     [SerializeField, Tooltip("選択用カーソル")]
     private RectTransform TitleCursorTrans;
@@ -26,18 +26,17 @@ public class CS_Title : MonoBehaviour
     private float Enlargement = 1.0f;
 
     //拡大後と通常時のサイズ※今は全部同じサイズと断定して1つ、変わるならList化する
-    private Vector2 EnlargementSize;
-    private Vector2 NormalSize;
+    private float EnlargementSize;
+    private float NormalSize;
 
     [Header("Start関係")]
-    [SerializeField, Tooltip("ゲームを始めるか選択UIマスク")]
-    private RectMask2D StartQuestionMask;
-    private float StartMaskMaxSize;       //UIのマスク最大サイズ
-    [SerializeField, Tooltip("選択UI表示スピード")]
-    private float StartQuestionViewSpeed = 1.0f;
-    [SerializeField, Tooltip("選択UITextコンポーネント")]
-    private List<Text> StartQuestionTexts;
-    private int StartQuestionNum = 0;   //0 はい　1 いいえ
+    [SerializeField, Tooltip("ゲームを始めるかの画像")]
+    private GameObject StartQuestioImage;
+    [SerializeField, Tooltip("選択UITrans")]
+    private List<RectTransform> StartQuestionTrans;
+    [SerializeField, Tooltip("カーソルUITrans")]
+    private RectTransform StartCursorTrans;
+    private int StartQuestionNum = 1;   //0 はい　1 いいえ
 
     [Header("つづきから")]
     [SerializeField, Tooltip("カーソル拡大スピード")]
@@ -49,7 +48,7 @@ public class CS_Title : MonoBehaviour
 
     [Header("Option関係")]
     [SerializeField,Tooltip("Option管理用スクリプト")]
-    private CS_Option OptionControl;
+    private CS_OptionSystem OptionControl;
     [SerializeField, Tooltip("Opiton用パネル")]
     private GameObject OptionPanel;
 
@@ -81,13 +80,11 @@ public class CS_Title : MonoBehaviour
     private void Start()
     {
         //項目選択時と通常時のサイズを設定
-        EnlargementSize = TitleSelectTrans[0].sizeDelta * Enlargement;
-        NormalSize = TitleSelectTrans[0].sizeDelta;
+        EnlargementSize = TitleSelectText[0].fontSize * Enlargement;
+        NormalSize = TitleSelectText[0].fontSize;
 
-        //ゲームを始めるかのマスク最大サイズを保存しておく
-        StartMaskMaxSize = StartQuestionMask.padding.x;
-        //選択中テキストの設定
-        StartQuestionTexts[StartQuestionNum].color = Color.red;
+        ////選択中テキストの設定
+        //StartQuestionTexts[StartQuestionNum].color = Color.red;
     }
 
     private void Update()
@@ -108,7 +105,7 @@ public class CS_Title : MonoBehaviour
             if ((int)state > (int)TitleState.OPTION) { state = TitleState.START; }
             if ((int)state < (int)TitleState.START) { state = TitleState.OPTION; }
 
-            TitleSelectTrans[(int)state].sizeDelta = EnlargementSize;
+            TitleSelectText[(int)state].fontSize = (int)EnlargementSize;
 
             //前回と今回の状態が違ったら変更された判定
             bool Change = (int)state != oldstate;
@@ -135,11 +132,11 @@ public class CS_Title : MonoBehaviour
     /// </summary>
     private void CursorMoveAction(int old)
     {
-        TitleSelectTrans[old].sizeDelta = NormalSize;
+        TitleSelectText[old].fontSize = (int)NormalSize;
 
         //カーソルの位置を設定
         Vector3 pos = TitleCursorTrans.anchoredPosition;
-        TitleCursorTrans.SetParent(TitleSelectTrans[(int)state]);
+        TitleCursorTrans.SetParent(TitleSelectText[(int)state].transform.parent);
         TitleCursorTrans.anchoredPosition = pos;
 
     }
@@ -150,12 +147,17 @@ public class CS_Title : MonoBehaviour
     private void SelectTriggerAction()
     {
         TitleSelect = true;
-        TitleCursorImage.sprite = TitleCursorSelectSprite;  //スプライトを選択中に
+        //TitleCursorImage.sprite = TitleCursorSelectSprite;  //スプライトを選択中に
 
         //オプション時のみ
         if (state == TitleState.OPTION)
         {
-            OptionPanel.SetActive(true);
+            if (!OptionPanel.activeSelf) { OptionPanel.SetActive(true); }
+            if (OptionPanel.GetComponent<CS_OptionSystem>().GetOptionBack())
+            {
+                OptionPanel.SetActive(false);
+                state = TitleState.START;
+            }
         }
 
     }
@@ -166,7 +168,7 @@ public class CS_Title : MonoBehaviour
     private void CanselTiggerAction()
     {
         TitleSelect = false;
-        TitleCursorImage.sprite = TitleCursorNormalSprite;  //スプライトを通常に
+        //TitleCursorImage.sprite = TitleCursorNormalSprite;  //スプライトを通常に
 
 
         //オプション時のみ
@@ -203,15 +205,10 @@ public class CS_Title : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-
-        bool StartView = StartQuestionMask.padding.x > 0;
-
         //マスク画像表示
-        if (StartView)
+        if (!StartQuestioImage.activeSelf)
         {
-            Vector4 size = StartQuestionMask.padding;
-            size.x -= StartQuestionViewSpeed * Time.deltaTime;
-            StartQuestionMask.padding = size;
+            StartQuestioImage.SetActive(true);
         }
 
 
@@ -223,15 +220,17 @@ public class CS_Title : MonoBehaviour
         //はいかいいえの選択肢
         if (leftButton) { StartQuestionNum++; PlaySE(CursorSE); }
         if (RightButton) { StartQuestionNum--; PlaySE(CursorSE); }
-        if(StartQuestionNum > StartQuestionTexts.Count - 1) { StartQuestionNum = 0; }
-        if (StartQuestionNum < 0) { StartQuestionNum = StartQuestionTexts.Count - 1; }
+        if(StartQuestionNum > StartQuestionTrans.Count - 1) { StartQuestionNum = 0; }
+        if (StartQuestionNum < 0) { StartQuestionNum = StartQuestionTrans.Count - 1; }
 
-        //変更されたら色を設定
+        //変更されたらカーソルを移動
         bool Change = oldquestionnum != StartQuestionNum;
         if (Change) 
         {
-            StartQuestionTexts[oldquestionnum].color = Color.white; //白
-            StartQuestionTexts[StartQuestionNum].color = Color.red; //赤 
+            StartCursorTrans.SetParent(StartQuestionTrans[StartQuestionNum]);
+            StartCursorTrans.anchoredPosition = Vector2.zero;
+            //StartQuestionTexts[oldquestionnum].color = Color.white; //白
+            //StartQuestionTexts[StartQuestionNum].color = Color.red; //赤 
         }
 
 
@@ -255,7 +254,7 @@ public class CS_Title : MonoBehaviour
 
         if (Cansel)
         {
-            StartQuestionMask.padding = new Vector4(StartMaskMaxSize, 0, 0, 0);   //画像単純に消す
+            StartQuestioImage.SetActive(false);
             CanselTiggerAction();
             PlaySE(CancelSE);
         }
@@ -268,9 +267,8 @@ public class CS_Title : MonoBehaviour
     private void OptionAction()
     {
         //bool Cansel = CSInput.GetButtonBTriggered() || Input.GetKeyDown(KeyCode.Backspace);
-        bool OptionCansel = OptionControl.OptionAction();   //オプションを開く
-
-        if (!OptionCansel) { CanselTiggerAction(); }
+        bool OptionCansel = OptionControl.GetOptionBack();   //オプションを開く
+        if (OptionCansel) { CanselTiggerAction(); }
     }
 
 
@@ -280,10 +278,10 @@ public class CS_Title : MonoBehaviour
     private void ContinueAction()
     {
         //カーソル拡大
-        Vector2 size = TitleCursorTrans.sizeDelta;
-        size.x += CursorZoomSize * Time.deltaTime;
-        size.y += CursorZoomSize * Time.deltaTime;
-        TitleCursorTrans.sizeDelta = size;
+        //Vector2 size = TitleCursorTrans.sizeDelta;
+        //size.x += CursorZoomSize * Time.deltaTime;
+        //size.y += CursorZoomSize * Time.deltaTime;
+        //TitleCursorTrans.sizeDelta = size;
 
         //フェードアウトする
         Color Fadecolor = FadeOutImage.color;
