@@ -3284,7 +3284,7 @@ MonoBehaviour:
   OptionSystem: {fileID: 2720650696815273490}
   BbuttonPushTime: 1
   RetireObj: {fileID: 1025847612057158307}
-  NextSceneName: Select
+  NextSceneName: SC_StageSelect
   RetireCursor: {fileID: 8379660228845940488}
   RetireSelsctPos:
   - {x: -100, y: -10}
@@ -3404,6 +3404,25 @@ MonoBehaviour:
     KeyImage: {fileID: 7829409802624888999}
     NormalSprite: {fileID: 21300000, guid: 9372e30d3ff9d8d4e932c3de96e9072d, type: 3}
     PushSprite: {fileID: 21300000, guid: 99304addaecb4e340985b6a6fa2e0e15, type: 3}
+  Cursorduration: 0.5
+  CursorpowerType: 1
+  CursorcurveType:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Cursorrepetition: 1
+  Decisionduration: 0.5
+  DecisionpowerType: 1
+  DecisioncurveType:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Decisionrepetition: 1
+  SettingPanels: []
 --- !u!1 &4404613611533180253
 GameObject:
   m_ObjectHideFlags: 0
@@ -3597,6 +3616,25 @@ MonoBehaviour:
     KeyImage: {fileID: 7829409802624888999}
     NormalSprite: {fileID: 21300000, guid: 9372e30d3ff9d8d4e932c3de96e9072d, type: 3}
     PushSprite: {fileID: 21300000, guid: 99304addaecb4e340985b6a6fa2e0e15, type: 3}
+  Cursorduration: 0.5
+  CursorpowerType: 1
+  CursorcurveType:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Cursorrepetition: 1
+  Decisionduration: 0.5
+  DecisionpowerType: 1
+  DecisioncurveType:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Decisionrepetition: 1
+  SettingPanels: []
 --- !u!95 &4133513858418865142
 Animator:
   serializedVersion: 5
