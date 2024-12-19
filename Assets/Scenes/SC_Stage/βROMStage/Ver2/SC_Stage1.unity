@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 71.97286, g: 67.002144, b: 81.89771, a: 1}
+  m_IndirectSpecularColor: {r: 72.602455, g: 66.82935, b: 79.3877, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1427,7 +1427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDeley
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnEnemy
@@ -1439,7 +1439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: conditions
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: MaxSpawnNum
@@ -1467,7 +1467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SynchroSpawnNum
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDirection.x
@@ -82723,7 +82723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDeley
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnEnemy
@@ -82731,7 +82731,7 @@ PrefabInstance:
       objectReference: {fileID: 8676699047268094996, guid: 8f0950af9a4950643acca7e1906c92a8, type: 3}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnSpace
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: conditions
@@ -82763,7 +82763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SynchroSpawnNum
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDirection.x
@@ -92420,7 +92420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDeley
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnEnemy
@@ -92428,7 +92428,7 @@ PrefabInstance:
       objectReference: {fileID: 8676699047268094996, guid: 8f0950af9a4950643acca7e1906c92a8, type: 3}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnSpace
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: conditions
@@ -92460,7 +92460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SynchroSpawnNum
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6919715308517332307, guid: b6629e093489f8745b6d2a72b2247244, type: 3}
       propertyPath: SpawnDirection.x

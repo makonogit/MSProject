@@ -1441,6 +1441,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b671b9276f88b41aad0a8a7951d97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  MoveSpeed: 1
+  RotationSpeed: 1
+  KnockBackForce: 1
+  AttackPower: 1
+  AttackSpace: 3
+  HP: 30
+  TargetDistance: 3
+  CoreDistance: 3
+  PlayerDistance: 3
+  DistanceStop: 0.1
+  EnemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  StartPos: {x: 0, y: 0, z: 0}
+  ThisRd: {fileID: 0}
+  navmeshAgent: {fileID: 0}
+  CofinAnim: {fileID: 0}
+  SpotLight: {fileID: 0}
+  LightBrightness: 100
+  Can: {fileID: 0}
+  CanNum: 3
+  HPGage: {fileID: 0}
+  HPCanvas: {fileID: 0}
+  SE: {fileID: 0}
+  SEList: []
 --- !u!114 &5649428107199700656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1460,7 +1486,7 @@ MonoBehaviour:
   AttackPower: 1
   AttackSpace: 3
   HP: 3
-  TargetDistance: 15
+  TargetDistance: 20
   CoreDistance: 2
   PlayerDistance: 3
   DistanceStop: 0.01
