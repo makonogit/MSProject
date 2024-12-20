@@ -74,7 +74,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _Metallic: 0.125
+    - _Metallic: 5
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -82,8 +82,8 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
-    - _Smoothness: 0.95
-    - _SpeedScale: 0.0625
+    - _Smoothness: 5
+    - _SpeedScale: 0.125
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
