@@ -10,11 +10,20 @@ using Assets.C_Script.GameEvent;
 /// </summary>
 public class CS_StageSelectUI : MonoBehaviour
 {
-    [SerializeField, Header("Animtor")]
-    private Animator Selectanimator;
+    [SerializeField, Header("AnimtorController")]
+    private RuntimeAnimatorController SelectanimatorController;
+    [SerializeField, Header("Animtor付与Obj")]
+    private GameObject AnimObj;
+
+    private Animator SelectAnim;
 
     [SerializeField, Header("入力")]
     private CS_InputSystem csinput;
+
+    [SerializeField, Header("ステージリスト")]
+    private List<Image> StageImageList;
+    [SerializeField, Header("ステージName画像")]
+    private List<Sprite>　StageSprite;
 
     [SerializeField, Header("遷移シーン")]
     private List<string> SceneName;
@@ -31,6 +40,9 @@ public class CS_StageSelectUI : MonoBehaviour
     private int SelectNum = 0;      //選択番号
     private bool Selected = false;  //選択中か
 
+    [SerializeField, Header("クリア情報")]
+    private CS_DataSave Save;
+
     [SerializeField, Header("AudioSource")]
     private AudioSource audio;
 
@@ -42,10 +54,28 @@ public class CS_StageSelectUI : MonoBehaviour
     [SerializeField]
     private AudioClip CancelSE;
 
-
     // Start is called before the first frame update
     void Start()
     {
+
+        maxstage = Save.GetClearStage();   //クリアしたステージ番号を取得
+
+        for (int i = 0; i < StageImageList.Count; i++)
+        {
+            //クリア済み
+            if (i <= maxstage) { StageImageList[i].sprite = StageSprite[0]; }
+            else
+            {
+                //Debug.Log(StageImageList[i]);
+                //未開放
+                //StageImageList[i].sprite = StageSprite[1];
+                StageImageList[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+        SelectAnim = AnimObj.AddComponent<Animator>();
+        SelectAnim.runtimeAnimatorController = SelectanimatorController;
+
         SelectImages[SelectNum].color = Color.white;
     }
 
@@ -63,14 +93,15 @@ public class CS_StageSelectUI : MonoBehaviour
             if (UpButton) { currentstage--; audio.PlayOneShot(CursorSE); }
 
             //上下限
-            if (currentstage < 0) { currentstage = maxstage; }
-            if (currentstage > maxstage) { currentstage = 0; }
+            if (currentstage < 0) { currentstage = maxstage - 1;  }
+            if (currentstage >= maxstage) { currentstage = 0; }
+            if (maxstage == 0) { currentstage = maxstage; }
 
             //変更したらAnimator状態変更
             bool Change = oldstage != currentstage;
             if (Change)
             {
-                Selectanimator.SetInteger("StageNum", currentstage);
+                SelectAnim.SetInteger("StageNum", currentstage);
             }
 
             //選択したか

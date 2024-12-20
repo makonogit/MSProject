@@ -9,6 +9,9 @@ public class CS_Title : MonoBehaviour
     [SerializeField,Tooltip("ゲーム開始時のシーンの名前")]
     private string GameSceneName;
 
+    [SerializeField, Header("セーブデータ")]
+    private CS_DataSave Save;
+
     [Header("タイトル項目")]
     [SerializeField, Tooltip("選択項目Text")]
     private List<Text> TitleSelectText;
@@ -239,8 +242,13 @@ public class CS_Title : MonoBehaviour
 
         //選択
         bool SelectButton = CSInput.GetButtonATriggered() || Input.GetKeyDown(KeyCode.Return);
-        if(SelectButton && StartQuestionNum == 0)
+
+        bool Start = CSInput.GetButtonStartTriggered();
+
+        if (SelectButton && StartQuestionNum == 0)
         {
+            //セーブデータをリセット
+            Save.ResetSaveData();
             //ゲーム開始
             SceneManager.LoadScene(GameSceneName);
             PlaySE(SelectSE);
@@ -250,6 +258,14 @@ public class CS_Title : MonoBehaviour
             //終了
             Cansel = true;
             PlaySE(CancelSE);
+        }
+        
+        if(Start && StartQuestionNum == 0)
+        {
+            //最大解放コマンド
+            Save.MaxClearCommand();
+            //ゲーム開始
+            SceneManager.LoadScene(GameSceneName);
         }
 
         if (Cansel)

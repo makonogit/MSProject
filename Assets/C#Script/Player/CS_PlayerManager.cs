@@ -93,6 +93,9 @@ public class CS_PlayerManager : MonoBehaviour
     private Assets.C_Script.UI.Result.CSGE_Result result;
     public Assets.C_Script.UI.Result.CSGE_Result GetResult() => result;
 
+    [SerializeField, Header("クリア保存用")]
+    private CS_DataSave Save;
+
     [Header("空き缶取得時の振動設定")]
     [SerializeField, Header("振動の長さ")]
     private float duration = 0.5f;         // 振動の長さ
@@ -298,6 +301,7 @@ public class CS_PlayerManager : MonoBehaviour
             if (goal.GetEnd())
             {
                 //result.StartResult();
+                Save.StageClearSave();　//クリアステージの保存
                 result.enabled = true;
                 animator.SetBool("Goal", false);
             }

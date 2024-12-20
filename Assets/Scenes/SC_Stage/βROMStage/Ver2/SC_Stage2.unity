@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21080777, g: 0.19441548, b: 0.23149827, a: 1}
+  m_IndirectSpecularColor: {r: 14.726984, g: 11.708093, b: 7.5148478, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11870,22 +11870,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6976213968198477809, guid: 7a484d37085f0ae43aacba4a7cc21a8c, type: 3}
   m_PrefabInstance: {fileID: 982503850}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &994788180 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6718797699554016132, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
-  m_PrefabInstance: {fileID: 2095935543}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &994788183 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2632065195275860318, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
-  m_PrefabInstance: {fileID: 2095935543}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 994788180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &997230974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25485,6 +25469,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.1985228
       objectReference: {fileID: 0}
+    - target: {fileID: 1503738108208687462, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: StageNum
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1584054634879476788, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.02
@@ -25863,7 +25851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.034369905
+      value: -0.0343699
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.y
@@ -25933,13 +25921,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf92db5ee1104d4990964d39624b9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusImageObj: {fileID: 994788180}
-  StatusImage: {fileID: 994788183}
-  StatusSprite:
-  - {fileID: 21300000, guid: 339546b2b2422a84a9e38587f1c511df, type: 3}
-  - {fileID: 21300000, guid: b7ec2cbfe81b69b4ea4bb23a92c53869, type: 3}
-  - {fileID: 21300000, guid: c7330254d717c5448ade2580253221bf, type: 3}
-  - {fileID: 21300000, guid: d9b0aee17e620f74ca247377800acfe3, type: 3}
 --- !u!1001 &2103806046
 PrefabInstance:
   m_ObjectHideFlags: 0
