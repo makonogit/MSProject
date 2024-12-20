@@ -35,6 +35,11 @@ public class CS_TrackCamera : MonoBehaviour
         // 自分のコンポーネントを取得
         currentVirtualCamera = GetComponent<CinemachineVirtualCamera>();
         dollyCart = GetComponent<CinemachineDollyCart>();
+
+        foreach(GameObject obj in activeObj)
+        {
+            if (obj.activeSelf) { obj.SetActive(false); }
+        }
     }
 
     void FixedUpdate()
