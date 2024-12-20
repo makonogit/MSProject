@@ -117,12 +117,16 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: 88a779538e250db4e8e1f5240323a21e
+    name: BGMVolume
   - guid: 385f74c87c3a68a4b886795c194cc983
     name: MainGamePitch
   - guid: f4b1ed1addb96aa4a90cdc68c5175c6c
     name: MainGameVolume
   - guid: 8aa2a184f66fd574d813da236316b07c
     name: MasterPitch
+  - guid: 4bebf76123a6e3c4593e7eaacf5cd03e
+    name: SEVolume
   m_AudioMixerGroupViews:
   - guids:
     - d2e59d2e1a692c94c9e12a48e64eb439

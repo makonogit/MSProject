@@ -45,8 +45,6 @@ public class CS_OptionSystem : MonoBehaviour
     private Color NormalColor;
     [SerializeField, Tooltip("設定スライダー移動速度")]
     private float SliderSpeed = 1;
-    [SerializeField, Tooltip("スライダーポインタ範囲")]
-    private float SliderPointRange = 220f;
     //スライダー加速度
     private float SliderAccelerationSpeed = 1;
 
@@ -68,7 +66,7 @@ public class CS_OptionSystem : MonoBehaviour
     [SerializeField, Tooltip("視野角設定")]
     private Cinemachine.CinemachineVirtualCamera CameraFov;
     [SerializeField, Tooltip("カメラ感度設定用")]
-    private CS_TpsCamera CameraMove;
+    private CS_ShootingCamera CameraMove;
     [SerializeField, Tooltip("設定用カーソル")]
     private RectTransform CameraCursor;
     [SerializeField, Tooltip("カーソル移動用座標")]
@@ -78,8 +76,10 @@ public class CS_OptionSystem : MonoBehaviour
     [SerializeField, Tooltip("設定用スライダーポインタ画像")]
     private List<RectTransform> CameraSliderPoint;
 
-    private float CameraMaxSpeed = 200f;    //Cameraの最大移動速度
+    private float CameraMaxSpeed = 2.0f;    //Cameraの最大移動速度
+    private float CameraMinSpeed = 0.5f;    //Cameraの最大移動速度
     private float CameraMaxFov = 120f;     //Cameraの最大視野角
+    private float CameraMinFov = 60f;
     private int CameraSelectNum = 0; //0:感度 1:視野角
 
     [Header("=============画質設定===============")]
@@ -131,6 +131,30 @@ public class CS_OptionSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //サウンドの初期設定
+        Mixer.GetFloat("SEVolume", out float se);
+        SoundSlider[0].fillAmount = Mathf.Clamp01((se - -80) / (20 - -80));
+        //スライダーのポインタの位置を調整 
+        float SEsliderWidth = SoundSlider[0].rectTransform.rect.width; // スライダー全体の幅
+        float SEPointX = (-SEsliderWidth / 2f) + (SoundSlider[0].fillAmount * SEsliderWidth);
+        SoundSliderPoint[0].anchoredPosition = new Vector2(SEPointX, SoundSliderPoint[0].anchoredPosition.y);
+
+        Mixer.GetFloat("BGMVolume", out float bgm);
+        SoundSlider[1].fillAmount = Mathf.Clamp01((bgm - -80) / (20 - -80));
+        //スライダーのポインタの位置を調整 
+        float BGMsliderWidth = SoundSlider[1].rectTransform.rect.width; // スライダー全体の幅
+        float BGMPointX = (-BGMsliderWidth / 2f) + (SoundSlider[1].fillAmount * BGMsliderWidth);
+        SoundSliderPoint[1].anchoredPosition = new Vector2(BGMPointX, SoundSliderPoint[1].anchoredPosition.y);
+
+        //Cameraの初期設定
+        CameraSlider[0].fillAmount = Mathf.Clamp01((1f - CameraMinSpeed) / (CameraMaxSpeed - CameraMinSpeed));
+        float SpeedPointX = (-BGMsliderWidth / 2f) + (CameraSlider[0].fillAmount * BGMsliderWidth);
+        CameraSliderPoint[0].anchoredPosition = new Vector2(SpeedPointX, CameraSliderPoint[0].anchoredPosition.y);
+
+        CameraSlider[1].fillAmount = Mathf.Clamp01((CameraFov.m_Lens.FieldOfView - CameraMinFov) / (CameraMaxFov - CameraMinFov));
+        float FovPointX = (-BGMsliderWidth / 2f) + (CameraSlider[1].fillAmount * BGMsliderWidth);
+        CameraSliderPoint[1].anchoredPosition = new Vector2(FovPointX, CameraSliderPoint[1].anchoredPosition.y);
+
         GraphicSettingTextList[CurrentGraphicSettingNum].color = DecisionColor;
         GraphicSettingNum = CurrentGraphicSettingNum;
     }
@@ -189,26 +213,27 @@ public class CS_OptionSystem : MonoBehaviour
             float SideStick = InputSystem.GetLeftStick().x;
             bool Left = SideStick < -0.5f && CameraSlider[CameraSelectNum].fillAmount >= 0;
             bool Right = SideStick > 0.5f && CameraSlider[CameraSelectNum].fillAmount <= 1;
-            if (Left) { CameraSlider[CameraSelectNum].fillAmount -= SliderAccelerationSpeed * Time.deltaTime; }
-            if (Right) { CameraSlider[CameraSelectNum].fillAmount += SliderAccelerationSpeed * Time.deltaTime; }
+            if (Left) { CameraSlider[CameraSelectNum].fillAmount -= SliderAccelerationSpeed * Time.unscaledDeltaTime; }
+            if (Right) { CameraSlider[CameraSelectNum].fillAmount += SliderAccelerationSpeed * Time.unscaledDeltaTime; }
 
             //スライダー速度を加速させてく
-            if (Left || Right) { SliderAccelerationSpeed += SliderSpeed * Time.deltaTime; }
+            if (Left || Right) { SliderAccelerationSpeed += SliderSpeed * Time.unscaledDeltaTime; }
             else { SliderAccelerationSpeed = SliderSpeed; }
 
             //スライダーのポインタの位置を調整 
-            float PointX = Mathf.Lerp(-SliderPointRange, SliderPointRange, CameraSlider[CameraSelectNum].fillAmount);
+            float sliderWidth = CameraSlider[CameraSelectNum].rectTransform.rect.width; // スライダー全体の幅
+            float PointX = (-sliderWidth / 2f) + (CameraSlider[CameraSelectNum].fillAmount * sliderWidth);
             CameraSliderPoint[CameraSelectNum].anchoredPosition = new Vector2(PointX, CameraSliderPoint[CameraSelectNum].anchoredPosition.y);
 
             //感度設定
             if (CameraSelectNum == 0)
             {
-                if(CameraMove) CameraMove.CameraSpeed = CameraSlider[CameraSelectNum].fillAmount / CameraMaxSpeed;
+                if(CameraMove) CameraMove.SetCameraSpeed(Mathf.Lerp(CameraMinSpeed,CameraMaxSpeed,CameraSlider[CameraSelectNum].fillAmount));
             }
             //視野角設定
             else
             {
-                if(CameraFov) CameraFov.m_Lens.FieldOfView = CameraSlider[CameraSelectNum].fillAmount / CameraMaxFov;
+                if(CameraFov) CameraFov.m_Lens.FieldOfView = Mathf.Lerp(CameraMinFov,CameraMaxFov,CameraSlider[CameraSelectNum].fillAmount);
             }
 
             //オプション項目設定終了
@@ -261,36 +286,38 @@ public class CS_OptionSystem : MonoBehaviour
         }
         else
         {
+
             //左スティックのx方向を取得
            
             float SideStick = InputSystem.GetLeftStick().x;
             bool Left = SideStick < -0.5f && CameraSlider[SoundSelectNum].fillAmount >= 0;
             bool Right = SideStick > 0.5f && CameraSlider[SoundSelectNum].fillAmount <= 1;
-            if (Left) { SoundSlider[SoundSelectNum].fillAmount -= SliderAccelerationSpeed * Time.deltaTime; }
-            if (Right) { SoundSlider[SoundSelectNum].fillAmount += SliderAccelerationSpeed * Time.deltaTime; }
+            if (Left) { SoundSlider[SoundSelectNum].fillAmount -= SliderAccelerationSpeed * Time.unscaledDeltaTime; }
+            if (Right) { SoundSlider[SoundSelectNum].fillAmount += SliderAccelerationSpeed * Time.unscaledDeltaTime; }
 
             //スライダー速度を加速させてく
-            if (Left || Right) { SliderAccelerationSpeed += SliderSpeed * Time.deltaTime; }
+            if (Left || Right) { SliderAccelerationSpeed += SliderSpeed * Time.unscaledDeltaTime; }
             else { SliderAccelerationSpeed = SliderSpeed; }
 
             //スライダーのポインタの位置を調整 
-            float PointX = Mathf.Lerp(-SliderPointRange, SliderPointRange, SoundSlider[SoundSelectNum].fillAmount);
+            float sliderWidth = SoundSlider[SoundSelectNum].rectTransform.rect.width; // スライダー全体の幅
+            float PointX = (-sliderWidth / 2f) + (SoundSlider[SoundSelectNum].fillAmount * sliderWidth);
             SoundSliderPoint[SoundSelectNum].anchoredPosition = new Vector2(PointX, SoundSliderPoint[SoundSelectNum].anchoredPosition.y);
             
             //SE設定
             if (SoundSelectNum == 0)
             {
                 // スライダーの値を-80dBから0dBに変換
-                float volume = Mathf.Lerp(-80f, 0f, SoundSlider[SoundSelectNum].fillAmount);
-                Mixer.SetFloat("SE", volume);
+                float volume = Mathf.Lerp(-80f, 20f, SoundSlider[SoundSelectNum].fillAmount);
+                Mixer.SetFloat("SEVolume", volume);
 
             }
             //BGM設定
             else
             {
                 // スライダーの値を-80dBから0dBに変換
-                float volume = Mathf.Lerp(-80f, 0f, SoundSlider[SoundSelectNum].fillAmount);
-                Mixer.SetFloat("BGM", volume);
+                float volume = Mathf.Lerp(-80f, 20f, SoundSlider[SoundSelectNum].fillAmount);
+                Mixer.SetFloat("BGMVolume", volume);
             }
 
             //オプション項目設定終了

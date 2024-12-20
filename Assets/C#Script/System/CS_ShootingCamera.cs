@@ -43,6 +43,24 @@ public class CS_ShootingCamera : ActionBase
     [SerializeField, Header("照準時の感度倍率")]
     private float adsWeight = 0.75f;
     private bool isAds = false; // 照準状態
+    
+
+    //開始時のカメラ感度
+    
+    private float startwideSpeed;             // 横スピード
+    private float starthydeSpeed;             // 縦スピード
+    private float startrotationSpeed;         // 回転スピード
+    /// <summary>
+    /// Cameraの感度設定用
+    /// </summary>
+    /// <param 倍率="value"></param>
+    public void SetCameraSpeed(float value)
+    {
+        wideSpeed = startwideSpeed * value;
+        hydeSpeed = starthydeSpeed * value;
+        rotationSpeed = startrotationSpeed * value;
+    }
+
 
     [Header("アシスト設定")]
     [SerializeField, Header("検知タグ")]
@@ -73,6 +91,11 @@ public class CS_ShootingCamera : ActionBase
     //**
     void Start()
     {
+        //開始時のスピードを保存
+        startwideSpeed = wideSpeed;
+        starthydeSpeed = hydeSpeed;
+        startrotationSpeed = rotationSpeed;
+
         // カメラコンポーネントを取得
         camera = GetComponent<CinemachineVirtualCamera>();
     }
