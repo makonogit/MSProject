@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21080789, g: 0.19395676, b: 0.230207, a: 1}
+  m_IndirectSpecularColor: {r: 0.21080777, g: 0.19441548, b: 0.23149827, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4436,6 +4436,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2503916203209969433, guid: b3801812507958b4aac25410e17862b9, type: 3}
   m_PrefabInstance: {fileID: 303908443}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &304446305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2430649038102170082, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 2095935543}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &312999894
 GameObject:
@@ -11865,6 +11870,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6976213968198477809, guid: 7a484d37085f0ae43aacba4a7cc21a8c, type: 3}
   m_PrefabInstance: {fileID: 982503850}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &994788180 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6718797699554016132, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 2095935543}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &994788183 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2632065195275860318, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 2095935543}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994788180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &997230974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18381,6 +18402,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7883015827517195409, guid: 4658aafb6d75c174ab35eea326accc7c, type: 3}
   m_PrefabInstance: {fileID: 1455499186}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1472916191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4023377463647643800, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 2095935543}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1474227505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23004,12 +23030,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6182353672744028090, guid: 152945a9992f42f43abbdad5e3def6c6, type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6182353672744028090, guid: 152945a9992f42f43abbdad5e3def6c6, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 2f3a197180c7a6949b8a46da1126c3ec, type: 3}
+      objectReference: {fileID: 8300000, guid: 7a84eaec89263e641a1a0ea9d69c1357, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25795,6 +25821,18 @@ PrefabInstance:
       propertyPath: activeObj
       value: 
       objectReference: {fileID: 493368413}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.data[3]
+      value: 
+      objectReference: {fileID: 304446305}
+    - target: {fileID: 8347835005460996298, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: activeObj.Array.data[4]
+      value: 
+      objectReference: {fileID: 1472916191}
     - target: {fileID: 8495074085724599112, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalPosition.x
       value: -80
@@ -25895,9 +25933,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf92db5ee1104d4990964d39624b9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusImageObj: {fileID: 0}
-  StatusImage: {fileID: 0}
-  StatusSprite: []
+  StatusImageObj: {fileID: 994788180}
+  StatusImage: {fileID: 994788183}
+  StatusSprite:
+  - {fileID: 21300000, guid: 339546b2b2422a84a9e38587f1c511df, type: 3}
+  - {fileID: 21300000, guid: b7ec2cbfe81b69b4ea4bb23a92c53869, type: 3}
+  - {fileID: 21300000, guid: c7330254d717c5448ade2580253221bf, type: 3}
+  - {fileID: 21300000, guid: d9b0aee17e620f74ca247377800acfe3, type: 3}
 --- !u!1001 &2103806046
 PrefabInstance:
   m_ObjectHideFlags: 0
