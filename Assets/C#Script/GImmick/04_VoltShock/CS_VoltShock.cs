@@ -54,7 +54,7 @@ namespace Assets.C_Script.Gimmick
         {
             base.PowerOn();
             this.tag = stunTag;
-            nowTime = 1.0f;
+            nowTime = 0.5f;
         }
         protected override void Execute()
         {

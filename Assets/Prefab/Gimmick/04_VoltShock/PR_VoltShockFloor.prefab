@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
-  cooldownTime: 1
+  cooldownTime: 5
   permanentlySound: {fileID: -4255293980499050846}
   hitSound: {fileID: 8949919419904558709}
 --- !u!82 &-4255293980499050846

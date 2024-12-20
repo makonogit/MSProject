@@ -33,6 +33,7 @@ namespace Assets.C_Script.GameEvent
         {
             position = pos;
             hitRespqwn = true;
+            keepCanNum = bigCanNum;
         }
         public static void SetPlayerRotation(Quaternion rotate)=> rotation = rotate;
         public static void SetCorePosition(Vector3 pos) => corePosition = pos;
@@ -48,6 +49,8 @@ namespace Assets.C_Script.GameEvent
             rotation = Quaternion.identity;
             hitRespqwn= false;
             time = 0;
+            bigCanNum = 0;
+            keepCanNum = 0;
         }
 
 
@@ -75,6 +78,14 @@ namespace Assets.C_Script.GameEvent
         [SerializeField] private int repetition = 1;
         private float gameoverTime =0.0f;
 
+        /// <summary>
+        /// デカ缶詰を取得した
+        /// </summary>
+        public static void AddBigCanCount() => bigCanNum++;
+        public static int GetBigCanCount() => bigCanNum;
+        private static int bigCanNum = 0;
+        private static int keepCanNum = 0;
+
         protected override void Awake()
         {
             base.Awake();
@@ -82,6 +93,7 @@ namespace Assets.C_Script.GameEvent
             RespawnSystem();
             CSGE_Result.SetGameOverTime(time);
             gameoverTime = Time.time;
+            bigCanNum = keepCanNum;
         }
 
         /// <summary>

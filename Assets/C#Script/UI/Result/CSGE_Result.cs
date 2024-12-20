@@ -8,6 +8,7 @@ using Assets.C_Script.UI.Gage;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -82,17 +83,17 @@ namespace Assets.C_Script.UI.Result
         private CS_InputSystem inputSystem;
         [SerializeField]
         private GameObject decideButton;
+        [SerializeField]
+        private AudioMixer audioMixer;
+        
+        public static void GettingBigCan() =>CSGE_GameOver.AddBigCanCount();
+
 
         private static float preTime = 0.0f;
         public static void SetGameOverTime(float time) 
         {
             preTime = time;
         }
-
-        /// <summary>
-        /// デカ缶詰を取得した
-        /// </summary>
-        public static void GettingBigCan() => bigCanNum++;
 
         protected override void Awake()
         {
@@ -104,6 +105,7 @@ namespace Assets.C_Script.UI.Result
         }
         public void Set()
         {
+            bigCanNum = CSGE_GameOver.GetBigCanCount();
             SetClearTime(Time.time - startTime + preTime);
             SetBigCanCount(bigCanNum);
             SetEnergyValue(core.GetEnergy() * 0.1f);
@@ -113,6 +115,7 @@ namespace Assets.C_Script.UI.Result
         protected override void EventUpdate()
         {
             Time.timeScale = 0.0f;
+            audioMixer.SetFloat("MainGameVolume", -80.0f);
             animator.SetBool("Start", true);
             if (MoveSlider) AnimationSlider();
             if (RankAnimationSlider) RankSliderAnimation();
@@ -120,6 +123,7 @@ namespace Assets.C_Script.UI.Result
             if (cans.End && inputSystem.GetButtonATriggered()) 
             {
                 Time.timeScale = 1f;
+                audioMixer.SetFloat("MainGameVolume", 0.0f);
                 SceneManager.LoadScene("SC_StageSelect");
             }
         }
@@ -226,7 +230,7 @@ namespace Assets.C_Script.UI.Result
             {
                 Rank.gameObject.SetActive(true);
                 nowTime = 0.0f;
-                cans.SetValue(10);
+                cans.SetValue(rank);
                 cans.isStartDrop = true;
                 return;
             }

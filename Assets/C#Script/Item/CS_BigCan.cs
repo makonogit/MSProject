@@ -139,9 +139,6 @@ public class CS_BigCan : MonoBehaviour
 
             //ˆê’èŠÔ’â~‚·‚é
             StartCoroutine(EndStopBreak(StopTime));
-
-            // Š”‚ğ‘‰Á‚·‚é             // * ’Ç‰ÁF’†ì
-            CSGE_Result.GettingBigCan();    // * ’Ç‰ÁF’†ì
         }
     }
 
