@@ -116,8 +116,10 @@ public class CSP_Shot : ActionBase
         // オーバーヒートテキストを非表示
         overheatText.enabled = false;
         // オーバーヒートゲージを非表示
-        overheat.enabled = false;
-        overheatOut.enabled = false;
+        //overheat.enabled = false;
+        //overheatOut.enabled = false;
+        overheat.enabled = true;
+        overheatOut.enabled = true;
 
         // 残弾数を初期化
         bulletStock = initBulletStock;

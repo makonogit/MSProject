@@ -389,22 +389,19 @@ public class CS_PlayerManager : MonoBehaviour
     public bool IsGrounded()
     {
         float radius = 0.125f;              // チェックする半径
-        float groundCheckDistance = 0.0f;   // 地面との距離
+        float groundCheckDistance = radius;   // 地面との距離
 
         // 地面判定
         Collider[] colliders = Physics.OverlapSphere(transform.position - Vector3.up * groundCheckDistance, radius, groundLayer);
 
-        // トリガーと衝突した場合は false を返す
-        bool notTrigger = true;
         foreach (var collider in colliders)
         {
-            notTrigger = !collider.isTrigger;
+            if (!collider.isTrigger)
+            {
+                return true;
+            }
         }
-
-        if(notTrigger == false)return false;
-
-        // トリガーでない場合、地面と接触していると判定
-        return colliders.Length > 0;
+        return false;
     }
 
 

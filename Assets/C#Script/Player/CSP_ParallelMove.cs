@@ -276,15 +276,18 @@ public class CSP_ParallelMove : ActionBase
         GetSoundEffect().StopPlayingSound(0);
 
         // 移動速度を初期化
-        speed = 0f;
+        speed = initSpeed;
+
+        if (!GetPlayerManager().IsGrounded())
+            speed = 0;
 
         // アニメーターの値を変更
         GetAnimator().SetBool("Move", false);
         GetAnimator().SetBool("Dash", false);
 
         // 平行な移動成分を取り除く
-        //Vector3 currentVelocity = GetRigidbody().velocity;
-        //GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
+        Vector3 currentVelocity = GetRigidbody().velocity;
+        GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
     }
 
     private void OnCollisionStay(Collision collision)
