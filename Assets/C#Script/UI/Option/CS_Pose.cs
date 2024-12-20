@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 //キー保存用
 [System.Serializable]
@@ -64,6 +65,8 @@ public class CS_Pose : MonoBehaviour
     [Header("=============システム===============")]
     [SerializeField, Tooltip("入力")]
     private CS_InputSystem InputSystem;
+    [SerializeField, Tooltip("Audio")]
+    private AudioMixer Mixer;
 
     [Header("=============オプション===============")]
     [SerializeField, Tooltip("オプションオブジェクト")]
@@ -155,6 +158,7 @@ public class CS_Pose : MonoBehaviour
     private List<GameObject> SettingPanels;    //表示用パネル
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -176,8 +180,6 @@ public class CS_Pose : MonoBehaviour
 
         //終了したか取得
         bool End = OptionSystem.GetOptionBack();
-
-        Debug.Log(OptionSystem.GetOptionBack() == true);
 
         if (End)
         {
@@ -483,6 +485,7 @@ public class CS_Pose : MonoBehaviour
     private void EndPose()
     {
         Time.timeScale = 1f;            //時間を戻す
+        Mixer.SetFloat("MasterPitch", 1);
         PosePanel.SetActive(false);    //自身を非表示に
         Select = false;
         CurrentState = PoseState.NONE;
@@ -494,6 +497,7 @@ public class CS_Pose : MonoBehaviour
     private void PoseStart()
     {
         Time.timeScale = 0f;
+        Mixer.SetFloat("MasterPitch", 0);
         PosePanel.SetActive(true);
         CurrentState = PoseState.OPTION;
     }
