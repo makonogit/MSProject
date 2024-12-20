@@ -434,31 +434,36 @@ public class CSP_Shot : ActionBase
     // IKPass
     private void OnAnimatorIK(int layerIndex)
     {
-        // 臨戦態勢アニメーション（銃を構える）
-        if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")
-            && !GetAnimator().GetBool("Recovery") && !GetAnimator().GetBool("Use Item")
-            && !GetAnimator().GetBool("Use EnergyCore") && !GetAnimator().GetBool("Push")))
+        Vector3 A = transform.forward;
+        Vector3 B = Camera.main.transform.forward;
+        float dotProduct = Vector3.Dot(A, B);
+        if (dotProduct > 0)
         {
-            // カメラの正面方向の位置を計算
-            Vector3 cameraForward = Camera.main.transform.forward * 100;
-            Vector3 targetPosition = Camera.main.transform.position + cameraForward;
-
-            // 頭と腕をターゲットの方向に向ける
-            if (targetPosition != null)
+            // 臨戦態勢アニメーション（銃を構える）
+            if ((!GetAnimator().GetBool("Reload")) && (!GetAnimator().GetBool("Throwing")
+                && !GetAnimator().GetBool("Recovery") && !GetAnimator().GetBool("Use Item")
+                && !GetAnimator().GetBool("Use EnergyCore") && !GetAnimator().GetBool("Push")))
             {
-                // 頭をターゲットに向ける
-                GetAnimator().SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
-                GetAnimator().SetLookAtPosition(targetPosition);
+                // カメラの正面方向の位置を計算
+                Vector3 cameraForward = Camera.main.transform.forward * 100;
+                Vector3 targetPosition = Camera.main.transform.position + cameraForward;
 
-                // 右腕をターゲットに向ける
-                GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
-                GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
-                GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
-                GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
+                // 頭と腕をターゲットの方向に向ける
+                if (targetPosition != null)
+                {
+                    // 頭をターゲットに向ける
+                    GetAnimator().SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
+                    GetAnimator().SetLookAtPosition(targetPosition);
 
+                    // 右腕をターゲットに向ける
+                    GetAnimator().SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+                    GetAnimator().SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+                    GetAnimator().SetIKPosition(AvatarIKGoal.RightHand, targetPosition);
+                    GetAnimator().SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(cameraForward));
+
+                }
             }
         }
-
     }
 
     /*

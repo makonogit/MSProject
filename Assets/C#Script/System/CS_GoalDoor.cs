@@ -53,6 +53,8 @@ public class CS_GoalDoor : MonoBehaviour
             && IsAnimationFinished(animatorDoorL))
         {
             isEnd = true;
+
+            CS_CameraManager.SetNextCamera(-1);
         }
     }
 

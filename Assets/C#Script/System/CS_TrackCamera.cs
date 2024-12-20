@@ -30,22 +30,29 @@ public class CS_TrackCamera : MonoBehaviour
     [SerializeField, Header("終了後にActiveにするオブジェクト")]
     private GameObject[] activeObj;
 
+    private bool isInit = false;
+         
     void Start()
     {
         // 自分のコンポーネントを取得
         currentVirtualCamera = GetComponent<CinemachineVirtualCamera>();
         dollyCart = GetComponent<CinemachineDollyCart>();
-
-        foreach(GameObject obj in activeObj)
-        {
-            if (obj.activeSelf) { obj.SetActive(false); }
-        }
     }
 
     void FixedUpdate()
     {
         if (currentVirtualCamera.Priority == 10)
         {
+            if (!isInit)
+            {
+                foreach (GameObject obj in activeObj)
+                {
+                    if (obj.activeSelf) { obj.SetActive(false); }
+                }
+
+                isInit = true;
+            }
+
             dollyCart.m_Speed = speed;
 
             if (IsAtEndOfPath(smoothPath.PathLength))
