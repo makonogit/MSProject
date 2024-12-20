@@ -79,7 +79,11 @@ namespace Assets.C_Script.Gimmick
             {
                 bool endPoint = splineAnimate.Duration <= splineAnimate.ElapsedTime && !Return;
                 bool startPoint = splineAnimate.Duration * 2 <= splineAnimate.ElapsedTime && Return;
-                if (endPoint) return true;
+                if (endPoint) 
+                { 
+                    splineAnimate.ElapsedTime = splineAnimate.Duration;
+                    return true; 
+                }
                 if (startPoint) 
                 {
                     splineAnimate.ElapsedTime = 0;
@@ -101,7 +105,7 @@ namespace Assets.C_Script.Gimmick
             // エンドポイントの設定
             {
                 // エンド位置に設定
-                splineAnimate.ElapsedTime = splineAnimate.Duration + 0.05f;
+                splineAnimate.ElapsedTime = splineAnimate.Duration;
                 // 位置の取得
                 position = arm.transform.position;
                 position.y = endUnit.position.y;
