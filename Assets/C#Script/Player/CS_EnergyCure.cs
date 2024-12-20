@@ -14,7 +14,7 @@ public class CS_EnergyCure : MonoBehaviour
     private float initEnergy = 10;
     [SerializeField]
     private float nowEnergy;
-    public float GetEnergy() => nowEnergy;
+    public float GetEnergy() => (int)nowEnergy;
     public void SetEnergy(float val) { nowEnergy = val; }
 
     // Start is called before the first frame update
