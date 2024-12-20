@@ -338,6 +338,7 @@ public class CS_PlayerManager : MonoBehaviour
         else if (collision.gameObject.tag == "BigCanItem")
         {
             nowBigCan++;
+            CSGE_Result.GettingBigCan();
 
             // コントローラーを振動
             CS_ControllerVibration.StartVibrationWithCurve(duration1, powerType1, curveType1, repetition1);

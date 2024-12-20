@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-using UnityEngine;
+//using UnityEngine;
 
 // パーティクル制御　担当：藤原昂祐
 public class CS_ParticleStarter : MonoBehaviour
@@ -49,6 +49,13 @@ public class CS_ParticleStarter : MonoBehaviour
         {
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+    }
+
+    private void OnEnable()
+    {
+        // パーティクルリストをコピー
+        particleSystems = new ParticleSystem[particleList.Length];
+        particleList.CopyTo(particleSystems, 0);
     }
 
     private void Update()
