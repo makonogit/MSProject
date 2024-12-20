@@ -1,3 +1,4 @@
+using Assets.C_Script.GameEvent;
 using Assets.C_Script.UI.Result;
 using System.Collections;
 using System.Collections.Generic;
@@ -115,7 +116,7 @@ public class CS_BigCan : MonoBehaviour
             //プレイヤーと衝突したら取得、停止処理
             bool PlayerHit = collision.transform.tag == "Player";
             if (!PlayerHit) { return; }
-
+            CSGE_GameOver.AddBigCanCount(); //*追加：中川　デカ缶詰の取得数記録
             //非表示にする
             TryGetComponent<MeshRenderer>(out MeshRenderer renderer);
             renderer.enabled = false;

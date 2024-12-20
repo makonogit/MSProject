@@ -85,8 +85,11 @@ namespace Assets.C_Script.UI.Result
         private GameObject decideButton;
         [SerializeField]
         private AudioMixer audioMixer;
-        
-        public static void GettingBigCan() =>CSGE_GameOver.AddBigCanCount();
+
+        public static void GettingBigCan() 
+        { 
+            // CSGE_GameOver.AddBigCanCount(); 
+        }
 
 
         private static float preTime = 0.0f;
@@ -310,7 +313,7 @@ namespace Assets.C_Script.UI.Result
         public void SetEnergyValue(float value) 
         {
             float percent = value * 100f;
-            CoreEnergy.text = percent.ToString() + "%";
+            CoreEnergy.text = percent.ToString("0.0") + "%";
             rank++;
             for (int i = 0; i < EnergyReviews.Count; i++) if (percent >= EnergyReviews[i]) rank++;
             EnergyRate = value;
