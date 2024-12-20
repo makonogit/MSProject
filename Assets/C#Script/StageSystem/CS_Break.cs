@@ -204,7 +204,7 @@ public class CS_Break : MonoBehaviour
     /// <param ”j‰óƒGƒŠƒA‚ÌTransform="areatrans"></param>
     private void BreakStage(Transform areatrans)
     {
-        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one, areatrans.rotation, 1f, breakLayer);
+        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.1f, Vector3.one, areatrans.rotation, 1f, breakLayer);
         if (hits.Length <= 0) { return; }
 
         hits[0].transform.TryGetComponent<Renderer>(out Renderer renderer);
@@ -243,7 +243,7 @@ public class CS_Break : MonoBehaviour
     /// <param ”j‰óƒGƒŠƒA‚ÌTransform="areatrans"></param>
     private void CreateAlart(Transform areatrans)
     {
-        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one, areatrans.rotation, 1f, breakLayer);
+        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.1f, Vector3.one, areatrans.rotation, 1f, breakLayer);
         if (hits.Length <= 0) { return; }
 
         hits[0].transform.TryGetComponent<Renderer>(out Renderer renderer);
