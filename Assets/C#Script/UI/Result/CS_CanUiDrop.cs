@@ -12,7 +12,7 @@ namespace Assets.C_Script.UI.Result
     public class CS_CanUiDrop :MonoBehaviour
     {
         [SerializeField]
-        private int Max = 10;
+        private int MaxCans = 12;
         private int num = 0;
         [SerializeField]
         private float time =1.0f;
@@ -88,10 +88,13 @@ namespace Assets.C_Script.UI.Result
 
         public void SetValue(int can) 
         {
-            float value = can / Max;
-            num = Mathf.FloorToInt(value) * transforms.Count;
-        }
+            float value = can / MaxCans;
+            if (can < 5) num = 2;
+            else if (can < 8) num = 5;
+            else if (can < 12) num = 8;
+            else num = 10;
 
+        }
         private bool EndDrop 
         {
             get 
