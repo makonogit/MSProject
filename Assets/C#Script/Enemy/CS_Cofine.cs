@@ -48,6 +48,8 @@ public class CS_Cofine : MonoBehaviour
     [SerializeField, Tooltip("HP")]
     private float HP = 30.0f;
     private float NowHP;    //現在のHP
+    [SerializeField, Header("コアを減らす量/s")]
+    private float EnelgyStealPower = 1f;
 
     [Header("-----------------------------------------------")]
 
@@ -73,6 +75,7 @@ public class CS_Cofine : MonoBehaviour
     private Transform CoreTrans;    //コアの位置
     private CS_Core Corestate;      //コアの状態
     private Transform PlayerTrans;  //プレイヤーの位置
+    private CS_EnergyCure CoreEnelgy; //コアのエネルギ―取得
 
     private Vector3 CurrentTargetPos;      //現在の追跡ターゲットの座標
 
@@ -119,6 +122,8 @@ public class CS_Cofine : MonoBehaviour
         Corestate = EnemyManager.GetCS_Core();
         CoreTrans = EnemyManager.GetCoreTrans();
         PlayerTrans = EnemyManager.GetPlayerTrans();
+
+        CoreTrans.TryGetComponent<CS_EnergyCure>(out CoreEnelgy);
 
         //HPゲージを設定
         NowHP = HP;
@@ -270,6 +275,7 @@ public class CS_Cofine : MonoBehaviour
             case Cofin_State.CORESTEAL:             //コアを奪う
                  //コア座標を固定
                 CoreTrans.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+                CoreEnelgy.SetEnergy(CoreEnelgy.GetEnergy() - EnelgyStealPower * Time.deltaTime);
                 SetTarget(StartPos);
                 Move();
                 break;
