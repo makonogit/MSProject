@@ -3375,13 +3375,13 @@ MonoBehaviour:
   - DialogText: "\u6575\u306B\u3064\u3044\u3066"
     DiaLogImage: {fileID: 21300000, guid: 7f5b7433362c41c43914bbb22a106d91, type: 3}
   - DialogText: "\u30A8\u30EC\u30D9\u30FC\u30BF\u30FC\u306B\u3064\u3044\u3066"
-    DiaLogImage: {fileID: 21300000, guid: beffef7090e6be94ab72a3b3ca1f418a, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: 47f5ed4f036e9d24985c834da0f2d212, type: 3}
   - DialogText: "\u30B2\u30FC\u30E0\u30AA\u30FC\u30D0\u30FC\u6761\u4EF6-\u5176\u306E\u58F1-"
     DiaLogImage: {fileID: 21300000, guid: a64d52d5225935f498c8afa95240f032, type: 3}
   - DialogText: "\u30B2\u30FC\u30E0\u30AA\u30FC\u30D0\u30FC\u6761\u4EF6-\u5176\u306E\u5F10-"
     DiaLogImage: {fileID: 21300000, guid: 13c1f511f435b5b47ae9a7505522274d, type: 3}
   - DialogText: "\u30AF\u30EA\u30A2\u76EE\u7684"
-    DiaLogImage: {fileID: 21300000, guid: 6d8bc3956e34dfe46973950274472b0b, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: 9a3763da77e408e4aa25ec4192c58914, type: 3}
   - DialogText: "\u30A8\u30CD\u30EB\u30AE\u30FC\u30B3\u30A2"
     DiaLogImage: {fileID: 21300000, guid: e286b29a4e93e3e478d2943087aac899, type: 3}
   - DialogText: "\u7A7A\u304D\u7F36"
@@ -3395,13 +3395,13 @@ MonoBehaviour:
   - DialogText: "\u7A7A\u304D\u7F36\u3068\u30B9\u30AD\u30EB-\u5176\u306E\u58F1-"
     DiaLogImage: {fileID: 21300000, guid: 2b8ab46636215a245bc876e84812043c, type: 3}
   - DialogText: "\u7A7A\u304D\u7F36\u3068\u30B9\u30AD\u30EB-\u5176\u306E\u5F10-"
-    DiaLogImage: {fileID: 21300000, guid: bd44562570eeee7448778b376bb93e4b, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: 38a2d312e89ac664bb9bf6c372a1ee10, type: 3}
   - DialogText: "\u7A7A\u304D\u7F36\u3068\u30B9\u30AD\u30EB-\u5176\u306E\u53C2-"
-    DiaLogImage: {fileID: 21300000, guid: a07f61fb1913df848a8a0c2f4b2c496a, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: d368d128abe6b494d99127f76f304463, type: 3}
   - DialogText: "\u7A7A\u304D\u7F36\u3068\u30B9\u30AD\u30EB-\u5176\u306E\u8086-"
-    DiaLogImage: {fileID: 21300000, guid: 30032d83119afdc4e9222f0d76349923, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: f4e839b79554e964f975800b5677d960, type: 3}
   - DialogText: "\u7A7A\u304D\u7F36\u3068\u30B9\u30AD\u30EB-\u5176\u306E\u4F0D-"
-    DiaLogImage: {fileID: 21300000, guid: 25d343205482f364e835569362a93fa9, type: 3}
+    DiaLogImage: {fileID: 21300000, guid: 92f23dc2cb90f6447b8a8ba4dcd65420, type: 3}
   DialogUpArrow: {fileID: 5532598382627276144}
   DialogDownArrow: {fileID: 9153129409448319269}
   DialogTextUpArrow: {fileID: 179714955434225183}
