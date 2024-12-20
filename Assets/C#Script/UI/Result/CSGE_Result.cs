@@ -85,6 +85,9 @@ namespace Assets.C_Script.UI.Result
         private GameObject decideButton;
         [SerializeField]
         private AudioMixer audioMixer;
+        [SerializeField]
+        private AudioSource ResultAudio;
+
 
         public static void GettingBigCan() 
         { 
@@ -119,6 +122,8 @@ namespace Assets.C_Script.UI.Result
         {
             Time.timeScale = 0.0f;
             audioMixer.SetFloat("MainGameVolume", -80.0f);
+            audioMixer.SetFloat("BGMVolume", -80.0f);
+            if (!ResultAudio.isPlaying) { ResultAudio.Play(); }
             animator.SetBool("Start", true);
             if (MoveSlider) AnimationSlider();
             if (RankAnimationSlider) RankSliderAnimation();
@@ -127,6 +132,7 @@ namespace Assets.C_Script.UI.Result
             {
                 Time.timeScale = 1f;
                 audioMixer.SetFloat("MainGameVolume", 0.0f);
+                audioMixer.SetFloat("BGMVolume", 0.0f);
                 SceneManager.LoadScene("SC_StageSelect");
             }
         }
