@@ -1287,9 +1287,6 @@ PrefabInstance:
       addedObject: {fileID: 3200529328052254431}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1433262126054608887}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5649428107199700656}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a760db4f5a4b3a9409bd2c0334a38ec4, type: 3}
       insertIndex: -1
@@ -1429,44 +1426,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1433262126054608887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8676699047268094996}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b671b9276f88b41aad0a8a7951d97e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  MoveSpeed: 1
-  RotationSpeed: 1
-  KnockBackForce: 1
-  AttackPower: 1
-  AttackSpace: 3
-  HP: 30
-  TargetDistance: 3
-  CoreDistance: 3
-  PlayerDistance: 3
-  DistanceStop: 0.1
-  EnemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  StartPos: {x: 0, y: 0, z: 0}
-  ThisRd: {fileID: 0}
-  navmeshAgent: {fileID: 0}
-  CofinAnim: {fileID: 0}
-  SpotLight: {fileID: 0}
-  LightBrightness: 100
-  Can: {fileID: 0}
-  CanNum: 3
-  HPGage: {fileID: 0}
-  HPCanvas: {fileID: 0}
-  SE: {fileID: 0}
-  SEList: []
 --- !u!114 &5649428107199700656
 MonoBehaviour:
   m_ObjectHideFlags: 0
