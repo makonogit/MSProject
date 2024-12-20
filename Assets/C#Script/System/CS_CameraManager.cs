@@ -36,6 +36,8 @@ public class CS_CameraManager : MonoBehaviour
         if(nextIndex != -1)
         {
             SwitchingCamera(nextIndex);
+
+            nextIndex = -1;
         }
         else
         {
