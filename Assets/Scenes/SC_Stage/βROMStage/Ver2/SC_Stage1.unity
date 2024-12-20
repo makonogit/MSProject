@@ -55265,6 +55265,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8835852383178456116, guid: 53ae983ad28b2b84f8eeaf1e4011ba92, type: 3}
   m_PrefabInstance: {fileID: 1127965935}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1128930929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5607028899179680293, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+  m_PrefabInstance: {fileID: 155024804}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433325033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ff0cf36a8c6704d902504488d77687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1133737702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55582,7 +55593,7 @@ PrefabInstance:
     - target: {fileID: 7863545231475511480, guid: b3801812507958b4aac25410e17862b9, type: 3}
       propertyPath: StatusInfo
       value: 
-      objectReference: {fileID: 433325036}
+      objectReference: {fileID: 1128930929}
     - target: {fileID: 7863545231475511480, guid: b3801812507958b4aac25410e17862b9, type: 3}
       propertyPath: BreakSystem
       value: 
