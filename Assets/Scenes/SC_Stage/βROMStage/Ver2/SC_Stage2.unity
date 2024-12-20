@@ -12536,7 +12536,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  type: 0
+  type: 3
 --- !u!1001 &1016434566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22542,7 +22542,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  type: 0
+  type: 3
 --- !u!1 &1860199906 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3185241300704300722, guid: 9200c91753913bd4a8e7579235f3fc7e, type: 3}
@@ -25662,7 +25662,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.034369905
+      value: -0.0343699
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.y
