@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.C_Script.GameEvent;
 
 /// <summary>
 /// 担当：菅　ステージセレクトUIシステム
@@ -108,7 +109,7 @@ public class CS_StageSelectUI : MonoBehaviour
             if (!SelectButton) { return; }
 
             if (SelectNum == 0) { Selected = false; ConfirmationWindow.SetActive(false); audio.PlayOneShot(CancelSE); }    //キャンセル
-            if(SelectNum == 1) { audio.PlayOneShot(SelectSE); SceneManager.LoadScene(SceneName[currentstage]);  }   //シーン遷移
+            if(SelectNum == 1) { audio.PlayOneShot(SelectSE); SceneManager.LoadScene(SceneName[currentstage]); CSGE_GameOver.InitRespawn(); }   //シーン遷移
         }
     }
 }
