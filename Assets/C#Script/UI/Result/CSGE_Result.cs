@@ -313,7 +313,7 @@ namespace Assets.C_Script.UI.Result
         public void SetEnergyValue(float value) 
         {
             float percent = value * 100f;
-            CoreEnergy.text = percent.ToString("0.0") + "%";
+            CoreEnergy.text = percent.ToString("0") + "%";
             rank++;
             for (int i = 0; i < EnergyReviews.Count; i++) if (percent >= EnergyReviews[i]) rank++;
             EnergyRate = value;
