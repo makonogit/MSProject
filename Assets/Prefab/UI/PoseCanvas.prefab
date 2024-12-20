@@ -3404,20 +3404,56 @@ MonoBehaviour:
     KeyImage: {fileID: 7829409802624888999}
     NormalSprite: {fileID: 21300000, guid: 9372e30d3ff9d8d4e932c3de96e9072d, type: 3}
     PushSprite: {fileID: 21300000, guid: 99304addaecb4e340985b6a6fa2e0e15, type: 3}
-  Cursorduration: 0.5
+  Cursorduration: 0.1
   CursorpowerType: 1
   CursorcurveType:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   Cursorrepetition: 1
-  Decisionduration: 0.5
+  Decisionduration: 0.1
   DecisionpowerType: 1
   DecisioncurveType:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
