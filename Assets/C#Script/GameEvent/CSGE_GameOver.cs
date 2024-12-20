@@ -3,6 +3,7 @@
 // 内容     :ゲームイベントの基底クラス
 // 担当者   :中川 直登
 //-------------------------------
+using Assets.C_Script.UI.Result;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -20,6 +21,7 @@ namespace Assets.C_Script.GameEvent
         private static Vector3 corePosition = Vector3.zero;
         private static Quaternion rotation = Quaternion.identity;
         private static bool hitRespqwn = false;
+        private static float time = 0;
         public static void GameOver() 
         {
             if (GameOverEvent == null) return;
@@ -45,6 +47,7 @@ namespace Assets.C_Script.GameEvent
             corePosition = Vector3.zero;
             rotation = Quaternion.identity;
             hitRespqwn= false;
+            time = 0;
         }
 
 
@@ -70,12 +73,15 @@ namespace Assets.C_Script.GameEvent
         [SerializeField] private int powerType = 0;
         [SerializeField] private AnimationCurve curve;
         [SerializeField] private int repetition = 1;
+        private float gameoverTime =0.0f;
 
         protected override void Awake()
         {
             base.Awake();
             GameOverEvent = this;
             RespawnSystem();
+            CSGE_Result.SetGameOverTime(time);
+            gameoverTime = Time.time;
         }
 
         /// <summary>
@@ -159,6 +165,8 @@ namespace Assets.C_Script.GameEvent
             if (!once) 
             { 
                 CS_ControllerVibration.StartVibrationWithCurve(duration, powerType, curve, repetition);
+                gameoverTime = Time.time - gameoverTime;
+                time += gameoverTime;
                 once = true;
             }
             if (canContinue&&inputSystem.GetButtonATriggered()) Restart();

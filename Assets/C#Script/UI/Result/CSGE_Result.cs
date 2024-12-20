@@ -83,6 +83,12 @@ namespace Assets.C_Script.UI.Result
         [SerializeField]
         private GameObject decideButton;
 
+        private static float preTime = 0.0f;
+        public static void SetGameOverTime(float time) 
+        {
+            preTime = time;
+        }
+
         /// <summary>
         /// デカ缶詰を取得した
         /// </summary>
@@ -96,9 +102,9 @@ namespace Assets.C_Script.UI.Result
             rankArrivalTime = 1 / rankArrivalTime;
             bigCanNum = 0;
         }
-        public void Set() 
+        public void Set()
         {
-            SetClearTime(Time.time - startTime);
+            SetClearTime(Time.time - startTime + preTime);
             SetBigCanCount(bigCanNum);
             SetEnergyValue(core.GetEnergy() * 0.1f);
             MoveSlider = true;
