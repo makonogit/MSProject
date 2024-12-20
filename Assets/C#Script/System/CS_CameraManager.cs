@@ -11,6 +11,7 @@ public class CS_CameraManager : MonoBehaviour
     //**
     [SerializeField, Header("開始時のカメラ")]
     private int initIndex = 0;
+    private static int nextIndex = -1;
     [Header("使用するカメラを設定")]
     public CinemachineVirtualCamera[] virtualCameras;// カメラのリスト
 
@@ -18,6 +19,10 @@ public class CS_CameraManager : MonoBehaviour
     private CinemachineImpulseSource impulseSource;// 振動
 
     private int nowIndex; // 現在のカメラインデックス
+
+    private bool isInit = false;
+
+    public static void SetNextCamera(int index) { nextIndex = index; }
 
     //**
     //* 初期化
@@ -28,8 +33,14 @@ public class CS_CameraManager : MonoBehaviour
         // 自身のコンポーネントを取得
         impulseSource = GetComponent<CinemachineImpulseSource>();
 
-        // 開始時のカメラを設定
-        SwitchingCamera(initIndex);
+        if(nextIndex != -1)
+        {
+            SwitchingCamera(nextIndex);
+        }
+        else
+        {
+            SwitchingCamera(initIndex);
+        }
     }
 
     //**

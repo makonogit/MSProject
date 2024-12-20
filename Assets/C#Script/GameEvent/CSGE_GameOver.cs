@@ -105,6 +105,8 @@ namespace Assets.C_Script.GameEvent
             {
                 player.position = position;
                 player.rotation = rotation;
+
+                CS_CameraManager.SetNextCamera(0);
             }
             if (core != null && hitRespqwn) core.position = corePosition;
 
