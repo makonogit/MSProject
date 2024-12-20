@@ -204,28 +204,34 @@ public class CS_Break : MonoBehaviour
     /// <param 破壊エリアのTransform="areatrans"></param>
     private void BreakStage(Transform areatrans)
     {
-        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one,areatrans.rotation, 1f, breakLayer);
-        if(hits.Length <= 0) { return; }
+        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one, areatrans.rotation, 1f, breakLayer);
+        if (hits.Length <= 0) { return; }
+
+        hits[0].transform.TryGetComponent<Renderer>(out Renderer renderer);
+
+        RaycastHit[] Area = Physics.BoxCastAll(renderer.bounds.center, renderer.bounds.size * 0.1f, Vector3.one, areatrans.rotation, 1f, breakLayer);
+
+        if(Area.Length <= 0) { return; }
 
         //衝突したオブジェクト全てを破壊
-        for(int i = 0; i< hits.Length;i++)
+        for (int i = 0; i< Area.Length;i++)
         {
 
             SimplestarGame.VoronoiFragmenter voronoi;
             //階段の処理、子オブジェクトになっているので
-            if (hits[i].collider.gameObject.name == "Collider")
+            if (Area[i].collider.gameObject.name == "Collider")
             {
-                hits[i].transform.parent.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
-                Destroy(hits[i].collider.gameObject);
+                Area[i].transform.parent.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
+                Destroy(Area[i].collider.gameObject);
             }
             else
             {
-                hits[i].collider.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
+                Area[i].collider.TryGetComponent<SimplestarGame.VoronoiFragmenter>(out voronoi);
             }
 
-            hits[i].point = hits[i].collider.transform.position;
+            Area[i].point = renderer.bounds.center;
             
-            if (voronoi) { voronoi.Fragment(hits[i]); }
+            if (voronoi) { voronoi.Fragment(Area[i]); }
             //else { Debug.Log(hits[i].transform.name); }
         }
 
@@ -237,7 +243,11 @@ public class CS_Break : MonoBehaviour
     /// <param 破壊エリアのTransform="areatrans"></param>
     private void CreateAlart(Transform areatrans)
     {
-        Vector3 HalfScale = areatrans.localScale * 0.5f;
+        RaycastHit[] hits = Physics.BoxCastAll(areatrans.position, areatrans.localScale * 0.5f, Vector3.one, areatrans.rotation, 1f, breakLayer);
+        if (hits.Length <= 0) { return; }
+
+        hits[0].transform.TryGetComponent<Renderer>(out Renderer renderer);
+        Vector3 HalfScale = renderer.bounds.size * 0.5f;
 
         Vector3[] ArartPos = new Vector3[]
         {
@@ -251,7 +261,8 @@ public class CS_Break : MonoBehaviour
         Vector3[] WorldCorners = new Vector3[ArartPos.Length];
         for (int i = 0; i < ArartPos.Length; i++)
         {
-            WorldCorners[i] = areatrans.position + ArartPos[i];
+            Vector3 Pos = renderer.bounds.center;
+            WorldCorners[i] = Pos + ArartPos[i];
         }
 
         //Debug.Log("4隅の座標" + "\n左下" + WorldCorners[0] + "\n左上" + WorldCorners[1] + "\n右下" + WorldCorners[2] + "\n右上" + WorldCorners[3]);
@@ -264,7 +275,7 @@ public class CS_Break : MonoBehaviour
         {
             Transform childtrans = CurrentAlartObj.transform.GetChild(i).transform;
             childtrans.position = WorldCorners[i];
-            childtrans.localScale = new Vector3(areatrans.localScale.x * 0.08f, childtrans.localScale.y, childtrans.localScale.x * 0.08f);
+            childtrans.localScale = new Vector3(renderer.bounds.size.x * 0.08f, childtrans.localScale.y, childtrans.localScale.x * 0.08f);
             //アラートのサイズ倍率0.025f
         }
 

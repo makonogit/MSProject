@@ -63,6 +63,9 @@ public class CS_InputSystem : MonoBehaviour
     {
         // アクションマップを有効化
         inputSystem.Enable();
+
+        if(Time.timeScale <= 1f) { Time.timeScale = 1f; }
+
     }
 
     private void OnDisable()
@@ -214,8 +217,6 @@ public class CS_InputSystem : MonoBehaviour
 
     private bool IsLeftStickPush() => inputSystem.Controller.Stick_L_Press.ReadValue<float>() > 0.1f;
     private bool IsRightStickPush() => inputSystem.Controller.Stick_R_Press.ReadValue<float>() > 0.1f;
-
-
 
     //private Vector2 GetLeftStick() => inputSystem.Controller.Stick_L.ReadValue<Vector2>();
     //private Vector2 GetRightStick() => inputSystem.Controller.Stick_R.ReadValue<Vector2>();
