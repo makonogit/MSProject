@@ -197,7 +197,7 @@ namespace Assets.C_Script.GameEvent
         {
             float val = Mathf.Min(Mathf.Max(0f, value), 1f);
             Time.timeScale = val;
-            audioMixer.SetFloat("MasterPitch", val);
+            audioMixer.SetFloat("MainGamePitch", val);
         }
 
     }
