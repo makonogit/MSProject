@@ -283,8 +283,8 @@ public class CSP_ParallelMove : ActionBase
         GetAnimator().SetBool("Dash", false);
 
         // •½s‚ÈˆÚ“®¬•ª‚ğæ‚èœ‚­
-        Vector3 currentVelocity = GetRigidbody().velocity;
-        GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
+        //Vector3 currentVelocity = GetRigidbody().velocity;
+        //GetRigidbody().velocity = new Vector3(0f, currentVelocity.y, 0f);
     }
 
     private void OnCollisionStay(Collision collision)

@@ -3333,7 +3333,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &3156651868819846063
 CapsuleCollider:
@@ -3479,6 +3479,7 @@ MonoBehaviour:
   MaxMP: 100
   nowMP: 0
   nowBigCan: 0
+  core: {fileID: 0}
   groundCheckDistance: 0.1
   fallingThreshold: 300
   groundLayer:
