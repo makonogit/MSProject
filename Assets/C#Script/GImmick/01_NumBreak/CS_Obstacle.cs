@@ -32,11 +32,20 @@ namespace Assets.C_Script.Gimmick
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.transform.tag == "Attack") HitDamages(1);
+            if (collision.transform.tag == "Attack")
+            {
+                bool EnemyBall = collision.transform.GetComponent<CS_AirBall>().GetEnemyType();
+                if (!EnemyBall) { HitDamages(1); }
+            }
+                
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.transform.tag == "Attack") HitDamages(1);
+            if (other.transform.tag == "Attack")
+            {
+                bool EnemyBall = other.transform.GetComponent<CS_AirBall>().GetEnemyType();
+                if (!EnemyBall) { HitDamages(1); }
+            }
         }
 
         // スタート
