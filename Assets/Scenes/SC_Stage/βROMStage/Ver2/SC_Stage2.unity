@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21080777, g: 0.19441548, b: 0.23149827, a: 1}
+  m_IndirectSpecularColor: {r: 14.726984, g: 11.708093, b: 7.5148478, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14103,13 +14103,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1746970896}
     m_Modifications:
+    - target: {fileID: 931937432813063236, guid: 54940bfc9e1550a4495dec3dd1c5d83b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2716389088705064639, guid: 54940bfc9e1550a4495dec3dd1c5d83b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 315
       objectReference: {fileID: 0}
     - target: {fileID: 2716389088705064639, guid: 54940bfc9e1550a4495dec3dd1c5d83b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -23.1
+      value: -105
       objectReference: {fileID: 0}
     - target: {fileID: 3163260005860243269, guid: 54940bfc9e1550a4495dec3dd1c5d83b, type: 3}
       propertyPath: m_Name
@@ -25621,6 +25625,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.55620575
       objectReference: {fileID: 0}
+    - target: {fileID: 4431736572623528900, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
+      propertyPath: Mixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 3f5731b21b1f5da40a32d051c1aed82a, type: 2}
     - target: {fileID: 4548779628471139884, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: CameraFov
       value: 
@@ -25851,7 +25859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.034369905
+      value: -0.0343699
       objectReference: {fileID: 0}
     - target: {fileID: 8746288591762589191, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
       propertyPath: m_LocalRotation.y
@@ -25904,22 +25912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ccbc20163c90e14ba005c88713ee82c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2095935546 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6718797699554016132, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
-  m_PrefabInstance: {fileID: 2095935543}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2095935547 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2632065195275860318, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
-  m_PrefabInstance: {fileID: 2095935543}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095935546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2095935548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8980806784146832383, guid: 2f5595f86dc5d0241b9b08d4f97cee49, type: 3}
@@ -25937,13 +25929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf92db5ee1104d4990964d39624b9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusImageObj: {fileID: 2095935546}
-  StatusImage: {fileID: 2095935547}
-  StatusSprite:
-  - {fileID: 21300000, guid: 339546b2b2422a84a9e38587f1c511df, type: 3}
-  - {fileID: 21300000, guid: b7ec2cbfe81b69b4ea4bb23a92c53869, type: 3}
-  - {fileID: 21300000, guid: c7330254d717c5448ade2580253221bf, type: 3}
-  - {fileID: 21300000, guid: d9b0aee17e620f74ca247377800acfe3, type: 3}
 --- !u!1001 &2103806046
 PrefabInstance:
   m_ObjectHideFlags: 0
