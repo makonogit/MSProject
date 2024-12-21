@@ -1445,7 +1445,7 @@ MonoBehaviour:
   AttackPower: 1
   AttackSpace: 3
   HP: 3
-  EnelgyStealPower: 0.5
+  EnelgyStealPower: 0.2
   TargetDistance: 20
   CoreDistance: 2
   PlayerDistance: 3
