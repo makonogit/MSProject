@@ -25,6 +25,9 @@ public class CSP_Throwing : ActionBase
     [Header("表示用コア")]
     public GameObject core;
 
+    [SerializeField, Header("コアを取った")]
+    private CS_StageInfo Status;
+
     //[Header("コアの位置/回転")]
     //[SerializeField]
     private float distance = 0.75f;
@@ -271,6 +274,10 @@ public class CSP_Throwing : ActionBase
             {
                 if (GetInputSystem().GetButtonYPressed())
                 {
+                    if(Status.GetCurrentStatus() == CS_StageInfo.StageStatus.CoreSteal)
+                    {
+                        Status.SetStatus(CS_StageInfo.StageStatus.CoreGet);
+                    }
                     targetObject = collision.gameObject;
                     targetObject.SetActive(false);
 

@@ -14,14 +14,23 @@ public class CS_StageInfo : MonoBehaviour
 
     [SerializeField, Header("状態スプライト")]
     private List<Sprite> StatusSprite;
+    
+  
 
     public enum StageStatus
     {
+        
         BreakStop = 0,  //崩壊停止
         BreakStart = 1, //崩壊開始
         CoreSteal = 2,  //コアを盗まれた
         CoreGet = 3,    //コアを取得
     }
+
+
+    //現在の状態参照
+    [SerializeField] StageStatus currentstatus;
+
+    public StageStatus GetCurrentStatus() => currentstatus;
 
     /// <summary>
     /// ステータスを表示
@@ -31,6 +40,7 @@ public class CS_StageInfo : MonoBehaviour
     {
         if (StatusImageObj.activeSelf) { StatusImageObj.SetActive(false); }
         //スプライトを設定して表示、アニメーション自動再生
+        currentstatus = status;
         StatusImage.sprite = StatusSprite[(int)status];
         StatusImageObj.SetActive(true);
         StartCoroutine(EndViewStatus());    

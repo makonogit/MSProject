@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
 public class CS_EnemyManager : MonoBehaviour
 {
 
@@ -24,13 +22,19 @@ public class CS_EnemyManager : MonoBehaviour
     [SerializeField, Header("Player‚ÌTransform")]
     private Transform PlayerTrans;
 
+    [SerializeField, Header("StatusInfo")]
+    private CS_StageInfo Status;
+
     //--------- QÆ‚·‚×‚«î•ñ‚Ì‚»‚ê‚¼‚ê‚ÌƒQƒbƒ^[ --------------
     public CS_Core GetCS_Core() => csCore;
     public Transform GetCoreTrans() => CoreTrans;
 
     public Transform GetPlayerTrans() => PlayerTrans;
 
-    [SerializeField]bool AttackLottery = false; //UŒ‚‚µ‚Ä‚¢‚¢‚©
+    public CS_StageInfo GetStageInfo() => Status;
+    
+    
+    bool AttackLottery = false; //UŒ‚‚µ‚Ä‚¢‚¢‚©
 
     private Coroutine CurrentCoroutine;
 

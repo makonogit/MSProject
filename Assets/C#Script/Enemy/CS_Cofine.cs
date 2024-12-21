@@ -76,6 +76,7 @@ public class CS_Cofine : MonoBehaviour
     private CS_Core Corestate;      //コアの状態
     private Transform PlayerTrans;  //プレイヤーの位置
     private CS_EnergyCure CoreEnelgy; //コアのエネルギ―取得
+    private CS_StageInfo Status;        //ステータス表示
 
     private Vector3 CurrentTargetPos;      //現在の追跡ターゲットの座標
 
@@ -122,6 +123,7 @@ public class CS_Cofine : MonoBehaviour
         Corestate = EnemyManager.GetCS_Core();
         CoreTrans = EnemyManager.GetCoreTrans();
         PlayerTrans = EnemyManager.GetPlayerTrans();
+        Status = EnemyManager.GetStageInfo();
 
         CoreTrans.TryGetComponent<CS_EnergyCure>(out CoreEnelgy);
 
@@ -348,6 +350,12 @@ public class CS_Cofine : MonoBehaviour
         //コアの取得
         if (collision.gameObject.tag == "EnergyCore")
         {
+            //取られた表示
+            if (Status.GetCurrentStatus() != CS_StageInfo.StageStatus.CoreSteal)
+            {
+                Status.SetStatus(CS_StageInfo.StageStatus.CoreSteal);
+            }
+
             state = Cofin_State.CORESTEAL;
             //CoreGet = true;
             //コア座標を固定
