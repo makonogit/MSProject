@@ -65,7 +65,7 @@ public class CS_DataSave : MonoBehaviour
     /// </summary>
     public void MaxClearCommand()
     {
-        PlayerPrefs.SetInt(SaveDataName, 5);
+        PlayerPrefs.SetInt(SaveDataName, 4);
 
         PlayerPrefs.Save();
     }

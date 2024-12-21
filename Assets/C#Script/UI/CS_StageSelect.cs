@@ -28,8 +28,8 @@ public class CS_StageSelectUI : MonoBehaviour
     [SerializeField, Header("遷移シーン")]
     private List<string> SceneName;
 
-    private int currentstage = 0;
-    private int maxstage = 1;   //配列で0始まり(解放分)
+    private int currentstage = 1;
+    [SerializeField]private int maxstage = 1;   //配列で0始まり(解放分)
 
     //====確認画面関係======
     [SerializeField, Header("確認ウィンドウ")]
@@ -60,6 +60,7 @@ public class CS_StageSelectUI : MonoBehaviour
 
         maxstage = Save.GetClearStage();   //クリアしたステージ番号を取得
 
+        
         for (int i = 0; i < StageImageList.Count; i++)
         {
             //クリア済み
@@ -93,10 +94,11 @@ public class CS_StageSelectUI : MonoBehaviour
             if (UpButton) { currentstage--; audio.PlayOneShot(CursorSE); }
 
             //上下限
-            if (currentstage < 0) { currentstage = maxstage - 1;  }
-            if (currentstage >= maxstage) { currentstage = 0; }
-            if (maxstage == 0) { currentstage = maxstage; }
+            if (currentstage < 1) { currentstage = maxstage + 1;  }
+            if (currentstage > maxstage + 1) { currentstage = 1; }
+            if (maxstage == 0) { currentstage = 1; }
 
+            
             //変更したらAnimator状態変更
             bool Change = oldstage != currentstage;
             if (Change)
