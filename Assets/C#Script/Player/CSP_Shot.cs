@@ -38,6 +38,7 @@ public class CSP_Shot : ActionBase
     private float scatter = 0.1f;
     [SerializeField, Header("オートエイム有効")]
     private bool isAuto;
+    private bool isAutoStart;
     public void SetAuto(bool flg) { isAuto = flg; }
     public bool GetAuto() => isAuto;
     [SerializeField, Header("フルオートの発射間隔")]
@@ -67,7 +68,7 @@ public class CSP_Shot : ActionBase
     //private Color notDetectedColor = Color.red; // 非検出時の色
     [SerializeField, Header("オートエイム対象のタグ")]
     private List<string> targetTag;
-    private GameObject targetObject;// レティクル内の破壊可能オブジェクト
+    public GameObject targetObject;// レティクル内の破壊可能オブジェクト
     [SerializeField, Header("オーバーヒートゲージ")]
     private UnityEngine.UI.Image overheat;
     [SerializeField, Header("オーバーヒート中ゲージ")]
@@ -82,14 +83,15 @@ public class CSP_Shot : ActionBase
     [SerializeField, Header("オートエイム効果時間")]
     private float autoTime = 10f;
     [SerializeField, Header("判定間隔")]
-    private float autoaimCheckInterval = 0.5f;
-    private float nextAutoaimCheckTime = 0;
+    private float checkInterval = 0.5f;
+    private float nextCheckTime = 0;
+    private bool isOldCheck = false;
     [SerializeField, Header("カメラターゲット")]
     private GameObject cameraTarget; 
     [SerializeField, Header("エイムターゲット")]
     private GameObject aimTarget;
-    [SerializeField, Header("検知範囲")]
-    float radiusAuto = 10f;
+    [SerializeField, Header("検出範囲")]
+    private float radius = 100f;
 
     [Header("攻撃時の振動設定")]
     [SerializeField, Header("振動の長さ")]
@@ -211,7 +213,7 @@ public class CSP_Shot : ActionBase
         // レティクルとターゲットを初期化
         //detectionImage.color = notDetectedColor;
         //detectionImage.sprite = notDetectedSprite;
-        targetObject = null;
+        //targetObject = null;
 
 
         //// カメラ正面からレイを作成
@@ -386,7 +388,7 @@ public class CSP_Shot : ActionBase
         // レティクル内に破壊可能オブジェクトが存在するなら、その方向に発射する
         if ((targetObject != null)&&(isAuto))
         {            
-            forwardVec = targetObject.transform.position - GetPlayerManager().GetCameraTransform().position;
+            forwardVec = targetObject.transform.position - Camera.main.transform.position;
             forwardVec = forwardVec.normalized;
         }
 
@@ -471,33 +473,23 @@ public class CSP_Shot : ActionBase
      */
     void HandlAutoaim()
     {
-        // オートエイム状態の処理
-        if (isAuto && Time.time >= nextAutoaimCheckTime)
+        if (isAuto && !isAutoStart)
         {
-            // オートエイムの効果時間のカウントを開始
             autoaimCountdown.Initialize(autoTime);
+            isAutoStart = true;
+        }
 
-            // レイの判定間隔を更新
-            nextAutoaimCheckTime = Time.time + autoaimCheckInterval;
-
-            // カメラ正面からレイを作成
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            RaycastHit hit;
-            Vector3 boxSize = new Vector3(radiusAuto, radiusAuto, radiusAuto);
-
-            if (Physics.BoxCast(ray.origin, boxSize / 2, ray.direction, out hit, Quaternion.identity, range))
-            {
-                if (targetTag.Contains(hit.collider.tag))
-                {
-                    targetObject = hit.collider.gameObject;
-                }
-            }
+        if (isAuto)
+        {
+            IsObjectInView("Enemy");
         }
 
         // 効果時間の終了処理
         if (autoaimCountdown.IsCountdownFinished())
         {
             isAuto = false;
+            isAutoStart = false;
+            targetObject = null;
         }
     }
 
@@ -647,4 +639,52 @@ public class CSP_Shot : ActionBase
     //        Gizmos.DrawLine(top, point);
     //    }
     //}
+
+    bool IsObjectInView(string tag)
+    {
+        // 指定したタグを持つオブジェクトを全て取得
+        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(tag);
+
+        targetObject = null;
+
+        // 取得したオブジェクトを一つずつチェック
+        foreach (var obj in objectsWithTag)
+        {
+            Vector3 viewportPos = Camera.main.WorldToViewportPoint(obj.transform.position);
+
+            // ビューポート座標が(0,0)から(1,1)の範囲内であれば画面内にいる
+            if (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1)
+            {
+                if (IsVisibleFromCamera(obj))
+                {
+                    targetObject = obj;
+                    return true;  // 画面内にオブジェクトがある
+                }
+            }
+        }
+
+        return false;  // 画面内には存在しない
+    }
+
+    bool IsVisibleFromCamera(GameObject obj)
+    {
+        // カメラとオブジェクトの位置を取得
+        Vector3 direction = obj.transform.position - Camera.main.transform.position;
+
+        // カメラからオブジェクトに向かってレイを飛ばして障害物を検出
+        Ray ray = new Ray(Camera.main.transform.position, direction);
+        RaycastHit hit;
+
+        // レイがオブジェクト以外の障害物に当たった場合は見えない
+        if (Physics.Raycast(ray, out hit))
+        {
+            // ヒットしたオブジェクトがターゲットオブジェクトでない場合、障害物に当たっている
+            if (hit.transform.gameObject != obj)
+            {
+                return false;  // 障害物に遮られて見えない
+            }
+        }
+
+        return true;
+    }
 }
